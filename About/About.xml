@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>SkillIcons</name>
+  <author>Oracle, Nelim</author>
+  <packageId>oracle.skillicons</packageId>
+  <description>A unified icon retexture for Vanilla Skills Expanded and Alpha Skills, with optional subtle animations in the Bio skill list.</description>
+  <supportedVersions>
+    <li>1.6</li>
+  </supportedVersions>
+  <modDependencies>
+    <li>
+      <packageId>brrainz.harmony</packageId>
+      <displayName>Harmony</displayName>
+      <steamWorkshopUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=2009463077</steamWorkshopUrl>
+    </li>
+    <li>
+      <packageId>vanillaexpanded.skills</packageId>
+      <displayName>Vanilla Skills Expanded</displayName>
+      <steamWorkshopUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=3400246558</steamWorkshopUrl>
+    </li>
+    <li>
+      <packageId>sarg.alphaskills</packageId>
+      <displayName>Alpha Skills</displayName>
+      <steamWorkshopUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=3448953006</steamWorkshopUrl>
+    </li>
+  </modDependencies>
+  <loadAfter>
+    <li>vanillaexpanded.skills</li>
+    <li>sarg.alphaskills</li>
+    <li>oracle.skills.retexture</li>
+  </loadAfter>
+</ModMetaData>

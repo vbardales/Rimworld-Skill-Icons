@@ -1,0 +1,13 @@
+<Project>
+
+  <PropertyGroup>
+    <!--
+      Projet d'outillage, pas de contenu du mod : ses intermediaires sortent du dossier publie
+      comme ceux des autres. Le dossier _tools lui-meme reste dans le mod, a toi de voir s'il
+      doit partir sur le Workshop.
+    -->
+    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)..\..\..\..\.build\obj\SkillIcons-tools\</BaseIntermediateOutputPath>
+    <BaseOutputPath>$(MSBuildThisFileDirectory)..\..\..\..\.build\bin\SkillIcons-tools\</BaseOutputPath>
+  </PropertyGroup>
+
+</Project>
