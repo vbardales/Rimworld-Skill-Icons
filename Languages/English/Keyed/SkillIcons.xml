@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <SkillIcons.Animated>Animated passion icons</SkillIcons.Animated>
+  <SkillIcons.AnimatedDesc>On: supported passions animate in the pawn creation screen, the Bio skill list and the Work tab.\nOff: the whole set stays fully static, including in the gallery below.</SkillIcons.AnimatedDesc>
+
+  <SkillIcons.Speed>Animation speed: {0}x</SkillIcons.Speed>
+
+  <SkillIcons.ShowNone>Show an icon for "no passion"</SkillIcons.ShowNone>
+  <SkillIcons.ShowNoneDesc>Vanilla draws nothing at all when a pawn has no passion for a skill. Turn this on to draw a faint hollow heart instead.\n\nOff by default: that empty space is what lets you spot the skills that matter at a glance.</SkillIcons.ShowNoneDesc>
+
+  <SkillIcons.WorkTab>Work tab</SkillIcons.WorkTab>
+  <SkillIcons.WorkTabColour>Colour</SkillIcons.WorkTabColour>
+  <SkillIcons.WorkTabColourDesc>Always draw the full-colour icon, whatever the passion's state.</SkillIcons.WorkTabColourDesc>
+  <SkillIcons.WorkTabGrey>Greyed</SkillIcons.WorkTabGrey>
+  <SkillIcons.WorkTabGreyDesc>Always draw the two-grey work tab variant. This is how Vanilla Skills Expanded behaves.</SkillIcons.WorkTabGreyDesc>
+  <SkillIcons.WorkTabMixed>Mixed, by activation state</SkillIcons.WorkTabMixed>
+  <SkillIcons.WorkTabMixedDesc>Colour when the learning bonus is live - either the passion is currently triggered, or its bonus is permanent. Grey when it is dormant.\n\nThis reuses what the icon set already means: steel says the bonus is asleep. The grid then tells you which bonuses are actually running.</SkillIcons.WorkTabMixedDesc>
+  <SkillIcons.WorkTabScale>Icon size: {0}%</SkillIcons.WorkTabScale>
+  <SkillIcons.WorkTabOpacity>Icon opacity: {0}%</SkillIcons.WorkTabOpacity>
+  <SkillIcons.GalleryHint>Every passion, twice: on the left as it appears in the skill list, on the right as it appears in the work tab. Animated ones play here at the speed set above.</SkillIcons.GalleryHint>
+
+</LanguageData>

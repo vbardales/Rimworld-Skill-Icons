@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <SkillIcons.Animated>Icônes de passion animées</SkillIcons.Animated>
+  <SkillIcons.AnimatedDesc>Activé : les passions concernées s'animent à la création des colons, dans la liste des compétences et dans l'onglet Travail.\nDésactivé : tout le jeu d'icônes reste fixe, y compris dans la galerie ci-dessous.</SkillIcons.AnimatedDesc>
+
+  <SkillIcons.Speed>Vitesse d'animation : {0}×</SkillIcons.Speed>
+
+  <SkillIcons.ShowNone>Afficher une icône pour « aucune passion »</SkillIcons.ShowNone>
+  <SkillIcons.ShowNoneDesc>Le jeu de base ne dessine rien du tout lorsqu'un colon n'a aucune passion pour une compétence. Activez cette option pour y mettre un contour de cœur estompé.\n\nDésactivée par défaut : c'est ce vide qui permet de repérer d'un coup d'œil les compétences qui comptent.</SkillIcons.ShowNoneDesc>
+
+  <SkillIcons.WorkTab>Onglet Travail</SkillIcons.WorkTab>
+  <SkillIcons.WorkTabColour>En couleur</SkillIcons.WorkTabColour>
+  <SkillIcons.WorkTabColourDesc>Toujours dessiner l'icône en couleur, quel que soit l'état de la passion.</SkillIcons.WorkTabColourDesc>
+  <SkillIcons.WorkTabGrey>Grisée</SkillIcons.WorkTabGrey>
+  <SkillIcons.WorkTabGreyDesc>Toujours dessiner la variante à deux gris. C'est le comportement de Vanilla Skills Expanded.</SkillIcons.WorkTabGreyDesc>
+  <SkillIcons.WorkTabMixed>Mixte, selon l'état d'activation</SkillIcons.WorkTabMixed>
+  <SkillIcons.WorkTabMixedDesc>En couleur quand le bonus d'apprentissage est vif — soit la passion est déclenchée, soit son bonus est permanent. En gris quand il dort.\n\nCe mode réemploie ce que le jeu d'icônes dit déjà : l'acier veut dire que le bonus dort. La grille vous indique alors quels bonus sont en train de tourner.</SkillIcons.WorkTabMixedDesc>
+  <SkillIcons.WorkTabScale>Taille des icônes : {0} %</SkillIcons.WorkTabScale>
+  <SkillIcons.WorkTabOpacity>Opacité des icônes : {0} %</SkillIcons.WorkTabOpacity>
+  <SkillIcons.GalleryHint>Chaque passion, deux fois : à gauche telle qu'elle apparaît dans la liste des compétences, à droite telle qu'elle apparaît dans l'onglet Travail. Les animées défilent ici à la vitesse réglée ci-dessus.</SkillIcons.GalleryHint>
+
+</LanguageData>

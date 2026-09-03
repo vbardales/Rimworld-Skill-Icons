@@ -20,7 +20,7 @@ $animations = @(
     @{ Key='AS_MoodyPassion'; Source=(Join-Path $circumstantialRoot 'AS_MoodyPassion.svg'); Count=4; Mode='pulse' },
     @{ Key='AS_MoodyPassion_Major'; Source=(Join-Path $circumstantialRoot 'AS_MoodyPassion_Major.svg'); Count=4; Mode='pulse' },
     @{ Key='AS_MoodyPassion_Greater'; Source=(Join-Path $circumstantialRoot 'AS_MoodyPassion_Greater.svg'); Count=6; Mode='pulse' },
-    @{ Key='AS_NightPassion'; Source=(Join-Path $circumstantialRoot 'AS_NightPassion.svg'); Count=4; Mode='pulse' },
+    @{ Key='AS_NightPassion'; Source=(Join-Path $circumstantialRoot 'AS_NightPassion.svg'); Count=4; Mode='twinkle' },
     @{ Key='AS_RainyDayPassion'; Source=(Join-Path $circumstantialRoot 'AS_RainyDayPassion.svg'); Count=6; Mode='rain' },
     @{ Key='AS_PsychicPassion'; Source=(Join-Path $identityRoot 'AS_PsychicPassion.svg'); Count=4; Mode='pulse' },
     @{ Key='AS_PsychicPassion_Major'; Source=(Join-Path $identityRoot 'AS_PsychicPassion_Major.svg'); Count=6; Mode='pulse' },
@@ -32,7 +32,7 @@ $animations = @(
     @{ Key='AS_VengefulPassion'; Source=(Join-Path $identityRoot 'AS_VengefulPassion.svg'); Count=4; Mode='jolt' },
     @{ Key='AS_NomadicPassion'; Source=(Join-Path $identityRoot 'AS_NomadicPassion.svg'); Count=8; Mode='rotate' },
     @{ Key='AS_ToxicPassion'; Source=(Join-Path $identityRoot 'AS_ToxicPassion.svg'); Count=6; Mode='float' },
-    @{ Key='AS_DrunkenPassion'; Source=(Join-Path $workspaceRoot 'oracle-remaining-svg\AS_DrunkenPassion.svg'); Count=6; Mode='float' },
+    @{ Key='AS_DrunkenPassion'; Source=(Join-Path $workspaceRoot 'oracle-remaining-svg\AS_DrunkenPassion.svg'); Count=6; Mode='champagne' },
     @{ Key='AS_StonedPassion'; Source=(Join-Path $workspaceRoot 'oracle-remaining-svg\AS_StonedPassion.svg'); Count=6; Mode='sway' },
     @{ Key='AS_SanguinePassion'; Source=(Join-Path $workspaceRoot 'oracle-remaining-svg\AS_SanguinePassion.svg'); Count=6; Mode='pulse' },
     @{ Key='AS_PainDrivenPassion'; Source=(Join-Path $workspaceRoot 'oracle-remaining-svg\AS_PainDrivenPassion.svg'); Count=4; Mode='jolt' },
@@ -76,13 +76,34 @@ function Get-Transform([string]$mode, [int]$index, [int]$count) {
     }
 }
 
+function Get-ChampagneBubbles([int]$index) {
+    $sets = @(
+        '<g id="bubbles" fill="#FFF0B0"><circle cx="26" cy="29" r="2.2"/><circle cx="35" cy="26" r="1.8"/><circle cx="30" cy="21" r="1.5"/><circle cx="39" cy="18" r="1.3"/><circle cx="24" cy="15" r="1.1"/></g>',
+        '<g id="bubbles" fill="#FFF0B0"><circle cx="26" cy="27" r="2.2"/><circle cx="35" cy="24" r="1.8"/><circle cx="30" cy="19" r="1.5"/><circle cx="39" cy="16" r="1.3"/><circle cx="25" cy="13" r="0.8"/></g>',
+        '<g id="bubbles" fill="#FFF0B0"><circle cx="26" cy="25" r="2.0"/><circle cx="35" cy="22" r="1.8"/><circle cx="30" cy="17" r="1.5"/><circle cx="40" cy="14" r="1.0"/><circle cx="24" cy="29" r="1.1"/></g>',
+        '<g id="bubbles" fill="#FFF0B0"><circle cx="26" cy="23" r="2.0"/><circle cx="35" cy="20" r="1.7"/><circle cx="30" cy="15" r="1.4"/><circle cx="39" cy="28" r="1.2"/><circle cx="24" cy="27" r="1.1"/></g>',
+        '<g id="bubbles" fill="#FFF0B0"><circle cx="26" cy="21" r="1.9"/><circle cx="35" cy="18" r="1.6"/><circle cx="30" cy="28" r="1.5"/><circle cx="39" cy="26" r="1.2"/><circle cx="24" cy="25" r="1.0"/></g>',
+        '<g id="bubbles" fill="#FFF0B0"><circle cx="26" cy="19" r="1.8"/><circle cx="35" cy="16" r="1.4"/><circle cx="30" cy="26" r="1.5"/><circle cx="39" cy="24" r="1.2"/><circle cx="24" cy="23" r="1.0"/></g>'
+    )
+    return $sets[$index % $sets.Count]
+}
+
 foreach ($animation in $animations) {
     $source = Get-Content -Raw -LiteralPath $animation.Source
     $inner = $source -replace '(?s)^\s*<svg[^>]*>\s*', '' -replace '(?s)\s*</svg>\s*$', ''
     for ($index = 0; $index -lt $animation.Count; $index++) {
+        $frameInner = $inner
+        if ($animation.Mode -eq 'champagne') {
+            $frameInner = $frameInner -replace '(?s)<g id="bubbles".*?</g>', (Get-ChampagneBubbles $index)
+        }
+        if ($animation.Mode -eq 'twinkle') {
+            $starScales = @(0.72, 1.0, 1.28, 1.0)
+            $starTransform = 'translate(47 18) scale(' + $starScales[$index % 4].ToString('0.00', [Globalization.CultureInfo]::InvariantCulture) + ') translate(-47 -18)'
+            $frameInner = $frameInner -replace '<g id="star" ', ('<g id="star" transform="' + $starTransform + '" ')
+        }
         $suffix = $index.ToString('00')
         $transform = Get-Transform $animation.Mode $index $animation.Count
-        $frameSvg = "<svg xmlns=`"http://www.w3.org/2000/svg`" viewBox=`"0 0 64 64`" width=`"64`" height=`"64`">`n  <g transform=`"$transform`">`n$inner`n  </g>`n</svg>`n"
+        $frameSvg = "<svg xmlns=`"http://www.w3.org/2000/svg`" viewBox=`"0 0 64 64`" width=`"64`" height=`"64`">`n  <g transform=`"$transform`">`n$frameInner`n  </g>`n</svg>`n"
         $svgPath = Join-Path $frameSvgRoot ($animation.Key + '_' + $suffix + '.svg')
         $pngPath = Join-Path $pngRoot ($animation.Key + '_' + $suffix + '.png')
         [IO.File]::WriteAllText($svgPath, $frameSvg, [Text.UTF8Encoding]::new($false))

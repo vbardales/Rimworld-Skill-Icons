@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+  <!--
+    Trois défauts d'Alpha Skills, relevés en lisant ses defs. Ce ne sont pas des
+    problèmes de texture : ils sont corrigés ici parce que ce mod est de toute
+    façon chargé après lui, et qu'ils sautent aux yeux dès qu'on regarde les
+    infobulles à côté des icônes.
+
+    L'ensemble est enveloppé dans une séquence en <success>Always</success> : si
+    Sarg corrige ces defs en amont, les xpath ne trouveront plus rien et le
+    correctif deviendra silencieusement inerte, au lieu de rougir le journal.
+  -->
+  <Operation Class="PatchOperationSequence">
+    <success>Always</success>
+    <operations>
+
+      <!-- La description de "nudist (active)" est celle de "nomadic",
+           copiée-collée : elle parle de caravanes et d'expéditions. -->
+      <li Class="PatchOperationReplace">
+        <xpath>/Defs/VSE.Passions.PassionDef[defName="AS_NudistPassion_Active"]/description</xpath>
+        <value>
+          <description>This person will learn this skill much faster, but only when nude. They are nude right now.</description>
+        </value>
+      </li>
+
+      <!-- "pain-driven (active)" a gardé le label de son état dormant, donc les
+           deux états sont indiscernables dans l'infobulle. -->
+      <li Class="PatchOperationReplace">
+        <xpath>/Defs/VSE.Passions.PassionDef[defName="AS_PainDrivenPassion_Active"]/label</xpath>
+        <value>
+          <label>pain-driven (active)</label>
+        </value>
+      </li>
+
+      <!-- AS_FrozenPassion ne déclare aucun workBoxIconPath : dans l'onglet
+           Travail, la case retombe sur autre chose. Ce mod fournit la texture. -->
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/VSE.Passions.PassionDef[defName="AS_FrozenPassion"]</xpath>
+        <value>
+          <workBoxIconPath>Passions/AS_FrozenPassionGrey</workBoxIconPath>
+        </value>
+      </li>
+
+      <!-- Les deux paliers de cécité partagent le même iconPath, alors qu'ils
+           n'ont ni la même pénalité ni le même gain : elevated est à 0,5× quand
+           on voit et 1,5× quand on est aveugle, sublime à 1× et 2×. On redirige
+           le palier sublime vers une variante à iris doré. -->
+      <li Class="PatchOperationReplace">
+        <xpath>/Defs/VSE.Passions.PassionDef[defName="AS_BlindPassion_Sublime"]/iconPath</xpath>
+        <value>
+          <iconPath>Passions/AS_BlindPassionSublime</iconPath>
+        </value>
+      </li>
+      <li Class="PatchOperationReplace">
+        <xpath>/Defs/VSE.Passions.PassionDef[defName="AS_BlindPassion_Sublime_Active"]/iconPath</xpath>
+        <value>
+          <iconPath>Passions/AS_BlindPassionSublime_Active</iconPath>
+        </value>
+      </li>
+
+    </operations>
+  </Operation>
+
+</Patch>

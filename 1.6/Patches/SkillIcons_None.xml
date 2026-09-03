@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Patch>
-  <Operation Class="PatchOperationReplace">
-    <xpath>Defs/VSE.Passions.PassionDef[defName="None"]/iconPath</xpath>
-    <value>
-      <iconPath>Passions/PassionNone</iconPath>
-    </value>
-  </Operation>
-</Patch>
