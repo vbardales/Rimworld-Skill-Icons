@@ -164,6 +164,14 @@ exactly like a broken patch. The mod therefore logs
 `[SkillIcons] assemblage du <date>` on load: compare it against the DLL's
 timestamp before diagnosing anything.
 
+`_tools/preview.js` composes `About/Preview.png` and `About/ModIcon.png` from the
+SVGs `gen.js` just wrote, so the store images can never advertise a palette the
+mod no longer ships — which is exactly what the previous hand-drawn preview did.
+The grid is **sorted by hue**, 0° to 360°, because that layout demonstrates
+design rule 1 instead of merely asserting it. Each icon's element ids are
+prefixed per slot: every file restarts at `id="m1"`, and two same-named masks in
+one document clip each other's shapes.
+
 `_tools/audit-teintes.ps1` measures the dominant hue of every colour icon from
 the rendered PNG, weighted by alpha and saturation. It checks design rule 1 on
 what actually ships rather than on what `gen.js` intends — the two diverged once,

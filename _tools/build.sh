@@ -8,6 +8,7 @@
 set -e
 cd "$(dirname "$0")/.."
 node _tools/gen.js
+node _tools/preview.js
 CH="/c/Program Files/Google/Chrome/Application/chrome.exe"
 B="C:/Users/nelim/Documents/rimworld/SkillIcons"
 shoot () {
@@ -24,3 +25,13 @@ shoot _tools/svg/Frames   1.6/Textures/Passions/Animated
 shoot _tools/svg/UI       1.6/Textures/UI/Icons
 shoot _tools/sil          _tools/silpng
 echo "textures:$(ls 1.6/Textures/Passions/*.png | wc -l)  silhouettes:$(ls _tools/silpng | wc -l)  frames:$(ls 1.6/Textures/Passions/Animated | wc -l)"
+
+# Le Preview fait 640x640 et non 64 : il ne peut pas passer par shoot().
+# Il est rasterise en dernier, quand toutes les icones qu'il compose existent.
+"$CH" --headless --no-sandbox --disable-gpu --hide-scrollbars --window-size=640,640 \
+  --default-background-color=00000000 \
+  --screenshot="$B/About/Preview.png" "file:///$B/_tools/svg/Preview.svg" >/dev/null 2>&1
+echo "preview:$(ls -l About/Preview.png | awk '{print $5}') octets"
+"$CH" --headless --no-sandbox --disable-gpu --hide-scrollbars --window-size=64,64 \
+  --default-background-color=00000000 \
+  --screenshot="$B/About/ModIcon.png" "file:///$B/_tools/svg/ModIcon.svg" >/dev/null 2>&1
