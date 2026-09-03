@@ -7,6 +7,8 @@
     <RootNamespace>SkillIcons</RootNamespace>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <!-- RimWorld ne lit jamais le .deps.json : il ne ferait qu alourdir l archive. -->
+    <GenerateDependencyFile>false</GenerateDependencyFile>
     <!-- directement dans le mod : il n'y a pas de raison d'avoir deux DLL -->
     <OutputPath>..\..\..\..\1.6\Assemblies\</OutputPath>
   </PropertyGroup>

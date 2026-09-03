@@ -4,21 +4,28 @@
   <author>Nelim</author>
   <url>https://github.com/vbardales/Rimworld-Skill-Icons</url>
   <packageId>nelim.skillicons</packageId>
-  <description>A unified passion icon set for Vanilla Skills Expanded and Alpha Skills.
+  <description>A unified icon set for Vanilla Skills Expanded and Alpha Skills — passions, skills and work types.
 
-Two rules govern the whole set. Hue is identity: every passion owns a hue of its own, spread right across the colour wheel, and that hue is carried by the main shape rather than by a small accessory - at 24 px an accessory simply disappears. Lightness and saturation say whether the bonus is live or dormant, and dormant is neutral grey rather than a colour of its own. And every icon is meant to be recognisable as a plain black silhouette, so the work tab stays readable once colour is gone - its grey variants use two greys instead of one.
+PASSIONS. Two rules govern the whole set. Hue is identity: every passion owns a hue of its own, spread right across the colour wheel, and that hue is carried by the main shape rather than by a small accessory - at 24 px an accessory simply disappears. Lightness and saturation say whether the bonus is live or dormant, and dormant is neutral grey rather than a colour of its own. And every icon is meant to be recognisable as a plain black silhouette, so the work tab stays readable once colour is gone - its grey variants use two greys instead of one.
 
-The work tab is where the grid is hardest to read, so it gets its own controls: icons drawn in colour, greyed, or - the default - in colour while the bonus is actually running and grey while it sleeps. Size and opacity are separate sliders, because size helps you see the passion while opacity gives the priority digit back to the text.
+Forty of them animate, and each gesture says something about the passion rather than wobbling generically: the padlock opens, the pendulum swings, the signal runs the circuit, the sand drains and stays drained.
+
+SKILLS AND WORK TYPES. Icons for the 12 skills and the 23 work types, drawn monochrome on purpose: colour already means "which passion" here, and making it mean "which skill" as well would render both unreadable. Shape alone carries the identity. They appear before each skill name in the character tab and at the foot of each work tab column, where the columns can keep their label, drop it for a narrower grid, or show no icon at all.
+
+If you already use "Pawn Badge - (MISC) Job Icons+ Revitalized", its icons are served instead of these, so your interface speaks with one voice. Nothing is copied - its textures are read at runtime, and removing it falls silently back to this mod's own.
+
+THE WORK TAB is where the grid is hardest to read, so it gets its own controls: passion icons drawn in colour, greyed, or - the default - in colour while the bonus is actually running and grey while it sleeps. Size and opacity are separate sliders, because size helps you see the passion while opacity gives the priority digit back to the text.
 
 Options (Options &gt; Mod settings &gt; SkillIcons):
 - subtle animations, on by default, with a speed slider
 - the three work tab modes, plus size and opacity
+- skill and work type icons, and whether to borrow Pawn Badge's
 - an optional faint icon for "no passion", off by default
 - a gallery of every passion, animating live, so you can see the whole set without starting a colony
 
 It also repairs a handful of def mistakes. In Alpha Skills: the "nudist (active)" description was copy-pasted from "nomadic", "pain-driven (active)" kept its dormant label, "frozen" had no work tab icon, and the two degrees of "blind" shared a single icon despite granting different bonuses. In Vanilla Skills Expanded: "apathy" had no work tab icon.
 
-English and French.
+English and French. MIT licensed; every texture is generated from source in the repository.
 
 Thanks to Oracle, whose Skill Icon Retextures set the visual language this set follows.</description>
   <supportedVersions>

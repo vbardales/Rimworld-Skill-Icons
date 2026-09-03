@@ -13,6 +13,13 @@ Passion icons are drawn in four places. All four are covered:
 | work tab | `WidgetsWork.DrawWorkBoxBackground` transpiler (`WorkBoxIcon`) |
 | mod options | the gallery in `DoSettingsWindowContents` |
 
+The skill and work type icons are drawn in two more:
+
+| where | how |
+|---|---|
+| bio tab, before each skill name | `SkillUI.DrawSkill` **prefix**, which shrinks the rect |
+| work tab column headers | `PawnColumnWorker_WorkPriority.DoHeader` prefix |
+
 The postfix sits on the `PassionDef.Icon` getter itself, so any other caller —
 Pawn Editor included — animates for free *provided it goes through that
 property*. Pawn Editor is not installed here, so that one is unverified.
@@ -74,6 +81,41 @@ learns at `0.35` and `VSE_Apathy` at `0.25`, so the rule would make `None` the
 *lighter* of the two. The icon's job here is not to compete, so it is drawn
 darker anyway. Near-black was rejected for a measurable reason: on RimWorld's
 `#2A2A2A` panels it disappears outright at 24 px.
+
+## Skill and work type icons
+
+A second set, 12 skills and 23 work types, obeying the **opposite** rule to the
+passions: monochrome, shape alone. Colour already means "which passion" here, and
+making it mean "which skill" as well would render both unreadable.
+
+Drawn in `gen.js` like everything else, and tested the same way — the silhouette
+sheet at 20 px is what caught the four failures worth recording, because each one
+is a trap that will recur:
+
+| icon | what went wrong | why |
+|---|---|---|
+| Shooting | the rifle became a horizontal smear | long thin objects have no silhouette at 20 px; this is why icon sets reach for a target |
+| Construction | the trowel read as a downward arrow | a triangle pointing down belongs to nobody |
+| Mining | the pickaxe read as an **umbrella** | an arc centred on a vertical handle *is* an umbrella — it took both asymmetry and a diagonal to fix |
+| Firefighter | the flame read as a water drop | a flame is named by its irregular base, not by its outline; a second tone did not help |
+
+Nine work types reuse their skill's drawing. "Cook" and "Cooking" name the same
+domain, and giving them different glyphs would imply two notions.
+
+**Pawn Badge.** When *(MISC) Job Icons+ Revitalized* is installed, its textures
+are read at runtime through `ContentFinder` and served instead, so a player
+already using those badges sees one interface. Nothing is copied, so nothing is
+redistributed, and removing that mod falls back silently.
+
+The mapping in `SkillTypeIcons.cs` was written by **looking** at the icons, under
+one rule: map when the icon *means* the same thing, never when it merely
+resembles it. `drugs` is a capsule that would suit "Patient" perfectly, but it
+means an addict in the source pack. Patient keeps our drawing, as do Basic work,
+Childcare and Dark study, which the pack does not cover.
+
+Both draw sites work by **shrinking the rect** before handing control back to the
+game, rather than locating the label, the bar and the passion icon inside it. The
+patch therefore survives any re-layout by Ludeon.
 
 ## Patches
 
@@ -163,6 +205,15 @@ the *loaded* DLL — still shows the new sliders, which makes a stale build look
 exactly like a broken patch. The mod therefore logs
 `[SkillIcons] assemblage du <date>` on load: compare it against the DLL's
 timestamp before diagnosing anything.
+
+**Packaging.** What ships to the Workshop is not this folder: `_tools/`, the
+`.pdb`, and the C# project files are dropped, which takes it from 5.4 MB to 3.2.
+That is done by `Build-Release.ps1`, which lives one level up in the author's mod
+monorepo rather than here, since it serves every mod in it. Its interesting half
+is not the copying but the refusals — it aborts on a Preview older than the
+newest texture, a DLL older than its sources, a `.Translate()` key missing from a
+language file, or malformed XML. The first two are not hypothetical: both shipped
+here once, and each cost an hour of chasing a bug that did not exist.
 
 `_tools/preview.js` composes `About/Preview.png` and `About/ModIcon.png` from the
 SVGs `gen.js` just wrote, so the store images can never advertise a palette the
