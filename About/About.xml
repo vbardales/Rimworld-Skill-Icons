@@ -1,9 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
   <name>SkillIcons</name>
-  <author>Oracle, Nelim</author>
-  <packageId>oracle.skillicons</packageId>
-  <description>A unified icon retexture for Vanilla Skills Expanded and Alpha Skills, with optional subtle animations in the Bio skill list.</description>
+  <author>Nelim</author>
+  <url>https://github.com/vbardales/Rimworld-Skill-Icons</url>
+  <packageId>nelim.skillicons</packageId>
+  <description>A unified passion icon set for Vanilla Skills Expanded and Alpha Skills.
+
+Two rules govern the whole set. Hue is identity: every passion owns a hue of its own, spread right across the colour wheel, and that hue is carried by the main shape rather than by a small accessory - at 24 px an accessory simply disappears. Lightness and saturation say whether the bonus is live or dormant, and dormant is neutral grey rather than a colour of its own. And every icon is meant to be recognisable as a plain black silhouette, so the work tab stays readable once colour is gone - its grey variants use two greys instead of one.
+
+The work tab is where the grid is hardest to read, so it gets its own controls: icons drawn in colour, greyed, or - the default - in colour while the bonus is actually running and grey while it sleeps. Size and opacity are separate sliders, because size helps you see the passion while opacity gives the priority digit back to the text.
+
+Options (Options &gt; Mod settings &gt; SkillIcons):
+- subtle animations, on by default, with a speed slider
+- the three work tab modes, plus size and opacity
+- an optional faint icon for "no passion", off by default
+- a gallery of every passion, animating live, so you can see the whole set without starting a colony
+
+It also repairs a handful of def mistakes. In Alpha Skills: the "nudist (active)" description was copy-pasted from "nomadic", "pain-driven (active)" kept its dormant label, "frozen" had no work tab icon, and the two degrees of "blind" shared a single icon despite granting different bonuses. In Vanilla Skills Expanded: "apathy" had no work tab icon.
+
+English and French.
+
+Thanks to Oracle, whose Skill Icon Retextures set the visual language this set follows.</description>
   <supportedVersions>
     <li>1.6</li>
   </supportedVersions>
