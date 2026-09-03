@@ -182,5 +182,15 @@ the old red-hearted set stayed on disk.
 (`oracle-identity-svg`, `oracle-circumstantial-svg`, `oracle-remaining-svg`) no
 longer exist.
 
-`build.sh` never deletes anything under `1.6/Textures/Passions/`: that folder also
-holds the seven VSE/vanilla icons, which are not part of the 74.
+`build.sh` never deletes anything under `1.6/Textures/Passions/`. Every one of the
+85 textures is regenerated on each pass, so nothing there is orphaned by a
+rebuild — but a sequence that *shrinks* would leave its extra frames behind, and
+the DLL/disk cross-check is what catches that.
+
+## Licence
+
+MIT — see [LICENSE](LICENSE).
+
+Every texture is drawn from scratch by `_tools/gen.js`; no asset comes from
+another mod. See **Credits** above for what this set owes Oracle, which is the
+visual language and not the artwork.
