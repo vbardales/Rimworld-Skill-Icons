@@ -20,4 +20,15 @@
   <SkillIcons.WorkTabOpacity>Opacité des icônes : {0} %</SkillIcons.WorkTabOpacity>
   <SkillIcons.GalleryHint>Chaque passion, deux fois : à gauche telle qu'elle apparaît dans la liste des compétences, à droite telle qu'elle apparaît dans l'onglet Travail. Les animées défilent ici à la vitesse réglée ci-dessus.</SkillIcons.GalleryHint>
 
+
+  <SkillIcons.Types>Icônes de compétence et de type de travail</SkillIcons.Types>
+  <SkillIcons.SkillIcons>Icônes dans la liste des compétences</SkillIcons.SkillIcons>
+  <SkillIcons.SkillIconsDesc>Dessine une icône devant chaque compétence, dans l’onglet du personnage.</SkillIcons.SkillIconsDesc>
+  <SkillIcons.WorkTypeIcons>Icônes sur les colonnes du Work Tab</SkillIcons.WorkTypeIcons>
+  <SkillIcons.WorkTypeIconsDesc>Dessine une icône au pied de chaque en-tête de colonne.</SkillIcons.WorkTypeIconsDesc>
+  <SkillIcons.BadgeIcons>Emprunter les icônes de Pawn Badge si elles sont là</SkillIcons.BadgeIcons>
+  <SkillIcons.BadgeIconsDesc>Si « Pawn Badge - (MISC) Job Icons+ Revitalized » est installé, ce sont ses icônes qui sont servies à la place des nôtres, pour que votre interface parle d’une seule voix. Rien n’est recopié : ses textures sont lues à l’exécution. Quatre types de travail qu’il ne couvre pas — travaux simples, puériculture, étude des ténèbres et patient — gardent nos dessins dans tous les cas.</SkillIcons.BadgeIconsDesc>
+  <SkillIcons.HeaderBoth>En-têtes : icône et libellé</SkillIcons.HeaderBoth>
+  <SkillIcons.HeaderIcon>En-têtes : icône seule (colonnes plus étroites, infobulle conservée)</SkillIcons.HeaderIcon>
+  <SkillIcons.HeaderLabel>En-têtes : libellé seul</SkillIcons.HeaderLabel>
 </LanguageData>

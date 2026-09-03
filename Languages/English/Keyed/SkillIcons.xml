@@ -20,4 +20,15 @@
   <SkillIcons.WorkTabOpacity>Icon opacity: {0}%</SkillIcons.WorkTabOpacity>
   <SkillIcons.GalleryHint>Every passion, twice: on the left as it appears in the skill list, on the right as it appears in the work tab. Animated ones play here at the speed set above.</SkillIcons.GalleryHint>
 
+
+  <SkillIcons.Types>Skill and work type icons</SkillIcons.Types>
+  <SkillIcons.SkillIcons>Icons in the skill list</SkillIcons.SkillIcons>
+  <SkillIcons.SkillIconsDesc>Draws an icon before each skill name in the character tab.</SkillIcons.SkillIconsDesc>
+  <SkillIcons.WorkTypeIcons>Icons on work tab columns</SkillIcons.WorkTypeIcons>
+  <SkillIcons.WorkTypeIconsDesc>Draws an icon at the foot of each work tab column header.</SkillIcons.WorkTypeIconsDesc>
+  <SkillIcons.BadgeIcons>Borrow Pawn Badge icons when available</SkillIcons.BadgeIcons>
+  <SkillIcons.BadgeIconsDesc>If "Pawn Badge - (MISC) Job Icons+ Revitalized" is installed, its icons are used instead of this mod’s, so your interface speaks with one voice. Nothing is copied: the textures are read from that mod at runtime. Four work types it does not cover — basic work, childcare, dark study and patient — keep this mod’s icons either way.</SkillIcons.BadgeIconsDesc>
+  <SkillIcons.HeaderBoth>Column headers: icon and label</SkillIcons.HeaderBoth>
+  <SkillIcons.HeaderIcon>Column headers: icon only (narrower columns, tooltip kept)</SkillIcons.HeaderIcon>
+  <SkillIcons.HeaderLabel>Column headers: label only</SkillIcons.HeaderLabel>
 </LanguageData>

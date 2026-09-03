@@ -29,6 +29,19 @@ public sealed class SkillIconsSettings : ModSettings
     public float workTabScale = 1.3f;
     public float workTabOpacity = 0.85f;
 
+    // Icônes de compétence et de type de travail. Jeu distinct des passions :
+    // la couleur y appartient à la passion, la forme à la compétence.
+    //
+    // preferBadgeIcons est à true parce que si le joueur a déjà un jeu d'icônes
+    // pour Pawn Badge, son interface doit parler d'une seule voix. Le repli sur
+    // nos dessins est automatique et silencieux : ceux qui n'ont pas le paquet
+    // ne voient aucun trou, et quatre types de travail que le paquet ne couvre
+    // pas gardent nos dessins de toute façon.
+    public bool showSkillIcons = true;
+    public bool showWorkTypeIcons = true;
+    public bool preferBadgeIcons = true;
+    public int workTabHeaderMode = SkillTypeIcons.EnteteIconeEtTexte;
+
     public override void ExposeData()
     {
         Scribe_Values.Look(ref enabled, "enabled", true);
@@ -37,10 +50,17 @@ public sealed class SkillIconsSettings : ModSettings
         Scribe_Values.Look(ref workTabMode, "workTabMode", ModeMixte);
         Scribe_Values.Look(ref workTabScale, "workTabScale", 1.3f);
         Scribe_Values.Look(ref workTabOpacity, "workTabOpacity", 0.85f);
+        Scribe_Values.Look(ref showSkillIcons, "showSkillIcons", true);
+        Scribe_Values.Look(ref showWorkTypeIcons, "showWorkTypeIcons", true);
+        Scribe_Values.Look(ref preferBadgeIcons, "preferBadgeIcons", true);
+        Scribe_Values.Look(ref workTabHeaderMode, "workTabHeaderMode",
+            SkillTypeIcons.EnteteIconeEtTexte);
         speed = Mathf.Clamp(speed, 0.5f, 1.5f);
         workTabScale = Mathf.Clamp(workTabScale, 1f, 1.8f);
         workTabOpacity = Mathf.Clamp(workTabOpacity, 0.25f, 1f);
         workTabMode = Mathf.Clamp(workTabMode, ModeCouleur, ModeMixte);
+        workTabHeaderMode = Mathf.Clamp(workTabHeaderMode,
+            SkillTypeIcons.EnteteIconeEtTexte, SkillTypeIcons.EnteteTexteSeul);
     }
 }
 
@@ -48,7 +68,7 @@ public sealed class SkillIconsMod : Mod
 {
     internal static SkillIconsSettings Settings;
 
-    private const float HeaderHeight = 340f;
+    private const float HeaderHeight = 500f;
     private const float RowHeight = 34f;
     private const float IconSize = 26f;
     private const float ColumnWidth = 260f;
@@ -111,6 +131,24 @@ public sealed class SkillIconsMod : Mod
         listing.Label("SkillIcons.WorkTabOpacity".Translate(
             Mathf.RoundToInt(Settings.workTabOpacity * 100f)));
         Settings.workTabOpacity = listing.Slider(Settings.workTabOpacity, 0.25f, 1f);
+
+        listing.GapLine(10f);
+        listing.Label("SkillIcons.Types".Translate());
+        listing.CheckboxLabeled("SkillIcons.SkillIcons".Translate(), ref Settings.showSkillIcons,
+            "SkillIcons.SkillIconsDesc".Translate());
+        listing.CheckboxLabeled("SkillIcons.WorkTypeIcons".Translate(),
+            ref Settings.showWorkTypeIcons, "SkillIcons.WorkTypeIconsDesc".Translate());
+        listing.CheckboxLabeled("SkillIcons.BadgeIcons".Translate(), ref Settings.preferBadgeIcons,
+            "SkillIcons.BadgeIconsDesc".Translate());
+        if (listing.RadioButton("SkillIcons.HeaderBoth".Translate(),
+                Settings.workTabHeaderMode == SkillTypeIcons.EnteteIconeEtTexte, 8f))
+            Settings.workTabHeaderMode = SkillTypeIcons.EnteteIconeEtTexte;
+        if (listing.RadioButton("SkillIcons.HeaderIcon".Translate(),
+                Settings.workTabHeaderMode == SkillTypeIcons.EnteteIconeSeule, 8f))
+            Settings.workTabHeaderMode = SkillTypeIcons.EnteteIconeSeule;
+        if (listing.RadioButton("SkillIcons.HeaderLabel".Translate(),
+                Settings.workTabHeaderMode == SkillTypeIcons.EnteteTexteSeul, 8f))
+            Settings.workTabHeaderMode = SkillTypeIcons.EnteteTexteSeul;
         listing.End();
 
         var galleryLabel = new Rect(inRect.x, inRect.y + HeaderHeight, inRect.width, 24f);

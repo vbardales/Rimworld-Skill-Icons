@@ -1129,3 +1129,287 @@ for (const [cle, n, mode] of SPECS) {
   }
 }
 console.log(`${nb} frames d'animation écrites (${SPECS.length} séquences)`);
+
+// =========================================================== COMPÉTENCES
+// Les douze SkillDef de vanilla. Jeu SÉPARÉ des passions, et volontairement
+// MONOCHROME : dans ce mod la couleur signifie déjà « quelle passion », et la
+// faire signifier en plus « quelle compétence » rendrait les deux illisibles.
+// Ici c'est la forme seule qui porte l'identité — ce qui revient à appliquer la
+// règle nº2 du jeu d'icônes (lisible en silhouette) comme règle unique.
+//
+// Deux tons seulement : une masse claire, une ombre pour le détail interne. À
+// 20 px le second ton ne se lit plus comme une couleur mais comme un creux,
+// c'est ce qui empêche l'icône de s'aplatir en tache.
+const OUTIL = { clair: '#D6D6D6', ombre: '#8F8F8F' };
+const mono = k => OUTIL[k];
+
+// roue dentée : n dents carrées entre le rayon interne r et externe R
+const roue = (cx, cy, R, r, n) => poly(Array.from({ length: n * 4 }, (_, k) => {
+  const pas = 2 * Math.PI / (n * 4);
+  const a = k * pas - Math.PI / 2;
+  const rad = (k % 4 === 0 || k % 4 === 3) ? R : r;
+  return [+(cx + rad * Math.cos(a)).toFixed(2), +(cy + rad * Math.sin(a)).toFixed(2)];
+}));
+
+// bulle de dialogue avec sa queue
+const bulle = (cx, cy, w, h, sens = 1) =>
+  `M${cx - w / 2},${cy - h / 2}h${w}a4,4 0 0,1 4,4v${h - 8}a4,4 0 0,1 -4,4`
+  + `h${-(w / 2 - 4 * sens)}l${-5 * sens},6l${sens > 0 ? 0.5 : -0.5},-6`
+  + `h${-(w / 2 + 4 * sens - 4)}a4,4 0 0,1 -4,-4v${-(h - 8)}a4,4 0 0,1 4,-4Z`;
+
+// -- tir : un réticule, pas un fusil. À 20 px une arme longue devient une tache
+//    horizontale — c'est vrai de presque tous les jeux d'icônes, et c'est la
+//    raison pour laquelle ils prennent tous une cible. L'anneau et les quatre
+//    ergots survivent à n'importe quelle réduction.
+I.SK_Shooting = c =>
+    cut(circ(32, 32, 21), c('clair'), K(circ(32, 32, 14)))
+  + fill('M29,4h6v12h-6Z', c('clair'))                      // ergots
+  + fill('M29,48h6v12h-6Z', c('clair'))
+  + fill('M4,29h12v6h-12Z', c('clair'))
+  + fill('M48,29h12v6h-12Z', c('clair'))
+  + fill(circ(32, 32, 5), c('ombre'));
+
+// -- corps à corps : une épée pointe en haut. La garde est ce qui la sépare
+//    d'un simple triangle, et le pommeau ce qui l'empêche de flotter.
+I.SK_Melee = c => rot(35, 32, 32,
+    fill('M32,6l4,8v26h-8V14Z', c('clair'))                 // lame
+  + fill('M20,41h24v5h-24Z', c('ombre'))                    // garde
+  + fill('M29,46h6v9h-6Z', c('clair'))                      // fusée
+  + fill(circ(32, 57, 4), c('ombre')));                     // pommeau
+
+// -- construction : marteau. La truelle d'avant se lisait comme une flèche vers
+//    le bas — un triangle pointe en bas n'appartient à personne. Le marteau, lui,
+//    tient à sa tête franchement décentrée sur le manche : c'est ce déséquilibre
+//    qui le nomme, pas le détail.
+I.SK_Construction = c => rot(22, 32, 32,
+    fill('M12,12h30v16h-30Z', c('clair'))                    // tête
+  + fill('M42,14l8,4v6l-8,4Z', c('ombre'))                   // panne
+  + fill('M22,28h8v28h-8Z', c('clair')));                    // manche
+
+// -- minage : pioche. La version symétrique se lisait comme un PARAPLUIE, et
+//    c'était imparable : un arc centré sur un manche vertical, c'est exactement
+//    un parapluie. Deux corrections, l'une et l'autre nécessaires — la tête est
+//    dissymétrique (pointe d'un côté, tranchant de l'autre), et l'ensemble est
+//    basculé en diagonale, axe sur lequel aucun parapluie ne se tient.
+I.SK_Mining = c => rot(-28, 32, 32,
+    fill('M6,30l24,-9l26,4l-3,7l-23,-2l-22,7Z', c('clair'))  // tête
+  + fill('M27,26h9v32h-9Z', c('ombre')));                    // manche
+
+// -- cuisine : marmite. Deux anses, un couvercle, et de la vapeur — sans la
+//    vapeur elle se lit comme un seau.
+I.SK_Cooking = c =>
+    fill('M14,32h36v14a8,8 0 0,1 -8,8h-20a8,8 0 0,1 -8,-8Z', c('clair'))
+  + fill('M10,30h44v5h-44Z', c('clair'))                     // couvercle
+  + fill(circ(32, 26, 3), c('ombre'))                        // bouton
+  + line('M9,36q-4,3 0,6', c('ombre'), 3)                    // anses
+  + line('M55,36q4,3 0,6', c('ombre'), 3)
+  + line('M24,20q3,-4 0,-8', c('ombre'), 3)                  // vapeur
+  + line('M40,20q3,-4 0,-8', c('ombre'), 3);
+
+// -- plantes : une pousse à deux feuilles. Deux corrections par rapport au
+//    premier jet : le trait de sol est supprimé, parce qu'avec la tige il
+//    dessinait un « T » qui mangeait toute la lecture ; et les feuilles sont
+//    plus charnues et inclinées, là où des lentilles plates disparaissaient.
+I.SK_Plants = c =>
+    line('M32,58q0,-16 0,-26', c('ombre'), 5)
+  + rot(-30, 18, 30, fill(lens(18, 30, 28, 22), c('clair')))
+  + rot(30, 46, 20, fill(lens(46, 20, 28, 22), c('clair')));
+
+// -- animaux : empreinte. Quatre doigts d'inclinaisons différentes, sinon la
+//    patte se lit comme quatre points alignés.
+I.SK_Animals = c =>
+    fill('M32,52q-14,0 -14,-10q0,-10 14,-10t14,10q0,10 -14,10Z', c('clair'))
+  + rot(-18, 17, 24, fill(vlens(17, 24, 10, 15), c('clair')))
+  + rot(-6, 26, 18, fill(vlens(26, 18, 10, 16), c('clair')))
+  + rot(6, 38, 18, fill(vlens(38, 18, 10, 16), c('clair')))
+  + rot(18, 47, 24, fill(vlens(47, 24, 10, 15), c('clair')));
+
+// -- artisanat : roue dentée. Le moyeu doit être ÉVIDÉ, pas plus sombre : à
+//    20 px un moyeu plein fait de la roue un disque à bords irréguliers.
+I.SK_Crafting = c =>
+  cut(roue(32, 32, 26, 20, 8), c('clair'), K(circ(32, 32, 9)));
+
+// -- art : pinceau, en biais. La virole métallique est ce qui le distingue
+//    d'un crayon, et la goutte dit que ça peint.
+I.SK_Artistic = c => rot(35, 32, 32,
+    fill('M29,8h6v28h-6Z', c('clair'))                       // manche
+  + fill('M27,36h10v7h-10Z', c('ombre'))                     // virole
+  + fill('M27,43h10l-5,13Z', c('clair')))                    // soies
+  + fill(drop(50, 50, 9, 12), c('ombre'));                   // goutte
+
+// -- médecine : croix aux bras arrondis. Une croix à angles vifs se lit comme
+//    un signe « plus » ; les congés en font un symbole.
+I.SK_Medicine = c =>
+  fill('M26,10h12a4,4 0 0,1 4,4v12h12a4,4 0 0,1 4,4v4a4,4 0 0,1 -4,4h-12v12'
+     + 'a4,4 0 0,1 -4,4h-12a4,4 0 0,1 -4,-4v-12h-12a4,4 0 0,1 -4,-4v-4'
+     + 'a4,4 0 0,1 4,-4h12v-12a4,4 0 0,1 4,-4Z', c('clair'));
+
+// -- social : deux bulles qui se répondent. Leurs queues pointent l'une VERS
+//    l'autre : dans l'autre sens on lit deux monologues.
+I.SK_Social = c =>
+    fill(bulle(24, 24, 30, 20, 1), c('clair'))
+  + fill(bulle(40, 42, 26, 18, -1), c('ombre'));
+
+// -- intellect : fiole. Le col étroit et les épaules obliques la séparent du
+//    gobelet de « drunken », qui est évasé du haut.
+I.SK_Intellectual = c =>
+    fill('M27,8h10v16l13,24a6,6 0 0,1 -5,9h-26a6,6 0 0,1 -5,-9l13,-24Z', c('clair'))
+  + fill('M24,10h16v4h-16Z', c('ombre'))                     // col
+  + fill(circ(28, 46, 3), c('ombre'))
+  + fill(circ(37, 42, 2), c('ombre'));
+
+const SKILLS = ['Shooting', 'Melee', 'Construction', 'Mining', 'Cooking', 'Plants',
+                'Animals', 'Crafting', 'Artistic', 'Medicine', 'Social', 'Intellectual'];
+const dirSkill = `${base}/_tools/svg/Skills`;
+fs.mkdirSync(dirSkill, { recursive: true });
+for (const n of SKILLS) {
+  uid = 0;
+  fs.writeFileSync(`${dirSkill}/${n}.svg`, head + I['SK_' + n](mono) + '</svg>');
+  uid = 0;
+  fs.writeFileSync(`${dirs.sil}/SK_${n}.svg`, head + I['SK_' + n](() => '#000') + '</svg>');
+}
+console.log(`${SKILLS.length} icones de competence ecrites`);
+
+// ====================================================== TYPES DE TRAVAIL
+// Les 23 WorkTypeDef de vanilla et des DLC. Même règle que les compétences :
+// monochrome, la forme seule.
+//
+// Neuf d'entre eux REPRENNENT le dessin de leur compétence. Ce n'est pas de la
+// paresse : « Cuisinier » et « Cuisine » désignent le même domaine, et leur
+// donner deux glyphes différents ferait croire à deux notions. Les quatorze
+// autres n'ont pas de compétence — ou pas la même — et sont dessinés ici.
+const MEME_QUE = {
+  Art: 'Artistic', Construction: 'Construction', Cooking: 'Cooking',
+  Crafting: 'Crafting', Doctor: 'Medicine', Growing: 'Plants',
+  Handling: 'Animals', Mining: 'Mining', Research: 'Intellectual',
+};
+
+// -- pompier : une flamme à deux tons. La version pleine se lisait comme une
+//    GOUTTE D'EAU, ce qui est le contresens parfait pour un pompier : ce qui
+//    fait une flamme, ce n'est pas son contour, c'est son cœur plus sombre.
+//    Même construction que le « critical » des passions, qui lui se lit bien.
+I.WT_Firefighter = c =>
+    fill('M34,3q2,14 10,21q9,11 4,23q-4,11 -16,11q-13,0 -17,-11q-4,-11 3,-19'
+       + 'q-1,8 3,11q-5,-16 13,-36Z', c('clair'))
+  + fill('M33,28q1,7 6,12q4,6 1,12q-3,6 -8,6q-7,0 -8,-7q-1,-6 3,-10'
+       + 'q0,4 2,5q-2,-9 4,-18Z', c('ombre'));
+
+// -- travaux simples : un interrupteur. Ce type couvre ce qui ne demande aucune
+//    compétence — actionner, ouvrir, éteindre.
+I.WT_BasicWorker = c =>
+    fill('M14,22h36a11,11 0 0,1 0,22h-36a11,11 0 0,1 0,-22Z', c('clair'))
+  + fill(circ(42, 33, 8), c('ombre'));
+
+// -- puériculture : biberon. La graduation est ce qui l'empêche d'être un
+//    simple flacon.
+I.WT_Childcare = c =>
+    fill('M22,28h20v22a7,7 0 0,1 -7,7h-6a7,7 0 0,1 -7,-7Z', c('clair'))
+  + fill('M23,21h18v7h-18Z', c('ombre'))
+  + fill('M28,7q4,-5 8,0v14h-8Z', c('clair'))
+  + fill('M26,36h8v3h-8Z', c('ombre'))
+  + fill('M26,43h8v3h-8Z', c('ombre'));
+
+// -- nettoyage : balai. Les brins s'évasent : un rectangle droit se lisait
+//    comme un maillet.
+I.WT_Cleaning = c => rot(18, 32, 32,
+    fill('M29,4h6v30h-6Z', c('ombre'))
+  + fill('M22,34h20l6,22h-32Z', c('clair'))
+  + fill('M23,42h18v3h-18Z', c('ombre')));
+
+// -- étude des ténèbres : un œil à pupille fendue. Le premier jet s'aplatissait
+//    en tache et se confondait avec le poisson. Deux corrections : l'œil est
+//    moins étiré, et la pupille est un DISQUE sombre fendu de clair — un
+//    contraste interne, là où la fente sombre seule remplissait tout l'œil.
+I.WT_DarkStudy = c =>
+    fill(lens(32, 32, 46, 34), c('clair'))
+  + fill(circ(32, 32, 11), c('ombre'))
+  + fill(vlens(32, 32, 6, 20), c('clair'));
+
+// -- pêche : poisson. La queue triangulaire porte à elle seule la lecture,
+//    l'œil ne sert qu'à dire de quel côté est la tête.
+I.WT_Fishing = c =>
+    fill(lens(27, 32, 38, 26), c('clair'))
+  + fill(poly([[44, 32], [58, 21], [58, 43]]), c('clair'))
+  + fill(circ(18, 29, 3), c('ombre'));
+
+// -- manutention : une caisse et une flèche. Sans la flèche, c'est du stockage ;
+//    avec elle, c'est un déplacement.
+I.WT_Hauling = c =>
+    fill('M32,4l11,13h-7v7h-8v-7h-7Z', c('clair'))
+  + fill('M11,28h42v26h-42Z', c('clair'))
+  + fill('M11,37h42v5h-42Z', c('ombre'));
+
+// -- chasse : un arc bandé. Le premier jet se lisait comme un bouton « retour » :
+//    l'arc bombé à gauche et la pointe à droite formaient une seule chevron.
+//    L'EMPENNAGE règle la question — deux barbes à l'arrière donnent un sens de
+//    lecture qu'aucune chevron n'a. L'arc est aussi affiné pour que la flèche
+//    domine, et non l'inverse.
+I.WT_Hunting = c =>
+    arc(48, 32, 26, 128, 232, 4, c('ombre'))
+  + line('M32,10v44', c('ombre'), 2)
+  + fill('M10,30h34v4h-34Z', c('clair'))
+  + fill(poly([[40, 24], [58, 32], [40, 40]]), c('clair'))
+  + fill(poly([[10, 22], [18, 30], [10, 30]]), c('clair'))
+  + fill(poly([[10, 42], [18, 34], [10, 34]]), c('clair'));
+
+// -- patient : une gélule. Recevoir un soin, ce n'est pas le prodiguer : la
+//    croix reste au médecin.
+I.WT_Patient = c => rot(-35, 32, 32,
+    fill('M16,24h32a10,10 0 0,1 0,20h-32a10,10 0 0,1 0,-20Z', c('clair'))
+  + fill('M16,24h16v20h-16a10,10 0 0,1 0,-20Z', c('ombre')));
+
+// -- repos au lit : un lit. Le dosseret et les pieds sont ce qui le sépare
+//    d'une simple barre horizontale.
+I.WT_PatientBedRest = c =>
+    fill('M6,16h6v30h-6Z', c('clair'))
+  + fill('M6,30h50v10h-50Z', c('clair'))
+  + fill('M14,21h14v9h-14Z', c('ombre'))
+  + fill('M8,40h6v10h-6Z', c('clair'))
+  + fill('M48,40h6v10h-6Z', c('clair'));
+
+// -- coupe des plantes : sécateur. Les deux anneaux disent l'outil ; deux
+//    lames croisées toutes seules feraient une croix de Saint-André.
+I.WT_PlantCutting = c =>
+    line('M22,8L42,38', c('clair'), 6)
+  + line('M42,8L22,38', c('clair'), 6)
+  + cut(circ(19, 48, 9), c('ombre'), K(circ(19, 48, 4)))
+  + cut(circ(45, 48, 9), c('ombre'), K(circ(45, 48, 4)));
+
+// -- forge : enclume. Le marteau est déjà pris par la construction, et c'est
+//    l'enclume qui dit le métal de toute façon.
+I.WT_Smithing = c =>
+    fill('M8,22h34l10,-6v6h4v10h-8l-5,6h-14l-4,-6h-17Z', c('clair'))
+  + fill('M24,38h14l9,16h-32Z', c('ombre'));
+
+// -- confection : un vêtement. La bobine et son fil se lisaient comme la lettre
+//    « Ɖ » — trop de traits fins pour 20 px. Le résultat du travail dit le
+//    travail mieux que son outil, et une silhouette de tunique ne ressemble à
+//    rien d'autre dans le jeu d'icônes.
+I.WT_Tailoring = c =>
+    fill('M24,10h16l16,9l-5,11l-7,-4v28h-24v-28l-7,4l-5,-11Z', c('clair'))
+  + fill('M26,10h12l-6,7Z', c('ombre'));
+
+// -- surveillance : une clé. Les barreaux d'une cellule se réduisent à des
+//    traits parallèles, illisibles ; la clé garde sa forme à toute taille.
+I.WT_Warden = c =>
+    cut(circ(17, 32, 13), c('clair'), K(circ(17, 32, 6)))
+  + fill('M28,28h28v8h-28Z', c('clair'))
+  + fill('M42,36h5v9h-5Z', c('ombre'))
+  + fill('M52,36h4v7h-4Z', c('ombre'));
+
+const WORKTYPES = ['Art', 'BasicWorker', 'Childcare', 'Cleaning', 'Construction',
+  'Cooking', 'Crafting', 'DarkStudy', 'Doctor', 'Firefighter', 'Fishing', 'Growing',
+  'Handling', 'Hauling', 'Hunting', 'Mining', 'Patient', 'PatientBedRest',
+  'PlantCutting', 'Research', 'Smithing', 'Tailoring', 'Warden'];
+const dirWT = `${base}/_tools/svg/WorkTypes`;
+fs.mkdirSync(dirWT, { recursive: true });
+for (const n of WORKTYPES) {
+  const dessin = MEME_QUE[n] ? 'SK_' + MEME_QUE[n] : 'WT_' + n;
+  if (!I[dessin]) throw new Error(`dessin introuvable pour le type de travail ${n}`);
+  uid = 0;
+  fs.writeFileSync(`${dirWT}/${n}.svg`, head + I[dessin](mono) + '</svg>');
+  uid = 0;
+  fs.writeFileSync(`${dirs.sil}/WT_${n}.svg`, head + I[dessin](() => '#000') + '</svg>');
+}
+console.log(`${WORKTYPES.length} icones de type de travail ecrites`
+  + ` (${Object.keys(MEME_QUE).length} reprises d'une competence)`);
