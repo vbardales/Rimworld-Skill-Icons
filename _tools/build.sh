@@ -28,11 +28,19 @@ shoot _tools/svg/WorkTypes 1.6/Textures/WorkTypes
 shoot _tools/sil          _tools/silpng
 echo "textures:$(ls 1.6/Textures/Passions/*.png | wc -l)  silhouettes:$(ls _tools/silpng | wc -l)  frames:$(ls 1.6/Textures/Passions/Animated | wc -l)"
 
-# Le Preview fait 640x640 et non 64 : il ne peut pas passer par shoot().
-# Il est rasterise en dernier, quand toutes les icones qu'il compose existent.
-"$CH" --headless --no-sandbox --disable-gpu --hide-scrollbars --window-size=640,640 \
-  --default-background-color=00000000 \
-  --screenshot="$B/About/Preview.png" "file:///$B/_tools/svg/Preview.svg" >/dev/null 2>&1
+# Le Preview fait 896x504 : il ne passe donc pas par shoot(), qui rasterise en
+# 64x64. Il est produit en dernier, quand toutes les icones qu'il compose
+# existent. DEUX sorties : About/Preview.png porte le titre, Art/Preview-source.png
+# en est depourvu - c'est celle-la que le traitement uniforme du depot grave,
+# et un titre deja present y ferait un doublon.
+#
+# 896x504 est rendu NATIVEMENT, jamais obtenu en rognant un carre : le
+# recadrage centre d'une source 640x640 lui retirait 44 % de sa hauteur, donc
+# toute la bande des competences et des types de travail, dont il ne restait
+# que la legende - qui annoncait des icones absentes.
+mkdir -p About Art
+"$CH" --headless --no-sandbox --disable-gpu --hide-scrollbars --window-size=896,504 --force-device-scale-factor=1 --default-background-color=00000000 --screenshot="$B/About/Preview.png" "file:///$B/_tools/svg/Preview.svg" >/dev/null 2>&1
+"$CH" --headless --no-sandbox --disable-gpu --hide-scrollbars --window-size=896,504 --force-device-scale-factor=1 --default-background-color=00000000 --screenshot="$B/Art/Preview-source.png" "file:///$B/_tools/svg/PreviewSource.svg" >/dev/null 2>&1
 echo "preview:$(ls -l About/Preview.png | awk '{print $5}') octets"
 "$CH" --headless --no-sandbox --disable-gpu --hide-scrollbars --window-size=128,128 \
   --default-background-color=00000000 \
