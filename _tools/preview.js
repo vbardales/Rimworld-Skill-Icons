@@ -126,8 +126,13 @@ console.log(`Preview.svg : ${GRILLE.length} passions triees par teinte, `
 slot = 0;
 const QUAD = ['AS_SanguinePassion', 'AS_CompetitivePassion',
               'AS_FrozenPassion', 'AS_ObsessivePassion'];
+// 128 x 128 : la norme du depot. RimWorld n'affiche l'icone qu'a 32 px dans la
+// liste des mods, mais 128 laisse de la marge aux ecrans denses sans peser.
+// La taille est DECLAREE ici et pas seulement passee a Chrome : une fenetre
+// plus grande que le dessin fait capturer tout le viewport, ce qui avait donne
+// une icone de 1254 x 1254 pesant 1,4 Mo, soit vingt-trois fois la banniere.
 const icone = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"'
-  + ' width="64" height="64">'];
+  + ' width="128" height="128">'];
 QUAD.forEach((n, i) =>
   icone.push(poser('Passions', n, (i % 2) * 32 + 1, Math.floor(i / 2) * 32 + 1, 30)));
 icone.push('</svg>');

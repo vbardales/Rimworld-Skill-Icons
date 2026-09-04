@@ -34,6 +34,6 @@ echo "textures:$(ls 1.6/Textures/Passions/*.png | wc -l)  silhouettes:$(ls _tool
   --default-background-color=00000000 \
   --screenshot="$B/About/Preview.png" "file:///$B/_tools/svg/Preview.svg" >/dev/null 2>&1
 echo "preview:$(ls -l About/Preview.png | awk '{print $5}') octets"
-"$CH" --headless --no-sandbox --disable-gpu --hide-scrollbars --window-size=64,64 \
+"$CH" --headless --no-sandbox --disable-gpu --hide-scrollbars --window-size=128,128 \
   --default-background-color=00000000 \
   --screenshot="$B/About/ModIcon.png" "file:///$B/_tools/svg/ModIcon.svg" >/dev/null 2>&1
