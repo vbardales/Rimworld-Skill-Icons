@@ -2,7 +2,7 @@
 # On verifie ainsi la regle nº1 du jeu d'icones (une teinte par passion) sur ce
 # qui est reellement livre, pas sur ce que gen.js croit produire.
 Add-Type -AssemblyName System.Drawing
-$dir = "C:\Users\nelim\Documents\rimworld\SkillIcons\1.6\Textures\Passions"
+$dir = "C:\Users\nelim\Documents\rimworld\SkillIcons\Mod\1.6\Textures\Passions"
 $res = @()
 Get-ChildItem $dir -Filter *.png | Where-Object { $_.Name -notmatch 'Grey' } | ForEach-Object {
   $bmp = [System.Drawing.Bitmap]::FromFile($_.FullName)

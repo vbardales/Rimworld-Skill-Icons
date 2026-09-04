@@ -119,7 +119,7 @@ patch therefore survives any re-layout by Ludeon.
 
 ## Patches
 
-`1.6/Patches/AlphaSkills_Fixes.xml` repairs three def mistakes in Alpha Skills
+`Mod/1.6/Patches/AlphaSkills_Fixes.xml` repairs three def mistakes in Alpha Skills
 (a copy-pasted description on `AS_NudistPassion_Active`, a missing "(active)" on
 `AS_PainDrivenPassion_Active`, a missing `workBoxIconPath` on `AS_FrozenPassion`).
 It runs inside a `<success>Always</success>` sequence, so if those defs are fixed
@@ -191,6 +191,21 @@ Its corollary: work-tab `*Grey` variants use **two** greys (`#939393` for the
 main shape, `#6B6B6B` for the accessory). Flattening to a single grey destroys
 the crown, the padlock and the snowflake.
 
+## Layout
+
+Everything RimWorld distributes lives under `Mod/`; `_tools/` and `Art/` sit
+beside it, outside. That split is not tidiness. Publishing goes through
+`SteamUGC.SetItemContent(<mod folder>)`, which takes the folder **as it is**,
+with no filtering and no exclusion list: whatever the Steam junction points at
+gets uploaded. With everything at the root, that meant 4.1 MB going to the
+Workshop, 2.2 of them being `_tools/` — the generator sources, which are exactly
+what should never ship. Pointing the junction at `Mod/` instead sends 1.8 MB.
+
+The junction must therefore target `SkillIcons/Mod`, never `SkillIcons`. To
+repoint it, delete the junction with `[System.IO.Directory]::Delete($link, $false)`
+— **never `Remove-Item -Recurse`**, which follows the link and would erase the
+repository at the other end.
+
 ## Development
 
 `bash _tools/build.sh` regenerates everything: 34 parametric drawings in
@@ -215,7 +230,7 @@ newest texture, a DLL older than its sources, a `.Translate()` key missing from 
 language file, or malformed XML. The first two are not hypothetical: both shipped
 here once, and each cost an hour of chasing a bug that did not exist.
 
-`_tools/preview.js` composes `About/Preview.png` and `About/ModIcon.png` from the
+`_tools/preview.js` composes `Mod/About/Preview.png` and `Mod/About/ModIcon.png` from the
 SVGs `gen.js` just wrote, so the store images can never advertise a palette the
 mod no longer ships — which is exactly what the previous hand-drawn preview did.
 The grid is **sorted by hue**, 0° to 360°, because that layout demonstrates
@@ -233,7 +248,7 @@ the old red-hearted set stayed on disk.
 (`oracle-identity-svg`, `oracle-circumstantial-svg`, `oracle-remaining-svg`) no
 longer exist.
 
-`build.sh` never deletes anything under `1.6/Textures/Passions/`. Every one of the
+`build.sh` never deletes anything under `Mod/1.6/Textures/Passions/`. Every one of the
 85 textures is regenerated on each pass, so nothing there is orphaned by a
 rebuild — but a sequence that *shrinks* would leave its extra frames behind, and
 the DLL/disk cross-check is what catches that.
