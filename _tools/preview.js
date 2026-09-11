@@ -1,4 +1,4 @@
-// Compose Mod/About/Preview.png et Mod/About/ModIcon.png à partir des SVG RÉELLEMENT
+// Compose Mod/About/Preview.png à partir des SVG RÉELLEMENT
 // livrés, jamais d'un dessin refait à la main. La version précédente était faite
 // à la main, et elle a fini par annoncer le défaut qu'on venait de corriger :
 // elle montrait la palette d'avant la refonte, une grille de cœurs rouges.

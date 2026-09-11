@@ -42,6 +42,9 @@ mkdir -p Mod/About Art
 "$CH" --headless --no-sandbox --disable-gpu --hide-scrollbars --window-size=896,504 --force-device-scale-factor=1 --default-background-color=00000000 --screenshot="$B/Mod/About/Preview.png" "file:///$B/_tools/svg/Preview.svg" >/dev/null 2>&1
 "$CH" --headless --no-sandbox --disable-gpu --hide-scrollbars --window-size=896,504 --force-device-scale-factor=1 --default-background-color=00000000 --screenshot="$B/Art/Preview-source.png" "file:///$B/_tools/svg/PreviewSource.svg" >/dev/null 2>&1
 echo "preview:$(ls -l Mod/About/Preview.png | awk '{print $5}') octets"
-"$CH" --headless --no-sandbox --disable-gpu --hide-scrollbars --window-size=128,128 \
-  --default-background-color=00000000 \
-  --screenshot="$B/Mod/About/ModIcon.png" "file:///$B/_tools/svg/ModIcon.svg" >/dev/null 2>&1
+# The mascot icon in Mod/About/ModIcon.png is NOT generated: it is drawn to the
+# repository's house style, and it is the only file of a mod that claims to say
+# "this is the mod". This pass used to rasterise _tools/svg/ModIcon.svg over it,
+# which would have silently replaced the mascot with the old four-hearts square
+# on the next full run. The SVG is still written, so the fallback is one Chrome
+# command away, but nothing here overwrites About/ any more.

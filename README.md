@@ -230,7 +230,15 @@ newest texture, a DLL older than its sources, a `.Translate()` key missing from 
 language file, or malformed XML. The first two are not hypothetical: both shipped
 here once, and each cost an hour of chasing a bug that did not exist.
 
-`_tools/preview.js` composes `Mod/About/Preview.png` and `Mod/About/ModIcon.png` from the
+**`Mod/About/ModIcon.png` is not generated.** It is the house mascot, drawn to
+`STYLE_RIMWORLD.md`, archived full-size in `Art/ModIcon-source.png` and scaled
+down to 128 px with `ffmpeg -vf scale=128:128:flags=lanczos`. Lanczos matters at
+that reduction: bilinear smears the thick black outline, which is the whole
+reason the mascot reads at the 32 px RimWorld actually draws it at. `build.sh`
+used to rasterise an earlier four-hearts icon over this file, and would have
+replaced the mascot on the next full pass; it no longer writes to `About/`.
+
+`_tools/preview.js` composes `Mod/About/Preview.png` from the
 SVGs `gen.js` just wrote, so the store images can never advertise a palette the
 mod no longer ships — which is exactly what the previous hand-drawn preview did.
 The grid is **sorted by hue**, 0° to 360°, because that layout demonstrates
