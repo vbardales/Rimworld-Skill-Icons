@@ -13,15 +13,13 @@ licence:      original
 licence_at:   original work, MIT; Oracle's Skill Icon Retextures credited for the visual language only, no texture reused (verified against ATTRIBUTION.md and the generator)
 dependencies: declared
 showcase:     complete
-tested_on:
+tested_on:    2026-09-17 (partial: the two Tests/Pickle/ scenarios only, see below)
 workshop:
 remaining:
-  - unverified: the two Tests/Pickle/ scenarios are written but never executed - Pickle only
-      runs inside RimWorld, which this workflow does not launch. Written, not played, exactly
-      like the ArchitectStudio and WorkStudio suites on the day they were written.
-  - unverified: never seen running in game; Player.log build-date line, both transpiler
-      warnings, the settings UI, EN/FR runtime display and RIMMSQOL integration are
-      all unverified. docs/TESTING.md's twelve scenarios are written, none executed.
+  - unverified: never seen running in game beyond the two Pickle scenarios below; Player.log
+      build-date line, both transpiler warnings, the settings UI, EN/FR runtime display and
+      RIMMSQOL integration are all unverified. docs/TESTING.md's twelve scenarios are written,
+      none executed.
 session:      local_314cf7e0-0763-4b3b-b4b7-03e564331dc5
 updated:      2026-09-17, full workflow audit; Source-code link, brrainz.harmony loadAfter,
               French log lines/source comments, detachment from the monorepo, the hidden
@@ -103,7 +101,7 @@ place, matching the precedent of every other already-detached mod in this reposi
 | options -> l10n | Resource checks pass independently: both `Languages/*/Keyed/SkillIcons.xml` hold exactly the same 25 keys, non-empty in both languages, and match the 25 distinct `.Translate()` call sites in `SkillIconsMod.cs` exactly (no missing key, no unused key, no hardcoded `Widgets.Label` string). The two DefInjected-eligible fields touched by this mod's own patches (`AS_NudistPassion_Active.description`, `AS_PainDrivenPassion_Active.label`) needed no French override: Alpha Skills ships no French language folder at all, so English is the only text any player sees there regardless of interface language — checked directly against the installed Alpha Skills mod. **Corrected 2026-09-17:** the four `Log.Message`/`Log.Warning` calls, previously in French against TRANSLATIONS.md's technical-logs-in-English rule, are now English; rebuilt and reverified clean. Formal `localization`/`translation_en`/`translation_fr` stay `partial`: MOD_SETTINGS.md gates their completion on `settings_audit` being `complete` or `not_applicable`, which it is not yet. |
 | l10n -> preTest | All three declared dependencies' packageIds (`brrainz.harmony`, `vanillaexpanded.skills`, `sarg.alphaskills`) verified correct against the real installed mods, as are the two optional integrations named in `loadAfter` (`oracle.skills.retexture`, and `Splot.MiscPawnBadgeRevitalized` read at runtime through `ContentFinder` with silent fallback — correctly *not* a modDependency). All six patch-targeted defNames and all four patch-referenced texture paths were confirmed present in the actual installed Alpha Skills/VSE packages and on disk. `Check-XmlFields.ps1` and `Check-DefRefs.ps1` both ran clean against `Mod/`, before and after the correction below. **Corrected 2026-09-17:** `brrainz.harmony` is now first in `<loadAfter>`, matching the established convention in this repo for every other audited Harmony-dependent mod (`ForTheOccasion`, `Housebroken` both list it explicitly). Single-version `loadFolders.xml` is consistent with `supportedVersions`. |
 | preTest -> done | **Corrected 2026-09-17.** All four written-artifact requirements now exist: `docs/TESTING.md` (twelve functional scenarios), `_tools/Run-Tests.ps1` (29 automated tests, run, all green), the same suite's patch-XML replay tests (the XML requirement, run, all green), and `Tests/Pickle/` (two Gherkin scenarios, written). Full detail under "Test suite — 2026-09-17" below. Pickle's own execution needs an actual RimWorld session, which is her own next step rather than something this pass performs or waits on. |
-| done -> tested | Reserved for her next in-game session: the twelve `docs/TESTING.md` scenarios and the two `Tests/Pickle/` scenarios, written and ready, none of them played yet. |
+| done -> tested | **Partial, 2026-09-17.** The two `Tests/Pickle/` scenarios ran for real in game and both passed - see "In-game Pickle run" below. The twelve `docs/TESTING.md` scenarios (icons on screen, animation, sliders, EN/FR display, the five tooltip fixes) are still unplayed; `tested` is not reached until those are too. |
 
 ### Settings audit
 
@@ -349,6 +347,31 @@ the run command (`-pickle-run="SkillIcons - Pickle tests"`), and states plainly 
 or custom steps assembly exists for this suite - both scenarios use only `Pickle.Vanilla`'s
 generic step vocabulary - and that everything past load-order and the `MainButtonDef` check stays
 a manual, eyes-on-screen verification against `docs/TESTING.md`.
+
+## In-game Pickle run — 2026-09-17
+
+Both `Tests/Pickle/` scenarios ran for real, in a running RimWorld, and both passed - the first
+in-game evidence this mod has. Read directly from
+`%USERPROFILE%\AppData\LocalLow\Ludeon Studios\RimWorld by Ludeon Studios\PickleReports\summary.md`
+(file timestamp 2026-09-17 19:29), not taken on her word alone:
+
+```
+| the mod loads after Harmony, Vanilla Skills Expanded and Alpha Skills | Passed | 152 | 1 |
+| the hidden MainButtons settings shortcut is declared | Passed | 69 | 1 |
+```
+
+`junit.xml` confirms both under `nelim.skillicons.pickletests`, neither with a `<failure>` element.
+The run's report is shared across every Pickle-tested mod on this machine and shows 162 scenarios
+total (130 passed, 29 failed, 3 skipped) - the 29 failures belong to Pickle's own sample suite,
+Quiet New Factions, WorkStudio and ArchitectStudio, none to SkillIcons; both of SkillIcons's own
+lines are clean.
+
+What this does and does not prove: it confirms, for the first time inside the actual game, that
+SkillIcons loads after Harmony/VSE/Alpha Skills and that the `SkillIcons_Settings` `MainButtonDef`
+exists in the real `DefDatabase` - exactly the two things `Tests/Pickle/README.md` says this suite
+can check with only `Pickle.Vanilla`'s generic steps. It does not touch any of the twelve
+`docs/TESTING.md` scenarios: no icon was seen on screen, no animation, no slider, no French
+string, none of the five Alpha Skills/VSE tooltip fixes. `done -> tested` stays open for those.
 
 ## Historical record (retained)
 
