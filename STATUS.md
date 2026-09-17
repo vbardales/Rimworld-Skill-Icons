@@ -334,6 +334,22 @@ drag-and-drop or Work Studio's reordering, SkillIcons's settings page is plain
 justify building and maintaining a custom steps DLL for it. Written, not played - same as
 ArchitectStudio's and WorkStudio's suites on the day they were written.
 
+**Corrected 2026-09-17, same pass:** neither the mod itself nor its Pickle test companion was
+actually reachable in game - unlike ArchitectStudio and WorkStudio, no junction linked either
+into RimWorld's `Mods` folder. Fixed the same way as those two:
+
+```powershell
+New-Item -ItemType Junction -Path "...\RimWorld\Mods\SkillIcons" -Target "<repo>\Mod"
+New-Item -ItemType Junction -Path "...\RimWorld\Mods\SkillIconsPickleTests" -Target "<repo>\Tests\Pickle\Mod"
+```
+
+Both confirmed present (`LinkType: Junction`) after creation. **Corrected 2026-09-17, on
+request:** `Tests/Pickle/README.md` now documents the junction commands above, the enable order,
+the run command (`-pickle-run="SkillIcons - Pickle tests"`), and states plainly that no build step
+or custom steps assembly exists for this suite - both scenarios use only `Pickle.Vanilla`'s
+generic step vocabulary - and that everything past load-order and the `MainButtonDef` check stays
+a manual, eyes-on-screen verification against `docs/TESTING.md`.
+
 ## Historical record (retained)
 
 Read by a sweep across every mod, rather than by asking each thread in turn. It lives at the
