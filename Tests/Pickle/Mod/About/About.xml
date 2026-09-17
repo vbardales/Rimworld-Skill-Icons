@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>SkillIcons - Pickle tests</name>
+  <author>nelim</author>
+  <packageId>nelim.skillicons.pickletests</packageId>
+  <supportedVersions>
+    <li>1.6</li>
+  </supportedVersions>
+  <description>In-game functional tests for SkillIcons, run by Pickle. Development only: never published.
+
+Written, never run: the two scenarios here only use Pickle's own generic step vocabulary (mod loaded, load order, a def of a given type exists) and need no companion steps assembly. See SkillIcons/docs/TESTING.md for the scenarios that do need a colony and a human to look at the screen.</description>
+  <modDependencies>
+    <li>
+      <packageId>nelim.skillicons</packageId>
+      <displayName>SkillIcons</displayName>
+    </li>
+    <li>
+      <packageId>rimworks.pickle</packageId>
+      <displayName>Pickle</displayName>
+      <steamWorkshopUrl>steam://url/CommunityFilePage/3791648678</steamWorkshopUrl>
+    </li>
+  </modDependencies>
+  <loadAfter>
+    <li>nelim.skillicons</li>
+    <li>rimworks.pickle</li>
+  </loadAfter>
+</ModMetaData>

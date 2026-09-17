@@ -210,6 +210,18 @@ repoint it, delete the junction with `[System.IO.Directory]::Delete($link, $fals
 — **never `Remove-Item -Recurse`**, which follows the link and would erase the
 repository at the other end.
 
+## Testing
+
+`powershell -ExecutionPolicy Bypass -File _tools/Run-Tests.ps1` runs 29 tests without starting
+the game: settings defaults and clamping, the MainButtons shortcut's wiring (read from its IL,
+since it cannot be called outside the game), every Harmony patch target resolved against the
+real installed Assembly-CSharp/VSE.dll, the skill/work-type badge mapping checked against the
+real vanilla SkillDefs/WorkTypeDefs, the animation frame table checked against `gen.js` and the
+files on disk, and both patch XML files replayed against the real installed Alpha Skills/VSE
+defs — not a hand-typed copy of them. `docs/TESTING.md` holds the twelve scenarios that do need
+a running game, none of them observed yet; `Tests/Pickle/` holds two Gherkin scenarios for
+[Pickle](https://github.com/RimWorks/Rimworld-Pickle), written but not yet played.
+
 ## Development
 
 `bash _tools/build.sh` regenerates everything: `_tools/gen.js`'s 41 parametric

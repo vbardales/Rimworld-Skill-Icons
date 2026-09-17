@@ -16,17 +16,18 @@ showcase:     complete
 tested_on:
 workshop:
 remaining:
-  - unverified: no automated test harness, XML test script, or Gherkin/pickle scenario
-      exists anywhere in the repository for this mod; the preTest -> done artifacts are
-      absent, not merely unexecuted.
+  - unverified: the two Tests/Pickle/ scenarios are written but never executed - Pickle only
+      runs inside RimWorld, which this workflow does not launch. Written, not played, exactly
+      like the ArchitectStudio and WorkStudio suites on the day they were written.
   - unverified: never seen running in game; Player.log build-date line, both transpiler
       warnings, the settings UI, EN/FR runtime display and RIMMSQOL integration are
-      all unverified.
+      all unverified. docs/TESTING.md's twelve scenarios are written, none executed.
 session:      local_314cf7e0-0763-4b3b-b4b7-03e564331dc5
 updated:      2026-09-17, full workflow audit; Source-code link, brrainz.harmony loadAfter,
               French log lines/source comments, detachment from the monorepo, the hidden
-              MainButtons settings shortcut, and README's stale texture/frame/silhouette
-              counts, all same day
+              MainButtons settings shortcut, README's stale texture/frame/silhouette counts,
+              and the test suite (functional scenarios, automated harness, Pickle, patch-XML
+              replay), all same day
 ---
 
 # SkillIcons — status
@@ -211,8 +212,8 @@ shortcut. `dansMonoRepo -> horsMonoRepo` is done as of 2026-09-17, detachment de
 the `MainButtonDef` gap that blocked this gate at the source level is also fixed as of the same
 day, described above.
 
-Also still open, independent of that gate: write the functional/automated/Gherkin/XML test
-scenarios this mod currently has none of.
+The functional/automated/Gherkin/XML test scenarios this mod had none of are now written; see
+"Test suite — 2026-09-17" below for what that does and does not close.
 
 **Corrected 2026-09-17, on request, outside the audit itself:**
 
@@ -240,6 +241,98 @@ scenarios this mod currently has none of.
   quoted the pre-translation French log line (`assemblage du <date>`); corrected to match the
   English string the code has actually logged since the translation pass. Documentation only;
   no code, image or binary changed.
+- The `preTest -> done` written-artifact requirements were fulfilled: `docs/TESTING.md`
+  (functional scenarios), `_tools/Run-Tests.ps1` (automated, executed, green), and
+  `Tests/Pickle/` (Gherkin, written). Full detail under "Test suite — 2026-09-17" below,
+  including why this does not by itself move `stage` past `horsMonoRepo`.
+
+## Test suite — 2026-09-17
+
+Addresses `preTest -> done`'s written-artifact bullets directly. Does **not** close the
+`options -> l10n` gate above, which was already blocked on in-game settings verification before
+this pass and stays blocked on it after: writing and running tests outside the game cannot
+substitute for MOD_SETTINGS.md §4's first-use/persistence/RIMMSQOL checks, and this pass did
+not claim otherwise. `stage` stays `horsMonoRepo` for that reason, not because this work did
+not happen.
+
+**`docs/TESTING.md`** — twelve numbered scenarios (0-11), each with preconditions, a `Do`, an
+`Expect` and a `Fails if`, covering: the load-time log line and the three patch-failure
+warnings named explicitly; all four places passion icons are drawn; each of the three work tab
+modes; the size/opacity sliders; the "no passion" icon; skill/work-type icon toggles and the
+Pawn Badge borrow/fallback behaviour; the three column-header modes; settings persistence
+across reopen/restart/reload; the hidden MainButtons shortcut opening the identical dialog as
+the primary entry; English/French display; and the five Alpha Skills/VSE def fixes as they
+should appear in a tooltip. None executed - this workflow does not launch the game.
+
+**`_tools/Run-Tests.ps1`** — 29 tests, 0 skipped, all passing against the current build. Verified
+non-vacuous by hand: five real mutations (a wrong replacement string in `AlphaSkills_Fixes.xml`,
+a drifted frame count in `gen.js`, a removed Keyed entry, `buttonVisible` flipped to `true`, plus
+several genuine implementation bugs hit and fixed while writing the suite itself - see below)
+were each confirmed to turn exactly the intended test red and nothing else, then reverted; the
+suite is green again against the unmodified repository. What it checks, and why each needed
+executing rather than reading the source:
+
+- `SkillIconsSettings.ExposeData()` is called directly, not re-typed: `Scribe.mode` defaults to
+  `Inactive` outside the game, which makes `Scribe_Values.Look` a no-op and lets the five
+  `Mathf.Clamp` lines that follow run for real. All ten defaults and all five clamped ranges
+  are exercised this way.
+- `MainButtonWorker_Settings.Activate()` cannot be *called* hors jeu (`Find.WindowStack` and
+  `LoadedModManager.GetMod<T>()` both need a running game), so its IL is read instead: a linear
+  byte scan (this repository's established technique) for `newobj RimWorld.Dialog_ModSettings`,
+  `call Verse.LoadedModManager.GetMod` and a reference to `Find.WindowStack`/`WindowStack.Add`,
+  proving it opens the *same* dialog for the *same* mod instance without asserting it from the
+  source.
+- Every Harmony patch target (`PassionDef.Icon`/`WorkBoxIcon`, `WidgetsWork.DrawWorkBoxBackground`,
+  `SkillUI.DrawSkill`, the `DoHeader` fallback) is resolved by plain reflection against the real
+  installed `Assembly-CSharp`/`VSE.dll`, proving the citations still match this RimWorld version.
+- `SkillTypeIcons`'s two badge dictionaries are checked key-by-key against the SkillDefs and
+  WorkTypeDefs the installed game actually declares (12/12 and 19/23, the missing four matching
+  README's own list exactly) - not a hand-kept copy of either list.
+- The animation frame table is compared at the **source** level (`PassionIconAnimations.cs`'s
+  `Specs` dictionary literal against `gen.js`'s `SPECS` array), not the compiled one:
+  `PassionIconAnimations`'s static constructor Harmony-**transpiles** two real game methods,
+  which throws `SecurityException: ECall methods must be packaged into a system module` the
+  moment Harmony tries to prepare `WidgetsWork.DrawWorkBoxBackground`/`SkillUI.DrawSkill`
+  outside the actual Unity runtime - confirmed by hand before writing the suite.
+  `SkillTypeIcons`'s cctor only applies **prefixes**, which is why triggering it for the badge
+  dictionaries above is safe and triggering this one is not. Said plainly in the script rather
+  than silently claiming the stronger, DLL-level check.
+- Both patch XML files are replayed for real: `PatchOperationAdd`/`Replace`/`Sequence` are
+  instantiated by reflection and `Apply()`'d against the real installed Alpha Skills/VSE def
+  nodes read off disk (never a hand-typed copy), inside a single combined `<Defs>` document
+  matching how a real DefDatabase load presents them. That combined-document shape is load-
+  bearing, not incidental: `Verse.PatchOperationSequence.ApplyWorker` is a **chain** that stops
+  at the first sub-operation whose xpath matches nothing, proven by a dedicated test built the
+  other way (`AS_NudistPassion_Active` absent, `AS_PainDrivenPassion_Active` present) that
+  confirms the second def's fix is *not* reached. This is a real, previously undocumented
+  fragility of `AlphaSkills_Fixes.xml`: if Alpha Skills ever drops or renames the
+  first-listed def while the other four bugs remain, none of the other four fixes apply either,
+  silently, `<success>Always</success>` notwithstanding - recorded here and in
+  `docs/TESTING.md`, not fixed, since restructuring the patch is outside what was asked.
+
+**Genuine bugs found and fixed while writing the harness, not the mod:** an incorrect namespace
+guess (`Verse.WidgetsWork` vs the real `RimWorld.WidgetsWork`; `Verse.Dialog_ModSettings` vs the
+real `RimWorld.Dialog_ModSettings`), a `DeepProfiler.enabled` binding-flags mismatch (it is
+`public`, not `NonPublic`), a PowerShell 5.1 quirk where reflection's `Invoke()` cannot convert
+its own ETS-adapted `XmlDocument` unless the argument array element carries an explicit type
+cast, and the `XmlContainer.node` field expecting the `<value>` element itself rather than its
+already-unwrapped first child (passing the unwrapped child silently replaced
+`<description>text</description>` with a bare, untagged text node - exactly the kind of
+silent-looking failure this test exists to catch, caught first in the harness before it could
+have been caught anywhere else). None of these were mod defects; all were fixed in
+`_tools/Run-Tests.ps1` itself before it was trusted.
+
+**`Tests/Pickle/`** — a companion test mod (`nelim.skillicons.pickletests`, matching the
+ArchitectStudio/WorkStudio convention) with one feature, two scenarios, using only step phrasings
+confirmed - by direct comparison against both existing suites - to be Pickle's own generic
+vocabulary (`mod "..." is loaded`, `mod "..." loads after "..."`, `def "..." of type "..."
+exists`) rather than a custom step requiring a companion steps assembly: SkillIcons loads after
+Harmony/VSE/Alpha Skills, and the `SkillIcons_Settings` MainButtonDef exists. Deliberately
+narrower than the interactive scenarios in `docs/TESTING.md`: unlike ArchitectStudio's group
+drag-and-drop or Work Studio's reordering, SkillIcons's settings page is plain
+`Listing_Standard` controls with no custom-drawn or draggable interaction that would clearly
+justify building and maintaining a custom steps DLL for it. Written, not played - same as
+ArchitectStudio's and WorkStudio's suites on the day they were written.
 
 ## Historical record (retained)
 
