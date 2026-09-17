@@ -102,8 +102,8 @@ place, matching the precedent of every other already-detached mod in this reposi
 | preOptions -> options | **Partial.** `DoSettingsWindowContents`/`SettingsCategory` exist and read soundly from source: ten Scribe-persisted fields, all defaults declared, numeric fields clamped in `ExposeData`, every label/tooltip routed through `.Translate()`, a live animated gallery. **Corrected 2026-09-17:** the missing `MainButtonDef` is fixed — `SkillIcons_Settings` (`Mod/1.6/Defs/MainButtonDefs/MainButtons.xml`), `buttonVisible=false`, `validWithoutMap=true`, `workerClass=SkillIcons.MainButtonWorker_Settings`, whose `Activate()` opens `new Dialog_ModSettings(LoadedModManager.GetMod<SkillIconsMod>())` — the same dialog, same instance, as the primary entry; label/description are English-source Def fields with a French DefInjected override, matching this repo's Def-translation convention. Still open: no technical or functional test of the settings page, old or new, has been executed in game (no automated harness exists at all — see preTest below), so MOD_SETTINGS.md's §4 checklist remains unexercised beyond source reading and the checks below. |
 | options -> l10n | Resource checks pass independently: both `Languages/*/Keyed/SkillIcons.xml` hold exactly the same 25 keys, non-empty in both languages, and match the 25 distinct `.Translate()` call sites in `SkillIconsMod.cs` exactly (no missing key, no unused key, no hardcoded `Widgets.Label` string). The two DefInjected-eligible fields touched by this mod's own patches (`AS_NudistPassion_Active.description`, `AS_PainDrivenPassion_Active.label`) needed no French override: Alpha Skills ships no French language folder at all, so English is the only text any player sees there regardless of interface language — checked directly against the installed Alpha Skills mod. **Corrected 2026-09-17:** the four `Log.Message`/`Log.Warning` calls, previously in French against TRANSLATIONS.md's technical-logs-in-English rule, are now English; rebuilt and reverified clean. Formal `localization`/`translation_en`/`translation_fr` stay `partial`: MOD_SETTINGS.md gates their completion on `settings_audit` being `complete` or `not_applicable`, which it is not yet. |
 | l10n -> preTest | All three declared dependencies' packageIds (`brrainz.harmony`, `vanillaexpanded.skills`, `sarg.alphaskills`) verified correct against the real installed mods, as are the two optional integrations named in `loadAfter` (`oracle.skills.retexture`, and `Splot.MiscPawnBadgeRevitalized` read at runtime through `ContentFinder` with silent fallback — correctly *not* a modDependency). All six patch-targeted defNames and all four patch-referenced texture paths were confirmed present in the actual installed Alpha Skills/VSE packages and on disk. `Check-XmlFields.ps1` and `Check-DefRefs.ps1` both ran clean against `Mod/`, before and after the correction below. **Corrected 2026-09-17:** `brrainz.harmony` is now first in `<loadAfter>`, matching the established convention in this repo for every other audited Harmony-dependent mod (`ForTheOccasion`, `Housebroken` both list it explicitly). Single-version `loadFolders.xml` is consistent with `supportedVersions`. |
-| preTest -> done | **Not reached.** No test file of any kind exists in the repository (`find . -iname "*test*"` returns nothing): no functional scenarios, no automated suite, no Gherkin/pickle feature, no XML test. As an independent technical check outside that missing suite, the animation frame-count table was verified: the C# `Specs` dictionary and `_tools/gen.js`'s `SPECS` array agree exactly on all 40 animated texture/frame-count pairs, and all 40 sequences exist on disk with precisely the declared frame counts (920 PNG frames total, matching CHANGELOG's figure) — the documented "counter drift" trap is not present. |
-| done -> tested | Not reached; blocked upstream. No functional game session has ever been executed for this mod (STATUS's prior sweep already recorded "never seen running", and nothing here changes that). |
+| preTest -> done | **Corrected 2026-09-17.** All four written-artifact requirements now exist: `docs/TESTING.md` (twelve functional scenarios), `_tools/Run-Tests.ps1` (29 automated tests, run, all green), the same suite's patch-XML replay tests (the XML requirement, run, all green), and `Tests/Pickle/` (two Gherkin scenarios, written). Full detail under "Test suite — 2026-09-17" below. Pickle's own execution needs an actual RimWorld session, which is her own next step rather than something this pass performs or waits on. |
+| done -> tested | Reserved for her next in-game session: the twelve `docs/TESTING.md` scenarios and the two `Tests/Pickle/` scenarios, written and ready, none of them played yet. |
 
 ### Settings audit
 
@@ -205,12 +205,12 @@ JS/shell files.
 
 ### Next transition and separate follow-ups
 
-**Strict next step (preOptions -> options, fully):** run the settings page's in-game technical
-and functional checklist from MOD_SETTINGS.md §4 — first use, persistence round trip, boundary
-input, and the RIMMSQOL reveal/open/edit/hide sequence for both the primary entry and the new
-shortcut. `dansMonoRepo -> horsMonoRepo` is done as of 2026-09-17, detachment described above;
-the `MainButtonDef` gap that blocked this gate at the source level is also fixed as of the same
-day, described above.
+**Reserved for her next in-game session (preOptions -> options, fully):** the settings page's
+in-game technical and functional checklist from MOD_SETTINGS.md §4 — first use, persistence
+round trip, boundary input, and the RIMMSQOL reveal/open/edit/hide sequence for both the primary
+entry and the new shortcut. Everything reachable without a game session is already done:
+`dansMonoRepo -> horsMonoRepo` as of 2026-09-17 (detachment described above), and the
+`MainButtonDef` gap that this gate had at the source level, fixed the same day.
 
 The functional/automated/Gherkin/XML test scenarios this mod had none of are now written; see
 "Test suite — 2026-09-17" below for what that does and does not close.
@@ -249,11 +249,11 @@ The functional/automated/Gherkin/XML test scenarios this mod had none of are now
 ## Test suite — 2026-09-17
 
 Addresses `preTest -> done`'s written-artifact bullets directly. Does **not** close the
-`options -> l10n` gate above, which was already blocked on in-game settings verification before
-this pass and stays blocked on it after: writing and running tests outside the game cannot
-substitute for MOD_SETTINGS.md §4's first-use/persistence/RIMMSQOL checks, and this pass did
-not claim otherwise. `stage` stays `horsMonoRepo` for that reason, not because this work did
-not happen.
+`options -> l10n` gate above, which was already reserved for an in-game settings session before
+this pass and stays reserved for one after: writing and running tests outside the game answers
+a different question from MOD_SETTINGS.md §4's first-use/persistence/RIMMSQOL checks, which
+need her to actually play. `stage` stays `horsMonoRepo` for that reason, not because this work
+did not happen.
 
 **`docs/TESTING.md`** — twelve numbered scenarios (0-11), each with preconditions, a `Do`, an
 `Expect` and a `Fails if`, covering: the load-time log line and the three patch-failure
