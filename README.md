@@ -212,9 +212,11 @@ repository at the other end.
 
 ## Development
 
-`bash _tools/build.sh` regenerates everything: 34 parametric drawings in
-`_tools/gen.js` become the 74 static textures, the 114 animation frames and the
-74 silhouettes. Animation frame counts and modes in `gen.js` mirror the `Specs`
+`bash _tools/build.sh` regenerates everything: `_tools/gen.js`'s 41 parametric
+passion drawings become the 85 static textures, the 920 animation frames and
+the 85 silhouettes; its further 12 skill and 14 work type drawings become the
+12 skill and 23 work type textures (nine of the latter reusing a skill's
+drawing). Animation frame counts and modes in `gen.js` mirror the `Specs`
 table in `PassionIconAnimations.cs` exactly — a count that drifts makes the DLL
 fall back to the static icon.
 
@@ -222,7 +224,7 @@ fall back to the static icon.
 is running changes nothing in that session, yet the mod options window — drawn by
 the *loaded* DLL — still shows the new sliders, which makes a stale build look
 exactly like a broken patch. The mod therefore logs
-`[SkillIcons] assemblage du <date>` on load: compare it against the DLL's
+`[SkillIcons] assembly dated <date>` on load: compare it against the DLL's
 timestamp before diagnosing anything.
 
 **Packaging.** What ships to the Workshop is not this folder: `_tools/`, the

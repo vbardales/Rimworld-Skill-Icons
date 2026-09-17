@@ -16,9 +16,6 @@ showcase:     complete
 tested_on:
 workshop:
 remaining:
-  - defect: README's Development section states stale counts ("74 static textures,
-      114 animation frames, 74 silhouettes") that no longer match the shipped content
-      (85 static textures, 920 animation frames, 85 silhouette PNGs, all counted on disk).
   - unverified: no automated test harness, XML test script, or Gherkin/pickle scenario
       exists anywhere in the repository for this mod; the preTest -> done artifacts are
       absent, not merely unexecuted.
@@ -27,8 +24,9 @@ remaining:
       all unverified.
 session:      local_314cf7e0-0763-4b3b-b4b7-03e564331dc5
 updated:      2026-09-17, full workflow audit; Source-code link, brrainz.harmony loadAfter,
-              French log lines/source comments, detachment from the monorepo, and the hidden
-              MainButtons settings shortcut, all same day
+              French log lines/source comments, detachment from the monorepo, the hidden
+              MainButtons settings shortcut, and README's stale texture/frame/silhouette
+              counts, all same day
 ---
 
 # SkillIcons — status
@@ -213,9 +211,8 @@ shortcut. `dansMonoRepo -> horsMonoRepo` is done as of 2026-09-17, detachment de
 the `MainButtonDef` gap that blocked this gate at the source level is also fixed as of the same
 day, described above.
 
-Also still open, independent of that gate: correct the stale texture/frame/silhouette counts
-in README's Development section, and write the functional/automated/Gherkin/XML test scenarios
-this mod currently has none of.
+Also still open, independent of that gate: write the functional/automated/Gherkin/XML test
+scenarios this mod currently has none of.
 
 **Corrected 2026-09-17, on request, outside the audit itself:**
 
@@ -234,6 +231,15 @@ this mod currently has none of.
   (`SkillIcons_Settings`, `buttonVisible=false`, opens the same `Dialog_ModSettings`/mod
   instance as the primary entry), with its French DefInjected override, README and CHANGELOG
   entries, and the checks listed above. In-game verification of both entry points remains open.
+- README's Development section corrected: it still said "34 parametric drawings... become the
+  74 static textures, the 114 animation frames and the 74 silhouettes", read off the disk
+  again and matching CHANGELOG's/ATTRIBUTION's already-correct figures — 41 parametric passion
+  drawings (recounted: `grep -cE '^I\.(AS_|Passion)[A-Za-z_]*\s*=' _tools/gen.js`) become the
+  85 static textures, 920 animation frames and 85 silhouettes, plus 12 skill and 14 work type
+  drawings becoming the 12 skill and 23 work type textures. The same paragraph also still
+  quoted the pre-translation French log line (`assemblage du <date>`); corrected to match the
+  English string the code has actually logged since the translation pass. Documentation only;
+  no code, image or binary changed.
 
 ## Historical record (retained)
 
