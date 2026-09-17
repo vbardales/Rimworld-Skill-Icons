@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <!--
-      Projet d'outillage, pas de contenu du mod : ses intermediaires sortent du dossier publie
-      comme ceux des autres. Le dossier _tools lui-meme reste dans le mod, a toi de voir s'il
-      doit partir sur le Workshop.
+      Tooling project, not mod content: its intermediates go outside the published folder like
+      everyone else's. The _tools folder itself stays in the repository; whether it ships to the
+      Workshop is decided by the junction, which targets Mod/ alone.
     -->
-    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)..\..\..\..\.build\obj\SkillIcons-tools\</BaseIntermediateOutputPath>
-    <BaseOutputPath>$(MSBuildThisFileDirectory)..\..\..\..\.build\bin\SkillIcons-tools\</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)..\..\..\.build\obj\SkillIcons-tools\</BaseIntermediateOutputPath>
+    <BaseOutputPath>$(MSBuildThisFileDirectory)..\..\..\.build\bin\SkillIcons-tools\</BaseOutputPath>
   </PropertyGroup>
 
 </Project>

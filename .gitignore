@@ -1,0 +1,29 @@
+# Steam does not read .gitignore at all. SteamUGC.SetItemContent takes the junction's target
+# directory as it stands on disk, with no filtering, so anything sitting in the published folder
+# is published. That is what Mod/ is for: the junction from RimWorld/Mods points there, and
+# everything else in this repository - Art/, _tools/, this file - stays out of reach by
+# construction.
+
+# Build intermediates.
+# _tools/animation-source/Source/Directory.Build.props sends them to .build/, outside Mod/: they
+# must never end up inside it, since Mod/ goes to the Workshop as it stands.
+.build/
+_tools/animation-source/Source/**/obj/
+_tools/animation-source/Source/**/bin/
+
+# Claude Code session worktrees and local settings. Until this folder became a repository of its
+# own the rule lived in the monorepo's .gitignore, a file this repository does not carry.
+.claude/
+
+# Development environments.
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.csproj.user
+
+# System.
+Thumbs.db
+desktop.ini
+.DS_Store
