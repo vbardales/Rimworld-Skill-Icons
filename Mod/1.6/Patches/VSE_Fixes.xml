@@ -2,14 +2,14 @@
 <Patch>
 
   <!--
-    VSE_Apathy ne déclare aucun workBoxIconPath : dans l'onglet Travail, la case
-    d'une compétence en apathie reste vide, alors que toutes les autres passions
-    y montrent quelque chose. On lui donne son propre contour gris, qui existe
-    déjà — c'est la même texture que son icône de liste.
+    VSE_Apathy declares no workBoxIconPath: in the Work tab, a skill's cell
+    stays empty while it is apathetic, when every other passion shows
+    something there. It is given its own grey outline, which already
+    exists - the same texture as its list icon.
 
-    C'est le seul endroit où ce mod modifie un def de Vanilla Skills Expanded.
-    En <success>Always</success> : si VSE ajoute ce champ un jour, le patch
-    devient inerte au lieu de rougir le journal.
+    This is the only place where this mod touches a Vanilla Skills Expanded
+    def. In <success>Always</success>: if VSE adds this field one day, the
+    patch goes inert instead of reddening the log.
   -->
   <Operation Class="PatchOperationSequence">
     <success>Always</success>

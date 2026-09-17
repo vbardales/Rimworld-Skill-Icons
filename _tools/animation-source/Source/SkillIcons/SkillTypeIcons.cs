@@ -7,25 +7,25 @@ using Verse;
 namespace SkillIcons;
 
 /// <summary>
-/// Icônes de compétence et de type de travail — un jeu distinct de celui des
-/// passions, et qui obéit à une règle inverse : la couleur appartient à la
-/// passion, la forme à la compétence. Nos dessins sont donc monochromes.
+/// Skill and work type icons - a set distinct from the passions', and obeying
+/// the opposite rule: colour belongs to the passion, shape to the skill. Our
+/// own drawings are therefore monochrome.
 ///
-/// Deux sources possibles. Si le joueur a « Pawn Badge - (MISC) Job Icons+
-/// Revitalized », ce sont SES icônes qui sont servies : son interface parle
-/// alors d'une seule voix. Sinon, les nôtres. Rien n'est recopié chez nous —
-/// on lit ses textures à l'exécution, ce qui évite toute redistribution.
+/// Two possible sources. If the player has "Pawn Badge - (MISC) Job Icons+
+/// Revitalized", ITS icons are served: their interface then speaks with one
+/// voice. Otherwise, ours. Nothing of theirs is copied into this mod - their
+/// textures are read at runtime, which avoids any redistribution.
 /// </summary>
 [StaticConstructorOnStartup]
 public static class SkillTypeIcons
 {
-    // Les correspondances ont été établies en REGARDANT les icônes, pas en
-    // lisant leurs noms de fichiers, et selon une règle stricte : on associe
-    // quand l'icône signifie la même chose, jamais quand elle y ressemble
-    // seulement. « drugs » est une gélule, qui irait à merveille pour Patient,
-    // mais elle veut dire « drogué » dans le paquet d'origine : la servir en
-    // colonne Patient introduirait chez le joueur la confusion exacte qu'on
-    // cherche à lui épargner. Patient garde donc notre dessin.
+    // The mapping was built by LOOKING at the icons, not by reading their
+    // file names, under a strict rule: map when the icon means the same
+    // thing, never when it merely resembles it. "drugs" is a capsule that
+    // would suit Patient perfectly, but it means "addict" in the source
+    // pack: serving it in the Patient column would plant in the player's
+    // own interface exactly the confusion this mod exists to spare them.
+    // Patient therefore keeps our drawing.
     private static readonly Dictionary<string, string> BadgeParCompetence = new()
     {
         ["Shooting"] = "shooter-modern",   ["Melee"] = "melee",
@@ -36,10 +36,10 @@ public static class SkillTypeIcons
         ["Social"] = "dealmaker",           ["Intellectual"] = "research",
     };
 
-    // Quatre types de travail n'ont AUCUN équivalent dans le paquet et gardent
-    // notre dessin : BasicWorker (rien pour « actionner, ouvrir »), Childcare
-    // (aucun nourrisson), DarkStudy (le crâne « sacrifice » dirait la mort, pas
-    // l'étude) et Patient, pour la raison ci-dessus.
+    // Four work types have NO equivalent in the package and keep our own
+    // drawing: BasicWorker (nothing for "operate, open"), Childcare (no
+    // infant in the pack), DarkStudy (the "sacrifice" skull would say death,
+    // not study) and Patient, for the reason above.
     private static readonly Dictionary<string, string> BadgeParTravail = new()
     {
         ["Art"] = "artist",                 ["Cleaning"] = "cleaner",
@@ -54,8 +54,8 @@ public static class SkillTypeIcons
         ["Warden"] = "sheriff",
     };
 
-    // ContentFinder est coûteux et journalise à chaque échec : on ne l'appelle
-    // qu'une fois par clé, y compris quand la réponse est « rien ».
+    // ContentFinder is expensive and logs on every failure: it is called
+    // only once per key, including when the answer is "nothing".
     private static readonly Dictionary<string, Texture2D> Cache = new();
 
     private static Texture2D Charger(string chemin)
@@ -67,9 +67,9 @@ public static class SkillTypeIcons
     }
 
     /// <summary>
-    /// L'icône à servir, celle du paquet si le joueur l'a et que le réglage le
-    /// permet, la nôtre sinon. Le repli est silencieux et automatique : un
-    /// joueur qui désinstalle Pawn Badge ne voit pas des trous apparaître.
+    /// The icon to serve: the package's own if the player has it and the
+    /// setting allows it, ours otherwise. The fallback is silent and
+    /// automatic: a player who uninstalls Pawn Badge sees no gaps appear.
     /// </summary>
     private static Texture2D Resoudre(string defName, Dictionary<string, string> table,
                                       string dossierMaison)
@@ -93,10 +93,10 @@ public static class SkillTypeIcons
     {
         var harmony = new Harmony("nelim.skillicons.types");
 
-        // Le préfixe RÉTRÉCIT le rectangle avant de laisser le jeu dessiner
-        // dedans. C'est ce qui rend le correctif indépendant de la mise en page
-        // interne de DrawSkill : on ne cherche pas où sont le libellé, la barre
-        // et l'icône de passion, on leur laisse simplement moins de place.
+        // The prefix SHRINKS the rect before letting the game draw inside
+        // it. That is what makes the patch independent of DrawSkill's
+        // internal layout: we do not look for where the label, the bar and
+        // the passion icon are, we simply leave them less room.
         harmony.Patch(
             AccessTools.Method(typeof(SkillUI), nameof(SkillUI.DrawSkill), new[]
             {
@@ -104,18 +104,19 @@ public static class SkillTypeIcons
             }),
             prefix: new HarmonyMethod(typeof(SkillTypeIcons), nameof(PrefixeCompetence)));
 
-        // DoHeader peut n'être PAS redéclaré par la colonne de priorités : dans ce
-        // cas AccessTools remonte à PawnColumnWorker et on patcherait TOUTES les
-        // colonnes, y compris Nom et Sexe. Ce n'est pas grave — celles-là n'ont
-        // pas de workType, le préfixe rend la main aussitôt — mais il faut le
-        // savoir, donc on le dit. Et si la méthode reste introuvable, on ne
-        // patche rien plutôt que de laisser Harmony faire échouer tout le
-        // constructeur statique, ce qui emporterait aussi les icônes de passion.
+        // DoHeader may NOT be redeclared by the priority column: in that
+        // case AccessTools falls back to PawnColumnWorker and we would patch
+        // EVERY column, Name and Sex included. That is harmless - those
+        // columns have no workType, the prefix hands control back at once -
+        // but it is worth knowing, hence this note. And if the method is
+        // still not found, nothing gets patched rather than letting Harmony
+        // fail the whole static constructor, which would also take down the
+        // passion icon patches.
         var entete = AccessTools.DeclaredMethod(typeof(PawnColumnWorker_WorkPriority), "DoHeader")
                   ?? AccessTools.Method(typeof(PawnColumnWorker), "DoHeader");
         if (entete == null)
-            Log.Warning("[SkillIcons] DoHeader introuvable : les en-têtes de colonnes du Work Tab "
-                + "resteront sans icône.");
+            Log.Warning("[SkillIcons] DoHeader not found: Work tab column headers "
+                + "will stay without an icon.");
         else
             harmony.Patch(entete,
                 prefix: new HarmonyMethod(typeof(SkillTypeIcons), nameof(PrefixeEnteteTravail)));
@@ -141,8 +142,8 @@ public static class SkillTypeIcons
     public const int EnteteIconeEtTexte = 0, EnteteIconeSeule = 1, EnteteTexteSeul = 2;
 
     /// <summary>
-    /// Renvoyer false empêche le jeu de dessiner son libellé : c'est le mode
-    /// « icône seule ». Dans les deux autres modes on laisse la main.
+    /// Returning false stops the game from drawing its label: that is
+    /// "icon only" mode. In the other two modes, control is handed back.
     /// </summary>
     public static bool PrefixeEnteteTravail(Rect rect, PawnColumnWorker __instance)
     {
@@ -154,8 +155,8 @@ public static class SkillTypeIcons
         var icone = Pour(travail);
         if (icone == null) return true;
 
-        // L'en-tête est étroit et haut : l'icône se pose en haut, centrée, et
-        // le libellé vertical du jeu garde ce qui reste dessous.
+        // The header is narrow and tall: the icon sits at the top, centred,
+        // and the game's vertical label keeps whatever room is left below.
         var taille = Mathf.Min(rect.width - 2f, 22f);
         var carre = new Rect(rect.x + (rect.width - taille) / 2f, rect.yMax - taille - 2f,
                              taille, taille);
@@ -166,8 +167,8 @@ public static class SkillTypeIcons
 
         if (reglages.workTabHeaderMode == EnteteIconeSeule)
         {
-            // On reproduit le seul comportement du libellé dont on prive le
-            // joueur : l'infobulle, qui dit ce que fait la colonne.
+            // We reproduce the one behaviour of the label the player is
+            // deprived of: the tooltip, which says what the column does.
             if (travail != null)
             {
                 TooltipHandler.TipRegion(rect, () => travail.gerundLabel.CapitalizeFirst()

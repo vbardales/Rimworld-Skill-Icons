@@ -10,33 +10,33 @@ public sealed class SkillIconsSettings : ModSettings
 {
     public bool enabled = true;
     public float speed = 1f;
-    // Volontairement à false : vanilla ne dessine rien pour "no passion", et
-    // ce vide sert à repérer d'un coup d'œil les compétences qui comptent.
+    // Deliberately false: vanilla draws nothing at all for "no passion", and
+    // that empty space is what lets you spot the skills that matter at a glance.
     public bool showNonePassion = false;
-    // L'onglet Travail est l'écran où l'on passe le plus de temps, et VSE y
-    // affiche les passions petites et grises.
+    // The Work tab is the screen where players spend the most time, and VSE
+    // draws passions there small and grey.
     //
-    // Le mode MIXTE est le plus intéressant des trois : il réemploie le sens
-    // déjà porté par le jeu d'icônes — l'acier veut dire « le bonus dort ». La
-    // grille ne devient donc pas seulement plus lisible, elle dit quels bonus
-    // sont en train de tourner.
+    // The MIXED mode is the most interesting of the three: it reuses the
+    // meaning the icon set already carries - steel means "the bonus is
+    // asleep". The grid therefore doesn't just become more readable, it says
+    // which bonuses are actually running.
     //
-    // Taille et opacité sont deux réglages distincts parce que le chiffre de
-    // priorité vit dans la même case : agrandir aide à voir la passion, mais
-    // c'est l'opacité qui rend le chiffre au texte.
+    // Size and opacity are two separate settings because the priority digit
+    // lives in the same cell: enlarging helps you see the passion, but it is
+    // opacity that gives the digit back to the text.
     public const int ModeCouleur = 0, ModeGris = 1, ModeMixte = 2;
     public int workTabMode = ModeMixte;
     public float workTabScale = 1.3f;
     public float workTabOpacity = 0.85f;
 
-    // Icônes de compétence et de type de travail. Jeu distinct des passions :
-    // la couleur y appartient à la passion, la forme à la compétence.
+    // Skill and work type icons. A set distinct from the passions: there,
+    // colour belongs to the passion; here, shape belongs to the skill.
     //
-    // preferBadgeIcons est à true parce que si le joueur a déjà un jeu d'icônes
-    // pour Pawn Badge, son interface doit parler d'une seule voix. Le repli sur
-    // nos dessins est automatique et silencieux : ceux qui n'ont pas le paquet
-    // ne voient aucun trou, et quatre types de travail que le paquet ne couvre
-    // pas gardent nos dessins de toute façon.
+    // preferBadgeIcons is true because if the player already has an icon set
+    // for Pawn Badge, their interface should speak with one voice. The
+    // fallback to our own drawings is automatic and silent: players without
+    // that package see no gap, and the four work types it does not cover
+    // keep our drawings either way.
     public bool showSkillIcons = true;
     public bool showWorkTypeIcons = true;
     public bool preferBadgeIcons = true;
@@ -80,19 +80,19 @@ public sealed class SkillIconsMod : Mod
     {
         Settings = GetSettings<SkillIconsSettings>();
 
-        // RimWorld ne charge ses assemblages qu'au démarrage : une DLL
-        // recompilée pendant qu'une partie tourne n'est pas celle qui tourne.
-        // Sans cette ligne, on ne peut pas distinguer « le correctif ne marche
-        // pas » de « le correctif n'est pas chargé » — le journal donne
-        // maintenant la date de la version réellement en mémoire.
+        // RimWorld only loads assemblies at startup: a DLL recompiled while a
+        // game is running is not the one actually running. Without this line
+        // there is no way to tell "the fix does not work" apart from "the fix
+        // is not loaded" - the log now gives the date of the build actually
+        // in memory.
         try
         {
             var dll = System.IO.Path.Combine(content.RootDir, "1.6", "Assemblies", "SkillIcons.dll");
             if (System.IO.File.Exists(dll))
-                Log.Message("[SkillIcons] assemblage du "
+                Log.Message("[SkillIcons] assembly dated "
                     + System.IO.File.GetLastWriteTime(dll).ToString("yyyy-MM-dd HH:mm:ss"));
         }
-        catch { /* une empreinte de diagnostic ne doit jamais empêcher le chargement */ }
+        catch { /* a diagnostic footprint must never prevent loading */ }
     }
 
     public override string SettingsCategory() => "SkillIcons";
@@ -163,8 +163,8 @@ public sealed class SkillIconsMod : Mod
 
     private void DrawGallery(Rect rect)
     {
-        // Toutes les passions déclarées, quel que soit le mod qui les apporte :
-        // vanilla, VSE, Alpha Skills, ou autre chose installé à côté.
+        // Every declared passion, whatever mod brings it in: vanilla, VSE,
+        // Alpha Skills, or anything else installed alongside.
         cached ??= DefDatabase<PassionDef>.AllDefsListForReading
             .Where(d => !d.iconPath.NullOrEmpty())
             .OrderBy(d => d.defName)
@@ -195,9 +195,10 @@ public sealed class SkillIconsMod : Mod
         var grey = new Rect(colour.xMax + 4f, y, IconSize, IconSize);
 
         Draw(colour, PassionIconAnimations.SkillUiAnimatedIcon(def));
-        // La colonne de droite montre ce que l'onglet Travail dessinera vraiment,
-        // mode et animation compris. Le cas « pas de workBoxIconPath » est traité
-        // dans WorkBoxAnimatedIcon, qui rend null : il n'y a rien à garder ici.
+        // The right-hand column shows what the Work tab will actually draw,
+        // mode and animation included. The "no workBoxIconPath" case is
+        // handled inside WorkBoxAnimatedIcon, which returns null: there is
+        // nothing to keep here.
         Draw(grey, PassionIconAnimations.WorkBoxAnimatedIcon(def));
 
         var label = new Rect(grey.xMax + 8f, cell.y, cell.width - (grey.xMax - cell.x) - 8f,
@@ -208,8 +209,8 @@ public sealed class SkillIconsMod : Mod
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
 
-        // La description complète de VSE dit la vitesse d'apprentissage : c'est
-        // exactement ce que la saturation de l'icône est censée traduire.
+        // VSE's full description states the learning speed: that is exactly
+        // what the icon's saturation is meant to convey.
         TooltipHandler.TipRegion(cell, () => def.FullDescription, def.shortHash);
         Widgets.DrawHighlightIfMouseover(cell);
     }

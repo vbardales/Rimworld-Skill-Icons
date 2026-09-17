@@ -29,21 +29,21 @@ public static class PassionIconAnimations
 
     private static readonly Dictionary<string, AnimationSpec> Specs = new(StringComparer.Ordinal)
     {
-        // La clé est le defName ; le premier champ est le nom des textures, qui
-        // peut différer (deux degrés de "blind" partagent la même séquence).
+        // The key is the defName; the first field is the texture name, which
+        // can differ (two degrees of "blind" share the same sequence).
         //
-        // Cette table DOIT rester identique à SPECS dans _tools/gen.js. Un
-        // compteur qui diverge fait retomber la passion sur son icône statique,
-        // sans erreur ni message — c'est la panne la plus difficile à voir ici.
+        // This table MUST stay identical to SPECS in _tools/gen.js. A count
+        // that drifts falls the passion back to its static icon, with no
+        // error or message - the hardest failure to spot here.
 
-        // l'humeur parcourt l'échelle et revient à son cran
+        // mood runs the whole scale and returns to its notch
         ["AS_MoodyPassion"] = new("AS_MoodyPassion", 32, 6f),
         ["AS_MoodyPassion_Apathy"] = new("AS_MoodyPassion_Apathy", 32, 6f),
         ["AS_MoodyPassion_NoPassion"] = new("AS_MoodyPassion_NoPassion", 32, 6f),
         ["AS_MoodyPassion_Major"] = new("AS_MoodyPassion_Major", 32, 6f),
         ["AS_MoodyPassion_Greater"] = new("AS_MoodyPassion_Greater", 32, 6f),
 
-        // un geste propre à chaque passion
+        // a gesture of its own for each passion
         ["AS_BlindPassion_Elevated_Active"] = new("AS_BlindPassion_Active", 24, 12f),
         ["AS_BlindPassion_Sublime_Active"] = new("AS_BlindPassionSublime_Active", 24, 12f),
         ["AS_CompetitivePassion_Active"] = new("AS_CompetitivePassion", 16, 10f),
@@ -65,7 +65,7 @@ public static class PassionIconAnimations
         ["AS_VengefulPassion_Active"] = new("AS_VengefulPassion", 16, 10f),
         ["AS_YouthPassion"] = new("AS_YouthPassion", 24, 8f),
 
-        // gestes génériques
+        // generic gestures
         ["AS_NightPassion_Active"] = new("AS_NightPassion", 16, 8f),
         ["AS_NomadicPassion_Active"] = new("AS_NomadicPassion", 16, 8f),
         ["AS_DrunkenPassion_Active"] = new("AS_DrunkenPassion", 16, 10f),
@@ -75,11 +75,11 @@ public static class PassionIconAnimations
         ["AS_PsychicPassion_Major"] = new("AS_PsychicPassion_Major", 20, 6f),
         ["AS_PsychicPassion_Critical"] = new("AS_PsychicPassion_Critical", 20, 6f),
 
-        // la derniere passion d'Alpha Skills qui restait figee
+        // the last Alpha Skills passion that was still frozen
         ["AS_DedicatedPassion"] = new("AS_DedicatedPassion", 16, 8f),
         ["AS_DuncePassion"] = new("AS_DuncePassion", 24, 8f),
 
-        // et les passions de VSE, jusque-là toutes figées
+        // and VSE's own passions, all of them frozen until now
         ["VSE_Critical"] = new("PassionCritical", 16, 10f),
         ["VSE_Natural"] = new("PassionNatural", 24, 8f),
         ["VSE_Apathy"] = new("PassionApathy", 48, 8f),
@@ -90,8 +90,9 @@ public static class PassionIconAnimations
     private static readonly Dictionary<string, Texture2D[]> Frames = new(StringComparer.Ordinal);
     private static readonly HashSet<string> Missing = new(StringComparer.Ordinal);
 
-    // Vanilla ne dessine rien pour "no passion" : VSE lui donne une texture
-    // transparente. L'option remplace ce vide par un contour de cœur fantôme.
+    // Vanilla draws nothing at all for "no passion": VSE gives it a
+    // transparent texture. The option replaces that emptiness with a ghost
+    // heart outline.
     private static Texture2D noneIcon;
     private static bool noneIconTried;
     private static Texture2D NoneIcon
@@ -142,20 +143,20 @@ public static class PassionIconAnimations
     public static Texture2D WorkBoxAnimatedIcon(PassionDef passionDef)
     {
         if (passionDef == null) return null;
-        // En couleur, on tire l'icône de la liste des compétences : c'est la
-        // même image, simplement pas désaturée. Elle a toujours un iconPath,
-        // là où workBoxIconPath manque sur certaines passions.
+        // In colour, the icon is pulled from the skill list: it is the same
+        // image, simply not desaturated. It always has an iconPath, whereas
+        // workBoxIconPath is missing on some passions.
         if (EnCouleur(passionDef))
             return AnimatedIconOrFallback(passionDef, passionDef.Icon);
-        // En gris, certaines passions n'ont pas de workBoxIconPath : y toucher
-        // ferait japper ContentFinder à chaque frame.
+        // In grey, some passions have no workBoxIconPath: touching it would
+        // make ContentFinder yelp on every frame.
         if (passionDef.workBoxIconPath.NullOrEmpty()) return null;
         return AnimatedIconOrFallback(passionDef, passionDef.WorkBoxIcon);
     }
 
-    // Le mode mixte relit la règle du jeu d'icônes : une passion est « vive »
-    // soit parce que son état déclenché est en cours, soit parce que son bonus
-    // est permanent. Les autres dorment, et restent grises dans la grille.
+    // Mixed mode re-reads the icon set's own rule: a passion is "live"
+    // either because its triggered state is active, or because its bonus is
+    // permanent. Every other one is asleep, and stays grey in the grid.
     private static bool EnCouleur(PassionDef def)
     {
         switch (SkillIconsMod.Settings?.workTabMode ?? SkillIconsSettings.ModeMixte)
@@ -166,9 +167,9 @@ public static class PassionIconAnimations
         }
     }
 
-    // Remplace le GUI.DrawTexture que VSE injecte juste après avoir empilé
-    // l'icône : c'est le seul endroit où l'on tient le rectangle de la case, et
-    // donc le seul endroit où l'on peut l'agrandir.
+    // Replaces the GUI.DrawTexture call VSE injects right after pushing the
+    // icon: it is the only place where the cell's rect is available, and
+    // therefore the only place where it can be enlarged.
     public static void DrawWorkBoxPassion(Rect rect, Texture texture)
     {
         if (texture == null) return;
@@ -179,15 +180,15 @@ public static class PassionIconAnimations
             rect = new Rect(0f, 0f, rect.width * s, rect.height * s) { center = centre };
         }
 
-        // GUI.color est global : sans restauration, la teinte déteindrait sur
-        // tout ce que RimWorld dessine ensuite dans la fenêtre.
+        // GUI.color is global: without restoring it, the tint would bleed
+        // into everything RimWorld draws next in the window.
         var avant = GUI.color;
-        // Blanc franc, et pas avant.rgb : à ce point de DrawWorkBoxBackground,
-        // vanilla a laissé dans GUI.color la teinte du fond de case, qui dépend
-        // du niveau de compétence. Nos icônes étant colorées, cette teinte les
-        // multiplie et écrase le bleu et le vert — la grille vire au rouge. Le
-        // même raisonnement vaut pour l'alpha : l'opacité doit être celle du
-        // réglage, pas celle du fondu de fond.
+        // Plain white, not avant.rgb: at this point in DrawWorkBoxBackground,
+        // vanilla has left the work box's background tint in GUI.color,
+        // which depends on skill level. Since our icons are coloured, that
+        // tint multiplies them and crushes blue and green - the whole grid
+        // turns red. The same reasoning applies to alpha: opacity must be
+        // the slider's, not the background fade's.
         GUI.color = new Color(1f, 1f, 1f, SkillIconsMod.Settings?.workTabOpacity ?? 1f);
         GUI.DrawTexture(rect, texture);
         GUI.color = avant;
@@ -248,26 +249,26 @@ public static class WorkTabPassionAnimationPatch
         var ourDraw = AccessTools.Method(typeof(PassionIconAnimations),
             nameof(PassionIconAnimations.DrawWorkBoxPassion));
 
-        // On ne fige PAS une surcharge précise de GUI.DrawTexture : le jeu et
-        // VSE en ont changé d'une version à l'autre, et une signature qui ne
-        // correspond plus fait échouer le détournement en silence. On accepte
-        // donc toute surcharge dont les deux premiers paramètres sont
-        // (Rect, Texture) — c'est le seul dessin d'icône possible ici.
+        // We do NOT pin down one exact GUI.DrawTexture overload: the game and
+        // VSE have both changed it from one version to the next, and a
+        // signature that no longer matches makes the hijack fail silently.
+        // We therefore accept any overload whose first two parameters are
+        // (Rect, Texture) - the only icon draw call possible here.
         static bool EstDessinTexture(CodeInstruction ci)
         {
             if (ci.operand is not MethodInfo m) return false;
             if (m.DeclaringType != typeof(GUI) || m.Name != nameof(GUI.DrawTexture)) return false;
-            // Exactement deux paramètres : notre méthode de remplacement en
-            // prend deux, et dépiler autre chose corromprait la pile.
+            // Exactly two parameters: our replacement method takes two, and
+            // popping anything else would corrupt the stack.
             var p = m.GetParameters();
             return p.Length == 2
                 && p[0].ParameterType == typeof(Rect)
                 && typeof(Texture).IsAssignableFrom(p[1].ParameterType);
         }
 
-        // DrawWorkBoxBackground dessine aussi le fond de la case avec
-        // GUI.DrawTexture : on ne détourne donc QUE le premier appel qui suit
-        // l'icône de passion, jamais tous.
+        // DrawWorkBoxBackground also draws the cell's background with
+        // GUI.DrawTexture: we therefore hijack ONLY the first call that
+        // follows the passion icon, never all of them.
         var attendDessin = false;
         var remplaces = 0;
         var dessinsDetournes = 0;
@@ -290,21 +291,21 @@ public static class WorkTabPassionAnimationPatch
             yield return instruction;
         }
 
-        // Sans ce garde-fou, l'échec est TOTALEMENT silencieux : l'onglet
-        // Travail garde les icônes de VSE et rien n'indique pourquoi. Le cas
-        // arrive si VSE cesse d'injecter WorkBoxIcon, ou si son patch passe
-        // après le nôtre malgré le after = "vanillaexpanded.skills".
+        // Without this guard, the failure is COMPLETELY silent: the Work tab
+        // keeps VSE's icons and nothing says why. This happens if VSE stops
+        // injecting WorkBoxIcon, or if its patch runs after ours despite
+        // after = "vanillaexpanded.skills".
         if (remplaces == 0)
-            Log.Warning("[SkillIcons] Aucun appel à PassionDef.WorkBoxIcon trouvé dans "
-                + "DrawWorkBoxBackground : les icônes de l'onglet Travail resteront "
-                + "celles de Vanilla Skills Expanded. Vérifiez que SkillIcons est bien "
-                + "chargé après lui.");
-        // Deux échecs distincts, deux messages : sans cela, une taille et une
-        // opacité sans effet ressemblent exactement à un patch qui n'a pas pris.
+            Log.Warning("[SkillIcons] No call to PassionDef.WorkBoxIcon found in "
+                + "DrawWorkBoxBackground: the Work tab icons will stay Vanilla "
+                + "Skills Expanded's own. Check that SkillIcons is loaded after it.");
+        // Two distinct failures, two messages: without this, size and
+        // opacity having no effect looks exactly like a patch that did not
+        // take at all.
         else if (dessinsDetournes == 0)
-            Log.Warning("[SkillIcons] WorkBoxIcon détourné " + remplaces + " fois, mais aucun "
-                + "appel de dessin reconnu derrière : les icônes de l'onglet Travail seront "
-                + "les nôtres, sans les réglages de taille ni d'opacité.");
+            Log.Warning("[SkillIcons] WorkBoxIcon hijacked " + remplaces + " times, but no "
+                + "recognised draw call followed: the Work tab icons will be ours, "
+                + "without the size or opacity settings.");
     }
 }
 
@@ -328,8 +329,8 @@ public static class SkillUiPassionAnimationPatch
         }
 
         if (remplaces == 0)
-            Log.Warning("[SkillIcons] Aucun appel à PassionDef.Icon trouvé dans "
-                + "SkillUI.DrawSkill : la liste des compétences et la création de "
-                + "colons garderont les icônes de Vanilla Skills Expanded.");
+            Log.Warning("[SkillIcons] No call to PassionDef.Icon found in "
+                + "SkillUI.DrawSkill: the skill list and pawn creation screen "
+                + "will keep Vanilla Skills Expanded's own icons.");
     }
 }

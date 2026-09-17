@@ -2,21 +2,21 @@
 <Patch>
 
   <!--
-    Trois défauts d'Alpha Skills, relevés en lisant ses defs. Ce ne sont pas des
-    problèmes de texture : ils sont corrigés ici parce que ce mod est de toute
-    façon chargé après lui, et qu'ils sautent aux yeux dès qu'on regarde les
-    infobulles à côté des icônes.
+    Three Alpha Skills defects, found by reading its defs. These are not
+    texture problems: they are fixed here because this mod loads after it
+    anyway, and they are obvious the moment you look at the tooltips next
+    to the icons.
 
-    L'ensemble est enveloppé dans une séquence en <success>Always</success> : si
-    Sarg corrige ces defs en amont, les xpath ne trouveront plus rien et le
-    correctif deviendra silencieusement inerte, au lieu de rougir le journal.
+    The whole block is wrapped in a <success>Always</success> sequence: if
+    Sarg fixes these defs upstream, the xpaths will no longer match and the
+    fix silently goes inert instead of reddening the log.
   -->
   <Operation Class="PatchOperationSequence">
     <success>Always</success>
     <operations>
 
-      <!-- La description de "nudist (active)" est celle de "nomadic",
-           copiée-collée : elle parle de caravanes et d'expéditions. -->
+      <!-- "nudist (active)"'s description is "nomadic"'s, copy-pasted: it
+           talks about caravans and expeditions. -->
       <li Class="PatchOperationReplace">
         <xpath>/Defs/VSE.Passions.PassionDef[defName="AS_NudistPassion_Active"]/description</xpath>
         <value>
@@ -24,8 +24,8 @@
         </value>
       </li>
 
-      <!-- "pain-driven (active)" a gardé le label de son état dormant, donc les
-           deux états sont indiscernables dans l'infobulle. -->
+      <!-- "pain-driven (active)" kept its dormant state's label, so the two
+           states are indistinguishable in the tooltip. -->
       <li Class="PatchOperationReplace">
         <xpath>/Defs/VSE.Passions.PassionDef[defName="AS_PainDrivenPassion_Active"]/label</xpath>
         <value>
@@ -33,8 +33,8 @@
         </value>
       </li>
 
-      <!-- AS_FrozenPassion ne déclare aucun workBoxIconPath : dans l'onglet
-           Travail, la case retombe sur autre chose. Ce mod fournit la texture. -->
+      <!-- AS_FrozenPassion declares no workBoxIconPath: in the Work tab,
+           its cell falls back to something else. This mod supplies the texture. -->
       <li Class="PatchOperationAdd">
         <xpath>/Defs/VSE.Passions.PassionDef[defName="AS_FrozenPassion"]</xpath>
         <value>
@@ -42,10 +42,10 @@
         </value>
       </li>
 
-      <!-- Les deux paliers de cécité partagent le même iconPath, alors qu'ils
-           n'ont ni la même pénalité ni le même gain : elevated est à 0,5× quand
-           on voit et 1,5× quand on est aveugle, sublime à 1× et 2×. On redirige
-           le palier sublime vers une variante à iris doré. -->
+      <!-- The two blindness tiers share the same iconPath, even though they
+           grant different penalties and bonuses: elevated is 0.5x sighted
+           and 1.5x blind, sublime is 1x and 2x. The sublime tier is
+           redirected to a gold-iris variant. -->
       <li Class="PatchOperationReplace">
         <xpath>/Defs/VSE.Passions.PassionDef[defName="AS_BlindPassion_Sublime"]/iconPath</xpath>
         <value>

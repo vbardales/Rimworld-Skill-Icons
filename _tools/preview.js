@@ -1,50 +1,50 @@
-// Compose Mod/About/Preview.png à partir des SVG RÉELLEMENT
-// livrés, jamais d'un dessin refait à la main. La version précédente était faite
-// à la main, et elle a fini par annoncer le défaut qu'on venait de corriger :
-// elle montrait la palette d'avant la refonte, une grille de cœurs rouges.
+// Composes Mod/About/Preview.png from the SVGs ACTUALLY
+// shipped, never from a hand-redone drawing. The previous version was made
+// by hand, and it ended up advertising the very defect that had just been
+// fixed: it showed the pre-overhaul palette, a grid of red hearts.
 //
-// La grille des passions est TRIÉE PAR TEINTE, de 0° à 360°. C'est la seule
-// mise en page qui démontre la règle nº1 du jeu d'icônes — chaque passion
-// possède sa teinte, et elles couvrent la roue — au lieu de l'affirmer.
+// The passion grid is SORTED BY HUE, 0 to 360 degrees. It is the only
+// layout that demonstrates the icon set's rule 1 - every passion owns its
+// hue, and together they cover the wheel - instead of merely asserting it.
 //
-// La bande du bas montre les compétences et les types de travail, qui obéissent
-// à la règle INVERSE : monochromes, la forme seule. Les deux jeux voisinent
-// exprès, parce que ce contraste explique le parti pris mieux qu'une phrase.
+// The bottom row shows the skills and work types, which obey the OPPOSITE
+// rule: monochrome, shape alone. The two sets sit side by side on purpose,
+// because that contrast explains the design choice better than a sentence would.
 //
-// À lancer après gen.js : il lit ce que gen.js vient d'écrire.
+// Run after gen.js: it reads what gen.js has just written.
 const fs = require('fs');
 
 const base = 'C:/Users/nelim/Documents/rimworld/SkillIcons';
 const SVG = `${base}/_tools/svg`;
 
-// Ordre = teinte croissante, mesurée sur les PNG par _tools/audit-teintes.ps1.
-// Les rangs sont en commentaire pour que la relecture soit possible sans
-// relancer l'audit.
+// Order = increasing hue, measured on the PNGs by _tools/audit-teintes.ps1.
+// The ranks are kept as comments so a review is possible without rerunning
+// the audit.
 const GRILLE = [
-  'AS_YouthPassion',                   //   3  corail
-  'AS_DedicatedPassion',               //  11  brique
-  'AS_BlindPassion_Active',            //  19  ivoire à iris doré
-  'AS_IdeologicalPassion_Active',      //  25  saumon
+  'AS_YouthPassion',                   //   3  coral
+  'AS_DedicatedPassion',               //  11  brick
+  'AS_BlindPassion_Active',            //  19  ivory with gold iris
+  'AS_IdeologicalPassion_Active',      //  25  salmon
   'AS_DuncePassion',                   //  26  taupe
-  'AS_PainDrivenPassion',              //  28  orange électrique
-  'AS_NudistPassion_Active',           //  29  pêche
-  'PassionCritical',                   //  30  flamme
-  'AS_DrunkenPassion',                 //  33  ambre
-  'AS_CompetitivePassion',             //  43  or
-  'AS_NomadicPassion',                 //  44  ocre
+  'AS_PainDrivenPassion',              //  28  electric orange
+  'AS_NudistPassion_Active',           //  29  peach
+  'PassionCritical',                   //  30  flame
+  'AS_DrunkenPassion',                 //  33  amber
+  'AS_CompetitivePassion',             //  43  gold
+  'AS_NomadicPassion',                 //  44  ochre
   'AS_StonedPassion',                  //  73  olive
-  'AS_ToxicPassion',                   //  85  vert acide
-  'PassionNatural',                    // 118  vert
-  'AS_TranshumanistPassion_Active',    // 173  sarcelle néon
+  'AS_ToxicPassion',                   //  85  acid green
+  'PassionNatural',                    // 118  green
+  'AS_TranshumanistPassion_Active',    // 173  neon teal
   'AS_SynergisticPassion',             // 177  turquoise
-  'AS_LikeMindedPassion',              // 191  cyan doux
-  'AS_FrozenPassion',                  // 196  bleu glacier
-  'AS_NightPassion',                   // 201  bleu nuit
-  'AS_RainyDayPassion',                // 207  bleu pluie
-  'AS_ForbiddenPassion',               // 210  violet sombre
-  'AS_IntimatePassion_Active',         // 334  rose
+  'AS_LikeMindedPassion',              // 191  soft cyan
+  'AS_FrozenPassion',                  // 196  glacier blue
+  'AS_NightPassion',                   // 201  night blue
+  'AS_RainyDayPassion',                // 207  rain blue
+  'AS_ForbiddenPassion',               // 210  dark violet
+  'AS_IntimatePassion_Active',         // 334  pink
   'AS_ObsessivePassion',               // 336  magenta
-  'AS_SanguinePassion',                // 356  rouge sang
+  'AS_SanguinePassion',                // 356  blood red
 ];
 
 const ECHELLES = [
@@ -54,15 +54,15 @@ const ECHELLES = [
    'AS_PsychicPassion_Major', 'AS_PsychicPassion_Critical'],
 ];
 
-// Lus sur le disque et non énumérés à la main : un type de travail ajouté à
-// gen.js apparaît alors dans la vitrine sans qu'on y pense.
+// Read off disk rather than hand-enumerated: a work type added to gen.js
+// then shows up in the showcase without anyone having to think about it.
 const lire = d => fs.readdirSync(`${SVG}/${d}`).filter(f => f.endsWith('.svg'))
                     .map(f => [d, f.slice(0, -4)]);
 const OUTILS = [...lire('Skills'), ...lire('WorkTypes')];
 
-// Chaque fichier repart de id="m1", id="star"... : recopiés tels quels dans un
-// même document, deux masques homonymes se marchent dessus et une icône se
-// retrouve découpée par le masque d'une autre. On préfixe donc par emplacement.
+// Every file restarts at id="m1", id="star"... : copied as-is into a single
+// document, two same-named masks would clip each other's shapes and an icon
+// would end up cut out by another icon's mask. Hence the per-slot prefix.
 let slot = 0;
 const poser = (dossier, nom, x, y, taille) => {
   const p = 'p' + (++slot) + '_';
@@ -74,16 +74,16 @@ const poser = (dossier, nom, x, y, taille) => {
   return `<g transform="translate(${x},${y}) scale(${(taille / 64).toFixed(4)})">${s}</g>`;
 };
 
-// 896 x 504, soit du 16:9, et NON un carre recadre. La vitrine avait ete
-// composee en 640 x 640 puis rognee au centre pour tenir dans ce format : le
-// recadrage retirait 44 % de la hauteur, donc toute la bande des competences et
-// des types de travail, ne laissant que sa legende — qui annoncait des icones
-// absentes. Une planche generee ne se rogne pas, elle se recompose.
+// 896 x 504, i.e. 16:9, and NOT a cropped square. The showcase used to be
+// composed at 640 x 640 then centre-cropped to fit this format: the crop
+// removed 44% of the height, i.e. the whole row of skill and work type
+// icons, leaving only its caption - which announced icons that were no
+// longer there. A generated board is not cropped, it is recomposed.
 const W = 896, H = 504;
 
-// Zone laissee LIBRE de toute icone, en haut a gauche : c'est la que le
-// traitement uniforme du depot grave le nom du mod et sa ligne de resume.
-// Les valeurs sont relevees sur son propre rendu, pas supposees.
+// Area left FREE of any icon, top left: that is where the repository's
+// uniform overlay process engraves the mod's name and its summary line.
+// The values are read off its own render, not assumed.
 const RESERVE_X = 450, RESERVE_Y = 235;
 
 const POLICE = "'Segoe UI Semibold','DejaVu Sans',sans-serif";
@@ -91,27 +91,27 @@ const F = JSON.stringify(POLICE);
 const texte = (x, y, t, taille, couleur) =>
   `<text x="${x}" y="${y}" font-family=${F} font-size="${taille}" fill="${couleur}">${t}</text>`;
 
-// Le corps est identique dans les deux versions ; seul le cartouche differe.
+// The body is identical in both versions; only the title block differs.
 const corps = [];
 
-// Les deux echelles a cinq degres tiennent a droite de la zone reservee : ce
-// sont les seules icones assez peu nombreuses pour y loger sans se serrer.
+// The two five-degree scales fit to the right of the reserved zone: they
+// are the only icon sets small enough in number to sit there without crowding.
 const TE = 40, PAS_E = 62, XE = 470;
 ECHELLES.forEach((e, r) => e.forEach((n, i) =>
   corps.push(poser('Passions', n, XE + i * PAS_E, 48 + r * 70, TE))));
 corps.push(texte(XE, 196, 'one hue per family &#8212; saturation carries learning speed',
                  14, '#8C8C8C'));
 
-// Les 24 passions triees par teinte, sur toute la largeur : douze par rangee,
-// ce qui met les teintes voisines cote a cote.
+// The 24 passions sorted by hue, across the full width: twelve per row,
+// which puts neighbouring hues side by side.
 corps.push(texte(28, 248, 'one hue per passion, spread right across the wheel',
                  14, '#8C8C8C'));
 const T = 44, PAS_X = 70, X0 = 28;
 GRILLE.forEach((n, i) =>
   corps.push(poser('Passions', n, X0 + (i % 12) * PAS_X, 258 + Math.floor(i / 12) * 62, T)));
 
-// La bande monochrome. Son voisinage avec la grille coloree EST le propos :
-// deux jeux, deux regles opposees.
+// The monochrome row. Sitting it next to the coloured grid IS the point:
+// two sets, two opposite rules.
 corps.push(texte(28, 392, '12 skills and 23 work types &#8212; monochrome, so colour stays'
                         + ' the passion&#8217;s alone', 14, '#8C8C8C'));
 const TO = 30, PAS_O = 46, PAR_RANGEE = 18;
@@ -124,9 +124,10 @@ const enveloppe = (cartouche) => [
   `<rect width="${W}" height="${H}" fill="#2A2A2A"/>`,
 ].concat(cartouche, corps, ['</svg>']).join('');
 
-// Deux sorties. La source reste NUE : c'est elle que le traitement du depot
-// grave, et un titre deja present donnerait un doublon. La vitrine livree porte
-// le titre, pour qu'elle soit complete meme si la gravure n'est pas rejouee.
+// Two outputs. The source stays BARE: that is the one the repository's
+// overlay process engraves, and a title already present there would
+// duplicate it. The shipped showcase carries the title, so it is complete
+// even if the engraving pass is not rerun.
 const titre = [
   `<text x="34" y="62" font-family=${F} font-size="36" font-weight="700"`
     + ` letter-spacing="1" fill="#D2D2D2">SKILL ICONS</text>`,
@@ -135,25 +136,26 @@ const titre = [
 ];
 fs.writeFileSync(`${SVG}/Preview.svg`, enveloppe(titre));
 fs.writeFileSync(`${SVG}/PreviewSource.svg`, enveloppe([]));
-console.log(`Preview 896x504 : ${GRILLE.length} passions, ${ECHELLES.length} echelles, `
-  + `${OUTILS.length} outils ; zone reservee ${RESERVE_X}x${RESERVE_Y}`);
+console.log(`Preview 896x504: ${GRILLE.length} passions, ${ECHELLES.length} scales, `
+  + `${OUTILS.length} tools; reserved zone ${RESERVE_X}x${RESERVE_Y}`);
 
-// ModIcon : l'ancien fichier etait un emoji clin d'oeil sans rapport avec le
-// mod, vraisemblablement copie d'ailleurs. Quatre teintes bien separees en 2x2 :
-// a la taille ou RimWorld l'affiche, c'est le contraste de teintes qui porte,
-// pas le detail des formes.
+// ModIcon: the old file was a winking emoji unrelated to the mod, most
+// likely copied from elsewhere. Four well-separated hues in a 2x2 grid: at
+// the size RimWorld displays it, it is the hue contrast that carries it,
+// not the detail of the shapes.
 slot = 0;
 const QUAD = ['AS_SanguinePassion', 'AS_CompetitivePassion',
               'AS_FrozenPassion', 'AS_ObsessivePassion'];
-// 128 x 128 : la norme du depot. RimWorld n'affiche l'icone qu'a 32 px dans la
-// liste des mods, mais 128 laisse de la marge aux ecrans denses sans peser.
-// La taille est DECLAREE ici et pas seulement passee a Chrome : une fenetre
-// plus grande que le dessin fait capturer tout le viewport, ce qui avait donne
-// une icone de 1254 x 1254 pesant 1,4 Mo, soit vingt-trois fois la banniere.
+// 128 x 128: the repository's standard. RimWorld only shows the icon at
+// 32 px in the mod list, but 128 leaves margin for dense screens without
+// adding weight.
+// The size is DECLARED here, not only passed to Chrome: a window larger
+// than the drawing captures the whole viewport, which had produced a
+// 1254 x 1254 icon weighing 1.4 MB, twenty-three times the banner.
 const icone = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"'
   + ' width="128" height="128">'];
 QUAD.forEach((n, i) =>
   icone.push(poser('Passions', n, (i % 2) * 32 + 1, Math.floor(i / 2) * 32 + 1, 30)));
 icone.push('</svg>');
 fs.writeFileSync(`${SVG}/ModIcon.svg`, icone.join(''));
-console.log('ModIcon.svg ecrit : 4 teintes en 2x2');
+console.log('ModIcon.svg written: 4 hues in 2x2');

@@ -27,7 +27,9 @@ It also repairs a handful of def mistakes. In Alpha Skills: the "nudist (active)
 
 English and French. MIT licensed; every texture is generated from source in the repository.
 
-Thanks to Oracle, whose Skill Icon Retextures set the visual language this set follows.</description>
+Thanks to Oracle, whose Skill Icon Retextures set the visual language this set follows.
+
+[url=https://github.com/vbardales/Rimworld-Skill-Icons]Source code on GitHub[/url]</description>
   <supportedVersions>
     <li>1.6</li>
   </supportedVersions>
@@ -49,6 +51,7 @@ Thanks to Oracle, whose Skill Icon Retextures set the visual language this set f
     </li>
   </modDependencies>
   <loadAfter>
+    <li>brrainz.harmony</li>
     <li>vanillaexpanded.skills</li>
     <li>sarg.alphaskills</li>
     <li>oracle.skills.retexture</li>
