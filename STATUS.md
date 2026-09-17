@@ -16,10 +16,10 @@ showcase:     complete
 tested_on:    2026-09-17 (partial: the two Tests/Pickle/ scenarios only, see below)
 workshop:
 remaining:
-  - unverified: never seen running in game beyond the two Pickle scenarios below; Player.log
-      build-date line, both transpiler warnings, the settings UI, EN/FR runtime display and
-      RIMMSQOL integration are all unverified. docs/TESTING.md's twelve scenarios are written,
-      none executed.
+  - unverified: docs/TESTING.md scenarios 1-11 (icons on screen, animation, sliders, the
+      settings UI, EN/FR runtime display, RIMMSQOL integration, the five tooltip fixes) still
+      need a person watching the screen. Scenario 0 (the load-time log line) is now confirmed;
+      see below.
 session:      local_314cf7e0-0763-4b3b-b4b7-03e564331dc5
 updated:      2026-09-17, full workflow audit; Source-code link, brrainz.harmony loadAfter,
               French log lines/source comments, detachment from the monorepo, the hidden
@@ -101,7 +101,7 @@ place, matching the precedent of every other already-detached mod in this reposi
 | options -> l10n | Resource checks pass independently: both `Languages/*/Keyed/SkillIcons.xml` hold exactly the same 25 keys, non-empty in both languages, and match the 25 distinct `.Translate()` call sites in `SkillIconsMod.cs` exactly (no missing key, no unused key, no hardcoded `Widgets.Label` string). The two DefInjected-eligible fields touched by this mod's own patches (`AS_NudistPassion_Active.description`, `AS_PainDrivenPassion_Active.label`) needed no French override: Alpha Skills ships no French language folder at all, so English is the only text any player sees there regardless of interface language — checked directly against the installed Alpha Skills mod. **Corrected 2026-09-17:** the four `Log.Message`/`Log.Warning` calls, previously in French against TRANSLATIONS.md's technical-logs-in-English rule, are now English; rebuilt and reverified clean. Formal `localization`/`translation_en`/`translation_fr` stay `partial`: MOD_SETTINGS.md gates their completion on `settings_audit` being `complete` or `not_applicable`, which it is not yet. |
 | l10n -> preTest | All three declared dependencies' packageIds (`brrainz.harmony`, `vanillaexpanded.skills`, `sarg.alphaskills`) verified correct against the real installed mods, as are the two optional integrations named in `loadAfter` (`oracle.skills.retexture`, and `Splot.MiscPawnBadgeRevitalized` read at runtime through `ContentFinder` with silent fallback — correctly *not* a modDependency). All six patch-targeted defNames and all four patch-referenced texture paths were confirmed present in the actual installed Alpha Skills/VSE packages and on disk. `Check-XmlFields.ps1` and `Check-DefRefs.ps1` both ran clean against `Mod/`, before and after the correction below. **Corrected 2026-09-17:** `brrainz.harmony` is now first in `<loadAfter>`, matching the established convention in this repo for every other audited Harmony-dependent mod (`ForTheOccasion`, `Housebroken` both list it explicitly). Single-version `loadFolders.xml` is consistent with `supportedVersions`. |
 | preTest -> done | **Corrected 2026-09-17.** All four written-artifact requirements now exist: `docs/TESTING.md` (twelve functional scenarios), `_tools/Run-Tests.ps1` (29 automated tests, run, all green), the same suite's patch-XML replay tests (the XML requirement, run, all green), and `Tests/Pickle/` (two Gherkin scenarios, written). Full detail under "Test suite — 2026-09-17" below. Pickle's own execution needs an actual RimWorld session, which is her own next step rather than something this pass performs or waits on. |
-| done -> tested | **Partial, 2026-09-17.** The two `Tests/Pickle/` scenarios ran for real in game and both passed - see "In-game Pickle run" below. The twelve `docs/TESTING.md` scenarios (icons on screen, animation, sliders, EN/FR display, the five tooltip fixes) are still unplayed; `tested` is not reached until those are too. |
+| done -> tested | **Partial, 2026-09-17.** The two `Tests/Pickle/` scenarios ran for real in game and both passed, and `docs/TESTING.md` Scenario 0 (the load-time log line, read from `Player.log`) is confirmed clean - see "In-game Pickle run" below. Scenarios 1-11 (icons on screen, animation, sliders, EN/FR display, the five tooltip fixes) are still unplayed; `tested` is not reached until those are too. |
 
 ### Settings audit
 
@@ -370,8 +370,24 @@ What this does and does not prove: it confirms, for the first time inside the ac
 SkillIcons loads after Harmony/VSE/Alpha Skills and that the `SkillIcons_Settings` `MainButtonDef`
 exists in the real `DefDatabase` - exactly the two things `Tests/Pickle/README.md` says this suite
 can check with only `Pickle.Vanilla`'s generic steps. It does not touch any of the twelve
-`docs/TESTING.md` scenarios: no icon was seen on screen, no animation, no slider, no French
-string, none of the five Alpha Skills/VSE tooltip fixes. `done -> tested` stays open for those.
+`docs/TESTING.md` scenarios directly: no icon was seen on screen, no animation, no slider, no
+French string, none of the five Alpha Skills/VSE tooltip fixes.
+
+The same play session also settles `docs/TESTING.md` **Scenario 0** independently, read straight
+from `Player.log` (not generated by this pass, only read): the assembly-date line
+`[SkillIcons] assembly dated 2026-09-17 14:36:21` is present and matches
+`Mod/1.6/Assemblies/SkillIcons.dll`'s own file time on disk to the second, none of the three
+patch-failure warnings fired, and no `XML error`/`Config error`/`Could not resolve`/
+`Could not find` line names SkillIcons. One log line was noted and set aside as unrelated: the
+generic engine warning "Translation data for language French has 4 errors" is aggregated across
+this machine's ~200 active mods and names no mod; SkillIcons's own EN/FR key parity was already
+confirmed statically (see "Translation audit" above), so this is not attributed to it without the
+in-game translation report actually naming it. A "did not load any content" notice for
+"SkillIcons - Pickle tests" is expected and benign, identical to the same notice for the
+Quiet New Factions/Work Studio/Architect Studio Pickle companions - none of the four ship a
+`Defs`/`Textures`/`Sounds` folder, only `Pickle/Features/`.
+
+Scenarios 1-11 remain unplayed. `done -> tested` stays open for those.
 
 ## Historical record (retained)
 

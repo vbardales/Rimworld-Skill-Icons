@@ -23,9 +23,9 @@ The log lives at:
 
 | | State |
 |---|---|
-| Loads without error | **never observed** |
+| Loads without error (Scenario 0) | **observed, 2026-09-17** - see below |
 | The out-of-game harness | **29 of 29 pass**, 2026-09-17 |
-| Every scenario below | **never observed** |
+| Scenarios 1-11 | **never observed** |
 
 ## The other half, which does not need a colony
 
@@ -85,6 +85,13 @@ Vanilla Skills Expanded's own icons instead):
 [SkillIcons] No call to PassionDef.Icon found in SkillUI.DrawSkill: the skill list and pawn creation screen will keep Vanilla Skills Expanded's own icons.
 [SkillIcons] DoHeader not found: Work tab column headers will stay without an icon.
 ```
+
+**Observed, 2026-09-17.** Read directly from `Player.log` after the session that also ran the
+Pickle suite (see `STATUS.md`, "In-game Pickle run"): the assembly-date line reads
+`[SkillIcons] assembly dated 2026-09-17 14:36:21`, matching `Mod/1.6/Assemblies/SkillIcons.dll`'s
+own file time on disk to the second. None of the three failure warnings appear anywhere in the
+log, and no `XML error`/`Config error`/`Could not resolve`/`Could not find` line mentions
+SkillIcons. Passed.
 
 ## Scenario 1 — passion icons appear in all four places
 
