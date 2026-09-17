@@ -7,8 +7,8 @@ mod:          SkillIcons
 packageId:    nelim.skillicons
 repo:         Rimworld-Skill-Icons
 visibility:   public
-detached:     no
-stage:        dansMonoRepo
+detached:     yes
+stage:        horsMonoRepo
 licence:      original
 licence_at:   original work, MIT; Oracle's Skill Icon Retextures credited for the visual language only, no texture reused (verified against ATTRIBUTION.md and the generator)
 dependencies: declared
@@ -28,8 +28,8 @@ remaining:
       warnings, the settings UI, EN/FR runtime display and RIMMSQOL integration are
       all unverified.
 session:      local_314cf7e0-0763-4b3b-b4b7-03e564331dc5
-updated:      2026-09-17, full workflow audit; Source-code link, brrainz.harmony loadAfter, and
-              French log lines/source comments (Source, _tools, shipped patch XML) fixed same day
+updated:      2026-09-17, full workflow audit; Source-code link, brrainz.harmony loadAfter,
+              French log lines/source comments, and detachment from the monorepo, all same day
 ---
 
 # SkillIcons — status
@@ -53,17 +53,51 @@ removed after use.
 (`port`, `showcase`, `preTest`, `done`, `tested`, `published`), which predates this
 finer-grained workflow and has no equivalent for "not yet detached."
 
-**Retained stage: `dansMonoRepo`.** The GitHub repository `Rimworld-Skill-Icons` exists and
-is public (`gh repo view`), but it is a stale `git subtree split` snapshot last pushed
-2026-09-04, matching local branch `skill-icons-export` at `c949a9a`. It is not connected to
-any standalone local repository, and `master:SkillIcons` has moved since (last touched
-2026-09-12). Per the detachment method on record, a mod only reaches `horsMonoRepo` once its
-folder becomes its own `git init` repository with monorepo tracking removed — that step has
-not been taken here.
+**Retained stage: `horsMonoRepo`, as of the 2026-09-17 detachment below.** `SkillIcons/` is
+now its own `git init` repository, `origin` pointing at the pre-existing GitHub repository,
+with monorepo tracking removed. The audit table below is otherwise unchanged from the same-day
+audit that preceded it; only the first row was affected.
+
+## Detachment — 2026-09-17
+
+Trees were not equal (`master:SkillIcons` had moved past the stale 2026-09-04 export since the
+audit above), so this took the fourth path on record rather than the plain
+`reset --mixed FETCH_HEAD` case: found the monorepo commit whose `SkillIcons/` subtree matched
+`skill-icons/main`'s tree exactly (`193d0d01`, 2026-09-04), then replayed the seven commits
+since then — each restricted to its own `SkillIcons/` subtree via `commit-tree`, keeping their
+original author, date and message — onto that tip. Three of the seven read as multi-mod
+commits by title (`Fourteen mods: publish Mod/...`, `Licences: a pass over the forty-one...`,
+`A status card for each of the sixty-eight mods...`); each was individually confirmed to
+actually change the `SkillIcons/` subtree before being kept, which is what tells a legitimate
+commit to replay from the subtree-split trap PUBLISHING.md warns about. The replayed tip's tree
+was confirmed byte-identical to `master:SkillIcons` before anything was pushed, and
+`skill-icons/main` was confirmed an ancestor of it, so the push to `origin/main` was a plain
+fast-forward, no `--force`.
+
+Locally, `git init -b main`, `origin` set to the existing GitHub repository, `git fetch`,
+`git reset --mixed FETCH_HEAD`: the working tree matched exactly, `git status` was empty.
+Two follow-up fixes landed as a second local commit, pushed separately: this repository's own
+`.gitignore` (`.claude/`, build intermediates, IDE/OS clutter — previously covered only by the
+monorepo's own rules) and a one-level correction to
+`_tools/animation-source/Source/Directory.Build.props`, whose relative path to `.build/` had
+pointed one directory too far up and would have written outside this repository entirely once
+it was no longer nested inside the monorepo; verified by rebuilding and confirming intermediates
+land under `SkillIcons/.build/`.
+
+On the monorepo side, both halves went into one commit as required — the `.gitignore` rule and
+`git rm -r --cached` of the folder — built through a temporary index rather than the shared one,
+since roughly 3,300 lines of unrelated concurrent work were sitting in the monorepo's working
+tree and index at the time; `git update-ref` with the old tip as a compare-and-swap guard
+confirmed nothing else had moved `master` in between. The shared/common index was realigned
+afterward (`git reset -q -- .gitignore`, then the same `git rm -r --cached` repeated against it)
+so a concurrent session's `git add -A` cannot resurrect the removed files or revert the
+`.gitignore` line. The `skill-icons` remote was removed from the monorepo, since it can no
+longer produce the tree that remote expects. The local `skill-icons-export` branch was left in
+place, matching the precedent of every other already-detached mod in this repository.
 
 | Transition | Finding |
 | --- | --- |
-| dansMonoRepo -> horsMonoRepo | **Blocked.** No standalone `.git` root; the folder is still tracked entirely inside the monorepo index. The public GitHub repo exists but is a stale, disconnected export, which is exactly the "not yet detached" case, not a defect in itself. STATUS's own `detached: no` was already accurate. Visibility (public), licence (`original`) and naming are all correctly decided and consistent with the documented reference case for an original creation ([[rimworld-convention-nommage-mods]] cites SkillIcons by name). Root and `Mod/` copies of `ATTRIBUTION.md` and `LICENSE` are byte-identical. |
+| dansMonoRepo -> horsMonoRepo | **Validated 2026-09-17**, detachment described above. Visibility (public), licence (`original`) and naming are all correctly decided and consistent with the documented reference case for an original creation ([[rimworld-convention-nommage-mods]] cites SkillIcons by name). Root and `Mod/` copies of `ATTRIBUTION.md` and `LICENSE` are byte-identical. The absence of a remote inside the monorepo for this mod is now the expected, normal state past this gate, not a defect. |
 | horsMonoRepo -> ModIcon generated | Independently validated. Source rebuilds cleanly (`dotnet build -c Release`, 0 warnings/errors); the Release rebuild matches the distributed DLL's size exactly (27,648 bytes); the working tree has zero uncommitted changes. The hash differs only because .NET builds are not byte-deterministic across runs (embedded MVID/timestamp), not because of code drift. `ModIcon.png` directly inspected: 128x128 PNG, 19.1 KB, the documented winking mascot with themed accessory objects, near-black background, matching STYLE_RIMWORLD.md's mascot spec. |
 | ModIcon generated -> Preview generated | Independently validated by direct inspection: `Preview.png` is an 896x504 PNG at 65.4 KB, well under the 1 MB hard limit. Its content is an icon-grid showcase (title, tagline, a hue-sorted passion grid, a monochrome skill/work-type row) rather than a game-camera scene — a legitimate departure given the mod's own content is a UI icon set, not gameplay, and matches the README's documented generation path (`_tools/preview.js` composing directly from the generated SVGs). No concrete camera or palette defect identified; STYLE_RIMWORLD.md's scene-camera block does not apply to this kind of preview. |
 | Preview generated -> preOptions | Validated. **Corrected 2026-09-17:** the `<description>` in `Mod/About/About.xml` now ends, after the Oracle credit line, on `[url=https://github.com/vbardales/Rimworld-Skill-Icons]Source code on GitHub[/url]`, which PUBLISHING.md names explicitly as mandatory for this gate, publication-independent. Naming convention validated: bare name, no prefix/suffix, `nelim.skillicons`, `Rimworld-Skill-Icons`, `<author>Nelim</author>` with no role suffix — this is the documented reference case for an original creation. No accent/secondary colour confusion identified in the preview as shipped. |
@@ -158,17 +192,12 @@ JS/shell files.
 
 ### Next transition and separate follow-ups
 
-**Strict next step (dansMonoRepo -> horsMonoRepo):** detach the folder into its own
-repository following the recorded method — `git init -b main`, point `origin` at the
-existing `Rimworld-Skill-Icons` GitHub repo, `git fetch` and compare trees (`master:SkillIcons`
-vs the remote tip) to decide between a clean `reset --mixed FETCH_HEAD` and a replay, then
-remove the folder from the monorepo's tracked index and add the `.gitignore` line. This audit
-does not perform that step; it is a git operation with shared-repository consequences, not a
-verification.
+**Strict next step (preOptions -> options, fully):** add the hidden `MainButtonDef` settings
+shortcut MOD_SETTINGS.md requires, then run its technical/functional checklist. `dansMonoRepo
+-> horsMonoRepo` is done as of 2026-09-17, detachment described above.
 
-Independent of that gate, and not requiring detachment first, still open: add a hidden
-`MainButtonDef` settings shortcut; correct the stale texture/frame/silhouette counts in
-README's Development section; and write the functional/automated/Gherkin/XML test scenarios
+Also still open, independent of that gate: correct the stale texture/frame/silhouette counts
+in README's Development section, and write the functional/automated/Gherkin/XML test scenarios
 this mod currently has none of.
 
 **Corrected 2026-09-17, on request, outside the audit itself:**
@@ -181,6 +210,9 @@ this mod currently has none of.
   `_tools/build.sh`, `_tools/audit-teintes.ps1` and the two shipped patch XML files were
   translated to English. The distributed DLL/PDB were rebuilt (Release, 0 warnings/errors)
   to match. No image or other binary was touched.
+- Detached from the monorepo into its own repository, `origin` set to the pre-existing
+  `Rimworld-Skill-Icons` GitHub repository; method and verification described under
+  "Detachment — 2026-09-17" above. `detached` and `stage` updated accordingly.
 
 ## Historical record (retained)
 
