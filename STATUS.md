@@ -16,8 +16,6 @@ showcase:     complete
 tested_on:
 workshop:
 remaining:
-  - defect: no MainButtons shortcut (MainButtonDef) exists for RIMMSQOL/customization
-      tools, although useful settings exist; MOD_SETTINGS.md requires one, hidden by default.
   - defect: README's Development section states stale counts ("74 static textures,
       114 animation frames, 74 silhouettes") that no longer match the shipped content
       (85 static textures, 920 animation frames, 85 silhouette PNGs, all counted on disk).
@@ -29,7 +27,8 @@ remaining:
       all unverified.
 session:      local_314cf7e0-0763-4b3b-b4b7-03e564331dc5
 updated:      2026-09-17, full workflow audit; Source-code link, brrainz.harmony loadAfter,
-              French log lines/source comments, and detachment from the monorepo, all same day
+              French log lines/source comments, detachment from the monorepo, and the hidden
+              MainButtons settings shortcut, all same day
 ---
 
 # SkillIcons — status
@@ -101,7 +100,7 @@ place, matching the precedent of every other already-detached mod in this reposi
 | horsMonoRepo -> ModIcon generated | Independently validated. Source rebuilds cleanly (`dotnet build -c Release`, 0 warnings/errors); the Release rebuild matches the distributed DLL's size exactly (27,648 bytes); the working tree has zero uncommitted changes. The hash differs only because .NET builds are not byte-deterministic across runs (embedded MVID/timestamp), not because of code drift. `ModIcon.png` directly inspected: 128x128 PNG, 19.1 KB, the documented winking mascot with themed accessory objects, near-black background, matching STYLE_RIMWORLD.md's mascot spec. |
 | ModIcon generated -> Preview generated | Independently validated by direct inspection: `Preview.png` is an 896x504 PNG at 65.4 KB, well under the 1 MB hard limit. Its content is an icon-grid showcase (title, tagline, a hue-sorted passion grid, a monochrome skill/work-type row) rather than a game-camera scene — a legitimate departure given the mod's own content is a UI icon set, not gameplay, and matches the README's documented generation path (`_tools/preview.js` composing directly from the generated SVGs). No concrete camera or palette defect identified; STYLE_RIMWORLD.md's scene-camera block does not apply to this kind of preview. |
 | Preview generated -> preOptions | Validated. **Corrected 2026-09-17:** the `<description>` in `Mod/About/About.xml` now ends, after the Oracle credit line, on `[url=https://github.com/vbardales/Rimworld-Skill-Icons]Source code on GitHub[/url]`, which PUBLISHING.md names explicitly as mandatory for this gate, publication-independent. Naming convention validated: bare name, no prefix/suffix, `nelim.skillicons`, `Rimworld-Skill-Icons`, `<author>Nelim</author>` with no role suffix — this is the documented reference case for an original creation. No accent/secondary colour confusion identified in the preview as shipped. |
-| preOptions -> options | **Partial.** `DoSettingsWindowContents`/`SettingsCategory` exist and read soundly from source: ten Scribe-persisted fields, all defaults declared, numeric fields clamped in `ExposeData`, every label/tooltip routed through `.Translate()`, a live animated gallery. Defect: no `MainButtonDef` exists anywhere in the mod (`MainButton`, `buttonVisible`, `MainTabWindow` all absent from a full-repo search) — MOD_SETTINGS.md requires a hidden shortcut whenever useful settings exist, and they clearly do here. No technical or functional test of this settings page has been executed (no automated harness exists at all — see preTest below), so MOD_SETTINGS.md's §4 checklist is unexercised beyond source reading. |
+| preOptions -> options | **Partial.** `DoSettingsWindowContents`/`SettingsCategory` exist and read soundly from source: ten Scribe-persisted fields, all defaults declared, numeric fields clamped in `ExposeData`, every label/tooltip routed through `.Translate()`, a live animated gallery. **Corrected 2026-09-17:** the missing `MainButtonDef` is fixed — `SkillIcons_Settings` (`Mod/1.6/Defs/MainButtonDefs/MainButtons.xml`), `buttonVisible=false`, `validWithoutMap=true`, `workerClass=SkillIcons.MainButtonWorker_Settings`, whose `Activate()` opens `new Dialog_ModSettings(LoadedModManager.GetMod<SkillIconsMod>())` — the same dialog, same instance, as the primary entry; label/description are English-source Def fields with a French DefInjected override, matching this repo's Def-translation convention. Still open: no technical or functional test of the settings page, old or new, has been executed in game (no automated harness exists at all — see preTest below), so MOD_SETTINGS.md's §4 checklist remains unexercised beyond source reading and the checks below. |
 | options -> l10n | Resource checks pass independently: both `Languages/*/Keyed/SkillIcons.xml` hold exactly the same 25 keys, non-empty in both languages, and match the 25 distinct `.Translate()` call sites in `SkillIconsMod.cs` exactly (no missing key, no unused key, no hardcoded `Widgets.Label` string). The two DefInjected-eligible fields touched by this mod's own patches (`AS_NudistPassion_Active.description`, `AS_PainDrivenPassion_Active.label`) needed no French override: Alpha Skills ships no French language folder at all, so English is the only text any player sees there regardless of interface language — checked directly against the installed Alpha Skills mod. **Corrected 2026-09-17:** the four `Log.Message`/`Log.Warning` calls, previously in French against TRANSLATIONS.md's technical-logs-in-English rule, are now English; rebuilt and reverified clean. Formal `localization`/`translation_en`/`translation_fr` stay `partial`: MOD_SETTINGS.md gates their completion on `settings_audit` being `complete` or `not_applicable`, which it is not yet. |
 | l10n -> preTest | All three declared dependencies' packageIds (`brrainz.harmony`, `vanillaexpanded.skills`, `sarg.alphaskills`) verified correct against the real installed mods, as are the two optional integrations named in `loadAfter` (`oracle.skills.retexture`, and `Splot.MiscPawnBadgeRevitalized` read at runtime through `ContentFinder` with silent fallback — correctly *not* a modDependency). All six patch-targeted defNames and all four patch-referenced texture paths were confirmed present in the actual installed Alpha Skills/VSE packages and on disk. `Check-XmlFields.ps1` and `Check-DefRefs.ps1` both ran clean against `Mod/`, before and after the correction below. **Corrected 2026-09-17:** `brrainz.harmony` is now first in `<loadAfter>`, matching the established convention in this repo for every other audited Harmony-dependent mod (`ForTheOccasion`, `Housebroken` both list it explicitly). Single-version `loadFolders.xml` is consistent with `supportedVersions`. |
 | preTest -> done | **Not reached.** No test file of any kind exists in the repository (`find . -iname "*test*"` returns nothing): no functional scenarios, no automated suite, no Gherkin/pickle feature, no XML test. As an independent technical check outside that missing suite, the animation frame-count table was verified: the C# `Specs` dictionary and `_tools/gen.js`'s `SPECS` array agree exactly on all 40 animated texture/frame-count pairs, and all 40 sequences exist on disk with precisely the declared frame counts (920 PNG frames total, matching CHANGELOG's figure) — the documented "counter drift" trap is not present. |
@@ -118,14 +117,22 @@ Primary access is the native `SettingsCategory`/`DoSettingsWindowContents` contr
 needs no customization mod. All 24 labels/tooltips/radio options drawn on that page route
 through `.Translate()`.
 
-No `MainButtonDef` exists in the mod: a full-repo search for `MainButton`, `buttonVisible`
-and `MainTabWindow` returns nothing. MOD_SETTINGS.md requires a hidden-by-default shortcut
-whenever useful settings exist, which they do; this is a concrete, fixable gap, not a
-justified `not_applicable`.
+**Corrected 2026-09-17.** `SkillIcons_Settings` is a normal `MainButtonDef`:
+`buttonVisible=false`, and a full-repo grep for `SetVisible|buttonVisible` found no
+programmatic override anywhere in the source, only the Def's own field and the comment next
+to it, so the definition is left alone for a customization mod to reveal, exactly as MOD_SETTINGS.md
+requires — neither visible nor greyed out by default, never forcibly hidden. `Activate()`
+constructs `Dialog_ModSettings` directly from `LoadedModManager.GetMod<SkillIconsMod>()`,
+which is the same call `Verse.Page_ModSettings`/the vanilla Options path resolves to for the
+same mod instance, its same `Settings` field and the same `WriteSettings()` persistence — not
+a second, independent settings surface. `Check-XmlFields.ps1` (5 files, all fields resolve
+against the delivered DLL), `Check-DefRefs.ps1` (1 mod def found, well-formed, no unresolved
+reference) and `Check-DefInjected.ps1` (2 keys, `label`/`description`, 0 errors) all ran clean
+against the new Def and its French DefInjected override.
 
-No runtime test of this page exists: no first-use check, no persistence round trip
+No runtime test of this page exists, old or new: no first-use check, no persistence round trip
 (close/reopen, save/reload), no boundary/invalid-input exercise, and no RIMMSQOL or other
-customization-mod integration test. These observations are from source reading only.
+customization-mod reveal/open/hide integration test. These remain source-level checks only.
 
 ### Translation audit
 
@@ -189,12 +196,22 @@ JS/shell files.
   `console.log`/`Log.Warning`/`Log.Message`/`throw new Error` message text, for every touched
   file. `Check-XmlFields.ps1`/`Check-DefRefs.ps1` re-ran clean after the patch XML comments
   changed. `dotnet build -c Release`: 0 warnings/errors, DLL/PDB redistributed.
+- **2026-09-17, MainButtonDef pass:** `dotnet build -c Release`: 0 warnings/errors after adding
+  `MainButtonWorker_Settings.cs` and `MainButtons.xml`. `Check-XmlFields.ps1` (5 files, extra
+  assembly the rebuilt DLL): no unknown fields. `Check-DefRefs.ps1`: 1 mod def found, well
+  formed, no unresolved reference. `Check-DefInjected.ps1 -TransMod SkillIcons\Mod -Targets
+  SkillIcons\Mod`: 2 keys (`SkillIcons_Settings.label`/`.description`), 0 errors. Full-repo
+  `grep` for `SetVisible|buttonVisible`: only the Def's own field and its comment, no
+  programmatic override.
 
 ### Next transition and separate follow-ups
 
-**Strict next step (preOptions -> options, fully):** add the hidden `MainButtonDef` settings
-shortcut MOD_SETTINGS.md requires, then run its technical/functional checklist. `dansMonoRepo
--> horsMonoRepo` is done as of 2026-09-17, detachment described above.
+**Strict next step (preOptions -> options, fully):** run the settings page's in-game technical
+and functional checklist from MOD_SETTINGS.md §4 — first use, persistence round trip, boundary
+input, and the RIMMSQOL reveal/open/edit/hide sequence for both the primary entry and the new
+shortcut. `dansMonoRepo -> horsMonoRepo` is done as of 2026-09-17, detachment described above;
+the `MainButtonDef` gap that blocked this gate at the source level is also fixed as of the same
+day, described above.
 
 Also still open, independent of that gate: correct the stale texture/frame/silhouette counts
 in README's Development section, and write the functional/automated/Gherkin/XML test scenarios
@@ -213,6 +230,10 @@ this mod currently has none of.
 - Detached from the monorepo into its own repository, `origin` set to the pre-existing
   `Rimworld-Skill-Icons` GitHub repository; method and verification described under
   "Detachment — 2026-09-17" above. `detached` and `stage` updated accordingly.
+- Added the hidden `MainButtonDef` settings shortcut MOD_SETTINGS.md requires
+  (`SkillIcons_Settings`, `buttonVisible=false`, opens the same `Dialog_ModSettings`/mod
+  instance as the primary entry), with its French DefInjected override, README and CHANGELOG
+  entries, and the checks listed above. In-game verification of both entry points remains open.
 
 ## Historical record (retained)
 

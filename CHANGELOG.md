@@ -16,6 +16,7 @@ First release.
 - When *Pawn Badge - (MISC) Job Icons+ Revitalized* is installed, its icons are served instead, so a player already using those badges sees one consistent interface. Its textures are read at runtime, never copied.
 - An optional faint icon for "no passion", off by default. Ten skills out of twelve carry it, and that empty space is what lets you spot the passionate ones at a glance.
 - A gallery in the mod settings listing every passion with both its skill-list icon and its work-tab icon, animating live.
+- A hidden MainButtons shortcut to the mod settings, for RIMMSQOL and other button-customization mods; not visible on a clean install.
 - English and French. Every string shown in the settings goes through `.Translate()`.
 
 ### Fixed

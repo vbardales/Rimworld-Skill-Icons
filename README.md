@@ -29,6 +29,10 @@ property*. Pawn Editor is not installed here, so that one is unverified.
   set static, a speed slider, a checkbox for the "no passion" icon, the work tab
   controls below, and a gallery listing every passion def with both its
   skill-list icon and its work-tab icon, animating live at the chosen speed.
+- A `SkillIcons_Settings` `MainButtonDef` opens that same settings dialog. It is
+  hidden by default — neither visible nor greyed out — so RIMMSQOL and other
+  MainButtons-customization mods can reveal it as an optional shortcut; it is
+  never the sole way in.
 
 ### Work tab
 
