@@ -8,7 +8,7 @@ packageId:    nelim.skillicons
 repo:         Rimworld-Skill-Icons
 visibility:   public
 detached:     yes
-stage:        horsMonoRepo
+stage:        done
 licence:      original
 licence_at:   original work, MIT; Oracle's Skill Icon Retextures credited for the visual language only, no texture reused (verified against ATTRIBUTION.md and the generator)
 dependencies: declared
@@ -43,16 +43,22 @@ STYLE_RIMWORLD.md, MOD_SETTINGS.md and TRANSLATIONS.md. No implementation, image
 distributed binary was changed; the only verification build is under ignored `.build/audit*/`,
 removed after use.
 
-**Stage codes for this audit, in order:** `dansMonoRepo`, `horsMonoRepo`, `modIcon`
-("ModIcon generated"), `preview` ("Preview generated"), `preOptions`, `options`, `l10n`,
-`preTest`, `done`, `tested`. These replace the project's older `stage` vocabulary
-(`port`, `showcase`, `preTest`, `done`, `tested`, `published`), which predates this
-finer-grained workflow and has no equivalent for "not yet detached."
-
-**Retained stage: `horsMonoRepo`, as of the 2026-09-17 detachment below.** `SkillIcons/` is
-now its own `git init` repository, `origin` pointing at the pre-existing GitHub repository,
-with monorepo tracking removed. The audit table below is otherwise unchanged from the same-day
-audit that preceded it; only the first row was affected.
+**Transition labels used in the table below, in order:** `dansMonoRepo`, `horsMonoRepo`,
+`modIcon` ("ModIcon generated"), `preview` ("Preview generated"), `preOptions`, `options`,
+`l10n`, `preTest`, `done`, `tested`. **These are prose organisation for this audit only, not
+the `stage:` front-matter field.** That field has exactly six valid values -
+`port`, `showcase`, `preTest`, `done`, `tested`, `published` - and is never held back by
+something that needs a running game: launching RimWorld is outside this session's process by
+design, and an in-game trial is not a manufacturing stage, it is reported by `tested_on` and
+`remaining` instead. **Corrected 2026-09-17, on request:** an earlier revision of this file
+wrote the finer table labels directly into `stage:` and left it at the now-invalid
+`horsMonoRepo` while waiting on checks this process cannot itself perform - fixed to `stage:
+done`, matching the definition above and the precedent already set on `ForTheOccasion`'s own
+STATUS.md (`stage: done`, `tested_on:` empty, unplayed scenarios listed under `remaining`).
+`done` is accurate here: `SkillIcons/` is its own detached repository, every check achievable
+without a game session has passed (see the table below), and the written test artifacts exist.
+What is not yet true - the twelve `docs/TESTING.md` scenarios and the `preOptions`/`options`
+in-game checklist - is exactly what `remaining` and the partial `tested_on` already say.
 
 ## Detachment — 2026-09-17
 
@@ -241,8 +247,8 @@ The functional/automated/Gherkin/XML test scenarios this mod had none of are now
   no code, image or binary changed.
 - The `preTest -> done` written-artifact requirements were fulfilled: `docs/TESTING.md`
   (functional scenarios), `_tools/Run-Tests.ps1` (automated, executed, green), and
-  `Tests/Pickle/` (Gherkin, written). Full detail under "Test suite — 2026-09-17" below,
-  including why this does not by itself move `stage` past `horsMonoRepo`.
+  `Tests/Pickle/` (Gherkin, written). Full detail under "Test suite — 2026-09-17" below. This is
+  what moved `stage` to `done` - see the correction at the top of this file.
 
 ## Test suite — 2026-09-17
 
@@ -250,8 +256,8 @@ Addresses `preTest -> done`'s written-artifact bullets directly. Does **not** cl
 `options -> l10n` gate above, which was already reserved for an in-game settings session before
 this pass and stays reserved for one after: writing and running tests outside the game answers
 a different question from MOD_SETTINGS.md §4's first-use/persistence/RIMMSQOL checks, which
-need her to actually play. `stage` stays `horsMonoRepo` for that reason, not because this work
-did not happen.
+need her to actually play. That gap is tracked in `remaining` and the partial `tested_on`, not
+by holding `stage` back - see the correction at the top of this file.
 
 **`docs/TESTING.md`** — twelve numbered scenarios (0-11), each with preconditions, a `Do`, an
 `Expect` and a `Fails if`, covering: the load-time log line and the three patch-failure
