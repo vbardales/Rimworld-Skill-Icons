@@ -60,7 +60,6 @@ public sealed class SkillIconsMod : Mod
 {
     internal static SkillIconsSettings Settings;
 
-    private const float HeaderHeight = 500f;
     private const float RowHeight = 34f;
     private const float IconSize = 26f;
     private const float ColumnWidth = 260f;
@@ -91,9 +90,13 @@ public sealed class SkillIconsMod : Mod
 
     public override void DoSettingsWindowContents(Rect inRect)
     {
-        var header = new Rect(inRect.x, inRect.y, inRect.width, HeaderHeight);
+        // The controls take exactly the room they need and the gallery gets
+        // the rest. This used to be a hardcoded 500px, which drifted every
+        // time a control was added or removed - the gallery lost space that
+        // nothing was drawing in, and it is the gallery that the player is
+        // here to look at.
         var listing = new Listing_Standard();
-        listing.Begin(header);
+        listing.Begin(new Rect(inRect.x, inRect.y, inRect.width, inRect.height));
         listing.CheckboxLabeled("SkillIcons.Animated".Translate(), ref Settings.enabled,
             "SkillIcons.AnimatedDesc".Translate());
         listing.Gap(4f);
@@ -139,12 +142,19 @@ public sealed class SkillIconsMod : Mod
         if (listing.RadioButton("SkillIcons.HeaderLabel".Translate(),
                 Settings.workTabHeaderMode == SkillTypeIcons.EnteteTexteSeul, 8f))
             Settings.workTabHeaderMode = SkillTypeIcons.EnteteTexteSeul;
+        var controlsHeight = listing.CurHeight;
         listing.End();
 
-        var galleryLabel = new Rect(inRect.x, inRect.y + HeaderHeight, inRect.width, 24f);
+        // Measured, not assumed: the hint is two sentences and wraps to two
+        // lines at most window widths - more often in French, which is the
+        // longer string. A fixed one-line rect clipped it.
         Text.Font = GameFont.Small;
+        var hint = "SkillIcons.GalleryHint".Translate();
+        var hintHeight = Text.CalcHeight(hint, inRect.width);
+        var galleryLabel = new Rect(inRect.x, inRect.y + controlsHeight + 10f,
+                                    inRect.width, hintHeight);
         GUI.color = new Color(1f, 1f, 1f, 0.6f);
-        Widgets.Label(galleryLabel, "SkillIcons.GalleryHint".Translate());
+        Widgets.Label(galleryLabel, hint);
         GUI.color = Color.white;
 
         var top = galleryLabel.yMax + 4f;
