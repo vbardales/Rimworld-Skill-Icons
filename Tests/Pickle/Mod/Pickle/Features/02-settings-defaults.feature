@@ -4,7 +4,12 @@
 # SkillIconsSettings matches the documented defaults" test checks against the compiled DLL
 # out of game. This scenario proves the same values reach the real window; it does not prove the
 # field defaults themselves are right (Run-Tests.ps1 already does that).
-@review
+#
+# @watch, not a plain tick wait: Dialog_ModSettings is a full-screen modal that pauses the
+# simulation, so "I wait N ticks" never advances and times out - confirmed 2026-09-18, her first
+# real run ("Step 'And I wait 10 ticks' timed out after 5s"). Pickle's own watch-steps.feature
+# documents @watch for exactly this: real wall-clock time instead of driving sim ticks.
+@review @watch
 Feature: the settings page on a clean configuration
 
   Background:
