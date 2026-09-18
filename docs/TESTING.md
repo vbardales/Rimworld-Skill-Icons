@@ -113,15 +113,17 @@ or an icon that should animate never moves.
 shows coloured heart icons per skill, correctly varying with value (hollow/pale at 0, filled and
 differently coloured above it) - matches expectation, not the vanilla flame/star set.
 
-**Work tab: observed, 2026-09-18, via the new Pickle suite's screenshot.** Zoomed into
+**Work tab: observed and confirmed, 2026-09-18.** Zoomed into the new Pickle suite's own
 `manual--work-tab-mixed-passions--step0.png`: real dark-red heart icons appear in the
 "Passionate" colonist's row, mixed with plain green checkmarks elsewhere. The "Priorité
 manuelle ❌" header confirms this is the **real vanilla `MainTabWindow_Work`** in its
-checkbox-priority mode, not the third-party Work tab replacement observed earlier on her own
-manual screenshot - `I open the "Work" tab"` reaches the real class directly regardless of what
-her own interface currently has bound. This resolves the `Tests/Pickle/README.md` "real
-uncertainty" note. Colour-coding by live/dormant state was not distinguishable at this zoom level
-and is not separately confirmed.
+checkbox-priority mode, not the third-party Work tab replacement observed earlier - `I open the
+"Work" tab"` reaches the real class directly regardless of what her own interface currently has
+bound. This resolves the `Tests/Pickle/README.md` "real uncertainty" note. She then confirmed the
+same directly, live, on her own game (a full-width screenshot of the same "Priorité manuelle ❌"
+window across three colonists, coloured hearts clearly varied - red, orange/gold - across
+different skills), and separately confirmed **the icons animate in this vanilla window**. Fails-if
+conditions for the Work tab: not met. Passed.
 
 **Bio tab: inconclusive.** The equivalent automated screenshot
 (`manual--bio-tab-mixed-passions--step0.png`) is obstructed by a `RimLogging` log-viewer window
