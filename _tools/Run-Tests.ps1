@@ -21,8 +21,6 @@
   - Harmony patch targets: resolved by plain reflection against the real installed
     Assembly-CSharp/VSE.dll, proving the method citations still match this RimWorld version
     instead of trusting last year's names.
-  - Badge mapping: every dictionary key checked against the SkillDef/WorkTypeDef defNames the
-    installed game actually declares, not a hand-kept list.
   - Frame-count parity: the C# Specs table (read off the compiled DLL) and gen.js's SPECS array
     compared directly, plus the actual frame files counted on disk - the documented "counter
     drift" trap this repository has hit before.
@@ -138,7 +136,7 @@ if (-not $settingsType) {
         $expected = @{
             enabled = $true; speed = 1.0; showNonePassion = $false
             workTabMode = 2; workTabScale = 1.3; workTabOpacity = 0.85
-            showSkillIcons = $true; showWorkTypeIcons = $true; preferBadgeIcons = $true
+            showSkillIcons = $true; showWorkTypeIcons = $true
             workTabHeaderMode = 0
         }
         foreach ($k in $expected.Keys) {
@@ -296,46 +294,7 @@ It 'the documented DoHeader fallback (PawnColumnWorker_WorkPriority, else PawnCo
     if (-not $declared -and -not $base) { 'neither PawnColumnWorker_WorkPriority nor PawnColumnWorker declares DoHeader' }
 }
 
-# =================================================================== E. badge mapping vs real vanilla defs
-function Get-VanillaDefNames([string]$folder, [string]$tag) {
-    Get-ChildItem -Path $GameData -Recurse -Filter '*.xml' -ErrorAction SilentlyContinue |
-        Where-Object { $_.FullName -match [regex]::Escape("\Defs\$folder\") } |
-        ForEach-Object {
-            [xml]$x = Get-Content $_.FullName -Encoding UTF8
-            $x.SelectNodes("//$tag/defName") | ForEach-Object { $_.InnerText }
-        } | Select-Object -Unique
-}
-$typesType = $byName['SkillIcons.SkillTypeIcons']
-if (-not $typesType) {
-    ItSkip 'BadgeParCompetence keys are real vanilla SkillDef defNames' 'SkillIcons.SkillTypeIcons not found'
-    ItSkip 'BadgeParTravail keys are real vanilla WorkTypeDef defNames, missing exactly the four documented ones' 'SkillIcons.SkillTypeIcons not found'
-} else {
-    It 'BadgeParCompetence keys are real vanilla SkillDef defNames (12 of 12)' {
-        $field = $typesType.GetField('BadgeParCompetence', [System.Reflection.BindingFlags]'NonPublic,Static')
-        if (-not $field) { 'BadgeParCompetence field not found'; return }
-        $dict = $field.GetValue($null)
-        $realSkills = Get-VanillaDefNames 'SkillDefs' 'SkillDef'
-        foreach ($k in $dict.Keys) {
-            if ($k -cnotin $realSkills) { "$k is not a real installed SkillDef defName" }
-        }
-        if ($dict.Count -ne 12) { "$($dict.Count) keys, expected 12" }
-    }
-    It 'BadgeParTravail keys are real vanilla WorkTypeDef defNames, missing exactly the four documented ones' {
-        $field = $typesType.GetField('BadgeParTravail', [System.Reflection.BindingFlags]'NonPublic,Static')
-        if (-not $field) { 'BadgeParTravail field not found'; return }
-        $dict = $field.GetValue($null)
-        $realWorkTypes = Get-VanillaDefNames 'WorkTypeDefs' 'WorkTypeDef'
-        foreach ($k in $dict.Keys) {
-            if ($k -cnotin $realWorkTypes) { "$k is not a real installed WorkTypeDef defName" }
-        }
-        $expectedMissing = @('BasicWorker', 'Childcare', 'DarkStudy', 'Patient')
-        $actualMissing = @($realWorkTypes | Where-Object { $_ -cnotin $dict.Keys })
-        $diff = Compare-Object $expectedMissing $actualMissing
-        if ($diff) { "missing set is {$([string]::Join(',', ($actualMissing | Sort-Object)))}, expected {$([string]::Join(',', ($expectedMissing | Sort-Object)))}" }
-    }
-}
-
-# =================================================================== F. translation coverage
+# =================================================================== E. translation coverage
 $enFile = Join-Path $ModRoot 'Mod\Languages\English\Keyed\SkillIcons.xml'
 $frFile = Join-Path $ModRoot 'Mod\Languages\French\Keyed\SkillIcons.xml'
 It 'English and French Keyed files declare the same non-empty key set' {
@@ -387,7 +346,7 @@ It 'SkillIcons_Settings.label/.description resolve: English from the Def, French
     if (-not $descNode -or [string]::IsNullOrWhiteSpace($descNode.InnerText)) { 'French SkillIcons_Settings.description is missing or empty' }
 }
 
-# =================================================================== G. animation frame-count parity
+# =================================================================== F. animation frame-count parity
 #
 # PassionIconAnimations's static constructor is NOT triggered here: it Harmony-patches two real
 # game methods with TRANSPILERS (WidgetsWork.DrawWorkBoxBackground, SkillUI.DrawSkill), which
@@ -451,7 +410,7 @@ It 'every animated sequence named in gen.js SPECS has exactly its declared frame
     }
 }
 
-# =================================================================== H. patch XML replay against real installed defs
+# =================================================================== G. patch XML replay against real installed defs
 function New-PatchFromXml([System.Xml.XmlElement]$opNode) {
     $ns = 'Verse'
     $poAdd = $csAsm.GetType("$ns.PatchOperationAdd")
@@ -633,7 +592,7 @@ It 'both patch files declare <success>Always</success>, so an upstream fix goes 
     }
 }
 
-# =================================================================== I. texture existence
+# =================================================================== H. texture existence
 It 'every patch-referenced texture exists on disk' {
     $expected = @('AS_FrozenPassionGrey', 'AS_BlindPassionSublime', 'AS_BlindPassionSublime_Active', 'PassionApathy')
     $dir = Join-Path $ModRoot 'Mod\1.6\Textures\Passions'

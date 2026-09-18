@@ -24,19 +24,19 @@ The log lives at:
 | | State |
 |---|---|
 | Loads without error (Scenario 0) | **observed, 2026-09-17** - see below |
-| The out-of-game harness | **29 of 29 pass**, 2026-09-17 |
+| The out-of-game harness | **27 of 27 pass**, 2026-09-18 |
 | Scenarios 1-11 | **never observed** |
 
 ## The other half, which does not need a colony
 
-`_tools/Run-Tests.ps1` runs twenty-nine tests without starting the game:
+`_tools/Run-Tests.ps1` runs twenty-seven tests without starting the game:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File _tools\Run-Tests.ps1
 ```
 
 It asks a different question from the one this file asks: whether the settings clamps, the
-Harmony patch targets, the MainButtons wiring, the skill/work-type badge mapping, the animation
+Harmony patch targets, the MainButtons wiring, the animation
 frame table and the two Alpha Skills/VSE patch files still do what the mod claims, checked
 against the compiled DLL and the real installed dependency mods - not whether a colonist ever
 sees the result on screen. Two things it found worth recording while it was being written:
@@ -156,7 +156,7 @@ settings file, or one deleted first).
 
 **Expect:** animated passion icons checked; speed slider at 1.0x; the "no passion" icon
 unchecked; work tab mode set to **Mixed**; work tab icon size at 130%, opacity at 85%; skill
-icons and work type icons both checked; "borrow Pawn Badge icons" checked; column headers set to
+icons and work type icons both checked; column headers set to
 icon-and-label. A live gallery below the controls lists every installed passion, twice each
 (skill-list icon, work-tab icon), animating at the chosen speed.
 
@@ -202,23 +202,21 @@ appears, visibly dimmer/less prominent than any real passion's icon on the same 
 **Fails if:** the icon is visible before the option is enabled, or is as bright as (or brighter
 than) an active passion once enabled.
 
-## Scenario 6 — skill and work type icons, and the Pawn Badge borrow toggle
-
-**Preconditions:** for the borrow half, install *Pawn Badge - (MISC) Job Icons+ Revitalized* for
-one run and remove it (or disable it) for a second run.
+## Scenario 6 — skill and work type icon toggles
 
 **Do:** open the Bio tab and the Work tab with both "icons in the skill list" and "icons on work
-tab columns" checked, then unchecked. With Pawn Badge installed, toggle "borrow Pawn Badge icons
-when available" on and off.
+tab columns" checked, then unchecked.
 
 **Expect:** unchecking either checkbox removes exactly that set of icons (skill list icons, or
-work tab column-header icons) and nothing else. With Pawn Badge installed and the borrow option
-on, the columns Pawn Badge covers show its icons instead of this mod's own; Basic Work, Childcare,
-Dark Study and Patient always keep this mod's own drawings, borrow option or not. Removing Pawn
-Badge (or unchecking the option) falls back to this mod's own icons everywhere, with no gap.
+work tab column-header icons) and nothing else. Every skill and work type shows this mod's own
+drawing; there is no gap anywhere.
 
-**Fails if:** a checkbox does not toggle its icons, the four uncovered work types ever show a
-gap instead of this mod's drawing, or Pawn Badge icons persist after that mod is removed.
+**Fails if:** a checkbox does not toggle its icons, or any skill or work type shows a gap instead
+of this mod's drawing.
+
+> The Pawn Badge borrow half of this scenario was removed on 2026-09-18 along with the feature
+> itself: this mod no longer reads *(MISC) Job Icons+ Revitalized*'s textures, and always serves
+> its own.
 
 ## Scenario 7 — work tab column header modes
 

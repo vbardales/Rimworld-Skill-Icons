@@ -39,23 +39,6 @@ label, a missing work tab icon, and two blindness tiers sharing one icon despite
 granting different bonuses. The patch sits in a `<success>Always</success>`
 sequence, so if Sarg fixes them upstream it goes quietly inert.
 
-## Pawn Badge — (MISC) Job Icons+ Revitalized
-
-Workshop: https://steamcommunity.com/sharedfiles/filedetails/?id=3524906267
-
-When that mod is installed, this one **reads its textures at runtime** through
-`ContentFinder`, so that a player already using those badges sees one consistent
-interface. Nothing is copied into this mod and nothing is redistributed: remove
-that mod and the icons fall back to ours, silently.
-
-The mapping lives in `SkillTypeIcons.cs` and was written by looking at the
-icons, not by reading their file names, under one rule — map when the icon
-*means* the same thing, never when it merely resembles it. `drugs` is a capsule
-that would suit "Patient" perfectly, but in the source pack it means an addict;
-serving it as the Patient column would plant in the player's own interface the
-confusion this mod exists to remove. Patient therefore keeps our drawing, as do
-Basic work, Childcare and Dark study, which the pack does not cover at all.
-
 ## Removal
 
 If any author listed here would rather this mod did not follow, credit, or read

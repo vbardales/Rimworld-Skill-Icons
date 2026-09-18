@@ -99,7 +99,7 @@ an `ITab`, only for `MainTabWindow`-level tabs opened by their `MainButtonDef` l
 | 1 and 3/4/7, whether the real vanilla Work tab is reachable at all | Depends on her current modlist's own Work tab replacement; the scenarios assert `window "MainTabWindow_Work" is open` and fail loudly if that is not true, rather than screenshotting the wrong window |
 | 1, whether an animation is actually moving | A single screenshot cannot show motion; only the frame it landed on |
 | 5's "live/triggered" for Alpha Skills' own ~20 HediffComp-driven passions | Forcing the real per-passion trigger condition (actual nudity, actual pain, ...) is out of scope; `03-passion-icons.feature` uses the always-full-colour `VSE_Natural` def as the closest honest stand-in - see `PassionSteps.cs`'s header comment |
-| 6, the Pawn Badge borrow toggle | Needs toggling another mod's presence; not written |
+| 6, the skill and work type icon toggles | Not written; the Pawn Badge borrow half of this scenario no longer exists (feature removed 2026-09-18) |
 | 8, settings persisting across a real restart and a reloaded save | One process cannot restart RimWorld; not written |
 | 9, the hidden MainButtons shortcut / RIMMSQOL | Needs RIMMSQOL installed; not written, matching ArchitectStudio's own README for its equivalent |
 | 10, English and French | No language-switch primitive exists in Pickle's own sample features (checked); not written |

@@ -12,14 +12,12 @@ Forty of them animate, and each gesture says something about the passion rather 
 
 SKILLS AND WORK TYPES. Icons for the 12 skills and the 23 work types, drawn monochrome on purpose: colour already means "which passion" here, and making it mean "which skill" as well would render both unreadable. Shape alone carries the identity. They appear before each skill name in the character tab and at the foot of each work tab column, where the columns can keep their label, drop it for a narrower grid, or show no icon at all.
 
-If you already use "Pawn Badge - (MISC) Job Icons+ Revitalized", its icons are served instead of these, so your interface speaks with one voice. Nothing is copied - its textures are read at runtime, and removing it falls silently back to this mod's own.
-
 THE WORK TAB is where the grid is hardest to read, so it gets its own controls: passion icons drawn in colour, greyed, or - the default - in colour while the bonus is actually running and grey while it sleeps. Size and opacity are separate sliders, because size helps you see the passion while opacity gives the priority digit back to the text.
 
 Options (Options &gt; Mod settings &gt; SkillIcons):
 - subtle animations, on by default, with a speed slider
 - the three work tab modes, plus size and opacity
-- skill and work type icons, and whether to borrow Pawn Badge's
+- skill and work type icons
 - an optional faint icon for "no passion", off by default
 - a gallery of every passion, animating live, so you can see the whole set without starting a colony
 

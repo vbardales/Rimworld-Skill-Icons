@@ -31,15 +31,8 @@ public sealed class SkillIconsSettings : ModSettings
 
     // Skill and work type icons. A set distinct from the passions: there,
     // colour belongs to the passion; here, shape belongs to the skill.
-    //
-    // preferBadgeIcons is true because if the player already has an icon set
-    // for Pawn Badge, their interface should speak with one voice. The
-    // fallback to our own drawings is automatic and silent: players without
-    // that package see no gap, and the four work types it does not cover
-    // keep our drawings either way.
     public bool showSkillIcons = true;
     public bool showWorkTypeIcons = true;
-    public bool preferBadgeIcons = true;
     public int workTabHeaderMode = SkillTypeIcons.EnteteIconeEtTexte;
 
     public override void ExposeData()
@@ -52,7 +45,6 @@ public sealed class SkillIconsSettings : ModSettings
         Scribe_Values.Look(ref workTabOpacity, "workTabOpacity", 0.85f);
         Scribe_Values.Look(ref showSkillIcons, "showSkillIcons", true);
         Scribe_Values.Look(ref showWorkTypeIcons, "showWorkTypeIcons", true);
-        Scribe_Values.Look(ref preferBadgeIcons, "preferBadgeIcons", true);
         Scribe_Values.Look(ref workTabHeaderMode, "workTabHeaderMode",
             SkillTypeIcons.EnteteIconeEtTexte);
         speed = Mathf.Clamp(speed, 0.5f, 1.5f);
@@ -138,8 +130,6 @@ public sealed class SkillIconsMod : Mod
             "SkillIcons.SkillIconsDesc".Translate());
         listing.CheckboxLabeled("SkillIcons.WorkTypeIcons".Translate(),
             ref Settings.showWorkTypeIcons, "SkillIcons.WorkTypeIconsDesc".Translate());
-        listing.CheckboxLabeled("SkillIcons.BadgeIcons".Translate(), ref Settings.preferBadgeIcons,
-            "SkillIcons.BadgeIconsDesc".Translate());
         if (listing.RadioButton("SkillIcons.HeaderBoth".Translate(),
                 Settings.workTabHeaderMode == SkillTypeIcons.EnteteIconeEtTexte, 8f))
             Settings.workTabHeaderMode = SkillTypeIcons.EnteteIconeEtTexte;

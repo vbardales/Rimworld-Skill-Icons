@@ -111,14 +111,20 @@ place, matching the precedent of every other already-detached mod in this reposi
 
 ### Settings audit
 
-Ten fields in `SkillIconsSettings` (`enabled`, `speed`, `showNonePassion`, `workTabMode`,
-`workTabScale`, `workTabOpacity`, `showSkillIcons`, `showWorkTypeIcons`, `preferBadgeIcons`,
+Nine fields in `SkillIconsSettings` (`enabled`, `speed`, `showNonePassion`, `workTabMode`,
+`workTabScale`, `workTabOpacity`, `showSkillIcons`, `showWorkTypeIcons`,
 `workTabHeaderMode`) all have a documented concrete use in the README and a
 `Scribe_Values.Look` default; five numeric/enum fields are clamped
 in `ExposeData` after loading, so a hand-edited or stale save cannot leave them out of range.
 Primary access is the native `SettingsCategory`/`DoSettingsWindowContents` contract, which
-needs no customization mod. All 24 labels/tooltips/radio options drawn on that page route
+needs no customization mod. Every label/tooltip/radio option drawn on that page routes
 through `.Translate()`.
+
+**Corrected 2026-09-18, on request.** A tenth field, `preferBadgeIcons` ("borrow Pawn Badge
+icons when available"), was removed along with the whole *Pawn Badge - (MISC) Job Icons+
+Revitalized* integration - see "Pawn Badge integration removed" below. Audit rows dated
+2026-09-17 in this file still describe it because it existed then; they are left as written
+rather than rewritten after the fact.
 
 **Corrected 2026-09-17.** `SkillIcons_Settings` is a normal `MainButtonDef`:
 `buttonVisible=false`, and a full-repo grep for `SetVisible|buttonVisible` found no
@@ -368,7 +374,7 @@ assert nothing about pixels - a person, or a later Claude session reading the re
 judges. Covers Scenario 2 (settings defaults), Scenarios 1+5 (passion icons, Bio tab and Work tab,
 explicitly not the pawn creation screen), Scenario 3 (work tab modes), Scenario 4 (sliders),
 Scenario 7 (header modes). Left manual, with reasons recorded in `Tests/Pickle/README.md`'s "what
-stays manual" table: the pawn creation screen, Scenario 6 (Pawn Badge toggle), Scenario 8 (a real
+stays manual" table: the pawn creation screen, Scenario 6 (the icon toggles), Scenario 8 (a real
 restart), Scenario 9 (RIMMSQOL), Scenario 10 (no language-switch primitive exists in Pickle's own
 sample vocabulary), Scenario 11 (no hover/tooltip primitive either, checked across every shipped
 `.feature` file).
@@ -420,6 +426,41 @@ Quiet New Factions/Work Studio/Architect Studio Pickle companions - none of the 
 `Defs`/`Textures`/`Sounds` folder, only `Pickle/Features/`.
 
 Scenarios 1-11 remain unplayed. `done -> tested` stays open for those.
+
+## Pawn Badge integration removed — 2026-09-18
+
+On request, after she said the whole thing was a misunderstanding. The mod no longer reads
+*Pawn Badge - (MISC) Job Icons+ Revitalized*'s textures at runtime and no longer offers the
+choice: every skill and work type now always shows this mod's own drawing. Removed, in one pass:
+
+- `SkillTypeIcons.cs`: the `BadgeParCompetence` and `BadgeParTravail` mapping dictionaries and
+  the `Resoudre` indirection that consulted them. `Pour(SkillDef)`/`Pour(WorkTypeDef)` now load
+  `Skills/<defName>` and `WorkTypes/<defName>` directly.
+- `SkillIconsMod.cs`: the `preferBadgeIcons` field, its `Scribe_Values.Look` line and its
+  settings checkbox. Nine settings fields remain, five of them still clamped.
+- Both `Keyed` files: `SkillIcons.BadgeIcons` and `SkillIcons.BadgeIconsDesc`, EN and FR.
+- `Mod/About/About.xml`: the paragraph describing the borrow and the settings-list bullet.
+- `ATTRIBUTION.md` and `Mod/ATTRIBUTION.md`: the whole Pawn Badge section, in both copies -
+  re-verified byte-identical afterwards.
+- `README.md`, `CHANGELOG.md` (the `[1.0.0] — unreleased` entry, edited in place since nothing
+  has shipped), `docs/TESTING.md` (Scenario 6 reduced to the two icon toggles, with a note
+  recording why its borrow half is gone) and `Tests/Pickle/README.md`'s "what stays manual" row.
+- `_tools/Run-Tests.ps1`: the two badge-mapping tests and the `Get-VanillaDefNames` helper only
+  they used, plus the `preferBadgeIcons` default expectation. Remaining sections relabelled to
+  stay contiguous.
+
+Rebuilt (`dotnet build -c Release`, 0 warnings/errors) and the harness re-run: **27 tests, 0
+skipped, all passing**. The translation-coverage test is what proves the removal was consistent
+rather than partial - it checks EN/FR key-set parity *and* that every `.Translate()` call site in
+the source still has a matching Keyed entry, so an orphaned key or an orphaned call site on
+either side would have failed it.
+
+No texture was deleted: this mod always shipped its own complete `Skills/` and `WorkTypes/` sets
+(12 and 23), and those are what it now serves unconditionally - the borrow was only ever an
+override on top of them, so nothing is left without an icon.
+
+Audit rows and the "Test suite — 2026-09-17" section above still describe the feature and quote
+29 tests, because that is what was true when they were written. They are left as written.
 
 ## Historical record (retained)
 

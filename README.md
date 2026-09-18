@@ -106,17 +106,6 @@ is a trap that will recur:
 Nine work types reuse their skill's drawing. "Cook" and "Cooking" name the same
 domain, and giving them different glyphs would imply two notions.
 
-**Pawn Badge.** When *(MISC) Job Icons+ Revitalized* is installed, its textures
-are read at runtime through `ContentFinder` and served instead, so a player
-already using those badges sees one interface. Nothing is copied, so nothing is
-redistributed, and removing that mod falls back silently.
-
-The mapping in `SkillTypeIcons.cs` was written by **looking** at the icons, under
-one rule: map when the icon *means* the same thing, never when it merely
-resembles it. `drugs` is a capsule that would suit "Patient" perfectly, but it
-means an addict in the source pack. Patient keeps our drawing, as do Basic work,
-Childcare and Dark study, which the pack does not cover.
-
 Both draw sites work by **shrinking the rect** before handing control back to the
 game, rather than locating the label, the bar and the passion icon inside it. The
 patch therefore survives any re-layout by Ludeon.
@@ -212,15 +201,15 @@ repository at the other end.
 
 ## Testing
 
-`powershell -ExecutionPolicy Bypass -File _tools/Run-Tests.ps1` runs 29 tests without starting
+`powershell -ExecutionPolicy Bypass -File _tools/Run-Tests.ps1` runs 27 tests without starting
 the game: settings defaults and clamping, the MainButtons shortcut's wiring (read from its IL,
 since it cannot be called outside the game), every Harmony patch target resolved against the
-real installed Assembly-CSharp/VSE.dll, the skill/work-type badge mapping checked against the
-real vanilla SkillDefs/WorkTypeDefs, the animation frame table checked against `gen.js` and the
+real installed Assembly-CSharp/VSE.dll, the animation frame table checked against `gen.js` and the
 files on disk, and both patch XML files replayed against the real installed Alpha Skills/VSE
-defs — not a hand-typed copy of them. `docs/TESTING.md` holds the twelve scenarios that do need
-a running game, none of them observed yet; `Tests/Pickle/` holds two Gherkin scenarios for
-[Pickle](https://github.com/RimWorks/Rimworld-Pickle), written but not yet played.
+defs — not a hand-typed copy of them. `docs/TESTING.md` holds the twelve manual scenarios that
+need a running game; several are now confirmed (see that file for current status).
+`Tests/Pickle/` holds a companion steps assembly and Gherkin scenarios for
+[Pickle](https://github.com/RimWorks/Rimworld-Pickle), several already run and passing.
 
 ## Development
 
