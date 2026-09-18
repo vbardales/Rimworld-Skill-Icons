@@ -8,7 +8,7 @@
   </supportedVersions>
   <description>In-game functional tests for SkillIcons, run by Pickle. Development only: never published.
 
-Written, never run: the two scenarios here only use Pickle's own generic step vocabulary (mod loaded, load order, a def of a given type exists) and need no companion steps assembly. See SkillIcons/docs/TESTING.md for the scenarios that do need a colony and a human to look at the screen.</description>
+Written, never run: scenario 0 (01-loading.feature) only uses Pickle's own generic step vocabulary. Scenarios 2, 3, 4, 5, 7 and 1 (02 through 06) screenshot the settings page, the passion icons and the Work tab modes, sliders and header modes, tagged @review - a person or a later Claude session looks at the images and judges them; nothing about their content is asserted here. They need the companion steps assembly in Tests/Pickle/Source, built against Mod/1.6/Assemblies/SkillIcons.dll. See SkillIcons/docs/TESTING.md for every scenario, and Tests/Pickle/README.md for exactly what is and is not covered.</description>
   <modDependencies>
     <li>
       <packageId>nelim.skillicons</packageId>

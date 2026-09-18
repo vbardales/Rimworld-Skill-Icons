@@ -1,17 +1,19 @@
 # In-game scenarios, run by Pickle
 
-Two of [docs/TESTING.md](../../docs/TESTING.md)'s twelve scenarios, written in Gherkin and played
-inside a running RimWorld by [Pickle](https://github.com/RimWorks/Rimworld-Pickle)
-(`rimworks.pickle`, Workshop 3791648678).
+The scenarios of [docs/TESTING.md](../../docs/TESTING.md), written in Gherkin and played inside a
+running RimWorld by [Pickle](https://github.com/RimWorks/Rimworld-Pickle) (`rimworks.pickle`,
+Workshop 3791648678).
 
-`Mod/` is a companion mod, **SkillIcons - Pickle tests**, never published. It holds the one
-feature file, so nothing test-related ships in the Workshop folder.
+`Mod/` is a companion mod, **SkillIcons - Pickle tests**, never published. It holds the feature
+files and, since this pass, a companion steps assembly, so nothing test-related ships in the
+Workshop folder.
 
 ## Setup, once
 
 1. Subscribe to Pickle and RimLogging, and enable both.
-2. Link both this repository's `Mod/` and the companion mod into RimWorld's `Mods` folder. A
-   junction needs no elevation:
+2. Link both this repository's `Mod/` and the companion mod into RimWorld's `Mods` folder. The
+   local link matters: with the Workshop copy subscribed too, the game would name that one
+   differently and the steps would be built against the wrong assembly.
 
    ```powershell
    $mods = "C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods"
@@ -25,14 +27,21 @@ feature file, so nothing test-related ships in the Workshop folder.
 
 Pickle patches the game through Concord when Concord is loaded, and through Harmony otherwise. If
 Concord fails to start ("Failed to initialize Concord" in the log), none of Pickle's hooks land:
-every step that needs one fails. Disable Concord for the run - though neither scenario here uses
-one; see below.
+every step that needs one fails. Disable Concord for the run.
 
 ## Build
 
-None needed. Both scenarios use only Pickle's own generic step vocabulary (`Pickle.Vanilla`) -
-`mod "..." is loaded`, `mod "..." loads after "..."`, `def "..." of type "..." exists` - so there
-is no companion steps assembly to compile, unlike ArchitectStudio's and WorkStudio's suites.
+```powershell
+dotnet build Tests/Pickle/Source/SkillIcons.PickleSteps.csproj -c Release
+```
+
+The output goes to `Mod/Pickle/Assemblies/`. It binds to `Mod/1.6/Assemblies/SkillIcons.dll`, so
+build the mod first if it is stale:
+
+```powershell
+dotnet build _tools/animation-source/Source/SkillIcons/SkillIcons.csproj -c Release
+```
+
 Feature files need no build either way.
 
 ## Run
@@ -42,14 +51,70 @@ Feature files need no build either way.
   companion mod's name, exactly; without it Pickle also runs its own sample features. Reports land
   in `PickleReports` beside the saves: `report.html`, `junit.xml`, `summary.md`.
 
-Neither scenario touches a save, a colony or a button - both read state already present at the
-main menu (load order, the def database), so there is nothing to reset or restore afterward.
+**This document does not claim any of these scenarios pass.** They were written and compiled, not
+run: `dotnet build` proves the C# and the Cucumber expressions are well-formed against the real
+compiled assemblies (SkillIcons.dll, VSE.dll, RimWorks.Pickle.Ref); it proves nothing about what
+actually happens once Pickle drives them inside a running game. Read `PickleReports/report.html`
+after the first real run before trusting any of it.
+
+## What the suite does to your files
+
+- **Settings.** Before each scenario `SettingsSandbox` copies
+  `Mod_SkillIconsPickleTests_...` - whatever `LoadedModManager.GetSettingsFilename` resolves for
+  the linked mod folder name - to a `.pickle-backup` beside it, resets `SkillIconsMod.Settings` to
+  a fresh, default-valued instance, and runs the scenario against that. Afterwards the real file is
+  restored and reloaded. If the game dies mid-scenario, the next run's `[BeforeScenario]` restores
+  the backup first, exactly as WorkStudio's and ArchitectStudio's own `SettingsSandbox` do. **If a
+  `.pickle-backup` file is ever left in `Config/` and no further run is planned, copy it back over
+  the settings file by hand.**
+- **Pawns and hediffs.** `PassionSteps` sets `SkillRecord.passion` directly and, for
+  `... is granted the passion def "..."`, adds a real Hediff to the colonist it names. Nothing is
+  written back to `test-colony`: every scenario's `Background` reloads that save fresh
+  (`Given the save "test-colony" is loaded`), the same fixture pattern `pawn-steps.feature` and
+  every sibling suite use, so nothing a scenario does to a pawn survives into the next one.
+- **Screenshots.** `02` through `06` each end in one or more `I take a screenshot "..."` steps,
+  tagged `@review`. Nothing about their pixels is asserted; a person (or a later Claude session
+  with the report's images) looks and judges, the same pattern as ArchitectStudio's
+  `04b-arrows-at-150-percent.feature`.
+
+## How the scenarios reach the mod
+
+`SkillIconsMod.Settings` is declared `internal` in `SkillIcons.dll`, so `Driver.Settings(ctx)`
+reaches it once by reflection; `SkillIconsSettings` itself and every field on it are public, so
+once the object is in hand the steps use it like any other typed reference - no further reflection
+per field. `PassionSteps` resolves a colonist the same way `WorkStudio.PickleSteps.ColonySteps`
+does (`PawnsFinder.AllMaps_FreeColonists`, matched by `Name.ToStringShort`), and reads/writes
+`SkillRecord.passion` directly - a plain public field, not a private one reached through the mod.
+`BioTabSteps` opens the pawn's Character tab through `MainTabWindow_Inspect.openTabType`, a public
+`Type` field on a vanilla RimWorld class, confirmed by reflection against the installed
+`Assembly-CSharp.dll` while writing this suite (Pickle's own generic vocabulary has no step for
+an `ITab`, only for `MainTabWindow`-level tabs opened by their `MainButtonDef` label).
 
 ## What stays manual
 
-Everything else. These two scenarios only prove the mod loaded in the right order and declared
-its hidden settings shortcut - they cannot see a colour, an animation, a slider's effect or a
-tooltip's text. The other eleven `docs/TESTING.md` scenarios, and the rest of scenario 0 (the
-assembly-date log line, the three patch-failure warnings), need a person watching the screen; see
-the feature file's own header comment for why no custom steps assembly was built to close that
-gap for a settings page with no custom-drawn or draggable interaction.
+| docs/TESTING.md | Why |
+| --- | --- |
+| 0, the assembly-date line and the three patch-failure warnings | Already observed once, from `Player.log`; this suite does not re-check it |
+| 1, the pawn creation screen | No step in this suite or its siblings reaches `Page_ConfigureStartingPawns`; see `03-passion-icons.feature`'s header comment |
+| 1 and 3/4/7, whether the real vanilla Work tab is reachable at all | Depends on her current modlist's own Work tab replacement; the scenarios assert `window "MainTabWindow_Work" is open` and fail loudly if that is not true, rather than screenshotting the wrong window |
+| 1, whether an animation is actually moving | A single screenshot cannot show motion; only the frame it landed on |
+| 5's "live/triggered" for Alpha Skills' own ~20 HediffComp-driven passions | Forcing the real per-passion trigger condition (actual nudity, actual pain, ...) is out of scope; `03-passion-icons.feature` uses the always-full-colour `VSE_Natural` def as the closest honest stand-in - see `PassionSteps.cs`'s header comment |
+| 6, the Pawn Badge borrow toggle | Needs toggling another mod's presence; not written |
+| 8, settings persisting across a real restart and a reloaded save | One process cannot restart RimWorld; not written |
+| 9, the hidden MainButtons shortcut / RIMMSQOL | Needs RIMMSQOL installed; not written, matching ArchitectStudio's own README for its equivalent |
+| 10, English and French | No language-switch primitive exists in Pickle's own sample features (checked); not written |
+| 11, the five tooltip fixes | No hover/tooltip primitive exists in Pickle's own sample features either (checked across every `.feature` file shipped with Pickle); not written - see `06-worktab-headers.feature`'s header comment |
+
+## Real uncertainty, not yet resolved by anything short of a real run
+
+- Whether `MainButtonDefOf.Inspect.TabWindow as MainTabWindow_Inspect` is ever null, or the window
+  is not already implicitly open once a pawn is selected, was checked only by reading
+  `Assembly-CSharp.dll`'s field list, never by seeing the Bio tab actually appear.
+- Whether `I open the "Work" tab` (Pickle's own generic step) reaches `RimWorld.MainTabWindow_Work`
+  at all on her current modlist is explicitly unknown; docs/TESTING.md's own Scenario 1 notes
+  records a third-party Work tab replacement that drew no SkillIcons icon at all in prior manual
+  observation. The `Then window "MainTabWindow_Work" is open` assertion exists specifically to
+  surface this rather than hide it.
+- `PassionSteps.GrantPassionDef`'s Hediff grant was checked by reflection (the field exists, the
+  types resolve) but never by seeing a "_Active" icon draw - see `PassionSteps.cs`'s header
+  comment for exactly what is and is not claimed.

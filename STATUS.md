@@ -354,6 +354,32 @@ or custom steps assembly exists for this suite - both scenarios use only `Pickle
 generic step vocabulary - and that everything past load-order and the `MainButtonDef` check stays
 a manual, eyes-on-screen verification against `docs/TESTING.md`.
 
+**Added 2026-09-18, on request - a custom steps assembly, screenshot-only.** She asked for the
+manual `docs/TESTING.md` scenarios to be automated where possible rather than clicked through by
+hand. `Tests/Pickle/Source/SkillIcons.PickleSteps.csproj` (builds clean, 0 warnings/errors,
+independently rebuilt and confirmed here, not just taken from the build log) adds `PassionSteps.cs`
+(sets `SkillRecord.passion` directly; grants a real installed `PassionDef`'s Hediff as the honest
+limit of forcing a "live" state - it cannot fake Alpha Skills' ~20 HediffComp-driven real-world
+trigger conditions, see the file's own header), `SettingsSteps.cs`, `BioTabSteps.cs`, and
+`SettingsSandbox.cs` (backs up/restores the real settings file per scenario, matching WorkStudio's
+pattern). Five new `@review`-tagged feature files
+(`02-settings-defaults` through `06-worktab-headers`) each end in `I take a screenshot "..."` and
+assert nothing about pixels - a person, or a later Claude session reading the report's images,
+judges. Covers Scenario 2 (settings defaults), Scenarios 1+5 (passion icons, Bio tab and Work tab,
+explicitly not the pawn creation screen), Scenario 3 (work tab modes), Scenario 4 (sliders),
+Scenario 7 (header modes). Left manual, with reasons recorded in `Tests/Pickle/README.md`'s "what
+stays manual" table: the pawn creation screen, Scenario 6 (Pawn Badge toggle), Scenario 8 (a real
+restart), Scenario 9 (RIMMSQOL), Scenario 10 (no language-switch primitive exists in Pickle's own
+sample vocabulary), Scenario 11 (no hover/tooltip primitive either, checked across every shipped
+`.feature` file).
+
+Real, stated uncertainty this pass cannot resolve without an actual run: whether `I open the
+"Work" tab` reaches the real `RimWorld.MainTabWindow_Work` at all, given the third-party Work tab
+replacement already observed on her modlist - the scenarios assert `window "MainTabWindow_Work" is
+open` specifically so a mismatch fails loudly instead of silently screenshotting the wrong window.
+Nothing here was run; nothing here is claimed to have passed. `tested_on` and `remaining` stay as
+they were until she runs it and the resulting `PickleReports/` screenshots are actually read.
+
 ## In-game Pickle run — 2026-09-17
 
 Both `Tests/Pickle/` scenarios ran for real, in a running RimWorld, and both passed - the first
