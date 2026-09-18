@@ -116,18 +116,16 @@ rather than a verdict on this scenario:
 
 - **Character Editor** (skill list): coloured heart icons present, correctly varied by passion
   state, **confirmed animating**.
-- **Modern Bio** (skill list): coloured heart icons present, **static, does not animate**. Expected
-  by design: the icon itself likely comes from a patched `PassionDef.Icon` getter, reached from
-  anywhere, while the animation is injected by a Harmony transpiler targeting the specific IL of
-  `RimWorld.SkillUI.DrawSkill`/`WidgetsWork.DrawWorkBoxBackground` - a replacement UI mod drawing
-  its own list gets the right icon but not the transpiled animation, unless it happens to call the
-  same vanilla method internally. Not a defect: Modern Bio is not a mod SkillIcons targets.
-- **Bio Tab+** (character card, `Axolki.BioTabPlus`): same result as Modern Bio - correct coloured
-  icons, **static, does not animate**. Same reasoning: `[Bio Tab+] Character card patches applied.`
-  in `Player.log` confirms it draws its own card rather than calling the patched vanilla method. No
-  compatibility patch is warranted for this alone; the icon itself (shape, colour, passion state)
-  is already correct, only the animation flourish is missing, and would be for any third-party
-  skill-list UI drawing its own widgets. Considered and declined 2026-09-18.
+- **Bio Tab+** (character card, `Axolki.BioTabPlus`): coloured heart icons present, **static, does
+  not animate**. **Correction, same day:** first recorded here under the name "Modern Bio" - she
+  does not have that mod installed at all; it was Bio Tab+ both times, one screenshot mislabeled.
+  Expected by design, not a defect: `[Bio Tab+] Character card patches applied.` in `Player.log`
+  confirms it draws its own card rather than calling `RimWorld.SkillUI.DrawSkill`. The icon itself
+  likely comes from a patched `PassionDef.Icon` getter, reached from anywhere; the animation is
+  injected by a Harmony transpiler targeting that specific method's IL, which a mod drawing its own
+  card never reaches. No compatibility patch is warranted for this alone: the icon (shape, colour,
+  passion state) is already correct, only the animation flourish is missing, and a per-UI-mod patch
+  would not scale to every skill-list replacement out there. Considered and declined 2026-09-18.
 - **A third-party Work tab replacement** (priority grid with text-only diagonal column headers):
   **no SkillIcons icon at all**, anywhere in the grid or headers. Same reasoning: this mod draws
   its own grid, never calling `WidgetsWork.DrawWorkBoxBackground` or the `DoHeader` prefix. Whether
