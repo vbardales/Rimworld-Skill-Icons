@@ -109,8 +109,24 @@ and closes, the bubbles rise in the champagne glass, the mood icon drifts along 
 **Fails if:** any of the three places still shows Vanilla Skills Expanded's own flame/star icons,
 or an icon that should animate never moves.
 
-**Not yet observed on the three named places (vanilla pawn creation screen, Bio tab, Work tab) -
-her modlist replaces at least two of them and she is still locating an unmodified route to each.**
+**Pawn creation screen: observed, 2026-09-18.** Her own screenshot of `Page_ConfigureStartingPawns`
+shows coloured heart icons per skill, correctly varying with value (hollow/pale at 0, filled and
+differently coloured above it) - matches expectation, not the vanilla flame/star set.
+
+**Work tab: observed, 2026-09-18, via the new Pickle suite's screenshot.** Zoomed into
+`manual--work-tab-mixed-passions--step0.png`: real dark-red heart icons appear in the
+"Passionate" colonist's row, mixed with plain green checkmarks elsewhere. The "Priorité
+manuelle ❌" header confirms this is the **real vanilla `MainTabWindow_Work`** in its
+checkbox-priority mode, not the third-party Work tab replacement observed earlier on her own
+manual screenshot - `I open the "Work" tab"` reaches the real class directly regardless of what
+her own interface currently has bound. This resolves the `Tests/Pickle/README.md` "real
+uncertainty" note. Colour-coding by live/dormant state was not distinguishable at this zoom level
+and is not separately confirmed.
+
+**Bio tab: inconclusive.** The equivalent automated screenshot
+(`manual--bio-tab-mixed-passions--step0.png`) is obstructed by a `RimLogging` log-viewer window
+that covers the whole screen; the pawn's inspector pane is open but on the Journal sub-tab, not
+Bio. Needs a rerun (closing or suppressing that viewer first) or a manual check.
 Third-party skill/work UI observed in the meantime, 2026-09-18, recorded here as extra evidence
 rather than a verdict on this scenario:
 

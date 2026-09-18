@@ -107,14 +107,17 @@ an `ITab`, only for `MainTabWindow`-level tabs opened by their `MainButtonDef` l
 
 ## Real uncertainty, not yet resolved by anything short of a real run
 
-- Whether `MainButtonDefOf.Inspect.TabWindow as MainTabWindow_Inspect` is ever null, or the window
-  is not already implicitly open once a pawn is selected, was checked only by reading
-  `Assembly-CSharp.dll`'s field list, never by seeing the Bio tab actually appear.
-- Whether `I open the "Work" tab` (Pickle's own generic step) reaches `RimWorld.MainTabWindow_Work`
-  at all on her current modlist is explicitly unknown; docs/TESTING.md's own Scenario 1 notes
-  records a third-party Work tab replacement that drew no SkillIcons icon at all in prior manual
-  observation. The `Then window "MainTabWindow_Work" is open` assertion exists specifically to
-  surface this rather than hide it.
+**Resolved, her first real run, 2026-09-18:** `I open the "Work" tab` does reach the real
+`RimWorld.MainTabWindow_Work`, confirmed by zooming into that run's own
+`work-tab-mixed-passions` screenshot - real heart icons visible in the "Passionate" row, and the
+window's own "Priorité manuelle ❌" header identifies it as vanilla's checkbox-priority mode. This
+is a different window from the third-party Work tab replacement seen in her manual screenshots:
+Pickle opens the class directly, regardless of what her own interface currently has bound.
+
+- The equivalent Bio tab screenshot from that same run was useless - a `RimLogging` log-viewer
+  window, left open from an earlier scenario in the run, covered the whole screen. Added
+  `And I close all dialogs` before opening the Bio tab in `03-passion-icons.feature`; unconfirmed
+  until the next real run.
 - `PassionSteps.GrantPassionDef`'s Hediff grant was checked by reflection (the field exists, the
   types resolve) but never by seeing a "_Active" icon draw - see `PassionSteps.cs`'s header
   comment for exactly what is and is not claimed.
