@@ -109,6 +109,24 @@ and closes, the bubbles rise in the champagne glass, the mood icon drifts along 
 **Fails if:** any of the three places still shows Vanilla Skills Expanded's own flame/star icons,
 or an icon that should animate never moves.
 
+**Not yet observed on the three named places (vanilla pawn creation screen, Bio tab, Work tab) -
+her modlist replaces at least two of them and she is still locating an unmodified route to each.**
+Third-party skill/work UI observed in the meantime, 2026-09-18, recorded here as extra evidence
+rather than a verdict on this scenario:
+
+- **Character Editor** (skill list): coloured heart icons present, correctly varied by passion
+  state, **confirmed animating**.
+- **Modern Bio** (skill list): coloured heart icons present, **static, does not animate**. Expected
+  by design: the icon itself likely comes from a patched `PassionDef.Icon` getter, reached from
+  anywhere, while the animation is injected by a Harmony transpiler targeting the specific IL of
+  `RimWorld.SkillUI.DrawSkill`/`WidgetsWork.DrawWorkBoxBackground` - a replacement UI mod drawing
+  its own list gets the right icon but not the transpiled animation, unless it happens to call the
+  same vanilla method internally. Not a defect: Modern Bio is not a mod SkillIcons targets.
+- **A third-party Work tab replacement** (priority grid with text-only diagonal column headers):
+  **no SkillIcons icon at all**, anywhere in the grid or headers. Same reasoning: this mod draws
+  its own grid, never calling `WidgetsWork.DrawWorkBoxBackground` or the `DoHeader` prefix. Whether
+  the vanilla Work tab is still reachable on this modlist, for Scenarios 1/3/4/6/7, is unconfirmed.
+
 ## Scenario 2 — the settings page opens from the primary entry and matches its documented defaults
 
 **Do:** Options > Mod settings > SkillIcons, on a clean configuration (no prior `Mod_SkillIcons_*`
