@@ -122,6 +122,12 @@ rather than a verdict on this scenario:
   `RimWorld.SkillUI.DrawSkill`/`WidgetsWork.DrawWorkBoxBackground` - a replacement UI mod drawing
   its own list gets the right icon but not the transpiled animation, unless it happens to call the
   same vanilla method internally. Not a defect: Modern Bio is not a mod SkillIcons targets.
+- **Bio Tab+** (character card, `Axolki.BioTabPlus`): same result as Modern Bio - correct coloured
+  icons, **static, does not animate**. Same reasoning: `[Bio Tab+] Character card patches applied.`
+  in `Player.log` confirms it draws its own card rather than calling the patched vanilla method. No
+  compatibility patch is warranted for this alone; the icon itself (shape, colour, passion state)
+  is already correct, only the animation flourish is missing, and would be for any third-party
+  skill-list UI drawing its own widgets. Considered and declined 2026-09-18.
 - **A third-party Work tab replacement** (priority grid with text-only diagonal column headers):
   **no SkillIcons icon at all**, anywhere in the grid or headers. Same reasoning: this mod draws
   its own grid, never calling `WidgetsWork.DrawWorkBoxBackground` or the `DoHeader` prefix. Whether
