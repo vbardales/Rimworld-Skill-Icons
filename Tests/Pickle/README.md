@@ -72,7 +72,7 @@ after the first real run before trusting any of it.
   written back to `test-colony`: every scenario's `Background` reloads that save fresh
   (`Given the save "test-colony" is loaded`), the same fixture pattern `pawn-steps.feature` and
   every sibling suite use, so nothing a scenario does to a pawn survives into the next one.
-- **Screenshots.** `02` through `06` each end in one or more `I take a screenshot "..."` steps,
+- **Screenshots.** `02` through `05` each end in one or more `I take a screenshot "..."` steps,
   tagged `@review`. Nothing about their pixels is asserted; a person (or a later Claude session
   with the report's images) looks and judges, the same pattern as ArchitectStudio's
   `04b-arrows-at-150-percent.feature`.
@@ -96,14 +96,12 @@ an `ITab`, only for `MainTabWindow`-level tabs opened by their `MainButtonDef` l
 | --- | --- |
 | 0, the assembly-date line and the three patch-failure warnings | Already observed once, from `Player.log`; this suite does not re-check it |
 | 1, the pawn creation screen | No step in this suite or its siblings reaches `Page_ConfigureStartingPawns`; see `03-passion-icons.feature`'s header comment |
-| 1 and 3/4/7, whether the real vanilla Work tab is reachable at all | Depends on her current modlist's own Work tab replacement; the scenarios assert `window "MainTabWindow_Work" is open` and fail loudly if that is not true, rather than screenshotting the wrong window |
 | 1, whether an animation is actually moving | A single screenshot cannot show motion; only the frame it landed on |
 | 5's "live/triggered" for Alpha Skills' own ~20 HediffComp-driven passions | Forcing the real per-passion trigger condition (actual nudity, actual pain, ...) is out of scope; `03-passion-icons.feature` uses the always-full-colour `VSE_Natural` def as the closest honest stand-in - see `PassionSteps.cs`'s header comment |
-| 6, the skill and work type icon toggles | Not written; the Pawn Badge borrow half of this scenario no longer exists (feature removed 2026-09-18) |
 | 8, settings persisting across a real restart and a reloaded save | One process cannot restart RimWorld; not written |
 | 9, the hidden MainButtons shortcut / RIMMSQOL | Needs RIMMSQOL installed; not written, matching ArchitectStudio's own README for its equivalent |
 | 10, English and French | No language-switch primitive exists in Pickle's own sample features (checked); not written |
-| 11, the five tooltip fixes | No hover/tooltip primitive exists in Pickle's own sample features either (checked across every `.feature` file shipped with Pickle); not written - see `06-worktab-headers.feature`'s header comment |
+| 11, the five tooltip fixes | No hover/tooltip primitive exists in Pickle's own sample features either (checked across every `.feature` file shipped with Pickle); not written |
 
 ## Real uncertainty, not yet resolved by anything short of a real run
 

@@ -19,14 +19,4 @@
   <SkillIcons.WorkTabScale>Icon size: {0}%</SkillIcons.WorkTabScale>
   <SkillIcons.WorkTabOpacity>Icon opacity: {0}%</SkillIcons.WorkTabOpacity>
   <SkillIcons.GalleryHint>Every passion, twice: on the left as it appears in the skill list, on the right as it appears in the work tab. Animated ones play here at the speed set above.</SkillIcons.GalleryHint>
-
-
-  <SkillIcons.Types>Skill and work type icons</SkillIcons.Types>
-  <SkillIcons.SkillIcons>Icons in the skill list</SkillIcons.SkillIcons>
-  <SkillIcons.SkillIconsDesc>Draws an icon before each skill name in the character tab.</SkillIcons.SkillIconsDesc>
-  <SkillIcons.WorkTypeIcons>Icons on work tab columns</SkillIcons.WorkTypeIcons>
-  <SkillIcons.WorkTypeIconsDesc>Draws an icon at the foot of each work tab column header.</SkillIcons.WorkTypeIconsDesc>
-  <SkillIcons.HeaderBoth>Column headers: icon and label</SkillIcons.HeaderBoth>
-  <SkillIcons.HeaderIcon>Column headers: icon only (narrower columns, tooltip kept)</SkillIcons.HeaderIcon>
-  <SkillIcons.HeaderLabel>Column headers: label only</SkillIcons.HeaderLabel>
 </LanguageData>

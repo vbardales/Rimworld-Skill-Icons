@@ -7,7 +7,7 @@ What has actually been observed, what has not, and how to observe the rest.
 **Every failure mode here is silent by design, not by accident.** If a Harmony transpiler finds
 nothing to patch, the mod does not crash and does not disable itself - the work tab or the bio
 tab simply keeps drawing Vanilla Skills Expanded's own icons, and nothing in the game's own UI
-says why. The two transpilers and the `DoHeader` prefix each log a warning when they patch zero
+says why. Both transpilers log a warning when they patch zero
 call sites, specifically so a broken patch is *findable* instead of just quietly reverting to
 vanilla. A clean `Player.log` proves the load did not throw; it does not prove every icon you see
 is animated or colour-coded the way the mod intends. Positive, on-screen evidence is what the
@@ -24,16 +24,16 @@ The log lives at:
 | | State |
 |---|---|
 | Loads without error (Scenario 0) | **observed, 2026-09-17** - see below |
-| The out-of-game harness | **27 of 27 pass**, 2026-09-19 |
+| The out-of-game harness | **25 of 25 pass**, 2026-09-19 |
 | Scenario 1 (icons in three places) | **passed** on the Work tab and pawn creation screen, Bio tab confirmed 2026-09-19 |
 | Scenario 2 (settings defaults) | **passed**, 2026-09-19 |
 | Scenario 3 (three work tab modes) | **FAILED** 2026-09-19, defect fixed the same day, refix unverified on screen |
 | Scenario 4 (size/opacity sliders) | **passed**, 2026-09-19 |
-| Scenarios 5-11 | **never observed** |
+| Scenarios 5, 8-11 | **never observed** |
 
 ## The other half, which does not need a colony
 
-`_tools/Run-Tests.ps1` runs twenty-seven tests without starting the game:
+`_tools/Run-Tests.ps1` runs twenty-five tests without starting the game:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File _tools\Run-Tests.ps1
@@ -87,7 +87,6 @@ Vanilla Skills Expanded's own icons instead):
 [SkillIcons] No call to PassionDef.WorkBoxIcon found in DrawWorkBoxBackground: the Work tab icons will stay Vanilla Skills Expanded's own. Check that SkillIcons is loaded after it.
 [SkillIcons] WorkBoxIcon hijacked N times, but no recognised draw call followed: the Work tab icons will be ours, without the size or opacity settings.
 [SkillIcons] No call to PassionDef.Icon found in SkillUI.DrawSkill: the skill list and pawn creation screen will keep Vanilla Skills Expanded's own icons.
-[SkillIcons] DoHeader not found: Work tab column headers will stay without an icon.
 ```
 
 **Observed, 2026-09-17.** Read directly from `Player.log` after the session that also ran the
@@ -161,9 +160,7 @@ rather than a verdict on this scenario:
 settings file, or one deleted first).
 
 **Expect:** animated passion icons checked; speed slider at 1.0x; the "no passion" icon
-unchecked; work tab mode set to **Mixed**; work tab icon size at 130%, opacity at 85%; skill
-icons and work type icons both checked; column headers set to
-icon-and-label. A live gallery below the controls lists every installed passion, twice each
+unchecked; work tab mode set to **Mixed**; work tab icon size at 130%, opacity at 85%. A live gallery below the controls lists every installed passion, twice each
 (skill-list icon, work-tab icon), animating at the chosen speed.
 
 **Fails if:** any default differs from the list above (the out-of-game harness proves the
@@ -230,32 +227,13 @@ appears, visibly dimmer/less prominent than any real passion's icon on the same 
 **Fails if:** the icon is visible before the option is enabled, or is as bright as (or brighter
 than) an active passion once enabled.
 
-## Scenario 6 — skill and work type icon toggles
 
-**Do:** open the Bio tab and the Work tab with both "icons in the skill list" and "icons on work
-tab columns" checked, then unchecked.
-
-**Expect:** unchecking either checkbox removes exactly that set of icons (skill list icons, or
-work tab column-header icons) and nothing else. Every skill and work type shows this mod's own
-drawing; there is no gap anywhere.
-
-**Fails if:** a checkbox does not toggle its icons, or any skill or work type shows a gap instead
-of this mod's drawing.
-
-> The Pawn Badge borrow half of this scenario was removed on 2026-09-18 along with the feature
-> itself: this mod no longer reads *(MISC) Job Icons+ Revitalized*'s textures, and always serves
-> its own.
-
-## Scenario 7 — work tab column header modes
-
-**Do:** in the settings, switch "column headers" through **icon and label**, **icon only**, and
-**label only**.
-
-**Expect:** icon-and-label shows both; icon-only narrows the column and shows just the icon, with
-a tooltip on hover naming the work type and its description (the label the column would
-otherwise have shown); label-only shows text exactly as Vanilla Skills Expanded already did.
-
-**Fails if:** icon-only loses the tooltip, or any mode fails to change the header's appearance.
+> **Scenarios 6 and 7 were removed on 2026-09-19**, with the feature they tested. The skill and
+> work type icon set — the twelve skill icons, the twenty-three work type icons, their two
+> toggles and the three column-header modes — moved to Work Studio, which owns work types and
+> was already designing a per-type icon in its own backlog. SkillIcons draws passions only. The
+> numbering is left with a gap on purpose: this file, `STATUS.md` and several commit messages all
+> cite scenarios by number, and renumbering would silently invalidate every one of those citations.
 
 ## Scenario 8 — settings persist across reopen, restart, and a reloaded save
 

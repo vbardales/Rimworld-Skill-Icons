@@ -29,11 +29,6 @@ public sealed class SkillIconsSettings : ModSettings
     public float workTabScale = 1.3f;
     public float workTabOpacity = 0.85f;
 
-    // Skill and work type icons. A set distinct from the passions: there,
-    // colour belongs to the passion; here, shape belongs to the skill.
-    public bool showSkillIcons = true;
-    public bool showWorkTypeIcons = true;
-    public int workTabHeaderMode = SkillTypeIcons.EnteteIconeEtTexte;
 
     public override void ExposeData()
     {
@@ -43,16 +38,10 @@ public sealed class SkillIconsSettings : ModSettings
         Scribe_Values.Look(ref workTabMode, "workTabMode", ModeMixte);
         Scribe_Values.Look(ref workTabScale, "workTabScale", 1.3f);
         Scribe_Values.Look(ref workTabOpacity, "workTabOpacity", 0.85f);
-        Scribe_Values.Look(ref showSkillIcons, "showSkillIcons", true);
-        Scribe_Values.Look(ref showWorkTypeIcons, "showWorkTypeIcons", true);
-        Scribe_Values.Look(ref workTabHeaderMode, "workTabHeaderMode",
-            SkillTypeIcons.EnteteIconeEtTexte);
         speed = Mathf.Clamp(speed, 0.5f, 1.5f);
         workTabScale = Mathf.Clamp(workTabScale, 1f, 1.8f);
         workTabOpacity = Mathf.Clamp(workTabOpacity, 0.25f, 1f);
         workTabMode = Mathf.Clamp(workTabMode, ModeCouleur, ModeMixte);
-        workTabHeaderMode = Mathf.Clamp(workTabHeaderMode,
-            SkillTypeIcons.EnteteIconeEtTexte, SkillTypeIcons.EnteteTexteSeul);
     }
 }
 
@@ -127,21 +116,6 @@ public sealed class SkillIconsMod : Mod
             Mathf.RoundToInt(Settings.workTabOpacity * 100f)));
         Settings.workTabOpacity = listing.Slider(Settings.workTabOpacity, 0.25f, 1f);
 
-        listing.GapLine(10f);
-        listing.Label("SkillIcons.Types".Translate());
-        listing.CheckboxLabeled("SkillIcons.SkillIcons".Translate(), ref Settings.showSkillIcons,
-            "SkillIcons.SkillIconsDesc".Translate());
-        listing.CheckboxLabeled("SkillIcons.WorkTypeIcons".Translate(),
-            ref Settings.showWorkTypeIcons, "SkillIcons.WorkTypeIconsDesc".Translate());
-        if (listing.RadioButton("SkillIcons.HeaderBoth".Translate(),
-                Settings.workTabHeaderMode == SkillTypeIcons.EnteteIconeEtTexte, 8f))
-            Settings.workTabHeaderMode = SkillTypeIcons.EnteteIconeEtTexte;
-        if (listing.RadioButton("SkillIcons.HeaderIcon".Translate(),
-                Settings.workTabHeaderMode == SkillTypeIcons.EnteteIconeSeule, 8f))
-            Settings.workTabHeaderMode = SkillTypeIcons.EnteteIconeSeule;
-        if (listing.RadioButton("SkillIcons.HeaderLabel".Translate(),
-                Settings.workTabHeaderMode == SkillTypeIcons.EnteteTexteSeul, 8f))
-            Settings.workTabHeaderMode = SkillTypeIcons.EnteteTexteSeul;
         var controlsHeight = listing.CurHeight;
         listing.End();
 

@@ -13,13 +13,6 @@ Passion icons are drawn in four places. All four are covered:
 | work tab | `WidgetsWork.DrawWorkBoxBackground` transpiler (`WorkBoxIcon`) |
 | mod options | the gallery in `DoSettingsWindowContents` |
 
-The skill and work type icons are drawn in two more:
-
-| where | how |
-|---|---|
-| bio tab, before each skill name | `SkillUI.DrawSkill` **prefix**, which shrinks the rect |
-| work tab column headers | `PawnColumnWorker_WorkPriority.DoHeader` prefix |
-
 The postfix sits on the `PassionDef.Icon` getter itself, so any other caller —
 Pawn Editor included — animates for free *provided it goes through that
 property*. Pawn Editor is not installed here, so that one is unverified.
@@ -85,30 +78,6 @@ learns at `0.35` and `VSE_Apathy` at `0.25`, so the rule would make `None` the
 *lighter* of the two. The icon's job here is not to compete, so it is drawn
 darker anyway. Near-black was rejected for a measurable reason: on RimWorld's
 `#2A2A2A` panels it disappears outright at 24 px.
-
-## Skill and work type icons
-
-A second set, 12 skills and 23 work types, obeying the **opposite** rule to the
-passions: monochrome, shape alone. Colour already means "which passion" here, and
-making it mean "which skill" as well would render both unreadable.
-
-Drawn in `gen.js` like everything else, and tested the same way — the silhouette
-sheet at 20 px is what caught the four failures worth recording, because each one
-is a trap that will recur:
-
-| icon | what went wrong | why |
-|---|---|---|
-| Shooting | the rifle became a horizontal smear | long thin objects have no silhouette at 20 px; this is why icon sets reach for a target |
-| Construction | the trowel read as a downward arrow | a triangle pointing down belongs to nobody |
-| Mining | the pickaxe read as an **umbrella** | an arc centred on a vertical handle *is* an umbrella — it took both asymmetry and a diagonal to fix |
-| Firefighter | the flame read as a water drop | a flame is named by its irregular base, not by its outline; a second tone did not help |
-
-Nine work types reuse their skill's drawing. "Cook" and "Cooking" name the same
-domain, and giving them different glyphs would imply two notions.
-
-Both draw sites work by **shrinking the rect** before handing control back to the
-game, rather than locating the label, the bar and the passion icon inside it. The
-patch therefore survives any re-layout by Ludeon.
 
 ## Patches
 
@@ -201,7 +170,7 @@ repository at the other end.
 
 ## Testing
 
-`powershell -ExecutionPolicy Bypass -File _tools/Run-Tests.ps1` runs 27 tests without starting
+`powershell -ExecutionPolicy Bypass -File _tools/Run-Tests.ps1` runs 25 tests without starting
 the game: settings defaults and clamping, the MainButtons shortcut's wiring (read from its IL,
 since it cannot be called outside the game), every Harmony patch target resolved against the
 real installed Assembly-CSharp/VSE.dll, the animation frame table checked against `gen.js` and the
@@ -215,9 +184,7 @@ need a running game; several are now confirmed (see that file for current status
 
 `bash _tools/build.sh` regenerates everything: `_tools/gen.js`'s 41 parametric
 passion drawings become the 85 static textures, the 920 animation frames and
-the 85 silhouettes; its further 12 skill and 14 work type drawings become the
-12 skill and 23 work type textures (nine of the latter reusing a skill's
-drawing). Animation frame counts and modes in `gen.js` mirror the `Specs`
+the 85 silhouettes. Animation frame counts and modes in `gen.js` mirror the `Specs`
 table in `PassionIconAnimations.cs` exactly — a count that drifts makes the DLL
 fall back to the static icon.
 

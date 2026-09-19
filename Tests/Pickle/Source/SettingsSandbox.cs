@@ -63,7 +63,7 @@ namespace SkillIcons.PickleSteps
         /// SkillIconsSettings matches the documented defaults" test checks against the compiled
         /// DLL. A brand new instance already carries them via its field initializers; this only
         /// needs to make the live drawing code (SkillIconsMod.Settings, the static field) point at
-        /// it, since PassionIconAnimations/SkillTypeIcons read that field directly rather than
+        /// it, since PassionIconAnimations reads that field directly rather than
         /// calling GetSettings&lt;T&gt;() themselves.
         /// </summary>
         public static void ResetToDefaults()

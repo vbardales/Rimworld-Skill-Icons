@@ -23,8 +23,6 @@ shoot () {
 shoot _tools/svg/Passions Mod/1.6/Textures/Passions
 shoot _tools/svg/Frames   Mod/1.6/Textures/Passions/Animated
 shoot _tools/svg/UI       Mod/1.6/Textures/UI/Icons
-shoot _tools/svg/Skills    Mod/1.6/Textures/Skills
-shoot _tools/svg/WorkTypes Mod/1.6/Textures/WorkTypes
 shoot _tools/sil          _tools/silpng
 echo "textures:$(ls Mod/1.6/Textures/Passions/*.png | wc -l)  silhouettes:$(ls _tools/silpng | wc -l)  frames:$(ls Mod/1.6/Textures/Passions/Animated | wc -l)"
 

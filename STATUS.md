@@ -25,7 +25,9 @@ remaining:
       column header modes, persistence across a restart, the RIMMSQOL shortcut, EN/FR runtime
       display, the five tooltip fixes) still need a person watching the screen.
 session:      local_314cf7e0-0763-4b3b-b4b7-03e564331dc5
-updated:      2026-09-19, second in-game run: scenario 3 failed and was fixed (grey mode was
+updated:      2026-09-19, the skill and work type icon set moved to Work Studio and was cut here,
+              leaving a passions-only mod; and the second in-game run, where scenario 3 failed
+              and was fixed (grey mode was
               overridden by the colour-only animation frames), the settings and Bio tab
               scenarios were repaired and passed, and Screenshots/ was added. Earlier:
               2026-09-17, full workflow audit; Source-code link, brrainz.harmony loadAfter,
@@ -508,6 +510,42 @@ green Pickle run is not evidence for these five scenarios on its own.
 `Screenshots/` now holds four crops taken from this run, with a README recording what each shows,
 why the mode trio is deliberately absent, and that `01-settings-page.png` will need re-shooting
 once the skill/work-type section leaves for Work Studio.
+
+## Skill and work type icons removed — 2026-09-19
+
+On her decision: the whole set moved to Work Studio, which owns work types and was already
+designing a per-type icon in its own backlog. Work Studio ported it first (their commit
+`5870457`) and confirmed nothing there depends on this tree any more; only then was it cut here.
+SkillIcons draws passions only from now on.
+
+Removed: `SkillTypeIcons.cs` with both its Harmony prefixes (`SkillUI.DrawSkill`'s rect-shrinking
+prefix and the `PawnColumnWorker_WorkPriority.DoHeader` one), the twelve `Textures/Skills/` and
+twenty-three `Textures/WorkTypes/` PNGs, `gen.js` lines 1144-1426 and the two `build.sh`
+rasterisation steps that fed them, the three settings fields (`showSkillIcons`,
+`showWorkTypeIcons`, `workTabHeaderMode`) with their Scribe lines, clamp and settings-page block,
+the eight Keyed entries in both languages, the About/README/CHANGELOG passages, `docs/TESTING.md`
+scenarios 6 and 7, `06-worktab-headers.feature` with its step, and the two harness tests tied to
+them.
+
+Six settings fields remain, four of them clamped. The harness is **25 of 25**, rebuilt clean. The
+translation-coverage test is again what proves the removal was consistent rather than partial: it
+checks EN/FR key parity and that every `.Translate()` call site still has a matching Keyed entry,
+so an orphan on either side would have failed it.
+
+Two deliberate choices worth recording:
+
+- **`docs/TESTING.md` keeps a gap at 6 and 7** rather than renumbering. This file, that file and
+  several commit messages all cite scenarios by number; renumbering would silently invalidate every
+  citation. The gap carries a note saying why.
+- **Audit rows dated 2026-09-17 still describe the feature**, because it existed then. They are
+  left as written, the same treatment the Pawn Badge removal got.
+
+`Screenshots/01-settings-page.png` is now stale — it shows the removed section — and needs
+re-shooting once the trio from the Scenario 3 fix is re-shot anyway. Its README already flagged
+this.
+
+A `BACKLOG.md` was started for this mod at the same time, with her idea of picking a passion's
+drawing by clicking it in the options gallery.
 
 ## Historical record (retained)
 

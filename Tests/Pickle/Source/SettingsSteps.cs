@@ -38,19 +38,6 @@ namespace SkillIcons.PickleSteps
             };
         }
 
-        [When("SkillIcons work tab header mode is set to {string}")]
-        public void SetHeaderMode(PickleContext ctx, string mode)
-        {
-            var settings = Driver.Settings(ctx);
-            settings.workTabHeaderMode = mode.ToLowerInvariant() switch
-            {
-                "icon and label" => SkillTypeIcons.EnteteIconeEtTexte,
-                "icon only" => SkillTypeIcons.EnteteIconeSeule,
-                "label only" => SkillTypeIcons.EnteteTexteSeul,
-                _ => throw new ArgumentException(
-                    $"'{mode}' is not 'icon and label', 'icon only' or 'label only'")
-            };
-        }
 
         [When("SkillIcons work tab icon size is set to {int} percent")]
         public void SetScale(PickleContext ctx, int percent) => Driver.Settings(ctx).workTabScale = percent / 100f;

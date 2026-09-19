@@ -136,8 +136,6 @@ if (-not $settingsType) {
         $expected = @{
             enabled = $true; speed = 1.0; showNonePassion = $false
             workTabMode = 2; workTabScale = 1.3; workTabOpacity = 0.85
-            showSkillIcons = $true; showWorkTypeIcons = $true
-            workTabHeaderMode = 0
         }
         foreach ($k in $expected.Keys) {
             $actual = $settingsType.GetField($k).GetValue($s)
@@ -183,12 +181,6 @@ if (-not $settingsType) {
         $settingsType.GetField('workTabMode').SetValue($s, [int]99)
         $settingsType.GetMethod('ExposeData').Invoke($s, @())
         if ($settingsType.GetField('workTabMode').GetValue($s) -ne 2) { "clamped to $($settingsType.GetField('workTabMode').GetValue($s)), expected 2 (ModeMixte)" }
-    }
-    It 'ExposeData clamps workTabHeaderMode to [EnteteIconeEtTexte, EnteteTexteSeul]' {
-        $s = [Activator]::CreateInstance($settingsType)
-        $settingsType.GetField('workTabHeaderMode').SetValue($s, [int]-5)
-        $settingsType.GetMethod('ExposeData').Invoke($s, @())
-        if ($settingsType.GetField('workTabHeaderMode').GetValue($s) -ne 0) { "clamped to $($settingsType.GetField('workTabHeaderMode').GetValue($s)), expected 0" }
     }
 }
 
@@ -283,16 +275,6 @@ It 'SkillUI.DrawSkill(SkillRecord, Rect, SkillDrawMode, string) resolves' {
     $m = $t.GetMethod('DrawSkill', $flags, $null, @($skillRecord, $rect, $drawMode, [string]), $null)
     if (-not $m) { 'no matching DrawSkill overload found' }
 }
-It 'the documented DoHeader fallback (PawnColumnWorker_WorkPriority, else PawnColumnWorker) exists' {
-    $flags = [System.Reflection.BindingFlags]'Public,NonPublic,Static,Instance,DeclaredOnly'
-    $t1 = $csAsm.GetType('RimWorld.PawnColumnWorker_WorkPriority')
-    $t2 = $csAsm.GetType('RimWorld.PawnColumnWorker')
-    if (-not $t1) { 'RimWorld.PawnColumnWorker_WorkPriority not found'; return }
-    if (-not $t2) { 'RimWorld.PawnColumnWorker not found'; return }
-    $declared = $t1.GetMethod('DoHeader', $flags)
-    $base     = $t2.GetMethod('DoHeader', [System.Reflection.BindingFlags]'Public,NonPublic,Static,Instance')
-    if (-not $declared -and -not $base) { 'neither PawnColumnWorker_WorkPriority nor PawnColumnWorker declares DoHeader' }
-}
 
 # =================================================================== E. translation coverage
 $enFile = Join-Path $ModRoot 'Mod\Languages\English\Keyed\SkillIcons.xml'
@@ -353,7 +335,7 @@ It 'SkillIcons_Settings.label/.description resolve: English from the Def, French
 # forces Harmony to decompile and rebuild their IL - and those methods call into Unity's own
 # ECall-backed GUI drawing, which throws "ECall methods must be packaged into a system module"
 # the moment Harmony tries to prepare them outside the actual Unity runtime. Confirmed by hand
-# before writing this suite; SkillTypeIcons's cctor only applies prefixes, which is why it is
+# before writing this suite. The passion animation cctor is the only one this mod still has.
 # safe to trigger below and this one is not. So both checks here read the Specs dictionary
 # LITERAL straight out of PassionIconAnimations.cs, not the compiled field - a source-level
 # check, not a DLL-level one, and said so rather than silently claiming the stronger kind.

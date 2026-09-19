@@ -12,7 +12,6 @@ First release.
 - A unified passion icon set for Vanilla Skills Expanded and Alpha Skills: 85 textures, drawn from scratch by `_tools/gen.js`. Every passion owns a hue of its own, spread across the colour wheel, and that hue is carried by the main shape rather than by an accessory — at 24 px an accessory disappears.
 - Animations for 40 passions, 920 frames. Each one is a gesture that says something about the passion rather than a generic wobble: the padlock opens, the pendulum swings, the signal runs the circuit, the sand drains.
 - Work tab controls. Vanilla Skills Expanded draws work tab passions small and desaturated, which is where the grid becomes unreadable. Three modes — colour, greyed, or (the default) colour while the bonus is running and grey while it sleeps — plus separate size and opacity sliders, because size helps you see the passion while opacity gives the priority digit back to the text.
-- Icons for the 12 skills and the 23 work types, monochrome by design: in this mod colour already means "which passion", and making it mean "which skill" as well would render both unreadable. Shape alone carries the identity.
 - An optional faint icon for "no passion", off by default. Ten skills out of twelve carry it, and that empty space is what lets you spot the passionate ones at a glance.
 - A gallery in the mod settings listing every passion with both its skill-list icon and its work-tab icon, animating live.
 - A hidden MainButtons shortcut to the mod settings, for RIMMSQOL and other button-customization mods; not visible on a clean install.
