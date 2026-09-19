@@ -13,15 +13,22 @@ licence:      original
 licence_at:   original work, MIT; Oracle's Skill Icon Retextures credited for the visual language only, no texture reused (verified against ATTRIBUTION.md and the generator)
 dependencies: declared
 showcase:     complete
-tested_on:    2026-09-17 (partial: the two Tests/Pickle/ scenarios only, see below)
+tested_on:    2026-09-19 (partial: Pickle's two loading scenarios, plus docs/TESTING.md
+              scenarios 0, 1, 2 and 4 confirmed; scenario 3 failed and was fixed, refix unverified)
 workshop:
 remaining:
-  - unverified: docs/TESTING.md scenarios 1-11 (icons on screen, animation, sliders, the
-      settings UI, EN/FR runtime display, RIMMSQOL integration, the five tooltip fixes) still
-      need a person watching the screen. Scenario 0 (the load-time log line) is now confirmed;
-      see below.
+  - unverified: docs/TESTING.md scenario 3's fix. The three work tab modes all drew the same
+      thing because the grey path went through the animation lookup, which only has colour
+      frames; fixed 2026-09-19 by not animating on the grey path. Compiles, harness green,
+      but nothing has seen it on screen - re-shoot the Pickle mode trio and compare.
+  - unverified: docs/TESTING.md scenarios 5-11 (the "no passion" icon, the icon toggles, the
+      column header modes, persistence across a restart, the RIMMSQOL shortcut, EN/FR runtime
+      display, the five tooltip fixes) still need a person watching the screen.
 session:      local_314cf7e0-0763-4b3b-b4b7-03e564331dc5
-updated:      2026-09-17, full workflow audit; Source-code link, brrainz.harmony loadAfter,
+updated:      2026-09-19, second in-game run: scenario 3 failed and was fixed (grey mode was
+              overridden by the colour-only animation frames), the settings and Bio tab
+              scenarios were repaired and passed, and Screenshots/ was added. Earlier:
+              2026-09-17, full workflow audit; Source-code link, brrainz.harmony loadAfter,
               French log lines/source comments, detachment from the monorepo, the hidden
               MainButtons settings shortcut, README's stale texture/frame/silhouette counts,
               and the test suite (functional scenarios, automated harness, Pickle, patch-XML
@@ -461,6 +468,46 @@ override on top of them, so nothing is left without an icon.
 
 Audit rows and the "Test suite — 2026-09-17" section above still describe the feature and quote
 29 tests, because that is what was true when they were written. They are left as written.
+
+## Second in-game run, and a real defect — 2026-09-19
+
+The five screenshot scenarios ran. Four passed; `02-settings-defaults` passed too once the tick
+wait was dropped (`Dialog_ModSettings` force-pauses the game, so a tick wait can never satisfy).
+The Bio tab capture, obstructed by a log viewer in the first run, came back clean after
+`I close all dialogs` was added.
+
+**`docs/TESTING.md` Scenario 3 failed, and the failure was real.** The three work tab mode captures
+are the same image. Measured rather than eyeballed, because the icons animate and any two captures
+differ a little by default: across the priority grid the three differ by 0.2-0.5% of bytes, and the
+counts that would move if Greyed desaturated anything do not - 5045 / 5027 / 5060 red pixels,
+0.3208 / 0.3201 / 0.3191 mean saturation. At 6x zoom the same hearts sit in the same cells in all
+three.
+
+Two explanations were ruled out before calling it a defect. The harness is not at fault: the steps
+write the live static `SkillIconsMod.Settings` that the drawing code reads, through
+`Driver.Settings`, which re-reads the field every call. And the patched draw path is not missing:
+Scenario 4's sliders act on the same cells through the same path and changed the drawing
+dramatically in the same run - minimum gives tiny dim hearts, maximum gives large saturated ones.
+Size and opacity worked; the mode alone did nothing.
+
+Cause, in `PassionIconAnimations.cs`: `WorkBoxAnimatedIcon` chose the right texture for the mode -
+`Icon` in colour, `WorkBoxIcon` in grey - then passed it to `AnimatedIconOrFallback`, which
+discards the texture it is handed whenever the passion has an animation and returns a frame
+instead. Every frame is drawn in colour; no grey frame set exists. So for the forty animated
+passions all three modes drew the same coloured frame. Fixed by giving that helper an `animate`
+flag and passing `false` on the grey path: an asleep bonus now draws its static grey icon and does
+not animate, which also reads better than a grey icon in motion. Rebuilt clean, harness still 27 of
+27 - neither of which can see a colour, so **the fix is unverified on screen** and the trio needs
+re-shooting.
+
+Note what caught this: not the suite, which is green either way because those scenarios only take
+screenshots and assert nothing about pixels. The screenshots caught it, when they were looked at.
+That is the design working as intended - and the reason the `@review` tag exists - but it means a
+green Pickle run is not evidence for these five scenarios on its own.
+
+`Screenshots/` now holds four crops taken from this run, with a README recording what each shows,
+why the mode trio is deliberately absent, and that `01-settings-page.png` will need re-shooting
+once the skill/work-type section leaves for Work Studio.
 
 ## Historical record (retained)
 

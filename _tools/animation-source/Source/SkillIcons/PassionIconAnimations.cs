@@ -151,7 +151,14 @@ public static class PassionIconAnimations
         // In grey, some passions have no workBoxIconPath: touching it would
         // make ContentFinder yelp on every frame.
         if (passionDef.workBoxIconPath.NullOrEmpty()) return null;
-        return AnimatedIconOrFallback(passionDef, passionDef.WorkBoxIcon);
+        // animate: false is load-bearing. Every animation frame is drawn in
+        // COLOUR - there is no grey frame set - so letting the animation win
+        // here returns a coloured frame and silently undoes the mode: colour,
+        // greyed and mixed then all draw the same thing for the forty animated
+        // passions, which is exactly what the 2026-09-19 screenshots showed.
+        // An asleep bonus therefore sits still, which also reads better than a
+        // grey icon animating.
+        return AnimatedIconOrFallback(passionDef, passionDef.WorkBoxIcon, animate: false);
     }
 
     // Mixed mode re-reads the icon set's own rule: a passion is "live"
@@ -200,12 +207,19 @@ public static class PassionIconAnimations
         return AnimatedIconOrFallback(passionDef, passionDef.Icon);
     }
 
-    private static Texture2D AnimatedIconOrFallback(PassionDef passionDef, Texture2D fallback)
+    /// <param name="animate">
+    /// False asks for the texture handed in, never an animation frame. The
+    /// work tab's grey mode needs this: the frames only exist in colour.
+    /// </param>
+    private static Texture2D AnimatedIconOrFallback(PassionDef passionDef, Texture2D fallback,
+                                                    bool animate = true)
     {
         if (passionDef != null && passionDef.defName == "None")
             return SkillIconsMod.Settings?.showNonePassion == true && NoneIcon != null
                 ? NoneIcon
                 : fallback;
+
+        if (!animate) return fallback;
 
         if (SkillIconsMod.Settings?.enabled != true || passionDef == null ||
             !Specs.TryGetValue(passionDef.defName, out var spec)) return fallback;

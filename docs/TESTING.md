@@ -24,8 +24,12 @@ The log lives at:
 | | State |
 |---|---|
 | Loads without error (Scenario 0) | **observed, 2026-09-17** - see below |
-| The out-of-game harness | **27 of 27 pass**, 2026-09-18 |
-| Scenarios 1-11 | **never observed** |
+| The out-of-game harness | **27 of 27 pass**, 2026-09-19 |
+| Scenario 1 (icons in three places) | **passed** on the Work tab and pawn creation screen, Bio tab confirmed 2026-09-19 |
+| Scenario 2 (settings defaults) | **passed**, 2026-09-19 |
+| Scenario 3 (three work tab modes) | **FAILED** 2026-09-19, defect fixed the same day, refix unverified on screen |
+| Scenario 4 (size/opacity sliders) | **passed**, 2026-09-19 |
+| Scenarios 5-11 | **never observed** |
 
 ## The other half, which does not need a colony
 
@@ -125,10 +129,12 @@ window across three colonists, coloured hearts clearly varied - red, orange/gold
 different skills), and separately confirmed **the icons animate in this vanilla window**. Fails-if
 conditions for the Work tab: not met. Passed.
 
-**Bio tab: inconclusive.** The equivalent automated screenshot
-(`manual--bio-tab-mixed-passions--step0.png`) is obstructed by a `RimLogging` log-viewer window
-that covers the whole screen; the pawn's inspector pane is open but on the Journal sub-tab, not
-Bio. Needs a rerun (closing or suppressing that viewer first) or a manual check.
+**Bio tab: observed, 2026-09-19.** The `I close all dialogs` fix landed: the rerun's
+`manual--bio-tab-mixed-passions--step0.png` shows the character card unobstructed, and the mix the
+custom step set is exactly what is drawn - Shooting cleared and iconless, Mining a hollow heart
+(Minor), Cooking and Plants filled red hearts (Major, and the granted `VSE_Natural`), Melee a
+distinct pink spiral. Heart set, not vanilla flame/star, varying with state. Passed. Cropped to
+`Screenshots/04-bio-tab-skills.png`.
 Third-party skill/work UI observed in the meantime, 2026-09-18, recorded here as extra evidence
 rather than a verdict on this scenario:
 
@@ -178,6 +184,28 @@ behaviour. In Mixed, only the live passion is full-colour; the dormant one is gr
 
 **Fails if:** any mode fails to change what is drawn, or Mixed does not distinguish live from
 dormant.
+
+**Failed, 2026-09-19 — a real defect, found by this scenario and fixed the same day.** The Pickle
+suite's three captures (`work-tab-mode-colour|grey|mixed`) are the same image. Measured, not
+eyeballed: over the priority grid the three differ by 0.2-0.5% of bytes, which is animation-frame
+noise, and the discriminating counts are flat - 5045 / 5027 / 5060 red pixels and 0.3208 / 0.3201 /
+0.3191 mean saturation. If Greyed desaturated anything the red count would collapse. At 6x zoom the
+same hearts sit in the same cells in all three.
+
+Not a harness artifact: the steps write the live static `SkillIconsMod.Settings` the drawing code
+reads, and Scenario 4's sliders, which act on the same cells through the same patched path, changed
+the drawing dramatically in the same run. The mode alone did nothing.
+
+Cause, in `PassionIconAnimations.cs`: `WorkBoxAnimatedIcon` picked the right texture per mode -
+`Icon` in colour, `WorkBoxIcon` in grey - then handed it to `AnimatedIconOrFallback`, which ignores
+the texture it is given whenever the passion has an animation and returns a frame instead. Every
+frame is drawn in colour; there is no grey frame set. So for the forty animated passions all three
+modes drew the same coloured frame, and the fallback carrying the mode was discarded. Fixed by
+giving that helper an `animate` flag and passing `false` on the grey path, so an asleep bonus draws
+its static grey icon and does not animate.
+
+**Unverified on screen.** The fix compiles and the out-of-game harness stays green, but neither can
+see a colour. Re-run the Pickle trio and compare the three captures again before believing it.
 
 ## Scenario 4 — work tab size and opacity sliders have a visible, reversible effect
 
