@@ -21,12 +21,12 @@ Feature: the settings page in French
     And I close all dialogs
 
   Scenario: every control reads as French, and English comes back afterwards
-    When the game language is "French"
-    Then translation key "SkillIcons.Animated" does not read as a raw key
-    And translation key "SkillIcons.WorkTab" does not read as a raw key
-    And translation key "SkillIcons.GalleryHint" does not read as a raw key
+    When SkillIcons sets the game language to "French"
+    Then SkillIcons translation key "SkillIcons.Animated" does not read as a raw key
+    And SkillIcons translation key "SkillIcons.WorkTab" does not read as a raw key
+    And SkillIcons translation key "SkillIcons.GalleryHint" does not read as a raw key
     When I open the SkillIcons settings dialog
     And I take a screenshot "settings page in French"
     And I close all dialogs
-    And the game language is "English"
-    Then translation key "SkillIcons.Animated" does not read as a raw key
+    And SkillIcons sets the game language to "English"
+    Then SkillIcons translation key "SkillIcons.Animated" does not read as a raw key

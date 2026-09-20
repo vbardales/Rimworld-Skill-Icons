@@ -14,12 +14,20 @@ namespace SkillIcons.PickleSteps
     [PickleSteps]
     public class SettingsSteps
     {
+        /// <summary>
+        /// Waits for its own frames rather than leaving that to the scenario. Dialog_ModSettings
+        /// force-pauses the game, so a tick wait written in the scenario can never be satisfied -
+        /// it times out, which is how this scenario failed twice before the wait was removed
+        /// entirely. Frames still pass while the game is paused, so waiting here is both correct
+        /// and invisible to the scenario. Technique passed on by the Work Studio session.
+        /// </summary>
         [When("I open the SkillIcons settings dialog")]
-        public void OpenDialog(PickleContext ctx)
+        public async System.Threading.Tasks.Task OpenDialog(PickleContext ctx)
         {
             var mod = LoadedModManager.GetMod<SkillIconsMod>();
             ctx.Require(mod != null, "SkillIcons is not a loaded mod");
             Find.WindowStack.Add(new Dialog_ModSettings(mod));
+            await ctx.WaitFrames(3);
         }
 
         [Given("SkillIcons settings are at their documented defaults")]

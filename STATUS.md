@@ -827,6 +827,48 @@ there was no second variable to collide with. The fix was renaming it `$tile`; t
 found it was printing the computed x coordinates, which read 14, 28, 42 where they should have
 read 14, 124, 234.
 
+## Techniques taken from the Work Studio session — 2026-09-20
+
+Six points arrived by relay, the two sessions having dropped off `ListAgents`. Four were acted on,
+one was already done here and is corrected below, one is informational.
+
+**The interface can be hidden for a capture, and now is.** RimWorld's own screenshot mode draws
+only the windows whose `Window.drawInScreenshotMode` is true and none of the rest of the
+interface. `ScreenshotSteps.cs` raises that flag on the open windows, skipping any whose declaring
+assembly starts with `RimWorks.Pickle` so the runner panel goes too, then sets
+`Find.UIRoot.screenshotMode.Active`. Verified by reflection against the installed
+`Assembly-CSharp` before a line was written: `Verse.Window.drawInScreenshotMode`,
+`Verse.UIRoot.screenshotMode` and `Verse.ScreenshotModeHandler.Active` all exist as described.
+Restoring runs both from an explicit step and from `[AfterScenario]`, because a scenario dying
+between the two would leave every later scenario in the same run photographing a screen with no
+interface at all. Every publication image in `Screenshots/` so far had to be cropped out of a
+1920x1080 frame full of other mods' interface; the next ones will not.
+
+**A publication shot must stage its own scene.** `11-publication-shots.feature` builds the passion
+set it wants - eight skills, eight passions, spread across hues and across the live/dormant divide
+- instead of photographing whatever the test fixture happens to hold. The warning that prompted
+this is concrete: Work Studio's editor shot had caught a raw defName from an unrelated mod, which
+reads as debug output on a store page.
+
+**Steps are now scoped.** Pickle keeps one step table for every suite loaded at once, so two mods
+declaring the same phrase collide on "Ambiguous step" and both fail. Seven of this suite's steps
+were generic - `I open the Bio tab for "..."`, `the game language is "..."`,
+`translation key "..." does not read as a raw key` and four more - and any third suite could have
+walked into them. All now name SkillIcons in the phrase. Nothing had collided yet, which is
+exactly when this is cheap.
+
+**A modal-opening step should wait for its own frames.** `I open the SkillIcons settings dialog`
+now ends on `await ctx.WaitFrames(3)` rather than leaving the scenario to wait. Frames pass while
+the game is paused and ticks do not, which is the whole difficulty. **The relayed point was that
+this scenario still fails here; it does not.** It was fixed on 2026-09-19 by removing the tick
+wait outright and moving `@watch` from the Feature line to the Scenario, and it passed on the
+2026-09-20 run. The frame wait is an improvement on a passing scenario, not a repair.
+
+**Not applicable here: the covering-window diagnostic before a click.** This suite drives no
+clicks - it opens windows by calling their own code and reads state back - so there is no click
+for a third-party window to swallow. Worth keeping in mind if that ever changes; the point that
+the message must name the window's *assembly* and not just its type is the useful half.
+
 ## Historical record (retained)
 
 Read by a sweep across every mod, rather than by asking each thread in turn. It lives at the

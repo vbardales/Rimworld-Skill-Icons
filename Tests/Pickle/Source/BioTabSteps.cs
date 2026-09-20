@@ -19,7 +19,7 @@ namespace SkillIcons.PickleSteps
     [PickleSteps]
     public class BioTabSteps
     {
-        [When("I open the Bio tab for {string}")]
+        [When("SkillIcons opens the Bio tab for {string}")]
         public void OpenBioTab(PickleContext ctx, string nickname)
         {
             var pawn = PassionSteps.Colonist(ctx, nickname);

@@ -9,7 +9,7 @@ Feature: work tab icon size and opacity sliders
   Background:
     Given the save "test-colony" is loaded
     And a colonist "Slidey" exists
-    And "Slidey" skill "Mining" passion is set to "Major"
+    And SkillIcons sets "Slidey" skill "Mining" passion to "Major"
 
   Scenario: screenshots at default, minimum, maximum, then reverted to default
     Given SkillIcons settings are at their documented defaults

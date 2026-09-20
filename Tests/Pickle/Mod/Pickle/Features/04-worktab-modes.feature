@@ -7,8 +7,8 @@ Feature: the three work tab modes
   Background:
     Given the save "test-colony" is loaded
     And a colonist "Modey" exists
-    And "Modey" skill "Mining" passion is set to "Major"
-    And "Modey" skill "Cooking" passion is set to "Minor"
+    And SkillIcons sets "Modey" skill "Mining" passion to "Major"
+    And SkillIcons sets "Modey" skill "Cooking" passion to "Minor"
 
   Scenario: screenshots of Colour, Greyed and Mixed
     When SkillIcons work tab mode is set to "colour"

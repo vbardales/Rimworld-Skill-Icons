@@ -15,10 +15,10 @@ Feature: the "no passion" icon is off by default and stays discreet when enabled
     And I close all dialogs
 
   Scenario: nothing by default, a faint hollow heart once enabled
-    Given "Passionate" skill "Shooting" passion is cleared
-    And "Passionate" skill "Cooking" passion is set to "Major"
+    Given SkillIcons clears "Passionate" skill "Shooting" passion
+    And SkillIcons sets "Passionate" skill "Cooking" passion to "Major"
     Then SkillIcons setting "showNonePassion" reads "False"
-    When I open the Bio tab for "Passionate"
+    When SkillIcons opens the Bio tab for "Passionate"
     And I take a screenshot "no passion icon off"
     And SkillIcons "no passion" icon is turned "on"
     And I take a screenshot "no passion icon on"

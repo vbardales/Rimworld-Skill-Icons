@@ -35,7 +35,7 @@ namespace SkillIcons.PickleSteps
     [PickleSteps]
     public class PassionSteps
     {
-        [Given("{string} skill {string} passion is set to {string}")]
+        [Given("SkillIcons sets {string} skill {string} passion to {string}")]
         public void SetPassion(PickleContext ctx, string nickname, string skillDefName, string level)
         {
             var skill = Skill(ctx, nickname, skillDefName);
@@ -46,7 +46,7 @@ namespace SkillIcons.PickleSteps
                 $"setting '{skillDefName}' passion on '{nickname}' did not stick: reads {skill.passion}");
         }
 
-        [Given("{string} skill {string} passion is cleared")]
+        [Given("SkillIcons clears {string} skill {string} passion")]
         public void ClearPassion(PickleContext ctx, string nickname, string skillDefName)
         {
             Skill(ctx, nickname, skillDefName).passion = Passion.None;
@@ -60,7 +60,7 @@ namespace SkillIcons.PickleSteps
         /// declares one. See the file header for what this does and does not prove about the
         /// triggered/dormant state.
         /// </summary>
-        [Given("{string} skill {string} is granted the passion def {string}")]
+        [Given("SkillIcons grants {string} skill {string} the passion def {string}")]
         public void GrantPassionDef(PickleContext ctx, string nickname, string skillDefName, string passionDefName)
         {
             var pawn = Colonist(ctx, nickname);

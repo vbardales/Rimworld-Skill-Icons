@@ -31,15 +31,15 @@ Feature: passion icons in the Bio tab and the Work tab
     And a colonist "Passionate" exists
 
   Scenario: screenshots of a mixed passion set in the Bio tab and the Work tab
-    Given "Passionate" skill "Shooting" passion is cleared
-    And "Passionate" skill "Mining" passion is set to "Minor"
-    And "Passionate" skill "Cooking" passion is set to "Major"
-    And "Passionate" skill "Plants" is granted the passion def "VSE_Natural"
+    Given SkillIcons clears "Passionate" skill "Shooting" passion
+    And SkillIcons sets "Passionate" skill "Mining" passion to "Minor"
+    And SkillIcons sets "Passionate" skill "Cooking" passion to "Major"
+    And SkillIcons grants "Passionate" skill "Plants" the passion def "VSE_Natural"
     # Her first real run (2026-09-18) captured this screenshot with a RimLogging log-viewer window
     # covering the whole screen, left open from an earlier scenario in the same run. Close
     # everything first so the Bio tab is actually what gets screenshotted.
     And I close all dialogs
-    When I open the Bio tab for "Passionate"
+    When SkillIcons opens the Bio tab for "Passionate"
     And I wait 30 ticks
     And I take a screenshot "bio tab mixed passions"
     And I close all dialogs

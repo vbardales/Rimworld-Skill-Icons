@@ -65,7 +65,7 @@ namespace SkillIcons.PickleSteps
         }
 
         // ---------------------------------------------------------------- Scenario 9
-        [Then("the MainButtonDef {string} is hidden on a clean configuration")]
+        [Then("SkillIcons MainButtonDef {string} is hidden on a clean configuration")]
         public void AssertHidden(PickleContext ctx, string defName)
         {
             var def = DefDatabase<MainButtonDef>.GetNamedSilentFail(defName);
@@ -80,7 +80,7 @@ namespace SkillIcons.PickleSteps
         /// ends up calling. It does not prove RIMMSQOL can reveal it - that stays manual - but it
         /// does prove the shortcut opens the same dialog as the Options entry.
         /// </summary>
-        [When("I activate the MainButtonDef {string}")]
+        [When("SkillIcons activates the MainButtonDef {string}")]
         public void ActivateShortcut(PickleContext ctx, string defName)
         {
             var def = DefDatabase<MainButtonDef>.GetNamedSilentFail(defName);
@@ -89,7 +89,7 @@ namespace SkillIcons.PickleSteps
             def.Worker.Activate();
         }
 
-        [Then("a {string} window is open for mod {string}")]
+        [Then("SkillIcons sees a {string} window open for mod {string}")]
         public void AssertDialogFor(PickleContext ctx, string windowType, string modName)
         {
             var window = Find.WindowStack?.Windows?.FirstOrDefault(
@@ -113,7 +113,7 @@ namespace SkillIcons.PickleSteps
         /// DefInjected does NOT re-resolve without a def reload, so the MainButtons shortcut's own
         /// label and description are out of this step's reach and stay manual.
         /// </summary>
-        [When("the game language is {string}")]
+        [When("SkillIcons sets the game language to {string}")]
         public void SetLanguage(PickleContext ctx, string folderName)
         {
             // RimWorld's language folders carry the native name too - "French (Français)",
@@ -131,7 +131,7 @@ namespace SkillIcons.PickleSteps
                 $"the active language is still {LanguageDatabase.activeLanguage?.folderName}");
         }
 
-        [Then("translation key {string} does not read as a raw key")]
+        [Then("SkillIcons translation key {string} does not read as a raw key")]
         public void AssertTranslated(PickleContext ctx, string key)
         {
             var text = key.Translate().ToString();

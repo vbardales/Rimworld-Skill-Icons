@@ -28,6 +28,9 @@ One run, then look at seven pictures. Everything else in this file is background
 Then tell me what you saw, and I will record it. What remains after that is the short table at the
 bottom of this file - a real restart, RIMMSQOL's own reveal/hide, and the pawn creation screen.
 
+`11-publication-shots.feature` is not part of that check. It takes two images for the Workshop
+page with the interface hidden, asserts nothing, and needs no judgement from you - I read those.
+
 
 ## Setup, once
 
@@ -110,6 +113,18 @@ does (`PawnsFinder.AllMaps_FreeColonists`, matched by `Name.ToStringShort`), and
 `Type` field on a vanilla RimWorld class, confirmed by reflection against the installed
 `Assembly-CSharp.dll` while writing this suite (Pickle's own generic vocabulary has no step for
 an `ITab`, only for `MainTabWindow`-level tabs opened by their `MainButtonDef` label).
+
+## Steps are scoped, deliberately
+
+Pickle keeps ONE step table for every suite loaded at once, so two mods declaring the same
+phrase collide on "Ambiguous step" and both fail. Every step this suite declares therefore names
+SkillIcons in its phrase - `SkillIcons opens the Bio tab for "..."`, not `I open the Bio tab for
+"..."`. Seven were generic until 2026-09-20 and were renamed then, on a warning from the Work
+Studio session; nothing had collided yet, which is exactly when it is cheap to fix.
+
+The steps that stay unscoped are Pickle's own - `I close all dialogs`, `I take a screenshot`,
+`def "..." field "..." is "..."` and the rest. Those belong to `Pickle.Vanilla` and are shared on
+purpose.
 
 ## What stays manual
 

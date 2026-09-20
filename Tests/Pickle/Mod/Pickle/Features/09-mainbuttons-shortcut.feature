@@ -17,8 +17,8 @@ Feature: the hidden MainButtons shortcut opens this mod's own settings
 
   Scenario: hidden by default, and opens the same dialog when activated
     Then def "SkillIcons_Settings" of type "MainButtonDef" exists
-    And the MainButtonDef "SkillIcons_Settings" is hidden on a clean configuration
-    When I activate the MainButtonDef "SkillIcons_Settings"
-    Then a "Dialog_ModSettings" window is open for mod "SkillIcons"
+    And SkillIcons MainButtonDef "SkillIcons_Settings" is hidden on a clean configuration
+    When SkillIcons activates the MainButtonDef "SkillIcons_Settings"
+    Then SkillIcons sees a "Dialog_ModSettings" window open for mod "SkillIcons"
     When I take a screenshot "settings opened by the MainButtons shortcut"
     And I close all dialogs
