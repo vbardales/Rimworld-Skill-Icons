@@ -63,15 +63,21 @@ namespace SkillIcons.PickleSteps
         /// <summary>
         /// The documented defaults - the same dictionary _tools/Run-Tests.ps1's own "a fresh
         /// SkillIconsSettings matches the documented defaults" test checks against the compiled
-        /// DLL. A brand new instance already carries them via its field initializers; this only
-        /// needs to make the live drawing code (SkillIconsMod.Settings, the static field) point at
-        /// it, since PassionIconAnimations reads that field directly rather than
-        /// calling GetSettings&lt;T&gt;() themselves.
+        /// DLL. A brand new instance already carries them via its field initializers.
+        ///
+        /// It has to be pointed at from BOTH places, and the 2026-09-20 run is why. The drawing
+        /// code reads the static `SkillIconsMod.Settings`, but `Mod.WriteSettings()` serialises
+        /// the Mod's own `modSettings` field - two references to what is normally one object.
+        /// Repointing only the static left them disagreeing: every setting a step changed went to
+        /// the static and drew correctly on screen, while `WriteSettings()` wrote the stale one,
+        /// so `08-settings-persistence` read a file holding nothing it had just set. The scenario
+        /// was right and the sandbox was wrong.
         /// </summary>
         public static void ResetToDefaults()
         {
             var settings = new SkillIconsSettings();
             typeof(SkillIconsMod).GetField("Settings", Driver.StaticAny).SetValue(null, settings);
+            typeof(Mod).GetField("modSettings", Driver.InstanceAny).SetValue(ModInstance, settings);
         }
 
         private static void RestoreFromBackup()

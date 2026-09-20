@@ -27,9 +27,13 @@ The log lives at:
 | The out-of-game harness | **25 of 25 pass**, 2026-09-19 |
 | Scenario 1 (icons in three places) | **passed** on the Work tab and pawn creation screen, Bio tab confirmed 2026-09-19 |
 | Scenario 2 (settings defaults) | **passed**, 2026-09-19 |
-| Scenario 3 (three work tab modes) | **FAILED** 2026-09-19, defect fixed the same day, refix unverified on screen |
+| Scenario 3 (three work tab modes) | **passed**, 2026-09-20, after the defect it exposed was fixed |
 | Scenario 4 (size/opacity sliders) | **passed**, 2026-09-19 |
-| Scenarios 5, 8, 9, 10, 11 | **automated 2026-09-20**, never run - see `Tests/Pickle/README.md` |
+| Scenario 5 (the "no passion" icon) | **passed**, 2026-09-20 |
+| Scenario 9 (the MainButtons shortcut) | **passed**, 2026-09-20, apart from RIMMSQOL itself |
+| Scenario 11 (the five def fixes) | **passed**, 2026-09-20, asserted against the loaded DefDatabase |
+| Scenario 8 (persistence) | automated; the 2026-09-20 run failed on a bug in the test, fixed, not re-run |
+| Scenario 10 (English and French) | automated; the 2026-09-20 run failed on a bug in the test, fixed, not re-run |
 | Scenarios 6, 7 | removed with the feature they tested, 2026-09-19 |
 
 ## The other half, which does not need a colony
@@ -183,7 +187,7 @@ behaviour. In Mixed, only the live passion is full-colour; the dormant one is gr
 **Fails if:** any mode fails to change what is drawn, or Mixed does not distinguish live from
 dormant.
 
-**Failed, 2026-09-19 — a real defect, found by this scenario and fixed the same day.** The Pickle
+**Failed 2026-09-19, fixed, and confirmed fixed 2026-09-20 - see the confirmation at the end of this scenario.** The Pickle
 suite's three captures (`work-tab-mode-colour|grey|mixed`) are the same image. Measured, not
 eyeballed: over the priority grid the three differ by 0.2-0.5% of bytes, which is animation-frame
 noise, and the discriminating counts are flat - 5045 / 5027 / 5060 red pixels and 0.3208 / 0.3201 /
@@ -202,8 +206,20 @@ modes drew the same coloured frame, and the fallback carrying the mode was disca
 giving that helper an `animate` flag and passing `false` on the grey path, so an asleep bonus draws
 its static grey icon and does not animate.
 
-**Unverified on screen.** The fix compiles and the out-of-game harness stays green, but neither can
-see a colour. Re-run the Pickle trio and compare the three captures again before believing it.
+
+**Confirmed fixed, 2026-09-20.** The trio was re-shot on the run that followed the fix, and
+measured the same way as the failure, so the two numbers are comparable. Before: 5045 / 5027 /
+5060 red pixels and 0.3208 / 0.3201 / 0.3191 mean saturation across the priority grid - flat.
+After: **5027 / 4532 / 4735** and **0.3208 / 0.2990 / 0.3083** - an ordering in the expected
+direction, colour above mixed above grey.
+
+The zoom settles it beyond the numbers. In colour every heart is red; in greyed every heart is
+grey, without exception; in mixed the live passion is red and the dormant ones are grey. That last
+one is the part the numbers alone could not show, and it is the behaviour the mode exists for.
+
+Why grey still reads ~4500 red pixels rather than none: the region measured includes the work
+tab's own red priority-box borders and cell backgrounds, which are not passion icons and never
+change with the mode.
 
 ## Scenario 4 — work tab size and opacity sliders have a visible, reversible effect
 

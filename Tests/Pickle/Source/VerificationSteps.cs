@@ -57,7 +57,11 @@ namespace SkillIcons.PickleSteps
             var fresh = LoadedModManager.ReadModSettings<SkillIconsSettings>(
                 mod.Content.FolderName, mod.GetType().Name);
             ctx.Require(fresh != null, "ReadModSettings returned nothing");
+            // Both references, for the reason SettingsSandbox.ResetToDefaults now spells out:
+            // the drawing code reads the static, WriteSettings serialises the Mod's own field,
+            // and letting them drift apart is exactly what made this scenario fail on 2026-09-20.
             typeof(SkillIconsMod).GetField("Settings", Driver.StaticAny).SetValue(null, fresh);
+            typeof(Mod).GetField("modSettings", Driver.InstanceAny).SetValue(mod, fresh);
         }
 
         // ---------------------------------------------------------------- Scenario 9
@@ -112,13 +116,18 @@ namespace SkillIcons.PickleSteps
         [When("the game language is {string}")]
         public void SetLanguage(PickleContext ctx, string folderName)
         {
-            var language = LanguageDatabase.AllLoadedLanguages
-                .FirstOrDefault(l => l.folderName == folderName);
+            // RimWorld's language folders carry the native name too - "French (Français)",
+            // "Spanish (Español(Castellano))" - so an exact match on "French" finds nothing.
+            // Learned from the 2026-09-20 run, where this step failed and printed the real list.
+            // Exact first so that "Russian" cannot accidentally take "Russian (Русский)".
+            var all = LanguageDatabase.AllLoadedLanguages.ToList();
+            var language = all.FirstOrDefault(l => l.folderName == folderName)
+                ?? all.FirstOrDefault(l => l.folderName.StartsWith(folderName + " (", StringComparison.Ordinal));
             ctx.Require(language != null,
                 $"'{folderName}' is not installed. Loaded: "
-                + string.Join(", ", LanguageDatabase.AllLoadedLanguages.Select(l => l.folderName)));
+                + string.Join(", ", all.Select(l => l.folderName)));
             LanguageDatabase.SelectLanguage(language);
-            ctx.Assert(LanguageDatabase.activeLanguage?.folderName == folderName,
+            ctx.Assert(LanguageDatabase.activeLanguage == language,
                 $"the active language is still {LanguageDatabase.activeLanguage?.folderName}");
         }
 

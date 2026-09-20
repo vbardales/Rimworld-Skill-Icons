@@ -20,7 +20,7 @@ One run, then look at seven pictures. Everything else in this file is background
 
 | screenshot | the one question to answer |
 |---|---|
-| `work tab mode colour` / `grey` / `mixed` | **Are the three actually different?** They were identical until 2026-09-19, and the fix has never been seen working. Grey must show no colour at all. This is the most important of the seven |
+| `work tab mode colour` / `grey` / `mixed` | Settled 2026-09-20: colour all red, greyed all grey, mixed red for the live passion and grey for the dormant ones. Only worth re-checking if the drawing changes |
 | `no passion icon off` / `on` | Does a faint hollow heart appear only in the second, and is it clearly dimmer than the filled heart on the row below? |
 | `settings page in French` | Any raw key like `SkillIcons.Speed`, any empty control, any text running past its edge? |
 | `settings opened by the MainButtons shortcut` | Is this the same settings window the Options menu opens? |

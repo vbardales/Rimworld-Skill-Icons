@@ -13,20 +13,23 @@ licence:      original
 licence_at:   original work, MIT; Oracle's Skill Icon Retextures credited for the visual language only, no texture reused (verified against ATTRIBUTION.md and the generator)
 dependencies: declared
 showcase:     complete
-tested_on:    2026-09-19 (partial: Pickle's two loading scenarios, plus docs/TESTING.md
-              scenarios 0, 1, 2 and 4 confirmed; scenario 3 failed and was fixed, refix unverified)
+tested_on:    2026-09-20 (docs/TESTING.md scenarios 0, 1, 2, 3, 4, 5, 9 and 11 confirmed in game;
+              8 and 10 failed on bugs in the tests themselves, both fixed, neither re-run)
 workshop:
 remaining:
-  - unverified: docs/TESTING.md scenario 3's fix. The three work tab modes all drew the same
-      thing because the grey path went through the animation lookup, which only has colour
-      frames; fixed 2026-09-19 by not animating on the grey path. Compiles, harness green,
-      but nothing has seen it on screen - re-shoot the Pickle mode trio and compare.
-  - unverified: docs/TESTING.md scenarios 5 and 8-11 (the "no passion" icon, persistence across
-      a restart, the RIMMSQOL shortcut, EN/FR runtime display, the five tooltip fixes) still
-      need a person watching the screen. 6 and 7 no longer exist: they went with the skill and
-      work type icons.
+  - unverified: docs/TESTING.md scenarios 8 and 10. Their 2026-09-20 failures were test bugs, not
+      mod defects - the settings sandbox left the static and the Mod's own settings field pointing
+      at different objects, and the language step matched "French" against a folder actually named
+      "French (Français)". Both fixed, neither re-run.
+  - unverified: scenario 10 needs a run with aitranslation.pack and seohyeon.autotranslation
+      disabled. The second announces a dynamic UI interceptor, which would make the French
+      screenshot show its machine translation and the assertions pass against a broken file.
+  - unverified: what only a person can still do - a real restart for scenario 8, RIMMSQOL's own
+      reveal/hide for 9, the pawn creation screen and whether an animation actually moves for 1.
 session:      local_314cf7e0-0763-4b3b-b4b7-03e564331dc5
-updated:      2026-09-19, the skill and work type icon set moved to Work Studio and was cut here,
+updated:      2026-09-20, third in-game run: the grey-mode fix confirmed, five more scenarios
+              automated and eight now confirmed, two test bugs found and fixed. Earlier:
+              2026-09-19, the skill and work type icon set moved to Work Studio and was cut here,
               leaving a passions-only mod; and the second in-game run, where scenario 3 failed
               and was fixed (grey mode was
               overridden by the colour-only animation frames), the settings and Bio tab
@@ -720,6 +723,46 @@ formed against the real assemblies; it proves nothing about behaviour. Two guess
 will be settled or refuted by the first run: that Pickle matches `of type "PassionDef"` on the
 short name of `VSE.Passions.PassionDef`, and that `was patched by mod` expects the display name
 `SkillIcons`. Both fail loudly rather than silently if wrong.
+
+## Third in-game run — 2026-09-20
+
+Ten SkillIcons scenarios, eight passed, two failed. **Both failures were bugs in the tests, not in
+the mod**, and both are worth recording because each was a wrong assumption rather than a typo.
+
+**Scenario 3 is confirmed fixed, which was the point of the run.** Detail under that scenario in
+`docs/TESTING.md`: the three modes now measure 5027 / 4532 / 4735 red pixels against a flat
+5045 / 5027 / 5060 before, and at 6x every heart is red in colour, every heart is grey in greyed,
+and in mixed the live passion is red while the dormant ones are grey. The last of those is the
+behaviour the mode exists for and the numbers alone could not have shown it.
+
+**Scenario 11 passed on generic vocabulary alone.** Both guesses recorded on 2026-09-20 turned out
+right: Pickle matches `of type "PassionDef"` on the short name of `VSE.Passions.PassionDef`, and
+`was patched by mod` wants the display name `SkillIcons`. All five fixes assert both their value
+and their patcher against the loaded `DefDatabase`.
+
+**Scenario 8 failed on a genuine trap in this mod's own shape.** The settings file it read held
+only `<showNonePassion>True</showNonePassion>` - a value from the *previous* scenario - and none
+of the three the scenario had just set. The cause is that `SkillIconsMod.Settings`, the static the
+drawing code reads, and `Mod.modSettings`, the field `WriteSettings()` serialises, are two
+references to what is normally one object. `SettingsSandbox.ResetToDefaults` repointed only the
+static, so every step wrote to the object being drawn while `WriteSettings()` kept saving the
+stale one. Nothing on screen could ever have revealed this; only asking the file could. Fixed by
+repointing both, in the sandbox and in the re-read step.
+
+**Scenario 10 failed on RimWorld's own naming.** `LanguageDatabase.AllLoadedLanguages` carries
+folder names like `French (Français)` and `Spanish (Español(Castellano))`, so an exact match on
+`"French"` finds nothing. The step now tries exact first, then a `"<name> ("` prefix, in that order
+so that `Russian` cannot accidentally take `Russian (Русский)` - both exist in that list.
+
+Neither fix has been re-run.
+
+**One caveat on Scenario 10 that the fix does not address.** Her mod list has `aitranslation.pack`
+and `seohyeon.autotranslation` active, and the log shows the second announcing a
+`Dynamic UI interceptor`. If it supplies text for our keys, the French screenshot would show its
+machine translation rather than `Languages/French/Keyed/SkillIcons.xml`, and the
+`does not read as a raw key` assertions would pass even against a broken French file - a vacuous
+test that says nothing while looking green. Scenario 10 should be re-run with those two disabled
+before any French evidence from it is believed.
 
 ## Historical record (retained)
 
