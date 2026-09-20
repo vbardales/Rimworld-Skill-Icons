@@ -7,9 +7,10 @@
 // layout that demonstrates the icon set's rule 1 - every passion owns its
 // hue, and together they cover the wheel - instead of merely asserting it.
 //
-// The bottom row shows the skills and work types, which obey the OPPOSITE
-// rule: monochrome, shape alone. The two sets sit side by side on purpose,
-// because that contrast explains the design choice better than a sentence would.
+// Passions only since 2026-09-19: the monochrome skill and work type row this
+// board used to carry left for Work Studio with the icons themselves. Its height
+// went back to the passion grid rather than to empty space - a showcase for a
+// passion icon set should spend every pixel on passions.
 //
 // Run after gen.js: it reads what gen.js has just written.
 const fs = require('fs');
@@ -54,12 +55,6 @@ const ECHELLES = [
    'AS_PsychicPassion_Major', 'AS_PsychicPassion_Critical'],
 ];
 
-// Read off disk rather than hand-enumerated: a work type added to gen.js
-// then shows up in the showcase without anyone having to think about it.
-const lire = d => fs.readdirSync(`${SVG}/${d}`).filter(f => f.endsWith('.svg'))
-                    .map(f => [d, f.slice(0, -4)]);
-const OUTILS = [...lire('Skills'), ...lire('WorkTypes')];
-
 // Every file restarts at id="m1", id="star"... : copied as-is into a single
 // document, two same-named masks would clip each other's shapes and an icon
 // would end up cut out by another icon's mask. Hence the per-slot prefix.
@@ -75,10 +70,10 @@ const poser = (dossier, nom, x, y, taille) => {
 };
 
 // 896 x 504, i.e. 16:9, and NOT a cropped square. The showcase used to be
-// composed at 640 x 640 then centre-cropped to fit this format: the crop
-// removed 44% of the height, i.e. the whole row of skill and work type
-// icons, leaving only its caption - which announced icons that were no
-// longer there. A generated board is not cropped, it is recomposed.
+// composed at 640 x 640 then centre-cropped to fit this format, and the crop
+// removed 44% of the height along with a whole row of icons, leaving only its
+// caption - which then announced icons that were no longer there. A generated
+// board is not cropped, it is recomposed.
 const W = 896, H = 504;
 
 // Area left FREE of any icon, top left: that is where the repository's
@@ -102,22 +97,16 @@ ECHELLES.forEach((e, r) => e.forEach((n, i) =>
 corps.push(texte(XE, 196, 'one hue per family &#8212; saturation carries learning speed',
                  14, '#8C8C8C'));
 
-// The 24 passions sorted by hue, across the full width: twelve per row,
-// which puts neighbouring hues side by side.
-corps.push(texte(28, 248, 'one hue per passion, spread right across the wheel',
+// The 24 passions sorted by hue. Eight per row over three rows rather than
+// twelve over two: the icons are 72px instead of 44px, which is what the
+// departed monochrome row's height was spent on. Sequence order is untouched,
+// so neighbouring hues still sit side by side everywhere except a row break.
+corps.push(texte(28, 238, 'one hue per passion, spread right across the wheel',
                  14, '#8C8C8C'));
-const T = 44, PAS_X = 70, X0 = 28;
+const T = 72, PAS_X = 106, X0 = 30, PAS_Y = 82, Y0 = 254, PAR_RANGEE = 8;
 GRILLE.forEach((n, i) =>
-  corps.push(poser('Passions', n, X0 + (i % 12) * PAS_X, 258 + Math.floor(i / 12) * 62, T)));
-
-// The monochrome row. Sitting it next to the coloured grid IS the point:
-// two sets, two opposite rules.
-corps.push(texte(28, 392, '12 skills and 23 work types &#8212; monochrome, so colour stays'
-                        + ' the passion&#8217;s alone', 14, '#8C8C8C'));
-const TO = 30, PAS_O = 46, PAR_RANGEE = 18;
-OUTILS.forEach(([d, n], i) =>
-  corps.push(poser(d, n, X0 + (i % PAR_RANGEE) * PAS_O,
-                   402 + Math.floor(i / PAR_RANGEE) * 40, TO)));
+  corps.push(poser('Passions', n, X0 + (i % PAR_RANGEE) * PAS_X,
+                   Y0 + Math.floor(i / PAR_RANGEE) * PAS_Y, T)));
 
 const enveloppe = (cartouche) => [
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">`,
@@ -131,13 +120,13 @@ const enveloppe = (cartouche) => [
 const titre = [
   `<text x="34" y="62" font-family=${F} font-size="36" font-weight="700"`
     + ` letter-spacing="1" fill="#D2D2D2">SKILL ICONS</text>`,
-  texte(36, 92, 'One icon set for passions, skills and work types.', 16, '#8C8C8C'),
+  texte(36, 92, 'One passion icon set, forty of them animated.', 16, '#8C8C8C'),
   texte(36, 116, 'Vanilla Skills Expanded + Alpha Skills', 15, '#7A7A7A'),
 ];
 fs.writeFileSync(`${SVG}/Preview.svg`, enveloppe(titre));
 fs.writeFileSync(`${SVG}/PreviewSource.svg`, enveloppe([]));
 console.log(`Preview 896x504: ${GRILLE.length} passions, ${ECHELLES.length} scales, `
-  + `${OUTILS.length} tools; reserved zone ${RESERVE_X}x${RESERVE_Y}`);
+  + `reserved zone ${RESERVE_X}x${RESERVE_Y}`);
 
 // ModIcon: the old file was a winking emoji unrelated to the mod, most
 // likely copied from elsewhere. Four well-separated hues in a 2x2 grid: at

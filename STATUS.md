@@ -764,6 +764,39 @@ machine translation rather than `Languages/French/Keyed/SkillIcons.xml`, and the
 test that says nothing while looking green. Scenario 10 should be re-run with those two disabled
 before any French evidence from it is believed.
 
+## Publication art — 2026-09-20
+
+Gathered for the Workshop upload. One thing had to be fixed rather than gathered.
+
+**`Mod/About/Preview.png` was advertising content the mod no longer ships.** It was generated on
+2026-09-04 and carried a monochrome bottom row of twelve skill and twenty-three work type icons,
+captioned as such, under a subtitle reading "One icon set for passions, skills and work types."
+All of that left for Work Studio on 2026-09-19. `_tools/preview.js` was also broken rather than
+merely stale: it read `_tools/svg/Skills` and `_tools/svg/WorkTypes`, directories deleted with the
+feature, so the next run of `build.sh` would have thrown rather than quietly producing a wrong
+board.
+
+Fixed by removing the row and both claims, and spending its height on the passion grid instead of
+leaving it empty: the twenty-four hue-sorted passions now render at 72px over three rows of eight,
+where they were 44px over two rows of twelve. The hue sequence is untouched, so the sweep across
+the wheel still reads in order. Regenerated: 896x504, 63 KB, well inside Steam's 1 MB limit.
+`Art/Preview-source.png`, the bare version the repository's overlay process engraves, was
+regenerated from the same pass.
+
+`Mod/About/ModIcon.png` needed nothing: 128x128, the mascot, unrelated to the departed set.
+
+**`Screenshots/` was regenerated wholesale** from the 2026-09-20 run, because two images of the
+previous set had stopped being true - the settings page still showed the removed section, and the
+work tab mode trio was three identical pictures, that being the defect the same run exposed. The
+new set is six images, listed with their sources in `Screenshots/README.md`. The strongest is
+`02-work-tab-modes.png`, the three modes labelled and stacked, which is now a real demonstration
+rather than three copies of one picture.
+
+One gap worth naming rather than leaving implicit: **nothing in the set shows an animation
+moving**, which is the mod's most distinctive feature and the one a still image cannot carry. The
+raw material for a short GIF already exists in `PickleReports`, which holds consecutive frames of
+animated passions.
+
 ## Historical record (retained)
 
 Read by a sweep across every mod, rather than by asking each thread in turn. It lives at the
