@@ -17,46 +17,45 @@ namespace SkillIcons.PickleSteps
     [PickleSteps]
     public class SettingsSandbox
     {
-        private static Mod ModInstance => LoadedModManager.GetMod<SkillIconsMod>();
+        // Guarded: an unguarded GetMod reports only "Object reference not set to an instance of an
+        // object", and the report keeps no stack, so the 2026-09-20 run could not say which hop failed.
+        private static Mod ModInstance(PickleContext ctx) => Driver.Mod(ctx);
 
-        internal static string SettingsFilePath => SettingsPath;
+        internal static string SettingsFilePath(PickleContext ctx) => SettingsPath(ctx);
 
-        private static string SettingsPath
+        private static string SettingsPath(PickleContext ctx)
         {
-            get
-            {
-                var mod = ModInstance;
-                var method = typeof(LoadedModManager).GetMethod("GetSettingsFilename", Driver.StaticAny);
-                return (string)method.Invoke(null, new object[] { mod.Content.FolderName, mod.GetType().Name });
-            }
+            var mod = ModInstance(ctx);
+            var method = Driver.Method(ctx, typeof(LoadedModManager), "GetSettingsFilename", Driver.StaticAny);
+            return (string)method.Invoke(null, new object[] { mod.Content.FolderName, mod.GetType().Name });
         }
 
-        private static string BackupPath => SettingsPath + ".pickle-backup";
+        private static string BackupPath(PickleContext ctx) => SettingsPath(ctx) + ".pickle-backup";
 
         [BeforeScenario]
         public void IsolateSettings(PickleContext ctx)
         {
-            if (File.Exists(BackupPath))
+            if (File.Exists(BackupPath(ctx)))
             {
                 // Left behind by a run that never finished: the backup is the player's real file.
-                RestoreFromBackup();
+                RestoreFromBackup(ctx);
             }
 
-            ModInstance.WriteSettings();
-            if (File.Exists(SettingsPath))
+            ModInstance(ctx).WriteSettings();
+            if (File.Exists(SettingsPath(ctx)))
             {
-                File.Copy(SettingsPath, BackupPath, overwrite: false);
+                File.Copy(SettingsPath(ctx), BackupPath(ctx), overwrite: false);
             }
 
-            ResetToDefaults();
+            ResetToDefaults(ctx);
         }
 
         [AfterScenario]
         public void RestoreSettings(PickleContext ctx)
         {
-            if (File.Exists(BackupPath))
+            if (File.Exists(BackupPath(ctx)))
             {
-                RestoreFromBackup();
+                RestoreFromBackup(ctx);
             }
         }
 
@@ -73,24 +72,43 @@ namespace SkillIcons.PickleSteps
         /// so `08-settings-persistence` read a file holding nothing it had just set. The scenario
         /// was right and the sandbox was wrong.
         /// </summary>
-        public static void ResetToDefaults()
+        public static void ResetToDefaults(PickleContext ctx)
         {
             var settings = new SkillIconsSettings();
-            typeof(SkillIconsMod).GetField("Settings", Driver.StaticAny).SetValue(null, settings);
-            typeof(Mod).GetField("modSettings", Driver.InstanceAny).SetValue(ModInstance, settings);
+            Adopt(ctx, settings);
+            Driver.Field(ctx, typeof(SkillIconsMod), "Settings", Driver.StaticAny).SetValue(null, settings);
+            Driver.Field(ctx, typeof(Mod), "modSettings", Driver.InstanceAny).SetValue(ModInstance(ctx), settings);
         }
 
-        private static void RestoreFromBackup()
+        /// <summary>
+        /// A ModSettings carries a reference back to the Mod that owns it, and the game sets it in
+        /// GetSettings&lt;T&gt;(). An object built here with `new` has none, and ModSettings.Write()
+        /// dereferences it: every scenario that wrote settings died on 2026-09-20 with
+        /// "Object reference not set to an instance of an object", including the ones that only
+        /// closed Dialog_ModSettings, since the dialog writes as it closes. Adopt the object before
+        /// anything is allowed to hold it.
+        /// </summary>
+        private static void Adopt(PickleContext ctx, ModSettings settings)
         {
-            File.Copy(BackupPath, SettingsPath, overwrite: true);
-            File.Delete(BackupPath);
+            // ModSettings.Mod is a property with a non-public setter, not a field: looking for a
+            // field named "mod" finds nothing, and the guard then throws inside a [BeforeScenario]
+            // hook, where Pickle reports only "Exception has been thrown by the target of an
+            // invocation" - every scenario red, no message. Checked against the shipped assembly.
+            Driver.Property(ctx, typeof(ModSettings), "Mod", Driver.InstanceAny)
+                .SetValue(settings, ModInstance(ctx), null);
+        }
 
-            var mod = ModInstance;
+        private static void RestoreFromBackup(PickleContext ctx)
+        {
+            File.Copy(BackupPath(ctx), SettingsPath(ctx), overwrite: true);
+            File.Delete(BackupPath(ctx));
+
+            var mod = ModInstance(ctx);
             // Forces the next GetSettings<T>() to actually reload from the file just restored,
             // instead of handing back the in-memory object the scenario mutated.
-            typeof(Mod).GetField("modSettings", Driver.InstanceAny).SetValue(mod, null);
+            Driver.Field(ctx, typeof(Mod), "modSettings", Driver.InstanceAny).SetValue(mod, null);
             var settings = mod.GetSettings<SkillIconsSettings>();
-            typeof(SkillIconsMod).GetField("Settings", Driver.StaticAny).SetValue(null, settings);
+            Driver.Field(ctx, typeof(SkillIconsMod), "Settings", Driver.StaticAny).SetValue(null, settings);
         }
     }
 }

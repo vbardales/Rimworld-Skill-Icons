@@ -31,7 +31,7 @@ namespace SkillIcons.PickleSteps
         }
 
         [Given("SkillIcons settings are at their documented defaults")]
-        public void ResetToDefaults(PickleContext ctx) => SettingsSandbox.ResetToDefaults();
+        public void ResetToDefaults(PickleContext ctx) => SettingsSandbox.ResetToDefaults(ctx);
 
         [When("SkillIcons work tab mode is set to {string}")]
         public void SetWorkTabMode(PickleContext ctx, string mode)
