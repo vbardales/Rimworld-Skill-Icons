@@ -13,21 +13,26 @@ licence:      original
 licence_at:   original work, MIT; Oracle's Skill Icon Retextures credited for the visual language only, no texture reused (verified against ATTRIBUTION.md and the generator)
 dependencies: declared
 showcase:     complete
-tested_on:    2026-09-20 (docs/TESTING.md scenarios 0, 1, 2, 3, 4, 5, 9 and 11 confirmed in game;
-              8 and 10 failed on bugs in the tests themselves, both fixed, neither re-run)
+tested_on:    2026-09-20, headless run of the whole suite: 17 scenarios, 16 passed, 1 failed.
+              Every scenario of docs/TESTING.md that Pickle covers is green except 10, whose
+              failure was a bug in the test and is fixed but not re-run. Report archived in
+              pickle-reports-archive/0920-2319.
 workshop:
 remaining:
-  - unverified: docs/TESTING.md scenarios 8 and 10. Their 2026-09-20 failures were test bugs, not
-      mod defects - the settings sandbox left the static and the Mod's own settings field pointing
-      at different objects, and the language step matched "French" against a folder actually named
-      "French (Français)". Both fixed, neither re-run.
-  - unverified: scenario 10 needs a run with aitranslation.pack and seohyeon.autotranslation
-      disabled. The second announces a dynamic UI interceptor, which would make the French
-      screenshot show its machine translation and the assertions pass against a broken file.
+  - unverified: docs/TESTING.md scenario 10. It failed on a step timeout, not on the mod: Pickle
+      kills any step over five seconds and reloading a whole language takes longer than that on a
+      machine with no GPU. Fixed in 07600f5 with TimeoutSeconds = 40 and ctx.WaitUntil(..., 35),
+      not re-run.
   - unverified: what only a person can still do - a real restart for scenario 8, RIMMSQOL's own
       reveal/hide for 9, the pawn creation screen and whether an animation actually moves for 1.
+  - note: the French evidence no longer needs aitranslation.pack and seohyeon.autotranslation
+      disabled by hand. The headless staging mounts only the hard dependencies, so no translation
+      mod is loaded and no dynamic interceptor can supply text for our own keys.
 session:      local_314cf7e0-0763-4b3b-b4b7-03e564331dc5
-updated:      2026-09-20, third in-game run: the grey-mode fix confirmed, five more scenarios
+updated:      2026-09-20, the suite finally ran end to end, headless: 16 of 17, the six failures
+              read off a counter strip earlier that evening all green, and the last red explained
+              and fixed. Both patch files split out of their PatchOperationSequence. Earlier:
+              2026-09-20, third in-game run: the grey-mode fix confirmed, five more scenarios
               automated and eight now confirmed, two test bugs found and fixed. Earlier:
               2026-09-19, the skill and work type icon set moved to Work Studio and was cut here,
               leaving a passions-only mod; and the second in-game run, where scenario 3 failed
@@ -895,6 +900,57 @@ parameter delimiter - it happens to work here, which is not the same as being sa
 that cannot be listed without escaping is a phrase nobody can audit at a glance, which is how this
 came to be reported in the first place. No step phrase in this suite carries a literal quote now,
 and `Tests/Pickle/README.md` records that as a rule rather than an accident.
+
+## The suite finally ran, headless — 2026-09-20
+
+Three sessions spent an evening launching RimWorld in turn on one machine, and for most of it no
+report belonging to this mod was written at all. The reports that did appear were Work Studio's
+and Architect Studio's, and reading one of them as ours was the trap AUDIT.md names as the most
+expensive in this suite: a report older than the run you think you are reading.
+
+What settled it was not another launch. Pickle serves a dashboard while it runs, and a second
+RimWorld now lives in WSL2 under `xvfb-run` — a real X server at 1920x1080 that nobody has to
+look at. That install is the tests' game; the Windows one is hers and is never launched and never
+closed. One machine lock, `%LOCALAPPDATA%\rimworld-pickle-run.lock`, taken with CreateNew so the
+file system arbitrates, covers both, and staging as well as launching: `stage-pickle-wsl.sh`
+empties `~/rimworld/Mods`, so a hand-rolled chain that stages while another session is running
+destroys that run before it starts. That happened at 22:10. `scripts/Run-PickleWsl.ps1` is the
+single entry point, and this suite is driven through it and nothing else.
+
+**17 scenarios, 16 passed, 1 failed.** Report in `pickle-reports-archive/0920-2319`. The five
+def-fix scenarios, the settings round trip to disk, the MainButtons shortcut, the three work tab
+modes, the four slider positions, the no-passion icon and both publication shots are green.
+
+**The six failures measured earlier that evening were one defect, and it was in the test harness.**
+They were read off the runner's own pass/fail counter, cropped from twenty screenshots of a run
+that died before writing anything — the only evidence a killed run leaves. `SettingsSandbox`
+installed a `new SkillIconsSettings()` into `Mod.modSettings` without the back-reference to its
+Mod. `ModSettings.Mod` has a non-public setter that the game fills in `GetSettings<T>()` and that
+`new` does not, and `ModSettings.Write()` dereferences it. Every scenario that wrote settings died
+on an anonymous null, `I close all dialogs` included, because `Dialog_ModSettings` writes as it
+closes.
+
+**Scenario 10 failed for a reason that was hidden by a second bug.** With the dashboard on, it
+died inside Pickle's own snapshot: `DashboardStrings.Translate` calls `Verse.Translator.CanTranslate`
+unguarded, and every `SelectLanguage` opens a window with no active language. That is real, it
+kills runs, and RimWorks PR #22 addresses it upstream. But it was not the cause. Run with
+`-pickle-no-http`, the message was legible: `Step ... timed out after 5s`. Pickle fails any step
+over five seconds and reloading a whole language on a machine with no GPU takes longer. Fixed in
+07600f5 with `TimeoutSeconds = 40f` and `ctx.WaitUntil(..., 35f)`. Not re-run.
+
+**The def fixes were split out of their sequences, and that is a separate finding.** They failed
+in game while the same XML replayed correctly out of game, and no installed mod repatches those
+defs: an index of the 116 resolvable active mods finds the five defNames only here, in Alpha
+Skills and in VSE, which declare them, and no active mod's XML mentions `PassionDef` at all. Both
+patch files held their fixes in one `PatchOperationSequence` declared `<success>Always</success>`.
+A sequence is a chain: it stops at the first sub-operation whose xpath finds nothing, silently.
+One def renamed upstream would have dropped four unrelated fixes with it. Each fix is now its own
+top-level operation with its own `<success>Always</success>`, and the harness test that used to
+assert the damage now asserts its absence. It passes, and would have failed before the split.
+
+Note what this run does not prove. The headless staging mounts only hard dependencies, so nothing
+was there to repatch anything — these five scenarios passed in that configuration before the split
+too. The split is proved by the out-of-game test, not by this report.
 
 ## Historical record (retained)
 
