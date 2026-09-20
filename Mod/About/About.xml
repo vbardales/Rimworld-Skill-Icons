@@ -20,9 +20,23 @@ Options (Options &gt; Mod settings &gt; SkillIcons):
 
 It also repairs a handful of def mistakes. In Alpha Skills: the "nudist (active)" description was copy-pasted from "nomadic", "pain-driven (active)" kept its dormant label, "frozen" had no work tab icon, and the two degrees of "blind" shared a single icon despite granting different bonuses. In Vanilla Skills Expanded: "apathy" had no work tab icon.
 
-English and French. MIT licensed; every texture is generated from source in the repository.
+English and French.
 
-Thanks to Oracle, whose Skill Icon Retextures set the visual language this set follows.
+AI-GENERATED
+
+This mod's code was written with Claude Code (Anthropic) and its mod icon generated with DALL-E (OpenAI), under human direction, review and testing. Stated openly: designing with these tools is my job. The passion icons are not: all eighty-five are drawn by a script in the repository, and so is the preview image. No image model touched them.
+
+THANKS
+
+Claude Code (Anthropic) and DALL-E (OpenAI).
+
+Oracle, whose Skill Icon Retextures set the visual language this set follows - a heart carrying one small mark that says which passion it is. The idea is theirs; none of their files are here.
+
+Oskar Potocki, Sarg Bjornson and Taranchuk for Vanilla Skills Expanded, whose PassionDef is what makes an icon set like this possible at all, and Sarg Bjornson for Alpha Skills and its twenty-six circumstantial passions.
+
+Andreas Pardeike for Harmony.
+
+See ATTRIBUTION.md. This mod is MIT licensed.
 
 [url=https://github.com/vbardales/Rimworld-Skill-Icons]Source code on GitHub[/url]</description>
   <supportedVersions>
