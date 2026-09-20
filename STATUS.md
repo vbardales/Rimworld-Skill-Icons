@@ -548,6 +548,179 @@ this.
 A `BACKLOG.md` was started for this mod at the same time, with her idea of picking a passion's
 drawing by clicking it in the options gallery.
 
+### Translation audit — 2026-09-20
+
+A re-run of TRANSLATIONS.md §1-§3 against the mod as it stands today, passions only, after the
+skill and work type icon set left for Work Studio on 2026-09-19. The `### Translation audit`
+section dated 2026-09-17 above describes a mod with ten settings fields and twenty-five Keyed
+entries; that was true when it was written and is left as written, but it is no longer a
+description of this tree. The current figures are six settings fields and fifteen Keyed entries
+per language. Nothing in this pass needed fixing: no defect was found in the language files, in
+the C# or in the two patch files, which is the honest outcome rather than a manufactured one.
+
+**Inventory (§1).** Every player-facing string this mod owns is drawn by
+`SkillIconsMod.DoSettingsWindowContents`: one checkbox and its tooltip for the animation toggle,
+the animation speed slider label, one checkbox and its tooltip for the "no passion" icon, the
+Work tab section heading, three radio buttons each with a tooltip, the icon size and icon opacity
+slider labels, and the gallery hint above the passion grid. That is fifteen distinct strings and
+exactly fifteen `.Translate()` call sites, all in `SkillIconsMod.cs`; `PassionIconAnimations.cs`
+and `MainButtonWorker_Settings.cs` draw no text at all. Outside the C#, the mod owns the
+`SkillIcons_Settings` `MainButtonDef`'s `label` and `description` in
+`Mod/1.6/Defs/MainButtonDefs/MainButtons.xml`, English in the Def itself and French in
+`Mod/Languages/French/DefInjected/MainButtonDef/MainButtons.xml`, and the two pieces of English
+text its patches write onto Alpha Skills' defs, `AS_NudistPassion_Active.description` and
+`AS_PainDrivenPassion_Active.label`. `Mod/loadFolders.xml` declares one version, `/` and `1.6`,
+so there is no second version folder or conditional folder carrying text that this inventory
+would miss; the only other patch values are `workBoxIconPath` and `iconPath` texture paths, which
+are internal paths and not translatable.
+
+**What the inventory deliberately excludes, and why.** The settings gallery draws `def.LabelCap`
+and `def.FullDescription` for every installed `PassionDef`. Those are native `PassionDef` fields
+owned by vanilla, Vanilla Skills Expanded and Alpha Skills; this mod neither declares nor patches
+them, it reads whatever the owning mod supplies, so translating them is the owning mod's duty and
+an English or French DefInjected file here would be this mod claiming another mod's text. The
+sole exception is the two Alpha Skills fields this mod's own patch rewrites, treated below. The
+mod's own name, returned literally by `SettingsCategory()` and repeated as the `MainButtonDef`
+label in both languages, is a proper name and is deliberately identical in English and French,
+which §3 names explicitly as not being a missing translation. The four `Log.Message`/`Log.Warning`
+lines in `PassionIconAnimations.cs` and `SkillIconsMod.cs` are technical logs and correctly stay
+in English, unchanged. `Mod/About/About.xml`'s description and the repository's Markdown are
+PUBLISHING.md's business, not this gate's, and `Tests/Pickle/` is a companion test mod that never
+ships to a player.
+
+**Localizability (§2).** No player-facing hardcoded string exists in the C#. A grep across the
+three source files for `Widgets.Label`, `listing.Label`, `CheckboxLabeled`, `RadioButton`,
+`ButtonText`, `Messages.Message`, `TooltipHandler` and `LetterStack` returns twelve hits, and
+every one of them either passes a `.Translate()` result or passes a def field owned by another
+mod (`def.LabelCap` at the gallery label, `def.FullDescription` in the tooltip). All fifteen keys
+carry the `SkillIcons.` prefix, are literal constants rather than assembled at runtime, and none
+builds a sentence out of translated fragments: the three parameterised strings are complete
+sentences taking one value each.
+
+**Coverage (§3).** Both Keyed files parse as valid XML and declare the same fifteen keys, with no
+duplicate element name in either file and no empty or whitespace-only value. Every French entry
+differs from its English counterpart, so there is no entry that is really the English string left
+in place; no value contains a TODO, FIXME or other untranslated marker. The parameter check
+matches the call sites: `SkillIcons.Speed`, `SkillIcons.WorkTabScale` and
+`SkillIcons.WorkTabOpacity` are the only three keys containing `{0}`, they are the only three
+`.Translate()` calls that pass an argument, and each passes exactly one. The literal `\n`
+sequences agree count for count between the two languages: one in `AnimatedDesc`, two in
+`ShowNoneDesc` and two in `WorkTabMixedDesc`, none anywhere else, and no value contains a real
+newline character that would behave differently from the escaped form.
+
+Stronger than the source-level check the harness performs, the fifteen keys were also read back
+out of the *shipped* `Mod/1.6/Assemblies/SkillIcons.dll` as UTF-16 string literals: the binary
+contains exactly those fifteen `SkillIcons.` keys and no sixteenth, so no key removed with the
+skill and work type icons survives in the delivered assembly while being absent from the language
+files. The DLL's timestamp (2026-09-19 11:50) is later than every `.cs` file's, so the shipped
+binary is the current source. No C# was changed in this pass and nothing was rebuilt.
+
+**The two patched Alpha Skills texts, re-verified rather than inherited.** The 2026-09-17 audit
+concluded no French DefInjected is needed for `AS_NudistPassion_Active.description` and
+`AS_PainDrivenPassion_Active.label` because Alpha Skills ships no French. That claim was checked
+again directly against the installed packages rather than taken on trust:
+`steamapps\workshop\content\294100\3448953006\Languages` contains `English\Keyed` and nothing
+else, and `...\3400246558\Languages` (Vanilla Skills Expanded) likewise contains only
+`English\Keyed`. Neither mod ships a `French` folder, and neither ships DefInjected in any
+language, so both mods' passion labels and descriptions come straight from their Def source and
+display in English whatever the interface language. Replacing that English text with better
+English therefore regresses nothing in French and creates no French coverage gap. Both target
+defs were confirmed still present in the installed Alpha Skills 1.6 defs
+(`Defs\PassionDefs\Passions.xml` and `Mods\Ideology\Defs\PassionDefs\Passions_Ideology.xml`). The
+patch on Vanilla Skills Expanded adds only a `workBoxIconPath`, no text, so it carries no
+translation duty at all. Only those two Workshop ids were opened; the rest of the Workshop folder
+was not scanned.
+
+**Commands run, and their results.**
+
+- `powershell -ExecutionPolicy Bypass -File scripts\Check-DefInjected.ps1 -TransMod
+  C:\Users\nelim\Documents\rimworld\SkillIcons\Mod -Targets
+  C:\Users\nelim\Documents\rimworld\SkillIcons\Mod` (absolute paths both sides): 31 patch
+  operations applied, 11,587 defs indexed, 2 keys checked, 0 errors. The two keys are
+  `SkillIcons_Settings.label` and `SkillIcons_Settings.description`, the only DefInjected this mod
+  ships. No target went unresolved. Alpha Skills and Vanilla Skills Expanded were not supplied as
+  targets because this mod ships no DefInjected aimed at them, by the reasoning above; had it
+  done so, they would have had to be named or every key would have read as uncovered.
+- `powershell -ExecutionPolicy Bypass -File _tools\Run-Tests.ps1`: **25 tests, 0 skipped, all
+  passing**, unchanged from the 2026-09-19 figure. Its section E is what covers translation: EN/FR
+  key-set parity with non-empty values, every `.Translate()` call site having a matching Keyed
+  entry, and `SkillIcons_Settings.label`/`.description` resolving English from the Def and French
+  from DefInjected.
+- A one-off comparison over the two Keyed files and the French DefInjected file, run in
+  PowerShell with `System.Xml`: XML validity, per-file duplicate element names, empty values,
+  key-set difference in both directions, `{0}`-style placeholder sets, `\n` counts, EN-equals-FR
+  detection and untranslated-marker detection. Fifteen entries each side, no duplicate, no empty,
+  no difference in either direction, and not one flagged string.
+- `[IO.File]::ReadAllBytes` over the shipped DLL with a `SkillIcons\.[A-Za-z]+` match on its
+  UTF-16 literals: sixteen distinct hits, the fifteen keys plus the `SkillIcons.dll` filename the
+  build-date diagnostic composes.
+
+**What the harness still cannot see.** Section E compares key sets and call sites, which catches
+an orphan on either side, but it cannot tell a French entry that is genuinely translated from one
+that is the English string copied over, cannot compare `{0}` placeholders or `\n` counts between
+the two languages, and cannot read the delivered DLL's own key literals. Those four checks were
+done by hand this pass, as described above, and all four passed; a future session repeating this
+gate should redo them rather than read a green harness as covering them. Adding them to section E
+would be reasonable and was not done here.
+
+**What only a running game can settle, and stays `unverified`.** Per TRANSLATIONS.md §3 these do
+not block `preTest` and are tracked separately: `docs/TESTING.md` Scenario 10, opening the
+settings page with the game language set to French and then to English and reading every label,
+tooltip, radio option, slider label and the gallery hint on screen for raw keys, fallback text,
+mis-substituted parameters and clipping, plus the same check on the `SkillIcons_Settings`
+MainButtons shortcut's own label once a customization mod reveals it. That is already carried in
+`remaining` and is not duplicated there. Note also that the French text is consistently the
+longer of the two, which the gallery hint's measured-height code was written for; only the game
+can confirm it wraps rather than clips.
+
+**Why the three front-matter fields stay `partial`.** Unchanged and untouched by this pass. Every
+static check TRANSLATIONS.md §1-§3 asks for now passes, but the document gates finalizing them on
+`settings_audit` being `complete` or justified `not_applicable`, and it is `partial` because
+MOD_SETTINGS.md §4's in-game checklist has never been run. `localization`, `translation_en` and
+`translation_fr` can be flipped to `complete` on the evidence above the moment that gate clears,
+provided nothing player-facing has changed in between.
+
+## Automation of the remaining scenarios — 2026-09-20
+
+Written to shorten her side of the verification, not to replace it. Scenarios 5, 8, 9, 10 and 11
+now have feature files, so what is left to do by hand is one run and seven screenshots, listed at
+the top of `Tests/Pickle/README.md`.
+
+`06-def-fixes.feature` is the one worth singling out, because it needed no custom step and no
+screenshot at all. The five def fixes are changes to def *fields*, so Pickle's own generic
+vocabulary can read the loaded `DefDatabase` directly - `def "X" field "y" is "z"` - which is
+stronger evidence than the tooltip screenshot Scenario 11 originally asked for: a screenshot shows
+one state of one pawn, these read the values every tooltip is built from. Each one is paired with
+`was patched by mod "SkillIcons"`, which closes the gap `<success>Always</success>` would
+otherwise hide: without it a fix could read correct because Alpha Skills repaired it upstream
+while this mod's patch had silently stopped matching.
+
+The other four needed a new `VerificationSteps.cs`. What each one can and cannot settle is stated
+in its own header rather than implied:
+
+- **07**, Scenario 5: two screenshots of one pawn, the option off then on, with a Major passion on
+  the row below so the "not more prominent than a real passion" judgement has something to compare
+  against in the same frame.
+- **08**, Scenario 8: the object → file → object round trip, asserted by name against the file on
+  disk and then read back through the game's own `ReadModSettings`. It does not restart RimWorld,
+  which one process cannot; WorkStudio's suite met the same wall and answered it the same way.
+- **09**, Scenario 9: the def is hidden on a clean configuration, and activating its worker opens
+  `Dialog_ModSettings` **for this mod** - the dialog's own `Mod` field is read back, because a
+  settings window opened for some other mod would look identical in a screenshot. Driving RIMMSQOL
+  itself stays manual.
+- **10**, Scenario 10: `LanguageDatabase.SelectLanguage` switches the live language, which
+  re-resolves Keyed text immediately - and the settings page is entirely Keyed, so the screenshot
+  really is the French page. DefInjected does not re-resolve without a def reload, so the
+  MainButtonDef's own label stays manual. The scenario restores English before it ends, because
+  Pickle runs every scenario in one session and leaving it French would fail something later for
+  no apparent reason.
+
+None of these has been run. `dotnet build` proves the C# and the Cucumber expressions are well
+formed against the real assemblies; it proves nothing about behaviour. Two guesses in particular
+will be settled or refuted by the first run: that Pickle matches `of type "PassionDef"` on the
+short name of `VSE.Passions.PassionDef`, and that `was patched by mod` expects the display name
+`SkillIcons`. Both fail loudly rather than silently if wrong.
+
 ## Historical record (retained)
 
 Read by a sweep across every mod, rather than by asking each thread in turn. It lives at the

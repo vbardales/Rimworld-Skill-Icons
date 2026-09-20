@@ -29,7 +29,8 @@ The log lives at:
 | Scenario 2 (settings defaults) | **passed**, 2026-09-19 |
 | Scenario 3 (three work tab modes) | **FAILED** 2026-09-19, defect fixed the same day, refix unverified on screen |
 | Scenario 4 (size/opacity sliders) | **passed**, 2026-09-19 |
-| Scenarios 5, 8-11 | **never observed** |
+| Scenarios 5, 8, 9, 10, 11 | **automated 2026-09-20**, never run - see `Tests/Pickle/README.md` |
+| Scenarios 6, 7 | removed with the feature they tested, 2026-09-19 |
 
 ## The other half, which does not need a colony
 

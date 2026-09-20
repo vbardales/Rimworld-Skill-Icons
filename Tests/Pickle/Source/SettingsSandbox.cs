@@ -19,6 +19,8 @@ namespace SkillIcons.PickleSteps
     {
         private static Mod ModInstance => LoadedModManager.GetMod<SkillIconsMod>();
 
+        internal static string SettingsFilePath => SettingsPath;
+
         private static string SettingsPath
         {
             get
