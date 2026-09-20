@@ -11,11 +11,7 @@
 # The "was patched by mod" steps matter as much as the values. Without them a fix could read
 # correct because Alpha Skills repaired it upstream while this mod's patch silently stopped
 # matching - the exact failure <success>Always</success> is designed to hide.
-#
-# No @review tag, and so no screenshots. The tag was here and it contradicted the first line of
-# this comment: it made Pickle attach five images of a screen that shows none of what these
-# scenarios assert. A run costs the machine the whole time it lasts, and an image nobody has to
-# look at is that cost spent on nothing.
+@review
 Feature: the Alpha Skills and Vanilla Skills Expanded def fixes survived loading
 
   Scenario: nudist (active) no longer carries the nomadic description
