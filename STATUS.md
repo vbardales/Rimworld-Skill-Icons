@@ -797,6 +797,36 @@ moving**, which is the mod's most distinctive feature and the one a still image 
 raw material for a short GIF already exists in `PickleReports`, which holds consecutive frames of
 animated passions.
 
+## The animation GIF — 2026-09-20
+
+The gap named in the art pass an hour earlier - nothing in the set showed an animation moving,
+which is the mod's most distinctive feature - is closed by `Screenshots/07-passions-animated.gif`.
+
+It is **not** a screen capture. It is composed directly from `Mod/1.6/Textures/Passions/Animated/`,
+the 920 frames the mod actually ships, so it carries no interface, no test fixture and no capture
+artefact, at source resolution. 894x234, 120 frames, six seconds, 449 KB.
+
+Sixteen sequences, picked on one criterion that is worth recording because it is not obvious: a
+sequence is eligible only if its period divides six seconds exactly, otherwise the loop visibly
+jumps when it restarts. Period is `frameCount / framesPerSecond`, and the spec table uses four
+different rates - 6, 8, 10 and 12 fps - so the set splits into periods of 1.5s, 2.0s, 2.4s, 3.0s,
+5.33s and 6.0s. Only 1.5, 2.0, 3.0 and 6.0 divide six. Each cell then advances by the mod's own
+formula, `floor(elapsed * fps) % frameCount` sampled at 20 fps, so every passion runs at the speed
+the game runs it at rather than a common invented one. At six seconds all sixteen land back on
+frame zero together.
+
+The twenty-four sequences left out are not worse, they are the ones whose periods are 2.4s, 5.33s
+or 6.67s. Including them needs a twelve-second loop, at twice the frames and twice the weight.
+
+**One PowerShell trap cost most of the time here and is worth not rediscovering.** The composition
+script used `$T` for the tile size and `$t` for elapsed time. PowerShell variable names are
+case-insensitive, so those are one variable: `$t = $k / 20` silently overwrote the tile size with
+0, and every icon was drawn 0x0. The failure looked like a drawing problem - blank first frame,
+tiny clustered dots later - and the components all tested fine in isolation, because in isolation
+there was no second variable to collide with. The fix was renaming it `$tile`; the diagnostic that
+found it was printing the computed x coordinates, which read 14, 28, 42 where they should have
+read 14, 124, 234.
+
 ## Historical record (retained)
 
 Read by a sweep across every mod, rather than by asking each thread in turn. It lives at the
