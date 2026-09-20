@@ -21,9 +21,10 @@ remaining:
       thing because the grey path went through the animation lookup, which only has colour
       frames; fixed 2026-09-19 by not animating on the grey path. Compiles, harness green,
       but nothing has seen it on screen - re-shoot the Pickle mode trio and compare.
-  - unverified: docs/TESTING.md scenarios 5-11 (the "no passion" icon, the icon toggles, the
-      column header modes, persistence across a restart, the RIMMSQOL shortcut, EN/FR runtime
-      display, the five tooltip fixes) still need a person watching the screen.
+  - unverified: docs/TESTING.md scenarios 5 and 8-11 (the "no passion" icon, persistence across
+      a restart, the RIMMSQOL shortcut, EN/FR runtime display, the five tooltip fixes) still
+      need a person watching the screen. 6 and 7 no longer exist: they went with the skill and
+      work type icons.
 session:      local_314cf7e0-0763-4b3b-b4b7-03e564331dc5
 updated:      2026-09-19, the skill and work type icon set moved to Work Studio and was cut here,
               leaving a passions-only mod; and the second in-game run, where scenario 3 failed
