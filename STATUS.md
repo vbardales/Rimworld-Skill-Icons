@@ -19,7 +19,10 @@ tested_on:    2026-09-20, headless run of the whole suite: 17 scenarios, 16 pass
               pickle-reports-archive/0920-2319.
 workshop:     3805383957, created 2026-09-21 00:07, still private. Steam creates every item
               private and RimWorld never calls SetItemVisibility, so going public is a manual
-              step, to be taken after subscribing to it and testing it for real.
+              step, to be taken after subscribing to it and testing it for real. The item was
+              uploaded ahead of the chain - stage is done, not tested - which is a choice, not
+              an oversight: nothing published is visible to anyone yet. PUBLICATION.md holds
+              what the page needs.
 remaining:
   - unverified: docs/TESTING.md scenario 10. It failed on a step timeout, not on the mod: Pickle
       kills any step over five seconds and reloading a whole language takes longer than that on a

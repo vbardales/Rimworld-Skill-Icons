@@ -1,0 +1,133 @@
+# Publication
+
+What the Workshop page needs and the rest of the repository does not hold. Written for the first
+upload of 2026-09-21, and for whoever updates this mod next.
+
+Workshop item: **3805383957**.
+
+## Screenshots, in this order
+
+Steam shows the first one large under the Preview, so the most demonstrative goes there rather
+than the prettiest.
+
+| Order | File | What it shows |
+|---|---|---|
+| 1 | `Screenshots/02-work-tab-modes.png` | The three work tab modes, stacked and labelled. The strongest single image: it shows what the mod does and why it has settings, at once. |
+| 2 | `Screenshots/07-passions-animated.gif` | Sixteen passions animating, 6s, looping. The one thing a still cannot carry. |
+| 3 | `Screenshots/01-settings-page.png` | The whole settings window on a clean configuration, live gallery at the bottom. |
+| 4 | `Screenshots/06-worktab-icons-large.png` | Work tab cells at maximum size and opacity. |
+| 5 | `Screenshots/05-worktab-icons-small.png` | The same at minimum — 4 and 5 are the before/after of the two sliders. |
+| 6 | `Screenshots/03-no-passion-icon.png` | The "no passion" icon off then on, side by side. |
+| 7 | `Screenshots/04-bio-tab-skills.png` | The skill list. The weakest: fixture colonists, low levels. Last, or not at all. |
+
+`Screenshots/README.md` says how each one was cropped and from which capture.
+
+**Do not use captures from a headless run.** The publication scenarios pass green and their images
+still show nothing usable: on 2026-09-20 the Bio tab one held no Bio tab at all, and the settings
+one had an empty gallery and a French interface. Green proves the journey ran, not that the image
+is right. Every image here comes from a run on the Windows game, and every one was opened and
+looked at.
+
+## Dependencies and DLCs
+
+**No DLC is required.** `supportedVersions` declares 1.6 only and `loadFolders.xml` has no
+`IfModActive` branch.
+
+| Declared | packageId | Actually required |
+|---|---|---|
+| Harmony | `brrainz.harmony` | Yes — the mod patches by transpiler |
+| Vanilla Skills Expanded | `vanillaexpanded.skills` | Yes — the C# does `using VSE.Passions`; without `PassionDef` the assembly does not load |
+| Alpha Skills | `sarg.alphaskills` | No, technically. No `.cs` file references it and the DLL carries no reference. Without it the mod draws the VSE passions and 26 of its 85 textures go unused. Declared hard because the set is designed for both. |
+
+`loadAfter` also carries `oracle.skills.retexture`, for the texture-path collision, without making
+it a dependency.
+
+Worth knowing: Alpha Skills keeps some passions in `1.6/Mods/Ideology`, loaded only
+`IfModActive="Ludeon.RimWorld.Ideology"`. Three of the five def fixes in
+`1.6/Patches/AlphaSkills_Fixes.xml` target defs that live there. Without Ideology those three go
+inert on their own and the other two still apply — which is the point of them being independent
+operations rather than one sequence.
+
+## Mature content checkboxes
+
+**None of them.** The mod is a UI icon set: 85 hearts carrying a small mark, drawn at 64x64 and
+shown at 24 px. No characters, no scenes.
+
+Three icons have names that could raise the question from a file listing, and all three were
+opened before answering: `AS_NudistPassion_Active` is a skin-toned heart with two little legs and
+a green fig leaf, `AS_IntimatePassion_Active` is two overlapping pink hearts, `AS_DrunkenPassion`
+is a goblet with a heart in it. Cartoon pictograms, emoji register.
+
+The checkboxes cover this item, not its dependencies: Alpha Skills and VSE carry their own.
+
+## Messages for the mods this one draws from
+
+Steam comments take BBCode, and a bare Workshop URL becomes a widget — hence the link alone on the
+last line. Under 1000 characters each.
+
+**Post them once the item is public.** A link to a private item opens for nobody and the widget
+does not render.
+
+One register per recipient. The same text three times shows.
+
+### Vanilla Skills Expanded — https://steamcommunity.com/sharedfiles/filedetails/?id=3400246558
+
+The workshop. Brush and palette: thanking the people who stretched the canvas.
+
+```
+Hello! 🎨 I just released a passion icon set built on top of VSE, and I wanted to come and say thank you properly.
+
+PassionDef is the whole reason it exists — without it there are two passions to draw instead of eighty-five, and no iconPath to override. You handed me a canvas and I spent weeks filling it. 🖌️
+
+One tiny thing, if it is useful to you: VSE_Apathy has no workBoxIconPath, so an apathetic skill's cell in the work tab stays empty while every other passion shows something. I patch it on my side in <success>Always</success>, so it quietly steps aside the day you add the field. No rush at all!
+
+Thank you for the framework. 🙏
+
+https://steamcommunity.com/sharedfiles/filedetails/?id=3805383957
+```
+
+### Alpha Skills — https://steamcommunity.com/sharedfiles/filedetails/?id=3448953006
+
+The bestiary. Playful, naming his strangest passions and borrowing their emoji. The only one of
+the three that carries something useful to its recipient: the four def mistakes, named.
+
+```
+Hello! 👋 I just released a passion icon set, and honestly your twenty-six circumstantial passions are why it got so big — drunken, frozen, blind, pain-driven... an absolute joy to draw. 🍷❄️
+
+While reading your defs closely (many, many times! 👀) I bumped into four little things you may want upstream. Each is patched on my side in <success>Always</success>, so it steps aside on its own the day you fix it:
+
+▸ AS_NudistPassion_Active — its description is nomadic's, copy-pasted. It talks about caravans!
+▸ AS_PainDrivenPassion_Active — keeps the dormant label, so both states look identical in the tooltip.
+▸ AS_FrozenPassion — no workBoxIconPath, so its work tab cell falls back to something else.
+▸ AS_BlindPassion_Sublime and _Elevated share one iconPath, though sublime gives 1x/2x and elevated 0.5x/1.5x.
+
+Thank you for the passions! 🎉
+
+https://steamcommunity.com/sharedfiles/filedetails/?id=3805383957
+```
+
+### Oracle's Skill Icon Retextures — https://steamcommunity.com/sharedfiles/filedetails/?id=3214465250
+
+The lineage. The ♥ belongs here and nowhere else: it is their motif, the one the whole set takes
+up. Admiration first, the debt second, the technical part reduced to one passing sentence.
+
+```
+Hello! ♥ First of all: I am a fan. Your Skill Icon Retextures is what made me look at passion icons at all, and it is still the set I measure mine against. A heart carrying one small mark that says which passion it is — such a simple idea, and so exactly right. The little marks are lovely. 💗
+
+So when I made a passion icon set of my own, released today, it follows your grammar from end to end. It would look nothing like it without yours to learn from, and I would rather you hear that from me than find it on your own.
+
+Mine is drawn from scratch, so none of your files are in it, and I declare yours in loadAfter since we write to the same texture paths.
+
+Thank you for the idea, and for the art. ♥
+
+https://steamcommunity.com/sharedfiles/filedetails/?id=3805383957
+```
+
+## What the upload cannot take back
+
+- The description is sent only when the item is created. Afterwards it is a manual edit on the
+  Steam page. Read it one last time before clicking.
+- `About/PublishedFileId.txt` is written into the mod folder by the upload and reaches the
+  repository through the junction. Commit it at once: lost, the next upload creates a second item.
+- Steam creates every item private and RimWorld never calls `SteamUGC.SetItemVisibility`. Going
+  public is a manual step, after subscribing to the item and testing it for real.
