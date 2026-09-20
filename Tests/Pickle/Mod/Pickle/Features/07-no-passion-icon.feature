@@ -20,6 +20,6 @@ Feature: the "no passion" icon is off by default and stays discreet when enabled
     Then SkillIcons setting "showNonePassion" reads "False"
     When SkillIcons opens the Bio tab for "Passionate"
     And I take a screenshot "no passion icon off"
-    And SkillIcons "no passion" icon is turned "on"
+    And SkillIcons no-passion icon is turned "on"
     And I take a screenshot "no passion icon on"
     Then SkillIcons setting "showNonePassion" reads "True"

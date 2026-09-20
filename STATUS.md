@@ -869,6 +869,33 @@ clicks - it opens windows by calling their own code and reads state back - so th
 for a third-party window to swallow. Worth keeping in mind if that ever changes; the point that
 the message must name the window's *assembly* and not just its type is the useful half.
 
+## Second relay from the Work Studio session — 2026-09-21
+
+Three points arrived. Two were already done and are recorded here so the next reader does not
+re-open them; the third was real in a way the report did not quite have right, and is fixed.
+
+**The modal scenario and the three unscoped steps were both already handled**, on 2026-09-19 and
+2026-09-20 respectively, and the relay was working from a snapshot taken before those landed.
+`02-settings-defaults` passed on the 2026-09-20 run - `summary.md` line 99, "screenshot of
+Dialog_ModSettings with nothing changed | Passed" - after the tick wait was removed outright and
+`@watch` moved from the Feature line to the Scenario line; the step now also awaits its own frames.
+`the game language is`, `translation key ... does not read as a raw key` and
+`a ... window is open for mod ...` are the three named, and all three were renamed in commit
+`4ece5af` along with four others.
+
+**The odd `SkillIcons \` was real, but it was not a malformed string.** The source read
+`[When("SkillIcons \"no passion\" icon is turned {string}")]` - valid C#, resolving to the phrase
+`SkillIcons "no passion" icon is turned {string}`, which worked: its scenario passed on
+2026-09-20. What was reported was a listing that did not resolve the C# escaping.
+
+It was renamed anyway, to `SkillIcons no-passion icon is turned {string}`, for two reasons that
+survive the misreading. A literal double quote sitting beside a `{string}` parameter is ambiguous
+to anyone reading the expression and invites a Cucumber-expression parser to treat it as a
+parameter delimiter - it happens to work here, which is not the same as being safe. And a phrase
+that cannot be listed without escaping is a phrase nobody can audit at a glance, which is how this
+came to be reported in the first place. No step phrase in this suite carries a literal quote now,
+and `Tests/Pickle/README.md` records that as a rule rather than an accident.
+
 ## Historical record (retained)
 
 Read by a sweep across every mod, rather than by asking each thread in turn. It lives at the

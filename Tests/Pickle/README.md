@@ -122,6 +122,14 @@ SkillIcons in its phrase - `SkillIcons opens the Bio tab for "..."`, not `I open
 "..."`. Seven were generic until 2026-09-20 and were renamed then, on a warning from the Work
 Studio session; nothing had collided yet, which is exactly when it is cheap to fix.
 
+No phrase carries a literal double quote either. One did - `SkillIcons "no passion" icon is
+turned {string}` - and it worked, its scenario passing on 2026-09-20. It was still renamed to
+`SkillIcons no-passion icon is turned {string}` on 2026-09-21: a literal quote sitting next to a
+`{string}` parameter is ambiguous to read and invites a Cucumber-expression parser to treat it as
+a parameter delimiter. It also made the step unreadable in any listing that does not resolve C#
+escaping, where `[When("SkillIcons \"no passion\"...` reads as a broken string - which is exactly
+how it was reported.
+
 The steps that stay unscoped are Pickle's own - `I close all dialogs`, `I take a screenshot`,
 `def "..." field "..." is "..."` and the rest. Those belong to `Pickle.Vanilla` and are shared on
 purpose.

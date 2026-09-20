@@ -22,7 +22,7 @@ namespace SkillIcons.PickleSteps
     public class VerificationSteps
     {
         // ---------------------------------------------------------------- Scenario 5
-        [When("SkillIcons \"no passion\" icon is turned {string}")]
+        [When("SkillIcons no-passion icon is turned {string}")]
         public void SetNonePassion(PickleContext ctx, string onOff)
         {
             ctx.Require(onOff == "on" || onOff == "off", $"write on or off, not '{onOff}'");
