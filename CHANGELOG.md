@@ -22,4 +22,4 @@ First release.
 - Alpha Skills: `AS_NudistPassion_Active` carried a description copy-pasted from "nomadic"; `AS_PainDrivenPassion_Active` kept its dormant label, making the two states indistinguishable in the tooltip; `AS_FrozenPassion` had no `workBoxIconPath`; and both blindness tiers shared one icon despite granting different bonuses (0.5×/1.5× against 1×/2×).
 - Vanilla Skills Expanded: `VSE_Apathy` had no `workBoxIconPath`.
 
-Both patch files run inside a `<success>Always</success>` sequence, so if these defs are repaired upstream the patches go quietly inert instead of logging errors.
+Each fix is an independent operation declaring `<success>Always</success>`, so a def repaired upstream makes its own fix go quietly inert instead of logging errors — and without taking the other fixes down with it, which a single `PatchOperationSequence` would have done.
