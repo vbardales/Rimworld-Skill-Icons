@@ -17,12 +17,12 @@ tested_on:    2026-09-20, headless run of the whole suite: 17 scenarios, 16 pass
               Every scenario of docs/TESTING.md that Pickle covers is green except 10, whose
               failure was a bug in the test and is fixed but not re-run. Report archived in
               pickle-reports-archive/0920-2319.
-workshop:     3805383957, created 2026-09-21 00:07, still private. Steam creates every item
-              private and RimWorld never calls SetItemVisibility, so going public is a manual
-              step, to be taken after subscribing to it and testing it for real. The item was
-              uploaded ahead of the chain - stage is done, not tested - which is a choice, not
-              an oversight: nothing published is visible to anyone yet. PUBLICATION.md holds
-              what the page needs.
+workshop:     3805383957, created 2026-09-21 00:07, switched to public the same night. Page
+              checked as an anonymous visitor: title "Skill Icons", 1.6, 1.897 MB, the Preview
+              and the work tab screenshot in place, and the description rendering its four
+              blocks with the GitHub link live. The item went up ahead of the chain - stage is
+              done, not tested - which is a choice rather than an oversight. PUBLICATION.md
+              holds what the page needs, including the three thank-you messages, still to post.
 remaining:
   - unverified: docs/TESTING.md scenario 10. It failed on a step timeout, not on the mod: Pickle
       kills any step over five seconds and reloading a whole language takes longer than that on a
