@@ -17,7 +17,9 @@ tested_on:    2026-09-20, headless run of the whole suite: 17 scenarios, 16 pass
               Every scenario of docs/TESTING.md that Pickle covers is green except 10, whose
               failure was a bug in the test and is fixed but not re-run. Report archived in
               pickle-reports-archive/0920-2319.
-workshop:
+workshop:     3805383957, created 2026-09-21 00:07, still private. Steam creates every item
+              private and RimWorld never calls SetItemVisibility, so going public is a manual
+              step, to be taken after subscribing to it and testing it for real.
 remaining:
   - unverified: docs/TESTING.md scenario 10. It failed on a step timeout, not on the mod: Pickle
       kills any step over five seconds and reloading a whole language takes longer than that on a
