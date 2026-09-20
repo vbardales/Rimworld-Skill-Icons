@@ -9,18 +9,16 @@
 
     This is the only place where this mod touches a Vanilla Skills Expanded
     def. In <success>Always</success>: if VSE adds this field one day, the
-    patch goes inert instead of reddening the log.
+    patch goes inert instead of reddening the log. It is a plain operation
+    rather than a sequence of one, for the same reason AlphaSkills_Fixes.xml
+    no longer holds its five fixes in a chain.
   -->
-  <Operation Class="PatchOperationSequence">
+  <Operation Class="PatchOperationAdd">
     <success>Always</success>
-    <operations>
-      <li Class="PatchOperationAdd">
-        <xpath>/Defs/VSE.Passions.PassionDef[defName="VSE_Apathy"]</xpath>
-        <value>
-          <workBoxIconPath>Passions/PassionApathy</workBoxIconPath>
-        </value>
-      </li>
-    </operations>
+    <xpath>/Defs/VSE.Passions.PassionDef[defName="VSE_Apathy"]</xpath>
+    <value>
+      <workBoxIconPath>Passions/PassionApathy</workBoxIconPath>
+    </value>
   </Operation>
 
 </Patch>

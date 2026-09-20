@@ -7,59 +7,72 @@
     anyway, and they are obvious the moment you look at the tooltips next
     to the icons.
 
-    The whole block is wrapped in a <success>Always</success> sequence: if
-    Sarg fixes these defs upstream, the xpaths will no longer match and the
-    fix silently goes inert instead of reddening the log.
+    Each fix is its own top-level operation, and each carries
+    <success>Always</success> of its own. Two reasons, and the second is
+    why they are no longer one sequence.
+
+    <success>Always</success>: if Sarg fixes one of these defs upstream,
+    that xpath stops matching and the fix goes inert instead of reddening
+    the log.
+
+    Independent: PatchOperationSequence is a CHAIN. It stops at the first
+    sub-operation whose xpath finds nothing and never reaches the ones
+    after it. Held in one sequence, the day Alpha Skills renamed or
+    repaired AS_NudistPassion_Active - the first target - the four fixes
+    below it would have stopped applying too, silently, because the
+    sequence was Always. One vanished target would have taken the other
+    four with it, and nothing in the log would have said so.
   -->
-  <Operation Class="PatchOperationSequence">
+
+  <!-- "nudist (active)"'s description is "nomadic"'s, copy-pasted: it
+       talks about caravans and expeditions. -->
+  <Operation Class="PatchOperationReplace">
     <success>Always</success>
-    <operations>
+    <xpath>/Defs/VSE.Passions.PassionDef[defName="AS_NudistPassion_Active"]/description</xpath>
+    <value>
+      <description>This person will learn this skill much faster, but only when nude. They are nude right now.</description>
+    </value>
+  </Operation>
 
-      <!-- "nudist (active)"'s description is "nomadic"'s, copy-pasted: it
-           talks about caravans and expeditions. -->
-      <li Class="PatchOperationReplace">
-        <xpath>/Defs/VSE.Passions.PassionDef[defName="AS_NudistPassion_Active"]/description</xpath>
-        <value>
-          <description>This person will learn this skill much faster, but only when nude. They are nude right now.</description>
-        </value>
-      </li>
+  <!-- "pain-driven (active)" kept its dormant state's label, so the two
+       states are indistinguishable in the tooltip. -->
+  <Operation Class="PatchOperationReplace">
+    <success>Always</success>
+    <xpath>/Defs/VSE.Passions.PassionDef[defName="AS_PainDrivenPassion_Active"]/label</xpath>
+    <value>
+      <label>pain-driven (active)</label>
+    </value>
+  </Operation>
 
-      <!-- "pain-driven (active)" kept its dormant state's label, so the two
-           states are indistinguishable in the tooltip. -->
-      <li Class="PatchOperationReplace">
-        <xpath>/Defs/VSE.Passions.PassionDef[defName="AS_PainDrivenPassion_Active"]/label</xpath>
-        <value>
-          <label>pain-driven (active)</label>
-        </value>
-      </li>
+  <!-- AS_FrozenPassion declares no workBoxIconPath: in the Work tab,
+       its cell falls back to something else. This mod supplies the texture. -->
+  <Operation Class="PatchOperationAdd">
+    <success>Always</success>
+    <xpath>/Defs/VSE.Passions.PassionDef[defName="AS_FrozenPassion"]</xpath>
+    <value>
+      <workBoxIconPath>Passions/AS_FrozenPassionGrey</workBoxIconPath>
+    </value>
+  </Operation>
 
-      <!-- AS_FrozenPassion declares no workBoxIconPath: in the Work tab,
-           its cell falls back to something else. This mod supplies the texture. -->
-      <li Class="PatchOperationAdd">
-        <xpath>/Defs/VSE.Passions.PassionDef[defName="AS_FrozenPassion"]</xpath>
-        <value>
-          <workBoxIconPath>Passions/AS_FrozenPassionGrey</workBoxIconPath>
-        </value>
-      </li>
-
-      <!-- The two blindness tiers share the same iconPath, even though they
-           grant different penalties and bonuses: elevated is 0.5x sighted
-           and 1.5x blind, sublime is 1x and 2x. The sublime tier is
-           redirected to a gold-iris variant. -->
-      <li Class="PatchOperationReplace">
-        <xpath>/Defs/VSE.Passions.PassionDef[defName="AS_BlindPassion_Sublime"]/iconPath</xpath>
-        <value>
-          <iconPath>Passions/AS_BlindPassionSublime</iconPath>
-        </value>
-      </li>
-      <li Class="PatchOperationReplace">
-        <xpath>/Defs/VSE.Passions.PassionDef[defName="AS_BlindPassion_Sublime_Active"]/iconPath</xpath>
-        <value>
-          <iconPath>Passions/AS_BlindPassionSublime_Active</iconPath>
-        </value>
-      </li>
-
-    </operations>
+  <!-- The two blindness tiers share the same iconPath, even though they
+       grant different penalties and bonuses: elevated is 0.5x sighted
+       and 1.5x blind, sublime is 1x and 2x. The sublime tier is
+       redirected to a gold-iris variant. Its dormant and active states
+       are separate operations: one of them going missing upstream must
+       not take the other with it. -->
+  <Operation Class="PatchOperationReplace">
+    <success>Always</success>
+    <xpath>/Defs/VSE.Passions.PassionDef[defName="AS_BlindPassion_Sublime"]/iconPath</xpath>
+    <value>
+      <iconPath>Passions/AS_BlindPassionSublime</iconPath>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <success>Always</success>
+    <xpath>/Defs/VSE.Passions.PassionDef[defName="AS_BlindPassion_Sublime_Active"]/iconPath</xpath>
+    <value>
+      <iconPath>Passions/AS_BlindPassionSublime_Active</iconPath>
+    </value>
   </Operation>
 
 </Patch>

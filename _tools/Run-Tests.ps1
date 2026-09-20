@@ -393,6 +393,15 @@ It 'every animated sequence named in gen.js SPECS has exactly its declared frame
 }
 
 # =================================================================== G. patch XML replay against real installed defs
+# <success> lives on PatchOperation itself, not only on the sequence: every operation in both
+# patch files carries its own now that neither file wraps its fixes in a chain.
+function Set-PatchSuccess($op, [System.Xml.XmlElement]$opNode) {
+    if (-not $opNode.success) { return }
+    $successType = $csAsm.GetType('Verse.PatchOperation+Success')
+    $poBase = $csAsm.GetType('Verse.PatchOperation')
+    $poBase.GetField('success', [System.Reflection.BindingFlags]'NonPublic,Instance').SetValue($op, [Enum]::Parse($successType, $opNode.success))
+}
+
 function New-PatchFromXml([System.Xml.XmlElement]$opNode) {
     $ns = 'Verse'
     $poAdd = $csAsm.GetType("$ns.PatchOperationAdd")
@@ -419,6 +428,7 @@ function New-PatchFromXml([System.Xml.XmlElement]$opNode) {
         }
         'PatchOperationAdd' {
             $op = [Activator]::CreateInstance($poAdd)
+            Set-PatchSuccess $op $opNode
             $pathedBase.GetField('xpath', [System.Reflection.BindingFlags]'NonPublic,Instance').SetValue($op, $opNode.xpath)
             $container = [Activator]::CreateInstance($xmlContainerType)
             # XmlContainer.node is the <value> ELEMENT ITSELF, not its first child: ApplyWorker
@@ -432,6 +442,7 @@ function New-PatchFromXml([System.Xml.XmlElement]$opNode) {
         }
         'PatchOperationReplace' {
             $op = [Activator]::CreateInstance($poRepl)
+            Set-PatchSuccess $op $opNode
             $pathedBase.GetField('xpath', [System.Reflection.BindingFlags]'NonPublic,Instance').SetValue($op, $opNode.xpath)
             $container = [Activator]::CreateInstance($xmlContainerType)
             $xmlContainerType.GetField('node').SetValue($container, $opNode.SelectSingleNode('value'))
@@ -444,8 +455,12 @@ function New-PatchFromXml([System.Xml.XmlElement]$opNode) {
 
 function Invoke-PatchDoc([string]$patchXmlPath, [System.Xml.XmlDocument]$targetDoc) {
     [xml]$patchXml = Get-Content $patchXmlPath -Encoding UTF8
-    $opNode = $patchXml.Patch.Operation
-    $patch = New-PatchFromXml $opNode
+    # Several top-level <Operation> elements now, not one: RimWorld applies each in turn and a
+    # failure in one does not stop the next. Replaying only the first would test a file this
+    # mod no longer ships.
+    $opNodes = @($patchXml.Patch.SelectNodes('Operation'))
+    if ($opNodes.Count -eq 0) { throw "no <Operation> in $patchXmlPath" }
+    $patches = @($opNodes | ForEach-Object { New-PatchFromXml $_ })
     $poBase = $csAsm.GetType('Verse.PatchOperation')
     # PatchOperationSequence.Apply opens on `if (DeepProfiler.enabled)`; that field is true by
     # default and its buffers are null outside the game, which throws. Documented and worked
@@ -458,7 +473,11 @@ function Invoke-PatchDoc([string]$patchXmlPath, [System.Xml.XmlDocument]$targetD
     # MethodBase.CheckArguments rejects it with "cannot convert PSObject to XmlDocument" the
     # moment it goes through Invoke's object[] parameter array). An explicit type cast at the
     # point the array element is built forces the real CLR-typed value through instead.
-    return [bool]$applyMethod.Invoke($patch, @([System.Xml.XmlDocument]$targetDoc))
+    $allApplied = $true
+    foreach ($patch in $patches) {
+        if (-not [bool]$applyMethod.Invoke($patch, @([System.Xml.XmlDocument]$targetDoc))) { $allApplied = $false }
+    }
+    return $allApplied
 }
 
 function Get-RealDefNode([string]$file, [string]$defName) {
@@ -468,16 +487,18 @@ function Get-RealDefNode([string]$file, [string]$defName) {
     if (-not $node) { throw "defName $defName not found in $file" }
     return $node
 }
-# PatchOperationSequence.ApplyWorker is a CHAIN, not five independent checks: confirmed by
-# hand that it stops at the first sub-operation whose xpath finds nothing at all, and never
-# reaches the ones after it - Verse.PatchOperationSequence's own lastFailedOperation field is
-# the tell. A document built with only ONE of the five targeted defs therefore makes every
-# operation after the first one look broken, when the real defect would be the first target
-# going missing, not the later ones. So the fixture combines all five real defs the sequence
-# names into one <Defs> document, exactly the shape a real DefDatabase load presents it with,
-# and applies the sequence once - which is also the only way to test what this mod actually
-# depends on: that Alpha Skills keeps declaring AS_NudistPassion_Active at all, not just that
-# each fix is individually well-formed.
+# The fixture combines all five real defs the patch file names into one <Defs> document, exactly
+# the shape a real DefDatabase load presents it with, and applies the file once. That is the only
+# way to test what this mod actually depends on - that Alpha Skills keeps declaring these defs at
+# all - rather than that each fix is individually well-formed.
+#
+# It used to matter for a second reason, now gone. PatchOperationSequence.ApplyWorker is a CHAIN:
+# it stops at the first sub-operation whose xpath finds nothing and never reaches the ones after
+# it, Verse.PatchOperationSequence's own lastFailedOperation field being the tell. While the five
+# fixes lived in one sequence, a document holding only one of them made every later operation look
+# broken. They are independent top-level operations now, so a fixture missing one def exercises
+# exactly one fix - which is what 'a missing target no longer takes the other fixes down with it'
+# relies on.
 function New-CombinedDefsDoc([hashtable]$nodesByFile) {
     $wrapper = New-Object System.Xml.XmlDocument
     $wrapper.LoadXml('<Defs></Defs>')
@@ -539,13 +560,14 @@ if (-not (Test-Path $asNudistFile)) {
         if ($iconAfter2 -ne 'Passions/AS_BlindPassionSublime_Active') { "AS_BlindPassion_Sublime_Active iconPath is '$iconAfter2'" }
     }
 
-    It 'PatchOperationSequence stops at the first sub-operation whose target is absent (a real fragility, not a test artifact)' {
-        # Same sequence, but the document is missing AS_NudistPassion_Active - the FIRST
-        # sub-operation's target - while still containing AS_PainDrivenPassion_Active, the
-        # SECOND one's. If Alpha Skills ever drops or renames the first def while the later
-        # bugs remain, this sequence goes silently inert for all four other fixes too, not
-        # just the one whose target vanished. Recorded here so a future change to this
-        # mod does not have to rediscover it by hand a second time.
+    It 'a missing target no longer takes the other fixes down with it' {
+        # The document is missing AS_NudistPassion_Active - what used to be the FIRST
+        # sub-operation's target - while still containing AS_PainDrivenPassion_Active. Held in
+        # one PatchOperationSequence, which is a chain, the first operation finding nothing
+        # stopped every operation after it, silently, because the sequence was Always: one def
+        # renamed upstream would have quietly dropped four unrelated fixes. Split into
+        # independent top-level operations, only the fix whose own target vanished goes inert.
+        # This test is the inverse of the one it replaces, and it is the reason for the split.
         $doc = New-CombinedDefsDoc @{
             $asIdeologyFile = @('AS_PainDrivenPassion_Active')
         }
@@ -553,7 +575,7 @@ if (-not (Test-Path $asNudistFile)) {
         if ($labelBefore -ne 'pain-driven') { "precondition failed: real label is already '$labelBefore'"; return }
         Invoke-PatchDoc $alphaFixesXml $doc | Out-Null
         $labelAfter = $doc.SelectSingleNode('//label').InnerText
-        if ($labelAfter -ne 'pain-driven') { "expected the chain to stop before reaching AS_PainDrivenPassion_Active, but its label changed to '$labelAfter' - if PatchOperationSequence's short-circuit behavior changed, this whole gate needs re-reading, not just this test" }
+        if ($labelAfter -ne 'pain-driven (active)') { "AS_PainDrivenPassion_Active label is '$labelAfter', expected 'pain-driven (active)' - a fix whose own target is present must apply even when an earlier fix found nothing" }
     }
 
     It 'VSE_Fixes.xml adds the missing VSE_Apathy workBoxIconPath' {
@@ -567,10 +589,17 @@ if (-not (Test-Path $asNudistFile)) {
     }
 }
 
-It 'both patch files declare <success>Always</success>, so an upstream fix goes inert instead of erroring' {
+It 'every patch operation declares <success>Always</success>, so an upstream fix goes inert instead of erroring' {
+    # Every one of them, not just the first: the fixes are independent operations now, and an
+    # operation that forgot its own <success> would redden the log the day its target is
+    # repaired upstream - which is the whole thing these files are built to avoid.
     foreach ($f in @($alphaFixesXml, $vseFixesXml)) {
         [xml]$x = Get-Content $f -Encoding UTF8
-        if ($x.Patch.Operation.success -ne 'Always') { "$f : success is '$($x.Patch.Operation.success)', expected Always" }
+        $ops = @($x.Patch.SelectNodes('Operation'))
+        if ($ops.Count -eq 0) { "$f : no <Operation> at all" }
+        for ($i = 0; $i -lt $ops.Count; $i++) {
+            if ($ops[$i].success -ne 'Always') { "$f : operation $($i + 1) of $($ops.Count) has success '$($ops[$i].success)', expected Always" }
+        }
     }
 }
 
