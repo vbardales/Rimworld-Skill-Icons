@@ -131,3 +131,35 @@ https://steamcommunity.com/sharedfiles/filedetails/?id=3805383957
   repository through the junction. Commit it at once: lost, the next upload creates a second item.
 - Steam creates every item private and RimWorld never calls `SteamUGC.SetItemVisibility`. Going
   public is a manual step, after subscribing to the item and testing it for real.
+
+## Steam change notes
+
+Written at upload time, in the Change Notes tab, and easy to forget because nothing asks for them
+until the form is already open. Unlike the description, these DO go out again on every update -
+they are the one field of the page that can be corrected freely. BBCode works.
+
+### 1.0.0 - 2026-09-21
+
+```
+[h3]1.0.0 — first release[/h3]
+
+A unified passion icon set for Vanilla Skills Expanded and Alpha Skills. 85 textures, drawn from scratch, 40 of them animated.
+
+[b]Added[/b]
+[list]
+[*]One hue per passion, spread across the colour wheel, carried by the main shape rather than a small accessory — at 24 px an accessory disappears. Every icon still reads as a plain black silhouette.
+[*]40 animations, 920 frames. The padlock opens, the pendulum swings, the signal runs the circuit, the sand drains and stays drained.
+[*]Work tab controls: passion icons in colour, greyed, or — the default — colour while the bonus is running and grey while it sleeps. Separate size and opacity sliders.
+[*]An optional faint icon for "no passion", off by default.
+[*]A gallery in the mod settings listing every passion twice, animating live.
+[*]A hidden MainButtons shortcut for RIMMSQOL and friends, invisible on a clean install.
+[*]English and French.
+[/list]
+
+[b]Fixed in other mods' defs[/b]
+[list]
+[*]Alpha Skills: "nudist (active)" carried "nomadic"'s description; "pain-driven (active)" kept its dormant label; "frozen" had no work tab icon; the two blindness tiers shared one icon despite granting different bonuses.
+[*]Vanilla Skills Expanded: "apathy" had no work tab icon.
+[/list]
+Each fix goes quietly inert if it is repaired upstream.
+```
