@@ -44,3 +44,43 @@ different one, but every drawing ships.
   greyed work tab variant. A picker that changes only the first would leave the work tab
   disagreeing with the bio tab. The drawings are generated in both forms, so the pairing exists —
   it just has to be carried through the choice.
+
+---
+
+## Prove an animation actually moves, without a person watching it
+
+Proposed 2026-09-21.
+
+**What the gap is.** docs/TESTING.md Scenario 1 asks for four things, and three are automated:
+the icons are the heart set rather than Vanilla Skills Expanded's flames, they vary with passion
+state, and they appear in the Bio tab and the Work tab. The fourth — *an icon that should animate
+visibly moves* — is the only one still requiring a person to look at a screen for five seconds.
+It has been the last manual item on this mod since the suite was written.
+
+**What already covers part of it.** `_tools/Run-Tests.ps1` proves the frame sets exist and that
+`PassionIconAnimations.cs` and `gen.js` agree on every texture and frame count, out of game. That
+proves the material for motion is shipped. It cannot prove the game draws successive frames.
+
+**What would close it.** A step that captures the same region twice, a known number of frames
+apart, and asserts the pixels differ — and, for a passion with no animation, that they do not.
+That is a real assertion rather than an attached image: it fails on a still icon, which is the
+defect it exists to catch. Two captures and a difference count, no video and no ffmpeg.
+
+**What has to be settled first.**
+
+- **Where to capture.** The settings gallery animates every passion live and needs no colony,
+  which makes it the cheapest scene. The Bio tab is closer to what a player sees but needs a pawn
+  with the right passion.
+- **How far apart.** Too few frames and a slow animation looks static; too many and the loop may
+  return to where it started. The speed slider is in the scenario's own hands, so it can be set
+  high to shorten the wait, but then the test no longer runs at the documented default.
+- **What "differ" means.** A strict pixel inequality is enough to catch a frozen icon, but noise
+  from the map behind a transparent window would make it pass for the wrong reason. Capturing
+  over the settings window, which is opaque, avoids that.
+- **The negative case matters as much.** Without asserting that a still icon does *not* change,
+  the test cannot distinguish "the animation runs" from "something on screen moved".
+
+**Why it is worth doing.** This is the only check on this mod that a person has to perform by
+eye, and it is the one most likely to be skipped when the suite is green everywhere else. An
+animation silently stopping — a frame set renamed, a transpiler no longer matching — would
+otherwise ship.
