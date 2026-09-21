@@ -1,0 +1,10 @@
+# One optional work-tab replacement, staged on top of the minimal set. One mod per pass on purpose:
+# these overlap, and two of them share a packageId (Fluffy.WorkTab), so the first place a staging
+# finds a mod wins and a pass naming both would silently test only one.
+#
+# What the pass is FOR: whether this mod's work tab controls survive a replacement work tab. This
+# mod patches WidgetsWork.DrawWorkBoxBackground itself, so any mod that still calls it should show
+# these icons; the assembly of the replacement references that method once. Read as a presumption,
+# not a proof - a reference in metadata says the method is cited, not that it is on the render path.
+#
+Coolnether123.BetterWorkTab 3626737803
