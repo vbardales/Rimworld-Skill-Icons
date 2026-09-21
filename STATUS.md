@@ -16,7 +16,7 @@ showcase:     complete
 tested_on:    2026-09-20, headless run of the whole suite: 17 scenarios, 16 passed, 1 failed.
               Every scenario of docs/TESTING.md that Pickle covers is green except 10, whose
               failure was a bug in the test and is fixed but not re-run. Report archived in
-              pickle-reports-archive/0920-2319.
+              docs/runs/2026-09-20-2319-summary.md (the archive itself was pruned for disk space).
 workshop:     3805383957, created 2026-09-21 00:07, switched to public the same night. Page
               checked as an anonymous visitor: title "Skill Icons", 1.6, 1.897 MB, the Preview
               and the work tab screenshot in place, and the description rendering its four
@@ -927,7 +927,7 @@ empties `~/rimworld/Mods`, so a hand-rolled chain that stages while another sess
 destroys that run before it starts. That happened at 22:10. `scripts/Run-PickleWsl.ps1` is the
 single entry point, and this suite is driven through it and nothing else.
 
-**17 scenarios, 16 passed, 1 failed.** Report in `pickle-reports-archive/0920-2319`. The five
+**17 scenarios, 16 passed, 1 failed.** Report kept in `docs/runs/2026-09-20-2319-summary.md`; the archive it came from was pruned for disk space. The five
 def-fix scenarios, the settings round trip to disk, the MainButtons shortcut, the three work tab
 modes, the four slider positions, the no-passion icon and both publication shots are green.
 
