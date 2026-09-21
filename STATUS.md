@@ -13,28 +13,39 @@ licence:      original
 licence_at:   original work, MIT; Oracle's Skill Icon Retextures credited for the visual language only, no texture reused (verified against ATTRIBUTION.md and the generator)
 dependencies: declared
 showcase:     complete
-tested_on:    2026-09-20, headless run of the whole suite: 17 scenarios, 16 passed, 1 failed.
-              Every scenario of docs/TESTING.md that Pickle covers is green except 10, whose
-              failure was a bug in the test and is fixed but not re-run. Report archived in
-              docs/runs/2026-09-20-2319-summary.md (the archive itself was pruned for disk space).
+tested_on:    2026-09-21, headless, by launch name. Green: scenario 10 in both language passes; the
+              real restart (12 then 13 as two launches in one ticket); the MainButtons shortcut,
+              including that a value written through it reads back through Options and that the
+              def goes hidden -> drawn -> hidden; the animations (an animated passion draws a
+              different frame, one with none draws the same); avec-oracle (15 and 16, 2 of 2).
+              Earlier, 2026-09-20: the whole suite once, 16 of 17, summary kept in
+              docs/runs/2026-09-20-2319-summary.md. NOT run as one whole since the suite grew to
+              25 scenarios in 16 features, and a plain whole run is red by design (see remaining).
 workshop:     3805383957, created 2026-09-21 00:07, switched to public the same night. Page
               checked as an anonymous visitor: title "Skill Icons", 1.6, 1.897 MB, the Preview
               and the work tab screenshot in place, and the description rendering its four
               blocks with the GitHub link live. The item went up ahead of the chain - stage is
               done, not tested - which is a choice rather than an oversight. PUBLICATION.md
-              holds what the page needs, including the three thank-you messages, still to post.
+              holds what the page needs. The three thank-you comments have been posted.
 remaining:
-  - unverified: docs/TESTING.md scenario 10. It failed on a step timeout, not on the mod: Pickle
-      kills any step over five seconds and reloading a whole language takes longer than that on a
-      machine with no GPU. Fixed in 07600f5 with TimeoutSeconds = 40 and ctx.WaitUntil(..., 35),
-      not re-run.
-  - unverified: what only a person can still do - a real restart for scenario 8, RIMMSQOL's own
-      reveal/hide for 9, the pawn creation screen and whether an animation actually moves for 1.
-  - note: the French evidence no longer needs aitranslation.pack and seohyeon.autotranslation
-      disabled by hand. The headless staging mounts only the hard dependencies, so no translation
-      mod is loaded and no dynamic interceptor can supply text for our own keys.
+  - unverified, only a person can: RIMMSQOL's own interface revealing and hiding the button, and
+      whether ITS choice survives a restart. The def-side contract is automated; RIMMSQOL is not
+      staged, on purpose - it would test code that is not this mod's.
+  - unverified, only a person can: the MainButtons shortcut's own description in French, seen in
+      RIMMSQOL. It is DefInjected, which does not reload without a def reload.
+  - known, not a defect: a plain run of the whole suite is red. 16 fails without Oracle staged and
+      13 refuses to pass when 12 ran in the same process, both by design. They are run by name.
+      Moving them to a companion suite a plain launch does not select is proposed, not done.
+  - open: the replacement work tabs. Three are on disk and staged as passes (Better Work Tab,
+      Enhanced Work Tab, Krypt's fork) and Mlie's Compact Work Tab is downloaded (Mlie.CompactWorkTab,
+      1.4/1.5/1.6, 688 KB). Nothing asserts what they do to this mod's work tab icons yet; the
+      assemblies of Better and Enhanced reference the method this mod patches, which is a
+      presumption that the icons appear, not a measurement.
 session:      local_314cf7e0-0763-4b3b-b4b7-03e564331dc5
-updated:      2026-09-20, the suite finally ran end to end, headless: 16 of 17, the six failures
+updated:      2026-09-21, scenario 10 fixed by launching per language instead of switching mid-run; the
+              restart, the shortcut agreement and the animations automated and green; the first
+              avec-oracle pass green; suite at 25 scenarios in 16 features. Earlier: 2026-09-20, the
+              suite finally ran end to end, headless: 16 of 17, the six failures
               read off a counter strip earlier that evening all green, and the last red explained
               and fixed. Both patch files split out of their PatchOperationSequence. Earlier:
               2026-09-20, third in-game run: the grey-mode fix confirmed, five more scenarios
