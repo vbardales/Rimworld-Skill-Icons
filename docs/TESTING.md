@@ -285,15 +285,41 @@ out-of-game harness proves the IL calls `LoadedModManager.GetMod<SkillIconsMod>(
 
 ## Scenario 10 — English and French
 
-**Do:** with the game language set to French, repeat Scenario 2 (open the settings) and Scenario
-9 (the MainButtons shortcut's label/description/tooltip). Switch back to English and repeat.
+**Do:** run the suite twice, once per language, choosing the language at launch:
 
-**Expect:** every control label, tooltip and the MainButtons entry's own label/description are
-translated in French, with no raw translation key, no untranslated placeholder, and no text
-clipped or overflowing its control at either 100% and a larger UI scale.
+    scripts/Run-PickleWsl.ps1 -Mod SkillIcons
+    scripts/Run-PickleWsl.ps1 -Mod SkillIcons -Language French
+
+Then, by hand and with the game restarted between the two, read the MainButtons shortcut's own
+label and description in each language, at 100% and at a larger UI scale.
+
+**Do not switch language from inside a scenario.** It was written that way first and failed four
+times: `SelectLanguage` clears and reloads every def, which takes the game apart while the runner
+is standing on it - `Find.WorldObjects` returns null and `Update()` throws every frame until the
+step times out. Two other explanations were believed on the way there, a five second step timeout
+and Pickle's dashboard throwing during the switch. Both were real and both were veils.
+
+**Expect:** every control label and tooltip translated, with no raw translation key, no empty
+control and no text clipped or overflowing, in both passes and at both UI scales.
 
 **Fails if:** a raw key (e.g. `SkillIcons.Speed`) is ever visible, a control is empty, or text is
 clipped.
+
+**How to read the French pass, and why counting its green proves nothing.** Every Pickle run is in
+developer mode, where a key missing from the active language is *not* shown in plain English: it
+is shown accented letter by letter (`a`→`à`, `c`→`ç`, `n`→`ƞ`). So accented gibberish means a
+missing key, and clean English inside a French interface means a literal that never went through
+`.Translate()`. The assertions catch the first; only looking at the screenshot catches the second.
+
+**Not a defect of this mod:** the passion names in the settings gallery stay in English in the
+French pass - `Blind, elevated`, `Drunken`, `Like-minded`. Those are `PassionDef.label` from Alpha
+Skills and Vanilla Skills Expanded, which ship no French DefInjected. They read as clean English
+rather than accented, which is the tell that no key of ours is missing. Translating them would be
+a decision to take on upstream's behalf, not a repair.
+
+**Automated, both passes green on 2026-09-21** (1487 ms English, 1677 ms French) and the French
+screenshot read rather than counted: real French throughout, no raw key, no accented text, no
+clipped control, the gallery hint wrapping cleanly over two lines.
 
 ## Scenario 11 — the Alpha Skills and Vanilla Skills Expanded def fixes are visible in the tooltip
 
