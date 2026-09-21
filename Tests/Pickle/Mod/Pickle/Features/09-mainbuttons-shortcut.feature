@@ -51,12 +51,25 @@ Feature: the hidden MainButtons shortcut opens this mod's own settings
   # greyed. So the field is moved directly, which is the same field RIMMSQOL moves, and the bar's
   # own worker is asked what it would do.
   #
-  # Whether RIMMSQOL's interface can reveal it, and whether ITS choice survives a restart, stay
-  # manual. Staging RIMMSQOL headless to answer that would mean mounting a mod this install does
-  # not carry in order to test code that is not ours.
+  # Whether RIMMSQOL's interface can reveal it, and whether ITS choice survives a restart, are
+  # RIMMSQOL's to answer and not this mod's: they test its interface and its persistence. Staging it
+  # here would mount a mod this install does not carry in order to test code that is not ours.
+  # The two screenshots are the point of the @review tag on this feature: the bar as it draws itself
+  # with the button hidden and then revealed, which is the image someone asks for when they want to
+  # see what a customization mod would give the player. Nothing here is RIMMSQOL - the same field
+  # is moved directly - but the bar is the real one, so the picture is what RIMMSQOL would cause.
+  # The bar sits at the bottom of the frame; the button comes last, at order 990.
   Scenario: revealed it is drawn and live, hidden it is gone again
     Then SkillIcons MainButtonDef "SkillIcons_Settings" is not drawn in the bar
-    When SkillIcons reveals the MainButtonDef "SkillIcons_Settings", as a customization mod would
+    When I take a screenshot "main button bar, shortcut hidden"
+    And SkillIcons reveals the MainButtonDef "SkillIcons_Settings", as a customization mod would
     Then SkillIcons MainButtonDef "SkillIcons_Settings" is drawn in the bar
-    When SkillIcons hides the MainButtonDef "SkillIcons_Settings" again
+    When I take a screenshot "main button bar, shortcut revealed"
+    And SkillIcons hides the MainButtonDef "SkillIcons_Settings" again
     Then SkillIcons MainButtonDef "SkillIcons_Settings" is not drawn in the bar
+
+  # Was listed as unreachable because DefInjected does not re-resolve when the language is switched
+  # mid-run. A launch that CHOOSES its language switches nothing: the def is injected at startup, so
+  # the description is readable here. Run this feature once per language (-Language French).
+  Scenario: the description is the one for the language this pass runs in
+    Then SkillIcons MainButtonDef "SkillIcons_Settings" carries its description for the active language
