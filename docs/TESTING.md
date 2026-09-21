@@ -41,7 +41,8 @@ The log lives at:
 **Two.** A mod whose TESTING.md does not say how many passes it needs has been tried, not tested.
 
     scripts/Run-PickleWsl.ps1 -Mod SkillIcons                                    # sans-facultatifs
-    scripts/Run-PickleWsl.ps1 -Mod SkillIcons -DepsMap wsl-deps.avec-oracle.map \n        -Filter '15-texture-ownership.feature,16-texture-contest.feature'        # avec-oracle
+    scripts/Run-PickleWsl.ps1 -Mod SkillIcons -DepsMap wsl-deps.avec-oracle.map \
+        -Filter '15-texture-ownership.feature,16-texture-contest.feature'        # avec-oracle
 
 The pass name is written into the report, so a green is attributable to a mod set rather than to
 "a run".
