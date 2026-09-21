@@ -40,8 +40,13 @@ The log lives at:
 
 **Two.** A mod whose TESTING.md does not say how many passes it needs has been tried, not tested.
 
+**Measured 2026-09-21, and the first time this pass has run:** `15` and `16` with Oracle staged, 2 scenarios,
+2 passed, `exitReason: passed`. `16` passing is the evidence that matters - it asserts two mods really
+ship the same paths, so Oracle was mounted and the contest was real - and `15` passing means this
+mod won it. A green there is therefore worth reading, which it would not have been without `16`.
+
     scripts/Run-PickleWsl.ps1 -Mod SkillIcons                                    # sans-facultatifs
-    scripts/Run-PickleWsl.ps1 -Mod SkillIcons -DepsMap wsl-deps.avec-oracle.map \
+    scripts/Run-PickleWsl.ps1 -Mod SkillIcons -DepMap wsl-deps.avec-oracle.map \
         -Filter '15-texture-ownership.feature,16-texture-contest.feature'        # avec-oracle
 
 The pass name is written into the report, so a green is attributable to a mod set rather than to

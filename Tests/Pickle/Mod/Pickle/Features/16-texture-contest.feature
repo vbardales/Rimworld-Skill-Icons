@@ -1,6 +1,6 @@
 # The companion to 15, and it belongs to ONE pass only:
 #
-#   scripts/Run-PickleWsl.ps1 -Mod SkillIcons -DepsMap wsl-deps.avec-oracle.map \
+#   scripts/Run-PickleWsl.ps1 -Mod SkillIcons -DepMap wsl-deps.avec-oracle.map \
 #       -Filter '15-texture-ownership.feature,16-texture-contest.feature'
 #
 # It is a separate file, named in the pass that wants it. A tag can select what a launch runs, but

@@ -2,7 +2,7 @@
 # the mod: every other feature in this suite does that. This one exists so the images do not have
 # to be cropped by hand afterwards, and so the scene in them is chosen rather than borrowed.
 #
-# VALID ONLY IN THE MINIMAL PASS - no -DepsMap, the set the staging mounts by default. This is not
+# VALID ONLY IN THE MINIMAL PASS - no -DepMap, the set the staging mounts by default. This is not
 # a preference, it is what the images are for. Any third-party skill or work interface is free to
 # redraw what is photographed here: Bio Tab+ draws its own character card and never reaches this
 # mod's transpiler, and a third-party Work tab replacement shows none of these icons at all. A
