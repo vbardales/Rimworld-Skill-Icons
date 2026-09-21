@@ -1,0 +1,13 @@
+# Mlie's continuation of Compact Work Tab: it only rotates the column headers of the work tab, so
+# this mod's icons are expected to survive it untouched. One mod per pass, like the other work tab
+# replacements.
+#
+# The packageId was read from the public repository this mod's Workshop page links to
+# (github.com/emipa606/CompactWorkTab, About/About.xml, which lists 1.4, 1.5 and 1.6), NOT from the
+# Workshop item itself, which is not on disk yet. Check it against the downloaded About.xml before
+# trusting it.
+#
+# The original (Workshop 3027381000, packageId CaptainArbitrary.CompactWorkTab) is not staged: its
+# repository lists supportedVersions 1.4 only. The Workshop item may be newer than that repository,
+# so this is a reason to look at the downloaded About.xml first, not a verdict.
+Mlie.CompactWorkTab 3250322299
