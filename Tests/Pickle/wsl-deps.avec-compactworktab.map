@@ -7,7 +7,7 @@
 # Workshop item itself, which is not on disk yet. Check it against the downloaded About.xml before
 # trusting it.
 #
-# The original (Workshop 3027381000, packageId CaptainArbitrary.CompactWorkTab) is not staged: its
-# repository lists supportedVersions 1.4 only. The Workshop item may be newer than that repository,
-# so this is a reason to look at the downloaded About.xml first, not a verdict.
+# The original Compact Work Tab (Workshop 3027381000, packageId CaptainArbitrary.CompactWorkTab) is
+# deliberately not staged: Virginie decided to ignore it. Its repository lists supportedVersions 1.4
+# only, which is consistent with that choice but was not the reason for it.
 Mlie.CompactWorkTab 3250322299
