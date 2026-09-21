@@ -3,10 +3,11 @@
 #   scripts/Run-PickleWsl.ps1 -Mod SkillIcons -DepsMap wsl-deps.avec-oracle.map \
 #       -Filter '15-texture-ownership.feature,16-texture-contest.feature'
 #
-# It is a separate file rather than a tagged scenario because a Pickle tag does not exclude:
-# @wip is the only tag the runner skips by default, and the flag that re-includes it is the one
-# that silently drops eighteen features out of nineteen. A second file, named in the pass that
-# wants it, is the honest way to say "only here".
+# It is a separate file, named in the pass that wants it. A tag can select what a launch runs, but
+# I found no way to make one exclude a scenario from a plain run, and a scenario that must not run
+# in the minimal pass has to be kept out of it by something more certain than a tag whose
+# exclusion I have not seen work. Note that a plain run of the whole suite still includes this
+# file, and fails it: see docs/TESTING.md, "How many passes".
 #
 # What it is for: 15 claims this mod wins a contest. Run without Oracle staged, that claim passes
 # because there is no contest at all - a green that means nothing, which is exactly the shape of

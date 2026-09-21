@@ -67,9 +67,15 @@ asserts WHICH mod answers for each of the eleven texture paths the two sets shar
 which would only ever say "different", but RimWorld's own content holders, the ones ContentFinder
 searches. `16-texture-contest.feature` asserts that the contest is real: an uncontested path in
 that pass means Oracle is not actually staged, and 15 would then pass for the wrong reason. It is
-a separate file rather than a tagged scenario because a Pickle tag does not exclude - @wip is the
-only tag skipped by default, and the flag that re-includes it is the one that silently drops
-eighteen features out of nineteen.
+a separate file, named in the pass that wants it. A tag can SELECT what a launch runs, but I found
+no way to make one EXCLUDE a scenario from a plain run, and a scenario that must not run in the
+minimal pass has to be kept out of it by something more certain than a tag I have not seen work.
+
+**Known consequence, not yet resolved: a plain run of the whole suite is red.** `16` fails without
+Oracle staged, by design, and `13` refuses to pass when `12` ran in the same process, also by
+design - a restart test that never restarted proves nothing. Until those three live in a companion
+suite that a plain launch does not select, the pass names above are the only correct way to run
+them, and the plain pass should be read with those three scenarios set aside.
 
 No optional of this mod is incompatible with another, so two passes cover it - no combination
 fan-out is needed.
