@@ -41,7 +41,7 @@ The log lives at:
 **Two.** A mod whose TESTING.md does not say how many passes it needs has been tried, not tested.
 
     scripts/Run-PickleWsl.ps1 -Mod SkillIcons                                    # sans-facultatifs
-    scripts/Run-PickleWsl.ps1 -Mod SkillIcons -DepsMap wsl-deps.avec-oracle.map  # avec-oracle
+    scripts/Run-PickleWsl.ps1 -Mod SkillIcons -DepsMap wsl-deps.avec-oracle.map \n        -Filter '15-texture-ownership.feature,16-texture-contest.feature'        # avec-oracle
 
 The pass name is written into the report, so a green is attributable to a mod set rather than to
 "a run".
@@ -60,6 +60,15 @@ while every player who has Oracle installed saw Oracle's icons instead of these.
 
 Oracle is not in her active mod list; the staging takes it from the Workshop folder, where it is
 present. `Tests/Pickle/wsl-deps.avec-oracle.map` names it.
+
+The two features that pass carries are what make it worth running. `15-texture-ownership.feature`
+asserts WHICH mod answers for each of the eleven texture paths the two sets share - not pixels,
+which would only ever say "different", but RimWorld's own content holders, the ones ContentFinder
+searches. `16-texture-contest.feature` asserts that the contest is real: an uncontested path in
+that pass means Oracle is not actually staged, and 15 would then pass for the wrong reason. It is
+a separate file rather than a tagged scenario because a Pickle tag does not exclude - @wip is the
+only tag skipped by default, and the flag that re-includes it is the one that silently drops
+eighteen features out of nineteen.
 
 No optional of this mod is incompatible with another, so two passes cover it - no combination
 fan-out is needed.
