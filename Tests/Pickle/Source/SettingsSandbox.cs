@@ -47,12 +47,46 @@ namespace SkillIcons.PickleSteps
                 File.Copy(SettingsPath(ctx), BackupPath(ctx), overwrite: false);
             }
 
-            ResetToDefaults(ctx);
         }
+
+        /// <summary>
+        /// Set by a step, never by a hook, and that is the whole point. Pickle collects hooks with
+        /// an additive tag filter - an untagged [BeforeScenario] runs for every scenario and a
+        /// tagged one is added on top - and it invokes them in GetMethods order, which .NET does
+        /// not guarantee. So a tagged hook cannot silence the general one, and a flag set by one
+        /// hook for another to read would depend on reflection order. Steps have no such problem:
+        /// they always run after the before-hooks and before the after-hooks. Technique found by
+        /// the Pickle headless session, reading RunSession.RunBeforeHooks.
+        /// </summary>
+        private static bool keepForNextProcess;
+
+        /// <summary>
+        /// For the restart pair only: the settings file this scenario leaves behind is what the
+        /// NEXT process must start from, so the teardown has to keep its hands off it. The
+        /// scenario asking for it says so in its own Background, where whoever reads the feature
+        /// will see it - unlike a launcher flag, which is invisible from the test that depends
+        /// on it.
+        /// </summary>
+        [Given("SkillIcons settings are kept for the next process")]
+        public void KeepSettings(PickleContext ctx) => keepForNextProcess = true;
 
         [AfterScenario]
         public void RestoreSettings(PickleContext ctx)
         {
+            if (keepForNextProcess)
+            {
+                // Consumed here rather than reset at the start of the next scenario: the flag
+                // cannot then leak into a scenario that never asked for it.
+                keepForNextProcess = false;
+
+                // And the backup goes with it. Left in place, the NEXT process's first
+                // [BeforeScenario] would read it as "a run that never finished" and restore it
+                // over the very file this scenario was asked to leave behind - undoing the whole
+                // point one process later, where nothing would connect the two.
+                if (File.Exists(BackupPath(ctx))) { File.Delete(BackupPath(ctx)); }
+                return;
+            }
+
             if (File.Exists(BackupPath(ctx)))
             {
                 RestoreFromBackup(ctx);
