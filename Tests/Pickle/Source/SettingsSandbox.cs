@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using RimWorld;
 using RimWorks.Pickle;
@@ -84,13 +85,72 @@ namespace SkillIcons.PickleSteps
                 // over the very file this scenario was asked to leave behind - undoing the whole
                 // point one process later, where nothing would connect the two.
                 if (File.Exists(BackupPath(ctx))) { File.Delete(BackupPath(ctx)); }
+
+                // Names THIS process, so a later one can tell the file it inherited from the file
+                // it is running under. See DiscardOrphanedKeep.
+                File.WriteAllText(KeptMarkerPath(ctx), ProcessId);
                 return;
             }
+
+            if (DiscardOrphanedKeep(ctx)) return;
 
             if (File.Exists(BackupPath(ctx)))
             {
                 RestoreFromBackup(ctx);
             }
+        }
+
+        /// <summary>
+        /// Identifies this game process. Two launches never share it, which is what lets a marker
+        /// written by one be recognised as inherited by the other.
+        /// </summary>
+        private static readonly string ProcessId = Guid.NewGuid().ToString("N");
+
+        private static string KeptMarkerPath(PickleContext ctx) => SettingsPath(ctx) + ".pickle-kept";
+
+        /// <summary>
+        /// The restart pair leaves a settings file behind on purpose, for a second process to read.
+        /// If that second process never comes - the machine gets reserved, the queue is long, a
+        /// session is interrupted - nothing else would ever put the file back: the keep step
+        /// deleted the backup exactly so it could not be restored over the kept values, and the
+        /// WSL install would sit in grey mode with animations off until someone noticed.
+        ///
+        /// It cannot be decided in [BeforeScenario], because there the scenario about to run might
+        /// be the very reader the file was kept for. It can be decided here: the reader consumes
+        /// the marker in its own first step, so a marker still standing after a scenario has run,
+        /// written by ANOTHER process, belongs to a scenario that was not the reader. That
+        /// scenario has just run under values it never asked for - each of them resets in its own
+        /// Background, so nothing it asserted was affected - and the file is put back to defaults
+        /// now rather than left for the next run to inherit.
+        /// </summary>
+        private static bool DiscardOrphanedKeep(PickleContext ctx)
+        {
+            var marker = KeptMarkerPath(ctx);
+            if (!File.Exists(marker) || File.ReadAllText(marker) == ProcessId) return false;
+
+            ResetToDefaults(ctx);
+            ModInstance(ctx).WriteSettings();
+            File.Delete(marker);
+            if (File.Exists(BackupPath(ctx))) { File.Delete(BackupPath(ctx)); }
+            return true;
+        }
+
+        /// <summary>
+        /// First step of the reader. Refuses to pass when the writer ran in THIS process, because
+        /// that would be a restart test that never restarted - the in-memory object would still
+        /// hold the values and every assertion after it would be true for the wrong reason.
+        /// Consumes the marker and the backup: what the reader leaves behind, it leaves on purpose.
+        /// </summary>
+        [Given("SkillIcons reads what the previous process kept")]
+        public void ReadKept(PickleContext ctx)
+        {
+            var marker = KeptMarkerPath(ctx);
+            ctx.Require(File.Exists(marker),
+                "no settings were kept by an earlier process: run 12-restart-write.feature first, in its own launch");
+            ctx.Require(File.ReadAllText(marker) != ProcessId,
+                "the writer ran in THIS process, so this is not a restart: launch it as a separate run");
+            File.Delete(marker);
+            if (File.Exists(BackupPath(ctx))) { File.Delete(BackupPath(ctx)); }
         }
 
         /// <summary>

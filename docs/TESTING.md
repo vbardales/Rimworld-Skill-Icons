@@ -32,7 +32,7 @@ The log lives at:
 | Scenario 5 (the "no passion" icon) | **passed**, 2026-09-20 |
 | Scenario 9 (the MainButtons shortcut) | **passed**, 2026-09-20, apart from RIMMSQOL itself |
 | Scenario 11 (the five def fixes) | **passed**, 2026-09-20, asserted against the loaded DefDatabase |
-| Scenario 8 (persistence) | in-process round trip **passed**; the real restart written as two passes on 2026-09-21, **not yet run** |
+| Scenario 8 (persistence) | in-process round trip **passed**; the real restart **passed**, 2026-09-21, as two launches in one ticket |
 | Scenario 10 (English and French) | **passed in both passes**, 2026-09-21, once it stopped switching language mid-run |
 | Scenarios 6, 7 | removed with the feature they tested, 2026-09-19 |
 
@@ -328,14 +328,37 @@ scribed into the save file.
 
 **Fails if:** any value reverts on reopen or restart.
 
-**The restart stays manual, and not for want of trying.** The object -> file -> object round trip
-is automated inside one process (`08-settings-persistence.feature`). The restart itself was
-attempted as two headless passes - one writing, the next reading - since every WSL launch is a new
-process. It cannot work, and should not be made to: `SettingsSandbox` restores the settings file
-from a backup in `[AfterScenario]`, so anything a scenario writes is undone the moment it ends.
-That safeguard is the reason a run never leaves her sliders where a test put them, and defeating
-it would trade a real protection for a test of RimWorld's own behaviour - that the game reads its
-mod settings file at startup - rather than of this mod's.
+**The restart is automated, as two launches under one hold of the lock.** I wrote here for a few hours
+that it could not be, and that was wrong; what could not work was the way it was first built.
+
+    scripts/Run-PickleWsl.ps1 -Mod SkillIcons -Filter 12-restart-write.feature -Then 13-restart-read.feature
+
+`12` writes three non-default values and leaves the settings file behind on purpose; `13`, in a game
+process that did not exist when `12` ran, asserts the settings object it built at startup carries them,
+then puts the defaults back. The object -> file -> object round trip inside one process is
+`08-settings-persistence.feature`; this is the part that needs a real second process.
+
+Three things had to be true, each learned by failing at it:
+
+- **The sandbox has to stand down for one scenario.** `SettingsSandbox` restores the settings file in
+  `[AfterScenario]`, which is the protection that stops a run leaving her sliders where a test put
+  them. `12` opts out with a STEP (`SkillIcons settings are kept for the next process`), not a tag:
+  Pickle collects hooks with an additive tag filter in `GetMethods` order, so a tagged hook can neither
+  silence the general one nor be relied on to run before it, while steps always run between the
+  before-hooks and the after-hooks.
+- **The two launches must be one ticket.** As two tickets, another session's run that mounted this test
+  mod between them erased the file - the sandbox's orphan cleanup did exactly what it exists to do. The
+  launcher's `-Then` takes the lock once, stages once (staging again would rewrite the config and clear
+  the file), and plays each filter as its own game launch.
+- **The reader refuses to pass if the writer ran in the same process.** That would be a restart that
+  never restarted: the in-memory object would still hold the values and every assertion would be true
+  for the wrong reason. It follows that `12` and `13` cannot ride along in a plain run of the whole
+  suite, where they share a process; they are launched by name.
+
+**Measured 2026-09-21, 19:05:** launch 1 `12` passed, launch 2 `13` passed, `exitReason: passed` on
+both, and the install was left clean - defaults on disk, no marker, no backup. The negative case was
+seen earlier the same day, by accident: with the file restored between the launches, `13` failed with
+`workTabMode reads '2', expected '1'`, so the assertion does fail when nothing was kept.
 
 ## Scenario 9 — the hidden MainButtons shortcut
 
