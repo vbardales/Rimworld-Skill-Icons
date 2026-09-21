@@ -443,10 +443,15 @@ patch-failure warnings fired, and no `XML error`/`Config error`/`Could not resol
 generic engine warning "Translation data for language French has 4 errors" is aggregated across
 this machine's ~200 active mods and names no mod; SkillIcons's own EN/FR key parity was already
 confirmed statically (see "Translation audit" above), so this is not attributed to it without the
-in-game translation report actually naming it. A "did not load any content" notice for
-"SkillIcons - Pickle tests" is expected and benign, identical to the same notice for the
-Quiet New Factions/Work Studio/Architect Studio Pickle companions - none of the four ship a
-`Defs`/`Textures`/`Sounds` folder, only `Pickle/Features/`.
+in-game translation report actually naming it. The `did not load any content` error for
+"SkillIcons - Pickle tests" was noted here as expected and benign. It is now fixed rather than
+tolerated: the companion carries `Tests/Pickle/Mod/Languages/README.md`, which satisfies
+`ModContentPack.AnyContentLoaded()` through `AnyTranslationsLoaded()` without putting anything
+into a running game - loose files under `Languages/` are never loaded, only directories are
+enumerated. The same one-file fix went to the Quiet New Factions, Work Studio, Architect Studio
+and TechLevelFixes companions, and a QuietNewFactions run on 2026-09-21 confirmed it there:
+five scenarios green, the error gone, no `[ERROR]` left in the log. **Not yet confirmed by a run
+of this suite** - the next SkillIcons run should show the error absent.
 
 Scenarios 1-11 remain unplayed. `done -> tested` stays open for those.
 
