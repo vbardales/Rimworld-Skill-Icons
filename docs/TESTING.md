@@ -32,9 +32,43 @@ The log lives at:
 | Scenario 5 (the "no passion" icon) | **passed**, 2026-09-20 |
 | Scenario 9 (the MainButtons shortcut) | **passed**, 2026-09-20, apart from RIMMSQOL itself |
 | Scenario 11 (the five def fixes) | **passed**, 2026-09-20, asserted against the loaded DefDatabase |
-| Scenario 8 (persistence) | automated; the 2026-09-20 run failed on a bug in the test, fixed, not re-run |
-| Scenario 10 (English and French) | automated; the 2026-09-20 run failed on a bug in the test, fixed, not re-run |
+| Scenario 8 (persistence) | in-process round trip **passed**; the real restart written as two passes on 2026-09-21, **not yet run** |
+| Scenario 10 (English and French) | **passed in both passes**, 2026-09-21, once it stopped switching language mid-run |
 | Scenarios 6, 7 | removed with the feature they tested, 2026-09-19 |
+
+## How many passes, and which
+
+**Two.** A mod whose TESTING.md does not say how many passes it needs has been tried, not tested.
+
+    scripts/Run-PickleWsl.ps1 -Mod SkillIcons                                    # sans-facultatifs
+    scripts/Run-PickleWsl.ps1 -Mod SkillIcons -DepsMap wsl-deps.avec-oracle.map  # avec-oracle
+
+The pass name is written into the report, so a green is attributable to a mod set rather than to
+"a run".
+
+**`sans-facultatifs`** mounts Core, the DLCs, Harmony, RimLogging, Pickle, the hard dependencies
+(Vanilla Skills Expanded and Alpha Skills) and this mod. It proves the mod stands on its own, and
+it is the only pass whose screenshots are usable.
+
+**`avec-oracle`** adds Oracle's Skill Icon Retextures, and it is not a formality. Oracle's set and
+this one write to the **same texture paths**, so whichever loads last wins - which is the entire
+reason `About.xml` names it in `<loadAfter>`. In the minimal pass the icon scenarios prove this
+mod's textures load; in this one they prove the `loadAfter` actually wins. **Nothing else covers
+that.** `_tools/Run-Tests.ps1` reads this mod's own files and cannot see a second mod overwriting
+a path at load, so if the ordering silently broke, every scenario in this suite would stay green
+while every player who has Oracle installed saw Oracle's icons instead of these.
+
+Oracle is not in her active mod list; the staging takes it from the Workshop folder, where it is
+present. `Tests/Pickle/wsl-deps.avec-oracle.map` names it.
+
+No optional of this mod is incompatible with another, so two passes cover it - no combination
+fan-out is needed.
+
+**`11-publication-shots.feature` belongs to the minimal pass only**, and says so in its own header.
+Any third-party skill or work interface may redraw what it photographs - Bio Tab+ draws its own
+character card and never reaches this mod's transpiler; a third-party Work tab replacement shows
+none of these icons - so a capture taken with those loaded would advertise someone else's
+interface on this mod's store page.
 
 ## The other half, which does not need a colony
 
@@ -50,12 +84,13 @@ frame table and the two Alpha Skills/VSE patch files still do what the mod claim
 against the compiled DLL and the real installed dependency mods - not whether a colonist ever
 sees the result on screen. Two things it found worth recording while it was being written:
 
-- `Verse.PatchOperationSequence` is a **chain**, not five independent fixes: it stops at the
-  first sub-operation whose xpath matches nothing at all. `AlphaSkills_Fixes.xml`'s five fixes
-  therefore share a single point of failure - if Alpha Skills ever drops or renames
-  `AS_NudistPassion_Active` while the other four bugs remain, none of the other four fixes
-  apply either, even though each is logically independent. `<success>Always</success>` only
-  promises the log stays clean; it does not promise every fix still lands.
+- `Verse.PatchOperationSequence` is a **chain**: it stops at the first sub-operation whose xpath
+  matches nothing at all. `AlphaSkills_Fixes.xml` held its five fixes in one, so they shared a
+  single point of failure - if Alpha Skills ever dropped or renamed `AS_NudistPassion_Active`
+  while the other four bugs remained, none of the other four fixes would apply either, and
+  `<success>Always</success>` would keep the log clean about it. **Split into five independent
+  top-level operations on 2026-09-21**, each carrying its own `<success>Always</success>`, and the
+  harness test that used to assert the damage now asserts its absence.
 - The two Alpha Skills def fixes were checked against the real, currently-installed defs, not a
   hand-typed copy of them: `AS_NudistPassion_Active`'s description genuinely is the
   `AS_NomadicPassion` text, copy-pasted, and `AS_PainDrivenPassion_Active`'s label genuinely is

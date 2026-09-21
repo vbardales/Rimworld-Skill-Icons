@@ -1,0 +1,18 @@
+# The optional set for this mod, staged on top of the minimal one.
+#
+# One line per mod: packageId, then its Workshop id. `first:` in front of a line when its load
+# order matters - it does not here, because the order this pass exists to test is the one
+# About.xml already declares in <loadAfter>, and the staging honours that.
+#
+# Oracle's Skill Icon Retextures is the only optional this mod reasons about, and the only one
+# that changes what a scenario means. Its set and this one write to the SAME texture paths, so
+# whichever loads last wins; <loadAfter> names it for exactly that reason. In the minimal pass the
+# icon scenarios prove this mod's textures load. In this pass they prove the loadAfter actually
+# wins - which nothing else covers, out of game or in. The out-of-game harness reads this mod's
+# own files and cannot see a second mod overwriting a path at load, so if that ordering silently
+# broke, every scenario would stay green while every player who has Oracle installed would see
+# Oracle's icons instead of these.
+#
+# It is not in her active mod list, so the folder is staged from the Workshop directory rather
+# than from what she runs. It is on disk, which is what the staging needs.
+oracle.skills.retexture 3214465250

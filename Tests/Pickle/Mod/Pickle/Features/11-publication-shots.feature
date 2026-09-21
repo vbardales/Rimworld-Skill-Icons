@@ -2,6 +2,14 @@
 # the mod: every other feature in this suite does that. This one exists so the images do not have
 # to be cropped by hand afterwards, and so the scene in them is chosen rather than borrowed.
 #
+# VALID ONLY IN THE MINIMAL PASS - no -DepsMap, the set the staging mounts by default. This is not
+# a preference, it is what the images are for. Any third-party skill or work interface is free to
+# redraw what is photographed here: Bio Tab+ draws its own character card and never reaches this
+# mod's transpiler, and a third-party Work tab replacement shows none of these icons at all. A
+# capture taken in a pass carrying those advertises someone else's interface on this mod's store
+# page. @review says a person must look at the image; it does not say under which mod set the
+# image is worth anything, so this paragraph does.
+#
 # Two techniques, both passed on by the Work Studio session on 2026-09-20.
 #
 # ONE: the interface is hidden. RimWorld's own screenshot mode draws only the windows that ask to
