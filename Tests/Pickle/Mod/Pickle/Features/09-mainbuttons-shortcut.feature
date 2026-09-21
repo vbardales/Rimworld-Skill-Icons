@@ -44,3 +44,19 @@ Feature: the hidden MainButtons shortcut opens this mod's own settings
     And SkillIcons setting "workTabScale" reads "1.7"
     When I close all dialogs
     And SkillIcons settings are at their documented defaults
+
+  # docs/TESTING.md's reveal-and-hide, minus RIMMSQOL. What RIMMSQOL does when a player reveals
+  # this button is move MainButtonDef.buttonVisible; what this mod owes is the other side of that
+  # contract - invisible until something moves it, then properly drawn rather than refused or
+  # greyed. So the field is moved directly, which is the same field RIMMSQOL moves, and the bar's
+  # own worker is asked what it would do.
+  #
+  # Whether RIMMSQOL's interface can reveal it, and whether ITS choice survives a restart, stay
+  # manual. Staging RIMMSQOL headless to answer that would mean mounting a mod this install does
+  # not carry in order to test code that is not ours.
+  Scenario: revealed it is drawn and live, hidden it is gone again
+    Then SkillIcons MainButtonDef "SkillIcons_Settings" is not drawn in the bar
+    When SkillIcons reveals the MainButtonDef "SkillIcons_Settings", as a customization mod would
+    Then SkillIcons MainButtonDef "SkillIcons_Settings" is drawn in the bar
+    When SkillIcons hides the MainButtonDef "SkillIcons_Settings" again
+    Then SkillIcons MainButtonDef "SkillIcons_Settings" is not drawn in the bar
