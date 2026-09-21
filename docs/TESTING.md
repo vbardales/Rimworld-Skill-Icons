@@ -117,6 +117,14 @@ and closes, the bubbles rise in the champagne glass, the mood icon drifts along 
 **Fails if:** any of the three places still shows Vanilla Skills Expanded's own flame/star icons,
 or an icon that should animate never moves.
 
+**The animation is automated as of 2026-09-21** (`14-animation-runs.feature`), and no longer needs
+watching. It asks `PassionDef.Icon` - the call site the game itself draws from, so a transpiler
+that stopped applying fails here too - what texture a passion shows, twice, thirty frames apart.
+`AS_DrunkenPassion_Active` and `VSE_Apathy` must answer differently; `AS_BlindPassion_Elevated`
+and `AS_NudistPassion`, which have no animation, must answer identically. That second scenario is
+what gives the first its meaning: "the texture changed" alone does not distinguish an animation
+running from anything else changing. Both green on first run.
+
 **Pawn creation screen: observed, 2026-09-18.** Her own screenshot of `Page_ConfigureStartingPawns`
 shows coloured heart icons per skill, correctly varying with value (hollow/pale at 0, filled and
 differently coloured above it) - matches expectation, not the vanilla flame/star set.
@@ -263,6 +271,15 @@ settings are global, not per-save) - including after loading an older save, sinc
 scribed into the save file.
 
 **Fails if:** any value reverts on reopen or restart.
+
+**The restart stays manual, and not for want of trying.** The object -> file -> object round trip
+is automated inside one process (`08-settings-persistence.feature`). The restart itself was
+attempted as two headless passes - one writing, the next reading - since every WSL launch is a new
+process. It cannot work, and should not be made to: `SettingsSandbox` restores the settings file
+from a backup in `[AfterScenario]`, so anything a scenario writes is undone the moment it ends.
+That safeguard is the reason a run never leaves her sliders where a test put them, and defeating
+it would trade a real protection for a test of RimWorld's own behaviour - that the game reads its
+mod settings file at startup - rather than of this mod's.
 
 ## Scenario 9 — the hidden MainButtons shortcut
 
