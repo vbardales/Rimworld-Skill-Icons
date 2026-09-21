@@ -28,11 +28,15 @@ workshop:     3805383957, created 2026-09-21 00:07, switched to public the same 
               done, not tested - which is a choice rather than an oversight. PUBLICATION.md
               holds what the page needs. The three thank-you comments have been posted.
 remaining:
-  - unverified, only a person can: RIMMSQOL's own interface revealing and hiding the button, and
-      whether ITS choice survives a restart. The def-side contract is automated; RIMMSQOL is not
-      staged, on purpose - it would test code that is not this mod's.
-  - unverified, only a person can: the MainButtons shortcut's own description in French, seen in
-      RIMMSQOL. It is DefInjected, which does not reload without a def reload.
+  - not this mod's to verify: RIMMSQOL's own interface revealing and hiding the button, and whether ITS
+      choice survives a restart. Both are RIMMSQOL's behaviour. This mod's side of that contract is
+      automated and measured: hidden by default, drawn and not greyed once revealed, hidden again,
+      photographed in both states (see docs/TESTING.md, Scenario 9).
+  - one leg of scenario 8 is not covered: loading an EXISTING save after the settings were changed, to
+      confirm they are not scribed into it. The restart test never loads a save. It can be added to
+      13-restart-read.feature (read the kept values, then load the fixture, then read them again).
+  - everything else in docs/TESTING.md has been passed, either by a run or by an observation dated in
+      that file (the pawn creation screen, 2026-09-18). No person is needed for the rest.
   - known, not a defect: a plain run of the whole suite is red. 16 fails without Oracle staged and
       13 refuses to pass when 12 ran in the same process, both by design. They are run by name.
       Moving them to a companion suite a plain launch does not select is proposed, not done.

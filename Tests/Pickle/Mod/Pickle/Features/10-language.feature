@@ -23,8 +23,10 @@
 # literal that never went through Translate. The assertions below catch the first; only the
 # screenshot catches the second.
 #
-# Still manual, and unreachable from here either way: the MainButtons shortcut's own label and
-# description, which are DefInjected rather than Keyed.
+# The MainButtons shortcut's own description is DefInjected rather than Keyed, and is asserted in
+# 09-mainbuttons-shortcut.feature instead: a launch that chooses its language switches nothing, so
+# the def is injected at startup and readable. It was listed here as unreachable until 2026-09-21,
+# which was true of a mid-run switch and not of a launch that starts in the language.
 @review
 Feature: the settings page in the language the game runs in
 
