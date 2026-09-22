@@ -511,31 +511,34 @@ function New-CombinedDefsDoc([hashtable]$nodesByFile) {
     return $wrapper
 }
 
-$asNudistFile = Join-Path $AlphaSkillsRoot '1.6\Defs\PassionDefs\Passions.xml'
 $asIdeologyFile = Join-Path $AlphaSkillsRoot '1.6\Mods\Ideology\Defs\PassionDefs\Passions_Ideology.xml'
 $vseFile = Join-Path $VseRoot '1.6\Defs\PassionDefs\Passions.xml'
 $alphaFixesXml = Join-Path $ModRoot 'Mod\1.6\Patches\AlphaSkills_Fixes.xml'
 $vseFixesXml = Join-Path $ModRoot 'Mod\1.6\Patches\VSE_Fixes.xml'
 
-function New-AllFiveTargetsDoc {
+# Three of the original five real targets were removed from AlphaSkills_Fixes.xml on 2026-09-22:
+# Sarg fixed "nudist (active)"'s description, "pain-driven (active)"'s label, and "frozen"'s
+# missing work tab icon upstream - the last two matching this mod's own values exactly, byte for
+# byte, caught by this very test failing its precondition the day the fix landed. A
+# PatchOperationReplace or PatchOperationAdd whose target still exists keeps firing regardless of
+# whether the value already matches, so leaving any of the three in place would have meant
+# silently overwriting or duplicating Sarg's own fields forever - <success>Always</success> only
+# guards a target that goes MISSING, not one that still exists, fixed or not. What remains is not
+# a fix at all: Sarg confirmed the two blindness tiers sharing one icon is his intentional design,
+# and this mod keeps its own divergence anyway, as its own choice.
+function New-BlindTargetsDoc {
     New-CombinedDefsDoc @{
-        $asNudistFile = @('AS_NudistPassion_Active', 'AS_FrozenPassion')
-        $asIdeologyFile = @('AS_PainDrivenPassion_Active', 'AS_BlindPassion_Sublime', 'AS_BlindPassion_Sublime_Active')
+        $asIdeologyFile = @('AS_BlindPassion_Sublime', 'AS_BlindPassion_Sublime_Active')
     }
 }
 
-if (-not (Test-Path $asNudistFile)) {
-    ItSkip 'AlphaSkills_Fixes.xml fixes all five real targets in one pass, matching how they actually coexist' "Alpha Skills not installed at $AlphaSkillsRoot"
-    ItSkip 'PatchOperationSequence stops at the first sub-operation whose target is absent (a real fragility, not a test artifact)' "Alpha Skills not installed at $AlphaSkillsRoot"
+if (-not (Test-Path $asIdeologyFile)) {
+    ItSkip 'AlphaSkills_Fixes.xml redraws both blindness tiers in one pass, matching how they actually coexist' "Alpha Skills not installed at $AlphaSkillsRoot"
+    ItSkip 'a missing target no longer takes the other fix down with it' "Alpha Skills not installed at $AlphaSkillsRoot"
     ItSkip 'VSE_Fixes.xml adds the missing VSE_Apathy workBoxIconPath' "VSE not installed at $VseRoot"
 } else {
-    It 'AlphaSkills_Fixes.xml fixes all five real targets in one pass, matching how they actually coexist' {
-        $doc = New-AllFiveTargetsDoc
-        $descBefore = $doc.SelectSingleNode("//VSE.Passions.PassionDef[defName='AS_NudistPassion_Active']/description").InnerText
-        if ($descBefore -cnotmatch 'caravan') { "precondition failed: AS_NudistPassion_Active description no longer mentions caravans" }
-        $labelBefore = $doc.SelectSingleNode("//VSE.Passions.PassionDef[defName='AS_PainDrivenPassion_Active']/label").InnerText
-        if ($labelBefore -ne 'pain-driven') { "precondition failed: AS_PainDrivenPassion_Active label is already '$labelBefore'" }
-        if ($doc.SelectSingleNode("//VSE.Passions.PassionDef[defName='AS_FrozenPassion']/workBoxIconPath")) { 'precondition failed: AS_FrozenPassion already has a workBoxIconPath' }
+    It 'AlphaSkills_Fixes.xml redraws both blindness tiers in one pass, matching how they actually coexist' {
+        $doc = New-BlindTargetsDoc
         $iconBefore1 = $doc.SelectSingleNode("//VSE.Passions.PassionDef[defName='AS_BlindPassion_Sublime']/iconPath").InnerText
         if ($iconBefore1 -ne 'Passions/AS_BlindPassion') { "precondition failed: AS_BlindPassion_Sublime iconPath is already '$iconBefore1'" }
         $iconBefore2 = $doc.SelectSingleNode("//VSE.Passions.PassionDef[defName='AS_BlindPassion_Sublime_Active']/iconPath").InnerText
@@ -543,39 +546,27 @@ if (-not (Test-Path $asNudistFile)) {
 
         Invoke-PatchDoc $alphaFixesXml $doc | Out-Null
 
-        $descAfter = $doc.SelectSingleNode("//VSE.Passions.PassionDef[defName='AS_NudistPassion_Active']/description").InnerText
-        $expectedDesc = 'This person will learn this skill much faster, but only when nude. They are nude right now.'
-        if ($descAfter -cne $expectedDesc) { "AS_NudistPassion_Active description is '$descAfter', expected '$expectedDesc'" }
-
-        $labelAfter = $doc.SelectSingleNode("//VSE.Passions.PassionDef[defName='AS_PainDrivenPassion_Active']/label").InnerText
-        if ($labelAfter -ne 'pain-driven (active)') { "AS_PainDrivenPassion_Active label is '$labelAfter', expected 'pain-driven (active)'" }
-
-        $workBox = $doc.SelectSingleNode("//VSE.Passions.PassionDef[defName='AS_FrozenPassion']/workBoxIconPath")
-        if (-not $workBox) { 'AS_FrozenPassion has no workBoxIconPath after the patch' }
-        elseif ($workBox.InnerText -ne 'Passions/AS_FrozenPassionGrey') { "AS_FrozenPassion workBoxIconPath is '$($workBox.InnerText)'" }
-
         $iconAfter1 = $doc.SelectSingleNode("//VSE.Passions.PassionDef[defName='AS_BlindPassion_Sublime']/iconPath").InnerText
         if ($iconAfter1 -ne 'Passions/AS_BlindPassionSublime') { "AS_BlindPassion_Sublime iconPath is '$iconAfter1'" }
         $iconAfter2 = $doc.SelectSingleNode("//VSE.Passions.PassionDef[defName='AS_BlindPassion_Sublime_Active']/iconPath").InnerText
         if ($iconAfter2 -ne 'Passions/AS_BlindPassionSublime_Active') { "AS_BlindPassion_Sublime_Active iconPath is '$iconAfter2'" }
     }
 
-    It 'a missing target no longer takes the other fixes down with it' {
-        # The document is missing AS_NudistPassion_Active - what used to be the FIRST
-        # sub-operation's target - while still containing AS_PainDrivenPassion_Active. Held in
-        # one PatchOperationSequence, which is a chain, the first operation finding nothing
-        # stopped every operation after it, silently, because the sequence was Always: one def
-        # renamed upstream would have quietly dropped four unrelated fixes. Split into
-        # independent top-level operations, only the fix whose own target vanished goes inert.
-        # This test is the inverse of the one it replaces, and it is the reason for the split.
+    It 'a missing target no longer takes the other fix down with it' {
+        # The document is missing AS_BlindPassion_Sublime - the FIRST operation's target - while
+        # still containing AS_BlindPassion_Sublime_Active. Held in one PatchOperationSequence,
+        # which is a chain, the first operation finding nothing stopped every operation after it,
+        # silently, because the sequence was Always. Split into independent top-level operations,
+        # only the operation whose own target vanished goes inert. This test is the inverse of
+        # what a sequence would do, and it is the reason for the split.
         $doc = New-CombinedDefsDoc @{
-            $asIdeologyFile = @('AS_PainDrivenPassion_Active')
+            $asIdeologyFile = @('AS_BlindPassion_Sublime_Active')
         }
-        $labelBefore = $doc.SelectSingleNode('//label').InnerText
-        if ($labelBefore -ne 'pain-driven') { "precondition failed: real label is already '$labelBefore'"; return }
+        $iconBefore = $doc.SelectSingleNode('//iconPath').InnerText
+        if ($iconBefore -ne 'Passions/AS_BlindPassion_Active') { "precondition failed: real iconPath is already '$iconBefore'"; return }
         Invoke-PatchDoc $alphaFixesXml $doc | Out-Null
-        $labelAfter = $doc.SelectSingleNode('//label').InnerText
-        if ($labelAfter -ne 'pain-driven (active)') { "AS_PainDrivenPassion_Active label is '$labelAfter', expected 'pain-driven (active)' - a fix whose own target is present must apply even when an earlier fix found nothing" }
+        $iconAfter = $doc.SelectSingleNode('//iconPath').InnerText
+        if ($iconAfter -ne 'Passions/AS_BlindPassionSublime_Active') { "AS_BlindPassion_Sublime_Active iconPath is '$iconAfter', expected 'Passions/AS_BlindPassionSublime_Active' - a fix whose own target is present must apply even when the other operation's target is absent" }
     }
 
     It 'VSE_Fixes.xml adds the missing VSE_Apathy workBoxIconPath' {

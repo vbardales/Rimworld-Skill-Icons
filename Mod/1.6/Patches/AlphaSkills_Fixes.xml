@@ -2,64 +2,32 @@
 <Patch>
 
   <!--
-    Three Alpha Skills defects, found by reading its defs. These are not
-    texture problems: they are fixed here because this mod loads after it
-    anyway, and they are obvious the moment you look at the tooltips next
-    to the icons.
+    Down to one thing this mod still changes about Alpha Skills' defs, from four.
 
-    Each fix is its own top-level operation, and each carries
-    <success>Always</success> of its own. Two reasons, and the second is
-    why they are no longer one sequence.
+    Sarg Bjornson fixed three of the original four within a day of being told about them
+    (2026-09-21/22): "nudist (active)"'s description no longer talks about caravans (worded
+    differently from this mod's own wording, but fixed), "pain-driven (active)" now carries its
+    own label (matching this mod's wording exactly), and "frozen" now ships a workBoxIconPath
+    (matching this mod's texture path exactly, byte for byte). All three patches were removed
+    rather than left in place: PatchOperationReplace and PatchOperationAdd do not check whether
+    the target already holds the intended value, so leaving them would have meant silently
+    overwriting or duplicating Sarg's own fields forever, with no error to notice it by -
+    <success>Always</success> only promises the log stays clean if a target goes MISSING; it says
+    nothing about a target that still exists, fixed or not.
 
-    <success>Always</success>: if Sarg fixes one of these defs upstream,
-    that xpath stops matching and the fix goes inert instead of reddening
-    the log.
+    What remains is not a fix at all. Sarg confirmed on 2026-09-21 that the two blindness tiers
+    sharing one iconPath and one indicatorString upstream is intentional design on his side. This
+    mod keeps its own divergence anyway, as its own choice rather than a claimed defect: hue is
+    identity for every other passion in this set, and two passions with different learn-rate
+    bonuses (elevated 0.5x/1.5x, sublime 1x/2x) sharing a drawing breaks that rule for these two
+    alone. The sublime tier is redirected to a gold-iris variant; Alpha Skills' own presentation
+    of the pair is left exactly as Sarg intends it - this mod draws its OWN icon for it, nothing
+    upstream is altered in meaning, only which texture this mod's own UI shows for it.
 
-    Independent: PatchOperationSequence is a CHAIN. It stops at the first
-    sub-operation whose xpath finds nothing and never reaches the ones
-    after it. Held in one sequence, the day Alpha Skills renamed or
-    repaired AS_NudistPassion_Active - the first target - the four fixes
-    below it would have stopped applying too, silently, because the
-    sequence was Always. One vanished target would have taken the other
-    four with it, and nothing in the log would have said so.
+    Dormant and active states are separate operations, each with its own <success>Always</success>,
+    so one going missing or being redesigned upstream does not take the other with it.
   -->
 
-  <!-- "nudist (active)"'s description is "nomadic"'s, copy-pasted: it
-       talks about caravans and expeditions. -->
-  <Operation Class="PatchOperationReplace">
-    <success>Always</success>
-    <xpath>/Defs/VSE.Passions.PassionDef[defName="AS_NudistPassion_Active"]/description</xpath>
-    <value>
-      <description>This person will learn this skill much faster, but only when nude. They are nude right now.</description>
-    </value>
-  </Operation>
-
-  <!-- "pain-driven (active)" kept its dormant state's label, so the two
-       states are indistinguishable in the tooltip. -->
-  <Operation Class="PatchOperationReplace">
-    <success>Always</success>
-    <xpath>/Defs/VSE.Passions.PassionDef[defName="AS_PainDrivenPassion_Active"]/label</xpath>
-    <value>
-      <label>pain-driven (active)</label>
-    </value>
-  </Operation>
-
-  <!-- AS_FrozenPassion declares no workBoxIconPath: in the Work tab,
-       its cell falls back to something else. This mod supplies the texture. -->
-  <Operation Class="PatchOperationAdd">
-    <success>Always</success>
-    <xpath>/Defs/VSE.Passions.PassionDef[defName="AS_FrozenPassion"]</xpath>
-    <value>
-      <workBoxIconPath>Passions/AS_FrozenPassionGrey</workBoxIconPath>
-    </value>
-  </Operation>
-
-  <!-- The two blindness tiers share the same iconPath, even though they
-       grant different penalties and bonuses: elevated is 0.5x sighted
-       and 1.5x blind, sublime is 1x and 2x. The sublime tier is
-       redirected to a gold-iris variant. Its dormant and active states
-       are separate operations: one of them going missing upstream must
-       not take the other with it. -->
   <Operation Class="PatchOperationReplace">
     <success>Always</success>
     <xpath>/Defs/VSE.Passions.PassionDef[defName="AS_BlindPassion_Sublime"]/iconPath</xpath>

@@ -18,7 +18,7 @@ Options (Options &gt; Mod settings &gt; SkillIcons):
 - an optional faint icon for "no passion", off by default
 - a gallery of every passion, animating live, so you can see the whole set without starting a colony
 
-It also repairs a handful of def mistakes. In Alpha Skills: the "nudist (active)" description was copy-pasted from "nomadic", "pain-driven (active)" kept its dormant label, "frozen" had no work tab icon, and the two degrees of "blind" shared a single icon despite granting different bonuses. In Vanilla Skills Expanded: "apathy" had no work tab icon.
+It also repairs a couple of remaining def mistakes. In Alpha Skills: the two degrees of "blind" get separate icons here despite sharing one upstream (Sarg's own intentional design - kept as this set's own choice, since every other passion carries its own hue). Three earlier fixes for a copy-pasted "nudist (active)" description, a mislabelled "pain-driven (active)" and a missing "frozen" work tab icon are no longer needed: Sarg fixed all three upstream within a day of being asked. In Vanilla Skills Expanded: "apathy" had no work tab icon.
 
 English and French.
 

@@ -46,6 +46,20 @@ remaining:
       assemblies of Better and Enhanced reference the method this mod patches, which is a
       presumption that the icons appear, not a measurement.
 session:      local_314cf7e0-0763-4b3b-b4b7-03e564331dc5
+updated:      2026-09-22, Sarg Bjornson (Alpha Skills) replied to the thank-you comment: he fixed
+              three of the four def findings within a day (nudist description, pain-driven label,
+              frozen work tab icon - the last two matching this mod's own values byte for byte,
+              caught by the out-of-game harness's own precondition check). Those three patches are
+              retired from AlphaSkills_Fixes.xml rather than left inert, since a PatchOperationReplace
+              or PatchOperationAdd whose target still exists keeps firing regardless of whether the
+              value matches - leaving them would have meant silently overwriting or duplicating
+              Sarg's own fields forever. The remaining blindness-icon divergence is recharacterised
+              as this mod's own choice, not a claimed defect: Sarg confirmed the shared icon upstream
+              is intentional design. Harness, Pickle feature 06, docs/TESTING.md, README.md,
+              ATTRIBUTION.md, About.xml and CHANGELOG.md all updated; 25/25 harness tests pass.
+              A reply thanking Sarg is drafted, not yet posted (see PUBLICATION.md). The live Steam
+              description still needs the same wording pasted by hand - SetItemDescription only
+              sends it once, at item creation. Earlier:
 updated:      2026-09-21, scenario 10 fixed by launching per language instead of switching mid-run; the
               restart, the shortcut agreement and the animations automated and green; the first
               avec-oracle pass green; suite at 25 scenarios in 16 features. Earlier: 2026-09-20, the

@@ -106,6 +106,20 @@ Thank you for the passions! 🎉
 https://steamcommunity.com/sharedfiles/filedetails/?id=3805383957
 ```
 
+**Reply, 2026-09-22 — drafted, not posted.** Sarg answered within a day: "Thanks! Fixed them, except
+the blind one, which is intentional." Three of the four are confirmed fixed on disk (the last two
+matching this mod's own values exactly), and the three retired patches for them are in
+`Mod/1.6/Patches/AlphaSkills_Fixes.xml`'s history. This reply is ready to post once approved; it is
+not sent automatically.
+
+```
+That was fast! 🚀 Checked, and nudist/pain-driven/frozen are all fixed on my end too — the patches for those three are retired now, thank you.
+
+And no worries at all about blind staying shared — makes sense as your own call. I'll keep my own separate icons for it on my side, just as this set's own visual language rather than a fix, since hue is identity for every passion I draw here.
+
+Thanks for looking into it so quickly! 🙏
+```
+
 ### Oracle's Skill Icon Retextures — https://steamcommunity.com/sharedfiles/filedetails/?id=3214465250
 
 The lineage. The ♥ belongs here and nowhere else: it is their motif, the one the whole set takes

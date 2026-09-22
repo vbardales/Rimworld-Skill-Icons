@@ -33,11 +33,22 @@ vanilla's two, and no `iconPath` to override. This mod patches
 Workshop: https://steamcommunity.com/sharedfiles/filedetails/?id=3448953006
 
 The twenty-six circumstantial passions this set spends most of its drawings on.
-`1.6/Patches/AlphaSkills_Fixes.xml` repairs four def mistakes found while reading
-them: a description copy-pasted from another passion, a missing "(active)"
-label, a missing work tab icon, and two blindness tiers sharing one icon despite
-granting different bonuses. The patch sits in a `<success>Always</success>`
-sequence, so if Sarg fixes them upstream it goes quietly inert.
+`1.6/Patches/AlphaSkills_Fixes.xml` originally repaired four things found while
+reading their defs: a description copy-pasted from another passion, a missing
+"(active)" label, a missing work tab icon, and two blindness tiers sharing one
+icon despite granting different bonuses. Sarg Bjornson fixed the first three
+upstream within a day of being told in a Workshop comment (2026-09-21/22) — the
+last two matching this mod's own values exactly, byte for byte — so this mod's
+own patches for all three are retired. Left in place, they would have gone on
+silently overwriting or duplicating his own fields, since `PatchOperationReplace`
+and `PatchOperationAdd` fire whenever their target still exists, whether or not
+the value already matches. What remains is not a fix at all: the shared
+blindness icon, which Sarg confirmed is his own intentional design rather than
+an oversight. This mod keeps its own divergence anyway, as its own choice —
+every other passion in this set carries its own hue, and two passions with
+different learn-rate bonuses sharing a drawing is the one place that rule would
+break. The remaining operations each carry their own `<success>Always</success>`,
+so a target that changes again goes quietly inert on its own.
 
 ## Removal
 

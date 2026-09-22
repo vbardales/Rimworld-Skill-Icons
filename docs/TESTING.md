@@ -31,7 +31,7 @@ The log lives at:
 | Scenario 4 (size/opacity sliders) | **passed**, 2026-09-19 |
 | Scenario 5 (the "no passion" icon) | **passed**, 2026-09-20 |
 | Scenario 9 (the MainButtons shortcut) | **passed**, 2026-09-20, apart from RIMMSQOL itself |
-| Scenario 11 (the five def fixes) | **passed**, 2026-09-20, asserted against the loaded DefDatabase |
+| Scenario 11 (the def fixes) | **passed**, 2026-09-20, asserted against the loaded DefDatabase. Down to two, as of 2026-09-22: Sarg Bjornson fixed three of the original four Alpha Skills findings upstream, see below |
 | Scenario 8 (persistence) | in-process round trip **passed**; the real restart **passed**, 2026-09-21, as two launches in one ticket |
 | Scenario 10 (English and French) | **passed in both passes**, 2026-09-21, once it stopped switching language mid-run |
 | Scenarios 6, 7 | removed with the feature they tested, 2026-09-19 |
@@ -419,18 +419,29 @@ clipped control, the gallery hint wrapping cleanly over two lines.
 
 ## Scenario 11 — the Alpha Skills and Vanilla Skills Expanded def fixes are visible in the tooltip
 
-**Preconditions:** a colonist with the "nudist (active)", "pain-driven (active)", "frozen",
-"blind, sublime" (either tier) or "apathy" passion state, or `Dev` tools to force one.
+**Three of the original four are gone as of 2026-09-22.** Sarg Bjornson (Alpha Skills) fixed
+"nudist (active)"'s description, "pain-driven (active)"'s label, and "frozen"'s missing work tab
+icon upstream, within a day of being told in a Workshop comment - the last two matching this
+mod's own values exactly, byte for byte, which the out-of-game harness caught the same day (its
+precondition check, "AS_FrozenPassion already has a workBoxIconPath", started failing the moment
+the fix landed). All three patches were retired rather than left in place: `PatchOperationReplace`
+and `PatchOperationAdd` do not check whether the target already holds the intended value, so
+leaving them would have meant silently overwriting or duplicating Sarg's own fields forever, with
+nothing in the log to notice it by - `<success>Always</success>` only covers a target that goes
+*missing*, not one that still exists, fixed or not. See `Mod/1.6/Patches/AlphaSkills_Fixes.xml`
+for the full account.
 
-**Do:** hover the passion icon in the Bio tab or Work tab for each of the five states above.
+**Preconditions:** a colonist with the "blind, sublime" (either tier) or "apathy" passion state,
+or `Dev` tools to force one.
 
-**Expect:** nudist (active)'s tooltip describes nudity, not caravans or expeditions;
-pain-driven (active)'s label reads exactly "pain-driven (active)", distinguishable from the
-dormant "pain-driven"; frozen shows a Work tab icon instead of an empty cell; the two blindness
-tiers show visibly different icons (the sublime tier's iris a different colour from the elevated
-tier's); apathy shows a Work tab icon instead of an empty cell.
+**Do:** hover the passion icon in the Bio tab or Work tab for each of the two states above.
 
-**Fails if:** any of the five still shows the pre-patch text or the empty Work tab cell (the
-out-of-game harness proves the patch XML changes these fields against the real installed defs;
-this proves the corrected values are what the player actually sees in the tooltip, post-loading
-and post-translation).
+**Expect:** the two blindness tiers show visibly different icons (the sublime tier's iris a
+different colour from the elevated tier's) - Sarg confirmed sharing one icon is his own
+intentional design, and this mod keeps its own divergence anyway, since hue is identity for every
+other passion in this set; apathy shows a Work tab icon instead of an empty cell.
+
+**Fails if:** the blindness tiers share an icon, or apathy still shows the empty Work tab cell
+(the out-of-game harness proves the patch XML changes these fields against the real installed
+defs; this proves the values are what the player actually sees in the tooltip, post-loading and
+post-translation).

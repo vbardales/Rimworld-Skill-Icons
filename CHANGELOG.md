@@ -3,6 +3,12 @@
 Format inspired by [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This file serves the repository and the writing of Steam patch notes; RimWorld does not display it in game.
 
+## [Unreleased]
+
+### Changed
+
+- Three of the four Alpha Skills def fixes are retired: Sarg Bjornson fixed the copy-pasted "nudist (active)" description, the mislabelled "pain-driven (active)", and the missing "frozen" work-tab icon upstream within a day of being told — the last two matching this mod's own values exactly. Left in place, those patches would have kept silently overwriting or duplicating his own corrected fields forever. Only the separate icons for the two blindness tiers remain, which is not a fix: Sarg confirmed sharing one icon there is his own intentional design, and this mod keeps its own divergence anyway.
+
 ## [1.0.0] — 2026-09-21
 
 First release.

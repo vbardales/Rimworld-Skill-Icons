@@ -81,11 +81,17 @@ darker anyway. Near-black was rejected for a measurable reason: on RimWorld's
 
 ## Patches
 
-`Mod/1.6/Patches/AlphaSkills_Fixes.xml` repairs three def mistakes in Alpha Skills
-(a copy-pasted description on `AS_NudistPassion_Active`, a missing "(active)" on
-`AS_PainDrivenPassion_Active`, a missing `workBoxIconPath` on `AS_FrozenPassion`).
-It runs inside a `<success>Always</success>` sequence, so if those defs are fixed
-upstream the patch goes quietly inert instead of logging errors.
+`Mod/1.6/Patches/AlphaSkills_Fixes.xml` gives the two blindness tiers separate
+icons rather than the one they share upstream — Sarg Bjornson confirmed that
+sharing is his own intentional design, and this mod keeps its own divergence
+anyway, since hue is identity for every other passion in the set. Three other
+fixes that used to live here (a copy-pasted description on
+`AS_NudistPassion_Active`, a missing "(active)" on `AS_PainDrivenPassion_Active`,
+a missing work tab icon on `AS_FrozenPassion`) were retired on 2026-09-22: Sarg
+fixed all three upstream within a day of being told, the last two matching this
+mod's own values exactly. Each remaining operation carries its own
+`<success>Always</success>`, so if a target is ever fixed or renamed again the
+patch goes quietly inert instead of logging errors.
 
 ## Translations
 
