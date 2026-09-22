@@ -225,7 +225,7 @@ rather than a verdict on this scenario:
 
 ## Scenario 2 — the settings page opens from the primary entry and matches its documented defaults
 
-**Do:** Options > Mod settings > SkillIcons, on a clean configuration (no prior `Mod_SkillIcons_*`
+**Do:** Options > Mod settings > Skill Icons, on a clean configuration (no prior `Mod_SkillIcons_*`
 settings file, or one deleted first).
 
 **Expect:** animated passion icons checked; speed slider at 1.0x; the "no passion" icon
@@ -368,7 +368,7 @@ negative case was seen earlier the same day, by accident: with the file restored
 
 **Do:** on a clean configuration, check the MainButtons bar for a SkillIcons entry - expect none,
 neither visible nor greyed out. In RIMMSQOL, reveal the `SkillIcons_Settings` button, click it,
-change a setting, close it, then open the primary Options > Mod settings > SkillIcons entry.
+change a setting, close it, then open the primary Options > Mod settings > Skill Icons entry.
 
 **Expect:** no visible or greyed-out button before it is revealed. Once revealed and clicked, it
 opens the identical settings window - same controls, same current values - as the primary entry;

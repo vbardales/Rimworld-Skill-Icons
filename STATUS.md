@@ -3,7 +3,7 @@ localization: complete
 translation_en: complete
 translation_fr: complete
 settings_audit: complete
-mod:          SkillIcons
+mod:          Skill Icons
 packageId:    nelim.skillicons
 repo:         Rimworld-Skill-Icons
 visibility:   public
@@ -44,7 +44,12 @@ remaining:
       captures. Better, Compact, Enhanced and Krypt each still need their own complete pass and
       media review; metadata references are not treated as compatibility evidence.
 session:      local_314cf7e0-0763-4b3b-b4b7-03e564331dc5
-updated:      2026-09-22, publication copy corrected against the current `PUBLISHING.md`: Codex
+updated:      2026-09-22, public title corrected from `SkillIcons` to `Skill Icons` in About.xml,
+              README, STATUS, the native Mod settings category and the hidden MainButtons
+              shortcut in both languages. Technical identifiers remain unchanged
+              (`nelim.skillicons`, `SkillIcons_Settings`, namespaces and DLL). Release build:
+              0 warnings/errors; out-of-game harness: 25/25 passing. Earlier: publication copy
+              corrected against the current `PUBLISHING.md`: Codex
               is named in AI-GENERATED; repeated AI credits were removed from THANKS; every cited
               Workshop mod is linked; Pickle, RimLogging and PickleTools are credited as
               development-only tools, with PickleTools linked to item 3806142401. PUBLICATION.md
@@ -97,7 +102,7 @@ updated:      2026-09-21, scenario 10 fixed by launching per language instead of
               replay), all same day
 ---
 
-# SkillIcons — status
+# Skill Icons — status
 
 ## Workflow audit — 2026-09-17
 

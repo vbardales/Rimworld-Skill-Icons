@@ -1,4 +1,4 @@
-# SkillIcons
+# Skill Icons
 
 A unified passion icon set for Vanilla Skills Expanded and Alpha Skills, with optional subtle animations in the Bio skill list.
 
@@ -18,7 +18,7 @@ Pawn Editor included — animates for free *provided it goes through that
 property*. Pawn Editor is not installed here, so that one is unverified.
 
 - If an animation sequence is absent, the static icon is used automatically.
-- Under **Options > Mod settings > SkillIcons**: a checkbox that turns the whole
+- Under **Options > Mod settings > Skill Icons**: a checkbox that turns the whole
   set static, a speed slider, a checkbox for the "no passion" icon, the work tab
   controls below, and a gallery listing every passion def with both its
   skill-list icon and its work-tab icon, animating live at the chosen speed.

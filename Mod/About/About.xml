@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
-  <name>SkillIcons</name>
+  <name>Skill Icons</name>
   <author>Nelim</author>
   <url>https://github.com/vbardales/Rimworld-Skill-Icons</url>
   <packageId>nelim.skillicons</packageId>
@@ -12,7 +12,7 @@ Forty of them animate, and each gesture says something about the passion rather 
 
 THE WORK TAB is where the grid is hardest to read, so it gets its own controls: passion icons drawn in colour, greyed, or - the default - in colour while the bonus is actually running and grey while it sleeps. Size and opacity are separate sliders, because size helps you see the passion while opacity gives the priority digit back to the text.
 
-Options (Options &gt; Mod settings &gt; SkillIcons):
+Options (Options &gt; Mod settings &gt; Skill Icons):
 - subtle animations, on by default, with a speed slider
 - the three work tab modes, plus size and opacity
 - an optional faint icon for "no passion", off by default

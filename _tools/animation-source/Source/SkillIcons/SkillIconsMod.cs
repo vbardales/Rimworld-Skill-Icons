@@ -75,7 +75,7 @@ public sealed class SkillIconsMod : Mod
         catch { /* a diagnostic footprint must never prevent loading */ }
     }
 
-    public override string SettingsCategory() => "SkillIcons";
+    public override string SettingsCategory() => "Skill Icons";
 
     public override void DoSettingsWindowContents(Rect inRect)
     {
