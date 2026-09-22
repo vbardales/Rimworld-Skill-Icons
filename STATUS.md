@@ -38,6 +38,11 @@ remaining:
       13 refuses to pass when 12 ran in the same process, both by design. They are run by name.
       Moving them to a companion suite a plain launch does not select is proposed, not done.
 session:      local_314cf7e0-0763-4b3b-b4b7-03e564331dc5
+updated:      2026-09-22, preparing version 1.0.2 after the tested gate: refreshed the changelog
+              and Steam notes, synchronized the distributed ATTRIBUTION.md with the repository
+              copy, and rebuilt the distributed DLL (0 warnings/errors; static suite 25/25).
+              The Steam item still needs its content upload, corrected live description, images
+              and change notes; stage remains tested until those publication actions are verified.
 updated:      2026-09-22, `done -> tested` completed through the shared WSL queue. The corrected
               RIMMSQOL pass, genuine two-process restart chain and all four replacement Work Tab
               matrices passed; all 40 review captures were opened and accepted. The Work-tab

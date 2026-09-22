@@ -154,6 +154,21 @@ Written at upload time, in the Change Notes tab, and easy to forget because noth
 until the form is already open. Unlike the description, these DO go out again on every update -
 they are the one field of the page that can be corrected freely. BBCode works.
 
+### 1.0.2 — ready to post with the next Workshop update
+
+```
+[h3]1.0.2 — Skill Icons[/h3]
+
+[list]
+[*]The mod's displayed name is now Skill Icons in the mod list, settings and optional shortcut.
+[*]Updated the settings and Bio screenshots on a clean zen background.
+[*]Refreshed the description, credits and attribution. Three Alpha Skills patches were retired after Sarg Bjornson fixed those defs upstream; the distinct blindness icons remain this mod's own artistic choice.
+[*]Verified the RIMMSQOL shortcut, settings persistence across a real restart, and compatibility with Better, Compact, Enhanced and Krypt Work Tab.
+[/list]
+
+The package ID and saved settings are unchanged.
+```
+
 ### 1.0.0 - 2026-09-21
 
 ```

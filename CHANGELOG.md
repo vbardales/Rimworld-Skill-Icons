@@ -3,6 +3,22 @@
 Format inspired by [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This file serves the repository and the writing of Steam patch notes; RimWorld does not display it in game.
 
+## [1.0.2] — 2026-09-22
+
+### Changed
+
+- The displayed mod title is now **Skill Icons** in the mod list, settings category and optional MainButtons shortcut. Technical identifiers stay the same.
+- The Workshop settings and Bio screenshots were retaken against PickleTools' zen studio and visually reviewed.
+- The description and credits now match the publishing rules, including clear development-tool acknowledgements and the corrected explanation of the remaining Alpha Skills icon choice.
+
+### Fixed
+
+- The distributed `ATTRIBUTION.md` now matches the repository copy and no longer describes the three retired Alpha Skills patches as active.
+
+### Verification
+
+- The RIMMSQOL integration, a genuine two-process settings restart, and Better, Compact, Enhanced and Krypt Work Tab compatibility matrices passed in the shared headless test game. Every required review screenshot was opened.
+
 ## [1.0.1] — 2026-09-22
 
 ### Changed
