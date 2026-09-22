@@ -8,7 +8,8 @@
 #
 # What this proves that 08 does not: 08 writes, reads the file, and re-reads through the game's own
 # ReadModSettings, all inside one process. This proves the settings object a NEW process builds at
-# startup carries them - which is what a player means by "they survived a restart".
+# startup carries them. It then loads the supplied, pre-existing `test-colony` save and reads the
+# same values again, proving the global settings were not replaced by save state.
 #
 # The first step refuses to pass when the writer ran in the SAME process. That is a restart test
 # that never restarted: the in-memory object would still hold the values and every assertion below
@@ -24,6 +25,10 @@ Feature: settings read back in the next process
 
   Scenario: the new process starts with what the old one wrote
     Given SkillIcons reads what the previous process kept
+    Then SkillIcons setting "workTabMode" reads "1"
+    And SkillIcons setting "workTabScale" reads "1.7"
+    And SkillIcons setting "enabled" reads "False"
+    When the save "test-colony" is loaded
     Then SkillIcons setting "workTabMode" reads "1"
     And SkillIcons setting "workTabScale" reads "1.7"
     And SkillIcons setting "enabled" reads "False"

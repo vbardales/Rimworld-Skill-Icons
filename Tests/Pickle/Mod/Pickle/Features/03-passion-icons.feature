@@ -17,12 +17,10 @@
 # while actually nude, and so on) would need faking each one's specific real-world condition,
 # which is out of scope here - see PassionSteps.cs's own header comment for the full reasoning.
 #
-# Whether "I open the \"Work\" tab" reaches RimWorld's own MainTabWindow_Work, or a third-party
-# Work tab replacement on her modlist, is UNCONFIRMED (docs/TESTING.md Scenario 1's own log,
-# 2026-09-18, records a third-party Work tab replacement that drew no SkillIcons icon at all in
-# earlier observation). The scenario asserts window "MainTabWindow_Work" is open before
-# screenshotting it, on purpose: if her modlist routes elsewhere, this scenario fails loudly here
-# instead of silently screenshotting the wrong window and calling it covered.
+# The same feature is selected in each dedicated replacement-work-tab pass. It asserts that the
+# active window is still `MainTabWindow_Work` before capturing it, so a replacement that routes
+# elsewhere fails loudly instead of silently producing evidence for the wrong UI. The report's
+# named pass distinguishes the otherwise identical captures.
 @review
 Feature: passion icons in the Bio tab and the Work tab
 

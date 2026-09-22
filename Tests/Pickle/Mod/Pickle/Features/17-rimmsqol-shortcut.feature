@@ -13,10 +13,10 @@
 # wired to it is read from RIMMSQOL's source. And that RIMMSQOL keeps its choice across a restart is RIMMSQOL's
 # behaviour, exercised by the restart chain of PickleTools' own demonstration and not repeated here.
 #
-# Played only by the pass avec-rimmsqol (wsl-deps.avec-rimmsqol.map). @wip keeps every other pass from playing
-# it, and this one needs -IncludeWip with -Filter naming this file. Without RIMMSQOL staged the first step stops
-# with a sentence. The screenshots are what shows pixels, and a green scenario says nothing about them.
-@wip @review @rimmsqol
+# Played only by the pass avec-rimmsqol (wsl-deps.avec-rimmsqol.map). The requirement tags make a
+# missing staged tool a skip rather than a false validation; the dedicated command below selects
+# this feature. The screenshots are what shows pixels, and a green scenario says nothing about them.
+@review @rimmsqol @requires:MalteSchulze.RIMMSqol @requires:nelim.pickletools.rimmsqol @requires:nelim.pickletools.interfacescale
 Feature: RIMMSQOL reveals and hides the SkillIcons shortcut
 
   Background:
@@ -59,3 +59,12 @@ Feature: RIMMSQOL reveals and hides the SkillIcons shortcut
     When RIMMSQOL forgets its choice for the main button "SkillIcons_Settings"
     Then RIMMSQOL holds no choice for the main button "SkillIcons_Settings"
     And RIMMSQOL's settings file records no choice for the main button "SkillIcons_Settings"
+
+  Scenario: the revealed shortcut remains usable at 150 percent interface scale
+    Given Nelim's Pickle Tools: the interface scale is 150 percent
+    When RIMMSQOL reveals the main button "SkillIcons_Settings"
+    Then the main bar draws the button "SkillIcons_Settings"
+    When the main bar's button "SkillIcons_Settings" is activated
+    Then SkillIcons sees a "Dialog_ModSettings" window open for mod "SkillIcons"
+    When I take a screenshot "skillicons settings, opened from RIMMSQOL at 150 percent scale"
+    And I close all dialogs

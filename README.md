@@ -181,7 +181,7 @@ the game: settings defaults and clamping, the MainButtons shortcut's wiring (rea
 since it cannot be called outside the game), every Harmony patch target resolved against the
 real installed Assembly-CSharp/VSE.dll, the animation frame table checked against `gen.js` and the
 files on disk, and both patch XML files replayed against the real installed Alpha Skills/VSE
-defs — not a hand-typed copy of them. `docs/TESTING.md` holds the twelve manual scenarios that
+defs — not a hand-typed copy of them. `docs/TESTING.md` holds the Pickle scenarios and their
 need a running game; several are now confirmed (see that file for current status).
 `Tests/Pickle/` holds a companion steps assembly and Gherkin scenarios for
 [Pickle](https://github.com/RimWorks/Rimworld-Pickle), several already run and passing.

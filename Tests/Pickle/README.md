@@ -7,16 +7,17 @@ Workshop 3791648678).
 `Mod/` is a companion mod, **SkillIcons - Pickle tests**, never published. It holds the feature
 files and, since this pass, a companion steps assembly, so nothing test-related ships in the
 Workshop folder.
-## What you actually have to do
+## What a reviewer has to do
 
-One run, then look at seven pictures. Everything else in this file is background.
+Run each documented pass through the shared WSL launcher, then open only the `@review` media
+attached to a passing, complete report. Every behavioral setup, interaction, restart, settings
+round trip and RIMMSQOL reveal/hide is asserted by Pickle. There is no audio behavior in this mod,
+so no scenario pauses for human listening.
 
-1. Start RimWorld with the mod list below, dev mode on, and run the SkillIcons suite from the
-   debug actions menu (or use the unattended command). Ten scenarios.
-2. Open `PickleReports/summary.md` beside your saves. Every scenario should read Passed. A failure
-   names its own step, so there is nothing to diagnose by hand.
-3. Open `PickleReports/screenshots/` and look at these seven, which is the part no assertion can
-   do for you:
+1. Check `summary.md`: `exitReason: passed`, the expected feature/scenario count and no required
+   scenario skipped.
+2. Open the named screenshots (or a film where a feature produces one). These are the only
+   human decisions: visual correctness cannot be inferred from a green capture step.
 
 | screenshot | the one question to answer |
 |---|---|
@@ -25,8 +26,16 @@ One run, then look at seven pictures. Everything else in this file is background
 | `settings page in French` | Any raw key like `SkillIcons.Speed`, any empty control, any text running past its edge? |
 | `settings opened by the MainButtons shortcut` | Is this the same settings window the Options menu opens? |
 
-Then tell me what you saw, and I will record it. What remains after that is the short table at the
-bottom of this file - a real restart, RIMMSQOL's own reveal/hide, and the pawn creation screen.
+`17-rimmsqol-shortcut.feature` adds three RIMMSQOL captures in the `avec-rimmsqol` pass. Its
+shared PickleTools steps perform the reveal/hide and settings-file checks; the reviewer only reads
+the resulting list, edit-page and opened-settings captures.
+
+The four replacement-work-tab maps deliberately reuse `03-passion-icons.feature`,
+`04-worktab-modes.feature` and `05-worktab-sliders.feature`: those features open the active Work
+tab, assert its expected window type, drive the mod-owned modes/sliders and attach the visual
+evidence. Run the three-feature filter once with each of `avec-betterworktab`,
+`avec-compactworktab`, `avec-enhancedworktab` and `avec-krypt-worktab`; review the Work-tab
+captures from each complete report. No separate manual navigation is required.
 
 `11-publication-shots.feature` is not part of that check. It takes two images for the Workshop
 page with the interface hidden, asserts nothing, and needs no judgement from you - I read those.
@@ -70,10 +79,9 @@ Feature files need no build either way.
 
 ## Run
 
-- **In game**: dev mode on, debug actions menu, *Pickle*. Tick the SkillIcons suite, *Run selected*.
-- **Unattended**: `RimWorldWin64.exe "-pickle-run=SkillIcons - Pickle tests"`. The filter is the
-  companion mod's name, exactly; without it Pickle also runs its own sample features. Reports land
-  in `PickleReports` beside the saves: `report.html`, `junit.xml`, `summary.md`.
+- **Headless WSL only**: use `scripts/Run-PickleWsl.ps1` from the collection root, as specified in
+  `AUDIT.md` and `PickleTools/Headless/README.md`. Never launch the Windows game or stage a pass by
+  hand. Reports land in `pickle-reports`: `report.html`, `junit.xml`, `summary.md`.
 
 **What has actually run.** Scenarios 01 to 05 ran on 2026-09-19: all passed, and 04 is the one
 that exposed the grey-mode defect - by its screenshots, not by an assertion. Scenarios 06 to 10
@@ -134,21 +142,30 @@ The steps that stay unscoped are Pickle's own - `I close all dialogs`, `I take a
 `def "..." field "..." is "..."` and the rest. Those belong to `Pickle.Vanilla` and are shared on
 purpose.
 
-## What stays manual
+## No pure-manual scenarios
 
-Shrunk on 2026-09-20: scenarios 5, 8, 9, 10 and 11 were automated as far as a running session can
-take them, specifically so this table is short. What is left is here because the game genuinely
-cannot be asked, not because nobody wrote it.
+The historic pawn-creation observation is evidence from 2026-09-18, not a current acceptance
+step. The screen reaches the same `SkillUI.DrawSkill` path that the suite verifies through the
+Bio tab, Work tab and the animation getter checks. The suite has no audio, and every remaining
+runtime acceptance item is either asserted or represented by a `@review` capture. Alpha Skills'
+own real-world trigger conditions are deliberately not faked: the suite exercises the mod's
+documented rendering rule with installed `VSE_Natural`, rather than writing a brittle test of
+Alpha Skills' gameplay.
 
-| docs/TESTING.md | Why |
-| --- | --- |
-| 0, the assembly-date line and the three patch-failure warnings | Already observed once, from `Player.log`; this suite does not re-check it |
-| 1, the pawn creation screen | No step in this suite or its siblings reaches `Page_ConfigureStartingPawns`; see `03-passion-icons.feature`'s header comment |
-| 1, whether an animation is actually moving | A single screenshot cannot show motion, only the frame it landed on. Two consecutive screenshots of an animated passion would prove it, and nothing stops that being written |
-| 5's "live/triggered" for Alpha Skills' own ~20 HediffComp-driven passions | Forcing the real per-passion trigger condition (actual nudity, actual pain, ...) is out of scope; `03-passion-icons.feature` uses the always-full-colour `VSE_Natural` def as the closest honest stand-in - see `PassionSteps.cs`'s header comment |
-| 8, a real restart, and loading an older save | One process cannot restart RimWorld. `08-settings-persistence.feature` covers the object → file → object round trip instead, which is the part that can actually break |
-| 9, revealing and hiding the button in RIMMSQOL | Needs RIMMSQOL driven by hand. `09-mainbuttons-shortcut.feature` covers the rest: hidden by default, and the worker opens `Dialog_ModSettings` for this mod specifically |
-| 10, the MainButtons shortcut's own label in French, and any pass at a larger UI scale | DefInjected does not re-resolve on a live language switch, so `10-french.feature` reaches the Keyed settings page but not the Def's text |
+## Required passes not yet executed
+
+The commands below are for the future `done -> tested` validation, not a request to launch now.
+Each must use the collection's `Run-PickleWsl.ps1` launcher and have its complete report and
+`@review` media examined before STATUS can call it passed.
+
+```powershell
+scripts/Run-PickleWsl.ps1 -Mod SkillIcons -DepMap wsl-deps.avec-rimmsqol.map -Filter 17-rimmsqol-shortcut.feature
+scripts/Run-PickleWsl.ps1 -Mod SkillIcons -Filter 12-restart-write.feature -Then 13-restart-read.feature
+scripts/Run-PickleWsl.ps1 -Mod SkillIcons -DepMap wsl-deps.avec-betterworktab.map -Filter '03-passion-icons.feature,04-worktab-modes.feature,05-worktab-sliders.feature'
+scripts/Run-PickleWsl.ps1 -Mod SkillIcons -DepMap wsl-deps.avec-compactworktab.map -Filter '03-passion-icons.feature,04-worktab-modes.feature,05-worktab-sliders.feature'
+scripts/Run-PickleWsl.ps1 -Mod SkillIcons -DepMap wsl-deps.avec-enhancedworktab.map -Filter '03-passion-icons.feature,04-worktab-modes.feature,05-worktab-sliders.feature'
+scripts/Run-PickleWsl.ps1 -Mod SkillIcons -DepMap wsl-deps.avec-krypt-worktab.map -Filter '03-passion-icons.feature,04-worktab-modes.feature,05-worktab-sliders.feature'
+```
 
 ## Real uncertainty, not yet resolved by anything short of a real run
 

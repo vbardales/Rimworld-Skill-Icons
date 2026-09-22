@@ -3,9 +3,10 @@
 # what this asserts: values written, found in the file on disk by name, then read back into a
 # fresh object through the game's own ReadModSettings.
 #
-# It does NOT restart RimWorld. One process cannot, and WorkStudio's suite hit the same wall and
-# answered it the same way - read the file rather than pretend. A real restart, and loading an
-# older save to confirm these values are not scribed into it, stay in the README's manual table.
+# It does NOT restart RimWorld. One process cannot; `12-restart-write.feature` and
+# `13-restart-read.feature` cover the real two-process restart, including loading the existing
+# `test-colony` save after the settings were restored in the new process. No manual follow-up is
+# left for this behavior.
 #
 # No @review tag and no screenshot: every assertion here is a value comparison, so nothing needs
 # a person to look at it.

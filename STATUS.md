@@ -1,8 +1,8 @@
 ---
-localization: partial
-translation_en: partial
-translation_fr: partial
-settings_audit: partial
+localization: complete
+translation_en: complete
+translation_fr: complete
+settings_audit: complete
 mod:          SkillIcons
 packageId:    nelim.skillicons
 repo:         Rimworld-Skill-Icons
@@ -28,25 +28,35 @@ workshop:     3805383957, created 2026-09-21 00:07, switched to public the same 
               done, not tested - which is a choice rather than an oversight. PUBLICATION.md
               holds what the page needs. The three thank-you comments have been posted.
 remaining:
-  - not this mod's to verify: RIMMSQOL's own interface revealing and hiding the button, and whether ITS
-      choice survives a restart. Both are RIMMSQOL's behaviour. This mod's side of that contract is
-      automated and measured: hidden by default, drawn and not greyed once revealed, hidden again,
-      photographed in both states (see docs/TESTING.md, Scenario 9).
-  - one leg of scenario 8 is not covered: loading an EXISTING save after the settings were changed, to
-      confirm they are not scribed into it. The restart test never loads a save. It can be added to
-      13-restart-read.feature (read the kept values, then load the fixture, then read them again).
+  - unverified: `17-rimmsqol-shortcut.feature` now drives RIMMSQOL itself through the shared
+      PickleTools companions, including a 150-percent-scale capture, but its dedicated
+      `avec-rimmsqol` pass has not yet run.
+  - unverified: `13-restart-read.feature` now loads the supplied existing save after a genuine
+      two-process settings restart and rechecks the values. The added assertions require a fresh
+      `12-restart-write.feature` -> `13-restart-read.feature` run.
   - everything else in docs/TESTING.md has been passed, either by a run or by an observation dated in
       that file (the pawn creation screen, 2026-09-18). No person is needed for the rest.
   - known, not a defect: a plain run of the whole suite is red. 16 fails without Oracle staged and
       13 refuses to pass when 12 ran in the same process, both by design. They are run by name.
       Moving them to a companion suite a plain launch does not select is proposed, not done.
-  - open: the replacement work tabs. Three are on disk and staged as passes (Better Work Tab,
-      Enhanced Work Tab, Krypt's fork) and Mlie's Compact Work Tab is downloaded (Mlie.CompactWorkTab,
-      1.4/1.5/1.6, 688 KB). Nothing asserts what they do to this mod's work tab icons yet; the
-      assemblies of Better and Enhanced reference the method this mod patches, which is a
-      presumption that the icons appear, not a measurement.
+  - unverified: the four replacement-work-tab maps now have an explicit three-feature execution
+      matrix (`03-passion-icons`, `04-worktab-modes`, `05-worktab-sliders`) and `@review`
+      captures. Better, Compact, Enhanced and Krypt each still need their own complete pass and
+      media review; metadata references are not treated as compatibility evidence.
 session:      local_314cf7e0-0763-4b3b-b4b7-03e564331dc5
-updated:      2026-09-22, Sarg Bjornson (Alpha Skills) replied to the thank-you comment: he fixed
+updated:      2026-09-22, Pickle suite follow-up at `a871915`: manual-only RIMMSQOL, interface-scale
+              and existing-save claims were replaced with asserted Pickle scenarios or `@review`
+              captures. Feature 17 stages `RimmsqolSteps` and `InterfaceScale` from PickleTools;
+              the restart reader loads `test-colony` before resetting the settings. Shared-step
+              contract checks found no invalid, duplicate or ambiguous expression, and the static
+              harness remains 25/25. No game run was made; the new runtime evidence is unverified.
+              Earlier: independent workflow audit at `a871915`: the static build and all 25
+              out-of-game tests passed. Settings and localization audits are now complete on
+              source, XML and executable evidence; the workflow stage remains `done` because
+              the outstanding items are in-game coverage required only for `done -> tested`.
+              The verification build regenerated `Mod/1.6/Assemblies/SkillIcons.dll` and `.pdb`,
+              leaving those two local artifacts modified for the owner to review or discard.
+              Earlier: Sarg Bjornson (Alpha Skills) replied to the thank-you comment: he fixed
               three of the four def findings within a day (nudist description, pain-driven label,
               frozen work tab icon - the last two matching this mod's own values byte for byte,
               caught by the out-of-game harness's own precondition check). Those three patches are
@@ -111,6 +121,57 @@ STATUS.md (`stage: done`, `tested_on:` empty, unplayed scenarios listed under `r
 without a game session has passed (see the table below), and the written test artifacts exist.
 What is not yet true - the twelve `docs/TESTING.md` scenarios and the `preOptions`/`options`
 in-game checklist - is exactly what `remaining` and the partial `tested_on` already say.
+
+## Workflow re-audit — 2026-09-22
+
+Audited revision: `a871915`; the worktree was clean at the start of this audit. The verification
+build regenerated `Mod/1.6/Assemblies/SkillIcons.dll` and `.pdb`; these are the only local
+modifications afterward and are not represented as a source change. RimWorld was not launched.
+
+| Transition | Current finding |
+| --- | --- |
+| dansMonoRepo -> horsMonoRepo | **validated**: standalone Git repository, `origin` points to `vbardales/Rimworld-Skill-Icons`, and `HEAD` neither leads nor trails the locally recorded `origin/main`. Rights, public visibility, MIT licence copies, package ID and naming remain coherent. |
+| horsMonoRepo -> ModIcon generated | **validated**: Release build succeeded with 0 warnings and 0 errors. `ModIcon.png` is a directly checked 128x128 PNG (19,602 bytes). |
+| ModIcon generated -> Preview generated | **validated**: `Preview.png` is a directly checked 896x504 PNG (64,321 bytes), below the 1 MB limit. |
+| Preview generated -> preOptions | **validated**: English description, name and source-code link were checked directly in `About.xml`; the final description element is the required GitHub BBCode link. |
+| preOptions -> options | **validated**: the useful-settings inventory remains justified. The out-of-game suite exercised defaults and clamping, checked the hidden MainButton definition, and inspected its executable wiring to the same `Dialog_ModSettings`; 25/25 tests passed. `settings_audit: complete` is therefore source-and-test evidence, not a new in-game claim. |
+| options -> l10n | **validated**: English/French Keyed parity, all owned `.Translate()` call sites, and the French `MainButtonDef` injection passed in the suite; XML files parsed successfully. `localization`, `translation_en`, and `translation_fr` are complete for readiness, while their in-game display evidence stays distinct below. |
+| l10n -> preTest | **validated**: declared dependencies, load order, active folder layout, patch targets, XML patch replay and required textures are covered by the passing suite. |
+| preTest -> done | **validated**: functional scenarios, Pickle features, XML checks and the executable static harness exist; the current static run passed 25/25. `stage: done` remains the last cumulatively established workflow state. |
+| done -> tested | **not fully verified**: no game run was made in this audit. Historical passes remain recorded but do not cover an existing-save load after a settings change or the replacement work-tab integrations listed in `remaining`. |
+
+Commands/results: `dotnet build _tools/animation-source/Source/SkillIcons/SkillIcons.csproj -c Release -v minimal` (0 warnings, 0 errors); `powershell -ExecutionPolicy Bypass -File _tools/Run-Tests.ps1` (25 tests, 0 skipped, all passing). Direct checks parsed the shipped XML and read PNG headers. `git status -sb` after the build showed only the regenerated DLL and PDB; this audit did not fetch, publish, alter source, or start RimWorld.
+
+## Pickle scenario completion review — 2026-09-22
+
+Audited revision: `a871915`, with the current feature/documentation edits uncommitted. No RimWorld
+process was started. `17-rimmsqol-shortcut.feature` already used the shared RIMMSQOL companion;
+it is now a normal, requirement-tagged feature rather than `@wip`, stages both
+`PickleTools/RimmsqolSteps/Mod` and `PickleTools/InterfaceScale/Mod`, and captures the real route
+at 150% UI scale. The actual RIMMSQOL reveal/hide/settings-file assertions stay in its shared
+steps; no custom duplicate was introduced. `13-restart-read.feature` now loads the supplied
+existing `test-colony` save after its separate writer process and repeats the three settings
+assertions before teardown. This replaces the two prior manual-only gaps with executable
+scenarios; visual judgement remains limited to `@review` screenshots, and this mod has no audio.
+
+Static validation: `PickleTools/RimmsqolSteps/Check-Steps.ps1` checked 17 shared patterns against
+643 others and 3,477 feature lines (all compiled, no duplicates or ambiguities, every RIMMSQOL
+line resolved); `PickleTools/InterfaceScale/Check-Steps.ps1` checked its pattern against 615
+others with the same result; `_tools/Run-Tests.ps1` remained 25/25 passing. The new runtime
+scenarios are **unverified**, not passed, until their named WSL passes produce complete reports
+and their `@review` captures are opened.
+
+## Post-tested publication review — 2026-09-22
+
+`prepublished` is not currently eligible: the workflow remains at `done` while the newly added
+runtime assertions and the declared replacement-work-tab passes are unverified. Independently,
+the repository was clean and synchronized with `origin/main` before this review's edits; tag
+`v1.0.1` points to `a871915`, and GitHub release **SkillIcons 1.0.1** is published against that
+state with release notes matching `CHANGELOG.md`. The existing public Workshop item
+`3805383957` is historical publication evidence, not evidence that the forthcoming commit has
+been tested or uploaded. Before any later Workshop update: finish the required WSL passes, review
+their media, commit a clean tree, create a new version tag/release with matching notes, and add
+the next Steam change note. No Steam or GitHub release was changed by this review.
 
 ## Detachment — 2026-09-17
 

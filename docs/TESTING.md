@@ -30,7 +30,7 @@ The log lives at:
 | Scenario 3 (three work tab modes) | **passed**, 2026-09-20, after the defect it exposed was fixed |
 | Scenario 4 (size/opacity sliders) | **passed**, 2026-09-19 |
 | Scenario 5 (the "no passion" icon) | **passed**, 2026-09-20 |
-| Scenario 9 (the MainButtons shortcut) | **passed**, 2026-09-20, apart from RIMMSQOL itself |
+| Scenario 9 / Feature 17 (the MainButtons shortcut) | Mod-owned path **passed**, 2026-09-20. The dedicated RIMMSQOL integration feature is written with PickleTools and remains **unverified** until its `avec-rimmsqol` pass is run. |
 | Scenario 11 (the def fixes) | **passed**, 2026-09-20, asserted against the loaded DefDatabase. Down to two, as of 2026-09-22: Sarg Bjornson fixed three of the original four Alpha Skills findings upstream, see below |
 | Scenario 8 (persistence) | in-process round trip **passed**; the real restart **passed**, 2026-09-21, as two launches in one ticket |
 | Scenario 10 (English and French) | **passed in both passes**, 2026-09-21, once it stopped switching language mid-run |
@@ -335,7 +335,8 @@ that it could not be, and that was wrong; what could not work was the way it was
 
 `12` writes three non-default values and leaves the settings file behind on purpose; `13`, in a game
 process that did not exist when `12` ran, asserts the settings object it built at startup carries them,
-then puts the defaults back. The object -> file -> object round trip inside one process is
+loads the supplied pre-existing `test-colony` save and asserts them again, then puts the defaults back.
+The object -> file -> object round trip inside one process is
 `08-settings-persistence.feature`; this is the part that needs a real second process.
 
 Three things had to be true, each learned by failing at it:
@@ -356,9 +357,10 @@ Three things had to be true, each learned by failing at it:
   suite, where they share a process; they are launched by name.
 
 **Measured 2026-09-21, 19:05:** launch 1 `12` passed, launch 2 `13` passed, `exitReason: passed` on
-both, and the install was left clean - defaults on disk, no marker, no backup. The negative case was
-seen earlier the same day, by accident: with the file restored between the launches, `13` failed with
-`workTabMode reads '2', expected '1'`, so the assertion does fail when nothing was kept.
+both, and the install was left clean - defaults on disk, no marker, no backup. The existing-save
+assertions were added afterward and are **unverified** until this two-launch sequence is rerun. The
+negative case was seen earlier the same day, by accident: with the file restored between the launches,
+`13` failed with `workTabMode reads '2', expected '1'`, so the assertion does fail when nothing was kept.
 
 ## Scenario 9 — the hidden MainButtons shortcut
 
@@ -386,8 +388,10 @@ out-of-game harness proves the IL calls `LoadedModManager.GetMod<SkillIconsMod>(
     scripts/Run-PickleWsl.ps1 -Mod SkillIcons
     scripts/Run-PickleWsl.ps1 -Mod SkillIcons -Language French
 
-Then, by hand and with the game restarted between the two, read the MainButtons shortcut's own
-label and description in each language, at 100% and at a larger UI scale.
+The MainButtons description is asserted by `09-mainbuttons-shortcut.feature` in each startup
+language. `17-rimmsqol-shortcut.feature` uses PickleTools' InterfaceScale companion to reveal,
+open and capture the same shortcut at 150%; review that capture alongside the English/French
+settings captures rather than performing a separate manual navigation.
 
 **Do not switch language from inside a scenario.** It was written that way first and failed four
 times: `SelectLanguage` clears and reloads every def, which takes the game apart while the runner
