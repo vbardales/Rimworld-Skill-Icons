@@ -14,7 +14,7 @@ Feature: the three work tab modes
     When SkillIcons work tab mode is set to "colour"
     And I select "Modey"
     And I open the "Work" tab
-    Then window "MainTabWindow_Work" is open
+    Then SkillIcons sees the active Work tab window open
     When I wait 15 ticks
     And I take a screenshot "work tab mode colour"
     When SkillIcons work tab mode is set to "grey"

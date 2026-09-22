@@ -18,9 +18,9 @@
 # which is out of scope here - see PassionSteps.cs's own header comment for the full reasoning.
 #
 # The same feature is selected in each dedicated replacement-work-tab pass. It asserts that the
-# active window is still `MainTabWindow_Work` before capturing it, so a replacement that routes
-# elsewhere fails loudly instead of silently producing evidence for the wrong UI. The report's
-# named pass distinguishes the otherwise identical captures.
+# active window is the live window attached to the Work MainButtonDef before capturing it. That is
+# `MainTabWindow_Work` in vanilla and the replacement's own class in a compatibility pass; an
+# unrelated window still fails loudly. The report's named pass distinguishes the captures.
 @review @requires:nelim.pickletools.inspecttabs
 Feature: passion icons in the Bio tab and the Work tab
 
@@ -45,6 +45,6 @@ Feature: passion icons in the Bio tab and the Work tab
     And I close all dialogs
     And I select "Passionate"
     And I open the "Work" tab
-    Then window "MainTabWindow_Work" is open
+    Then SkillIcons sees the active Work tab window open
     When I wait 30 ticks
     And I take a screenshot "work tab mixed passions"

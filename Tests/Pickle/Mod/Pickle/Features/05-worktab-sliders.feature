@@ -15,7 +15,7 @@ Feature: work tab icon size and opacity sliders
     Given SkillIcons settings are at their documented defaults
     When I select "Slidey"
     And I open the "Work" tab
-    Then window "MainTabWindow_Work" is open
+    Then SkillIcons sees the active Work tab window open
     When I wait 15 ticks
     And I take a screenshot "work tab sliders default"
     When SkillIcons work tab icon size is set to 100 percent

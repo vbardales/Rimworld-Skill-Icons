@@ -122,6 +122,25 @@ namespace SkillIcons.PickleSteps
                 $"{windowType} is open for '{mod?.Content?.Name ?? "nothing"}', expected '{modName}'");
         }
 
+        // Replacement Work tabs legitimately replace RimWorld.MainTabWindow_Work with their own
+        // window class. Assert the window attached to the live Work MainButtonDef instead of naming
+        // the vanilla implementation, so each compatibility matrix proves that the player's real
+        // Work tab opened without accepting an unrelated window.
+        [Then("SkillIcons sees the active Work tab window open")]
+        public void AssertWorkTabOpen(PickleContext ctx)
+        {
+            var work = DefDatabase<MainButtonDef>.GetNamedSilentFail("Work");
+            ctx.Require(work != null, "there is no MainButtonDef named 'Work'");
+            var expected = work.TabWindow;
+            ctx.Require(expected != null, "the live Work MainButtonDef has no tab window");
+
+            var windows = Find.WindowStack?.Windows;
+            ctx.Require(windows != null, "there is no window stack");
+            ctx.Assert(windows.Contains(expected),
+                $"the live Work tab window '{expected.GetType().Name}' is not open; open windows: "
+                + string.Join(", ", windows.Select(w => w.GetType().Name)));
+        }
+
         // ---------------------------------------------------------------- Scenario 10, in part
         /// <summary>
         /// Switches the live language. Keyed text re-resolves immediately, which is what the
