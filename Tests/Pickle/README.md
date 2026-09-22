@@ -32,7 +32,7 @@ the resulting list, edit-page and opened-settings captures.
 
 The four replacement-work-tab maps deliberately reuse `03-passion-icons.feature`,
 `04-worktab-modes.feature` and `05-worktab-sliders.feature`: those features open the active Work
-tab, assert its expected window type, drive the mod-owned modes/sliders and attach the visual
+tab, assert the window attached to the live Work MainButtonDef, drive the mod-owned modes/sliders and attach the visual
 evidence. Run the three-feature filter once with each of `avec-betterworktab`,
 `avec-compactworktab`, `avec-enhancedworktab` and `avec-krypt-worktab`; review the Work-tab
 captures from each complete report. No separate manual navigation is required.
@@ -83,11 +83,12 @@ Feature files need no build either way.
   `AUDIT.md` and `PickleTools/Headless/README.md`. Never launch the Windows game or stage a pass by
   hand. Reports land in `pickle-reports`: `report.html`, `junit.xml`, `summary.md`.
 
-**What has actually run.** Scenarios 01 to 05 ran on 2026-09-19: all passed, and 04 is the one
-that exposed the grey-mode defect - by its screenshots, not by an assertion. Scenarios 06 to 10
-were written on 2026-09-20 and have never been executed; `dotnet build` proves their C# and
-Cucumber expressions are well formed against the real compiled assemblies, and nothing more.
-Read `PickleReports/summary.md` after the run rather than trusting this paragraph.
+**What has actually run.** The named acceptance passes are complete as of 2026-09-22. The
+dedicated RIMMSQOL feature passed 4/4; the restart writer and existing-save reader passed 1/1 and
+1/1 in distinct processes; Better, Compact, Enhanced and Krypt Work Tab each passed the same
+three-feature matrix 3/3. All attached review media were opened. Earlier full and named passes are
+recorded in `docs/TESTING.md` and `STATUS.md`; always read the current run's own `summary.md`
+rather than treating this paragraph as a substitute for a report.
 
 ## What the suite does to your files
 
@@ -152,11 +153,10 @@ own real-world trigger conditions are deliberately not faked: the suite exercise
 documented rendering rule with installed `VSE_Natural`, rather than writing a brittle test of
 Alpha Skills' gameplay.
 
-## Required passes not yet executed
+## Required done-to-tested passes — completed 2026-09-22
 
-The commands below are for the future `done -> tested` validation, not a request to launch now.
-Each must use the collection's `Run-PickleWsl.ps1` launcher and have its complete report and
-`@review` media examined before STATUS can call it passed.
+These are the commands that produced the completed `done -> tested` evidence. Future regression
+runs must still use the collection's launcher and examine their own complete report and media.
 
 ```powershell
 scripts/Run-PickleWsl.ps1 -Mod SkillIcons -DepMap wsl-deps.avec-rimmsqol.map -Filter 17-rimmsqol-shortcut.feature

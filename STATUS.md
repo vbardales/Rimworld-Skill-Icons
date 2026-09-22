@@ -8,12 +8,12 @@ packageId:    nelim.skillicons
 repo:         Rimworld-Skill-Icons
 visibility:   public
 detached:     yes
-stage:        done
+stage:        tested
 licence:      original
 licence_at:   original work, MIT; Oracle's Skill Icon Retextures credited for the visual language only, no texture reused (verified against ATTRIBUTION.md and the generator)
 dependencies: declared
 showcase:     complete
-tested_on:    2026-09-21, headless, by launch name. Green: scenario 10 in both language passes; the
+tested_on:    2026-09-22, headless WSL, by named pass. Green: scenario 10 in both language passes; the
               real restart (12 then 13 as two launches in one ticket); the MainButtons shortcut,
               including that a value written through it reads back through Options and that the
               def goes hidden -> drawn -> hidden; the animations (an animated passion draws a
@@ -21,33 +21,29 @@ tested_on:    2026-09-21, headless, by launch name. Green: scenario 10 in both l
               Earlier, 2026-09-20: the whole suite once, 16 of 17, summary kept in
               docs/runs/2026-09-20-2319-summary.md. NOT run as one whole since the suite grew to
               25 scenarios in 16 features, and a plain whole run is red by design (see remaining).
-              Publication-only studio pass: 2026-09-22, 2/2 passed against PickleTools'
+              2026-09-22 completion evidence: RIMMSQOL 4/4 with all four captures reviewed;
+              restart writer 1/1 then reader 1/1 in distinct processes under one ticket; Better,
+              Compact, Enhanced and Krypt Work Tab matrices each 3/3, with every one of their nine
+              captures reviewed. Publication-only studio pass: 2/2 passed against PickleTools'
               `nelim-zen-meadow-studio`; both captures reviewed. The first green attempt was
               rejected because screenshot mode hid the Bio InspectTab, then corrected and rerun.
 workshop:     3805383957, created 2026-09-21 00:07, switched to public the same night. Page
               checked as an anonymous visitor: title "Skill Icons", 1.6, 1.897 MB, the Preview
               and the work tab screenshot in place, and the description rendering its four
-              blocks with the GitHub link live. The item went up ahead of the chain - stage is
-              done, not tested - which is a choice rather than an oversight. PUBLICATION.md
+              blocks with the GitHub link live. The item went up ahead of the now-completed test
+              chain. PUBLICATION.md
               holds what the page needs. The three thank-you comments have been posted.
 remaining:
-  - unverified: `17-rimmsqol-shortcut.feature` now drives RIMMSQOL itself through the shared
-      PickleTools companions, including a 150-percent-scale capture, but its dedicated
-      `avec-rimmsqol` pass has not yet run.
-  - unverified: `13-restart-read.feature` now loads the supplied existing save after a genuine
-      two-process settings restart and rechecks the values. The added assertions require a fresh
-      `12-restart-write.feature` -> `13-restart-read.feature` run.
-  - everything else in docs/TESTING.md has been passed, either by a run or by an observation dated in
-      that file (the pawn creation screen, 2026-09-18). No person is needed for the rest.
   - known, not a defect: a plain run of the whole suite is red. 16 fails without Oracle staged and
       13 refuses to pass when 12 ran in the same process, both by design. They are run by name.
       Moving them to a companion suite a plain launch does not select is proposed, not done.
-  - unverified: the four replacement-work-tab maps now have an explicit three-feature execution
-      matrix (`03-passion-icons`, `04-worktab-modes`, `05-worktab-sliders`) and `@review`
-      captures. Better, Compact, Enhanced and Krypt each still need their own complete pass and
-      media review; metadata references are not treated as compatibility evidence.
 session:      local_314cf7e0-0763-4b3b-b4b7-03e564331dc5
-updated:      2026-09-22, public title corrected from `SkillIcons` to `Skill Icons` in About.xml,
+updated:      2026-09-22, `done -> tested` completed through the shared WSL queue. The corrected
+              RIMMSQOL pass, genuine two-process restart chain and all four replacement Work Tab
+              matrices passed; all 40 review captures were opened and accepted. The Work-tab
+              assertion now follows the live Work MainButtonDef's window, so replacement classes
+              are verified without weakening the check to any open window. Earlier: public title
+              corrected from `SkillIcons` to `Skill Icons` in About.xml,
               README, STATUS, the native Mod settings category and the hidden MainButtons
               shortcut in both languages. Technical identifiers remain unchanged
               (`nelim.skillicons`, `SkillIcons_Settings`, namespaces and DLL). Release build:
@@ -197,16 +193,34 @@ obtained before this migration remains historical evidence for the behavior, not
 newly staged shared assemblies resolve in every Skill Icons pass. The replacement maps remain
 subject to their queued runtime passes and media review.
 
+## Done to tested completion — 2026-09-22
+
+The outstanding runtime gates were completed through the shared WSL launcher and queue; the
+Windows game was neither launched nor closed. The corrected dedicated RIMMSQOL run passed 4/4,
+including the real list/edit/settings route and the 150% interface-scale case, and all four review
+captures were accepted. The restart chain then passed as two separate game processes under one
+ticket: writer 1/1 followed by existing-save reader 1/1.
+
+Better Work Tab, Compact Work Tab, Enhanced Work Tab and Krypt Work Tab each ran the same three
+features and passed 3/3. Every matrix report was complete with no skips, and all nine attached
+captures per replacement were opened: Bio and replacement Work views were the intended UI, the
+colour/grey/mixed states were visibly distinct, and minimum/maximum/reverted size-opacity states
+changed and returned as expected. Better first exposed a test defect: the features named vanilla's
+`MainTabWindow_Work`, while Better correctly opens `MainTabWindow_BetterWork`. Commit `e130140`
+replaced that class-name assumption with an assertion against the live Work MainButtonDef's own
+TabWindow; the steps assembly rebuilt with zero warnings/errors, the static harness stayed 25/25,
+and the rerun plus the other three matrices passed. This establishes `done -> tested`.
+
 ## Post-tested publication review — 2026-09-22
 
-`prepublished` is not currently eligible: the workflow remains at `done` while the newly added
-runtime assertions and the declared replacement-work-tab passes are unverified. Independently,
+The runtime prerequisite for the next publication step is now satisfied: the workflow is at
+`tested`. Independently,
 the repository was clean and synchronized with `origin/main` before this review's edits; tag
 `v1.0.1` points to `a871915`, and GitHub release **SkillIcons 1.0.1** is published against that
 state with release notes matching `CHANGELOG.md`. The existing public Workshop item
 `3805383957` is historical publication evidence, not evidence that the forthcoming commit has
-been tested or uploaded. Before any later Workshop update: finish the required WSL passes, review
-their media, commit a clean tree, create a new version tag/release with matching notes, and add
+been tested or uploaded. Before any later Workshop update: commit a clean tree, create a new
+version tag/release with matching notes, and add
 the next Steam change note. No Steam or GitHub release was changed by this review.
 
 ## Detachment — 2026-09-17

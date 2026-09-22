@@ -30,15 +30,23 @@ The log lives at:
 | Scenario 3 (three work tab modes) | **passed**, 2026-09-20, after the defect it exposed was fixed |
 | Scenario 4 (size/opacity sliders) | **passed**, 2026-09-19 |
 | Scenario 5 (the "no passion" icon) | **passed**, 2026-09-20 |
-| Scenario 9 / Feature 17 (the MainButtons shortcut) | Mod-owned path **passed**, 2026-09-20. The dedicated RIMMSQOL integration feature is written with PickleTools and remains **unverified** until its `avec-rimmsqol` pass is run. |
+| Scenario 9 / Feature 17 (the MainButtons shortcut) | Mod-owned path **passed**, 2026-09-20; dedicated RIMMSQOL pass **4/4 passed**, 2026-09-22, with all four captures reviewed including 150% scale |
 | Scenario 11 (the def fixes) | **passed**, 2026-09-20, asserted against the loaded DefDatabase. Down to two, as of 2026-09-22: Sarg Bjornson fixed three of the original four Alpha Skills findings upstream, see below |
-| Scenario 8 (persistence) | in-process round trip **passed**; the real restart **passed**, 2026-09-21, as two launches in one ticket |
+| Scenario 8 (persistence) | in-process round trip **passed**; the strengthened real restart **passed**, 2026-09-22, writer 1/1 then existing-save reader 1/1 in distinct processes under one ticket |
 | Scenario 10 (English and French) | **passed in both passes**, 2026-09-21, once it stopped switching language mid-run |
 | Scenarios 6, 7 | removed with the feature they tested, 2026-09-19 |
 
 ## How many passes, and which
 
-**Two.** A mod whose TESTING.md does not say how many passes it needs has been tried, not tested.
+**Eight acceptance tickets, plus the separate publication studio pass.** A mod whose TESTING.md
+does not name its required mod sets and process boundaries has been tried, not tested. The
+acceptance set is minimal/no optional, Oracle, RIMMSQOL, the two-process restart chain, and one
+three-feature ticket for each of Better, Compact, Enhanced and Krypt Work Tab.
+
+**Completed 2026-09-22:** RIMMSQOL 4/4; restart writer 1/1 then reader 1/1; Better, Compact,
+Enhanced and Krypt each 3/3. All required reports were complete with no skips, and every review
+capture was opened: four for RIMMSQOL and nine for each replacement Work Tab. The studio pass also
+passed 2/2 and its two final publication images were reviewed separately.
 
 **Measured 2026-09-21, and the first time this pass has run:** `15` and `16` with Oracle staged, 2 scenarios,
 2 passed, `exitReason: passed`. `16` passing is the evidence that matters - it asserts two mods really
@@ -84,8 +92,9 @@ design - a restart test that never restarted proves nothing. Until those three l
 suite that a plain launch does not select, the pass names above are the only correct way to run
 them, and the plain pass should be read with those three scenarios set aside.
 
-No optional of this mod is incompatible with another, so two passes cover it - no combination
-fan-out is needed.
+No optional of this mod is incompatible with another. The four Work-tab passes are an explicit
+compatibility matrix because each replacement owns a different visible Work interface; they are
+not a combinatorial fan-out.
 
 **`11-publication-shots.feature` belongs to the studio pass only**. Run it with
 `wsl-deps.studio.map`, which stages PickleTools' ScreenshotStudio, ClearScreen, InspectTabs and
