@@ -53,8 +53,8 @@ updated:      2026-09-22, public title corrected from `SkillIcons` to `Skill Ico
               is named in AI-GENERATED; repeated AI credits were removed from THANKS; every cited
               Workshop mod is linked; Pickle, RimLogging and PickleTools are credited as
               development-only tools, with PickleTools linked to item 3806142401. PUBLICATION.md
-              now marks the three original comments as posted and stores their Steam BBCode;
-              the Alpha Skills reply remains drafted and unposted. The live Workshop description
+              now marks the three original comments and the Alpha Skills follow-up reply as posted
+              and stores their Steam BBCode. The live Workshop description
               still needs this revised About.xml text pasted by hand. Earlier: Pickle suite
               follow-up at `a871915`: manual-only RIMMSQOL, interface-scale
               and existing-save claims were replaced with asserted Pickle scenarios or `@review`
@@ -79,7 +79,7 @@ updated:      2026-09-22, public title corrected from `SkillIcons` to `Skill Ico
               as this mod's own choice, not a claimed defect: Sarg confirmed the shared icon upstream
               is intentional design. Harness, Pickle feature 06, docs/TESTING.md, README.md,
               ATTRIBUTION.md, About.xml and CHANGELOG.md all updated; 25/25 harness tests pass.
-              A reply thanking Sarg is drafted, not yet posted (see PUBLICATION.md). The live Steam
+              The reply thanking Sarg was posted on 2026-09-22 (see PUBLICATION.md). The live Steam
               description still needs the same wording pasted by hand - SetItemDescription only
               sends it once, at item creation. Earlier:
 updated:      2026-09-21, scenario 10 fixed by launching per language instead of switching mid-run; the

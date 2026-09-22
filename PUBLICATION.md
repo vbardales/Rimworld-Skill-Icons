@@ -108,11 +108,10 @@ Thank you for the passions! 🎉
 https://steamcommunity.com/sharedfiles/filedetails/?id=3805383957
 ```
 
-**Reply, 2026-09-22 — drafted, not posted.** Sarg answered within a day: "Thanks! Fixed them, except
+**Reply, 2026-09-22 — posted.** Sarg answered within a day: "Thanks! Fixed them, except
 the blind one, which is intentional." Three of the four are confirmed fixed on disk (the last two
 matching this mod's own values exactly), and the three retired patches for them are in
-`Mod/1.6/Patches/AlphaSkills_Fixes.xml`'s history. This reply is ready to post once approved; it is
-not sent automatically.
+`Mod/1.6/Patches/AlphaSkills_Fixes.xml`'s history. The reply below was posted on 2026-09-22.
 
 ```
 That was fast! 🚀 Checked, and nudist/pain-driven/frozen are all fixed on my end too — the patches for those three are retired now, thank you.
