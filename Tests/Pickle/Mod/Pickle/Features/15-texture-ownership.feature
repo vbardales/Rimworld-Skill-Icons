@@ -23,14 +23,14 @@
 #                      an uncontested path there means Oracle is not actually staged, and this
 #                      feature would pass for the wrong reason - the exact shape of false green
 #                      this suite keeps turning up.
+@requires:nelim.pickletools.textureowner
 Feature: this mod wins the texture paths it shares with another icon set
 
   Scenario: the shared passion paths resolve to this mod
-    Then SkillIcons owns the texture "Passions/PassionMajor"
-    And SkillIcons owns the texture "Passions/PassionMinor"
-    And SkillIcons owns the texture "Passions/PassionApathy"
-    And SkillIcons owns the texture "Passions/PassionCritical"
-    And SkillIcons owns the texture "Passions/PassionNatural"
-    And SkillIcons owns the texture "UI/Icons/PassionMajor"
-    And SkillIcons owns the texture "UI/Icons/PassionMinor"
-
+    Then Nelim's Pickle Tools: the texture "Passions/PassionMajor" is answered by the mod "nelim.skillicons"
+    And Nelim's Pickle Tools: the texture "Passions/PassionMinor" is answered by the mod "nelim.skillicons"
+    And Nelim's Pickle Tools: the texture "Passions/PassionApathy" is answered by the mod "nelim.skillicons"
+    And Nelim's Pickle Tools: the texture "Passions/PassionCritical" is answered by the mod "nelim.skillicons"
+    And Nelim's Pickle Tools: the texture "Passions/PassionNatural" is answered by the mod "nelim.skillicons"
+    And Nelim's Pickle Tools: the texture "UI/Icons/PassionMajor" is answered by the mod "nelim.skillicons"
+    And Nelim's Pickle Tools: the texture "UI/Icons/PassionMinor" is answered by the mod "nelim.skillicons"

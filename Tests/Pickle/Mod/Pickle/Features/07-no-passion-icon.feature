@@ -5,7 +5,7 @@
 # The pawn is arranged so that comparison is possible at all: Shooting carries no passion, which
 # is where the faint icon appears, and Cooking carries a Major one right below it, which is what
 # it must not compete with. Without both in one frame there is nothing to judge against.
-@review
+@review @requires:nelim.pickletools.inspecttabs
 Feature: the "no passion" icon is off by default and stays discreet when enabled
 
   Background:
@@ -18,8 +18,10 @@ Feature: the "no passion" icon is off by default and stays discreet when enabled
     Given SkillIcons clears "Passionate" skill "Shooting" passion
     And SkillIcons sets "Passionate" skill "Cooking" passion to "Major"
     Then SkillIcons setting "showNonePassion" reads "False"
-    When SkillIcons opens the Bio tab for "Passionate"
-    And I take a screenshot "no passion icon off"
+    When I select "Passionate"
+    And Nelim's Pickle Tools: I open the "Character" inspect tab
+    Then Nelim's Pickle Tools: the "Character" inspect tab is open
+    When I take a screenshot "no passion icon off"
     And SkillIcons no-passion icon is turned "on"
     And I take a screenshot "no passion icon on"
     Then SkillIcons setting "showNonePassion" reads "True"

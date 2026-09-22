@@ -11,3 +11,4 @@
 # deliberately not staged: Virginie decided to ignore it. Its repository lists supportedVersions 1.4
 # only, which is consistent with that choice but was not the reason for it.
 Mlie.CompactWorkTab 3250322299
+nelim.pickletools.inspecttabs path:PickleTools/InspectTabs/Mod

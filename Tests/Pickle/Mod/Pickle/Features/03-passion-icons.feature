@@ -21,7 +21,7 @@
 # active window is still `MainTabWindow_Work` before capturing it, so a replacement that routes
 # elsewhere fails loudly instead of silently producing evidence for the wrong UI. The report's
 # named pass distinguishes the otherwise identical captures.
-@review
+@review @requires:nelim.pickletools.inspecttabs
 Feature: passion icons in the Bio tab and the Work tab
 
   Background:
@@ -37,8 +37,10 @@ Feature: passion icons in the Bio tab and the Work tab
     # covering the whole screen, left open from an earlier scenario in the same run. Close
     # everything first so the Bio tab is actually what gets screenshotted.
     And I close all dialogs
-    When SkillIcons opens the Bio tab for "Passionate"
-    And I wait 30 ticks
+    When I select "Passionate"
+    And Nelim's Pickle Tools: I open the "Character" inspect tab
+    Then Nelim's Pickle Tools: the "Character" inspect tab is open
+    When I wait 30 ticks
     And I take a screenshot "bio tab mixed passions"
     And I close all dialogs
     And I select "Passionate"

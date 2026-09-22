@@ -117,18 +117,18 @@ once the object is in hand the steps use it like any other typed reference - no 
 per field. `PassionSteps` resolves a colonist the same way `WorkStudio.PickleSteps.ColonySteps`
 does (`PawnsFinder.AllMaps_FreeColonists`, matched by `Name.ToStringShort`), and reads/writes
 `SkillRecord.passion` directly - a plain public field, not a private one reached through the mod.
-`BioTabSteps` opens the pawn's Character tab through `MainTabWindow_Inspect.openTabType`, a public
-`Type` field on a vanilla RimWorld class, confirmed by reflection against the installed
-`Assembly-CSharp.dll` while writing this suite (Pickle's own generic vocabulary has no step for
-an `ITab`, only for `MainTabWindow`-level tabs opened by their `MainButtonDef` label).
+Pawn Character tabs are opened and asserted through PickleTools' shared `InspectTabs` companion.
+The local `BioTabSteps` copy was removed once a second suite needed the same behavior. The shared
+step selects the visible `ITab_Pawn_Character` through RimWorld's own inspect-pane API and names it
+by the stable identifier `Character`, not by a translated player-facing label.
 
 ## Steps are scoped, deliberately
 
-Pickle keeps ONE step table for every suite loaded at once, so two mods declaring the same
-phrase collide on "Ambiguous step" and both fail. Every step this suite declares therefore names
-SkillIcons in its phrase - `SkillIcons opens the Bio tab for "..."`, not `I open the Bio tab for
-"..."`. Seven were generic until 2026-09-20 and were renamed then, on a warning from the Work
-Studio session; nothing had collided yet, which is exactly when it is cheap to fix.
+Pickle keeps ONE step table for every suite loaded at once, so two mods declaring the same phrase
+collide on "Ambiguous step" and both fail. Local steps therefore name SkillIcons in their phrase.
+Reusable behavior is instead supplied by explicitly staged PickleTools companions, whose
+`Nelim's Pickle Tools:` prefix is global by design. InspectTabs, ScreenshotMode and TextureOwner
+replaced the three local copies in this suite on 2026-09-22.
 
 No phrase carries a literal double quote either. One did - `SkillIcons "no passion" icon is
 turned {string}` - and it worked, its scenario passing on 2026-09-20. It was still renamed to
@@ -160,7 +160,7 @@ Each must use the collection's `Run-PickleWsl.ps1` launcher and have its complet
 
 ```powershell
 scripts/Run-PickleWsl.ps1 -Mod SkillIcons -DepMap wsl-deps.avec-rimmsqol.map -Filter 17-rimmsqol-shortcut.feature
-scripts/Run-PickleWsl.ps1 -Mod SkillIcons -Filter 12-restart-write.feature -Then 13-restart-read.feature
+scripts/Run-PickleWsl.ps1 -Mod SkillIcons -DepMap wsl-deps.sans-facultatifs.map -Filter 12-restart-write.feature -Then 13-restart-read.feature
 scripts/Run-PickleWsl.ps1 -Mod SkillIcons -DepMap wsl-deps.avec-betterworktab.map -Filter '03-passion-icons.feature,04-worktab-modes.feature,05-worktab-sliders.feature'
 scripts/Run-PickleWsl.ps1 -Mod SkillIcons -DepMap wsl-deps.avec-compactworktab.map -Filter '03-passion-icons.feature,04-worktab-modes.feature,05-worktab-sliders.feature'
 scripts/Run-PickleWsl.ps1 -Mod SkillIcons -DepMap wsl-deps.avec-enhancedworktab.map -Filter '03-passion-icons.feature,04-worktab-modes.feature,05-worktab-sliders.feature'

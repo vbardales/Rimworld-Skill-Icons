@@ -29,7 +29,7 @@
 # the run photographing a screen with no interface on it.
 # The scenario deliberately frames the studio's "zen" preset before opening either window. The
 # map is presentation-only: functional scenarios keep test-colony and their original preconditions.
-@review @requires:nelim.pickletools.screenshotstudio @requires:nelim.pickletools.clearscreen
+@review @requires:nelim.pickletools.screenshotstudio @requires:nelim.pickletools.clearscreen @requires:nelim.pickletools.inspecttabs @requires:nelim.pickletools.screenshotmode
 Feature: shots for the Workshop page
 
   Background:
@@ -49,12 +49,14 @@ Feature: shots for the Workshop page
     And SkillIcons grants "Miel" skill "Plants" the passion def "VSE_Natural"
     And SkillIcons sets "Miel" skill "Medicine" passion to "Major"
     And SkillIcons sets "Miel" skill "Intellectual" passion to "Minor"
-    When SkillIcons opens the Bio tab for "Miel"
-    And I take a screenshot "publication - bio tab"
+    When I select "Miel"
+    And Nelim's Pickle Tools: I open the "Character" inspect tab
+    Then Nelim's Pickle Tools: the "Character" inspect tab is open
+    When I take a screenshot "publication - bio tab"
 
   Scenario: the settings page, uncluttered
     When I open the SkillIcons settings dialog
-    And SkillIcons hides the interface around the windows on screen
+    And Nelim's Pickle Tools: screenshot mode is enabled around the open windows
     And I take a screenshot "publication - settings page"
-    And SkillIcons brings the interface back
+    And Nelim's Pickle Tools: screenshot mode is disabled
     And I close all dialogs

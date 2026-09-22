@@ -11,3 +11,4 @@
 # content dir, which is why the staging looks in a third place. Exclusive with 3453549086, which
 # ships the same packageId.
 Fluffy.WorkTab 3552152340
+nelim.pickletools.inspecttabs path:PickleTools/InspectTabs/Mod

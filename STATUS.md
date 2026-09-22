@@ -176,6 +176,27 @@ others with the same result; `_tools/Run-Tests.ps1` remained 25/25 passing. The 
 scenarios are **unverified**, not passed, until their named WSL passes produce complete reports
 and their `@review` captures are opened.
 
+## Shared Pickle vocabulary migration — 2026-09-22
+
+The suite no longer owns three reusable step families after they acquired multiple consumers.
+`BioTabSteps.cs`, `ScreenshotSteps.cs` and `TextureOwnerSteps.cs` were removed in favour of
+PickleTools' `InspectTabs`, `ScreenshotMode` and `TextureOwner` companions. Their feature phrases
+now use the shared, prefixed vocabulary and carry matching `@requires` tags. Every pass that
+selects those features stages the needed companion explicitly: the four replacement-work-tab
+maps stage InspectTabs; the studio map stages InspectTabs and ScreenshotMode alongside its scene
+tools; the Oracle map and the new explicit `sans-facultatifs` map stage TextureOwner.
+
+This migration deliberately does not touch MainButtons or settings/restart steps: those shared
+contracts still need a separate extraction. The local steps assembly rebuilt with 0 warnings and
+0 errors after removing the three source files. TextureOwner's expression check passed against
+716 other patterns and 4,004 feature lines, and all 19 ownership decision cases passed. The wider
+RimmsqolSteps scanner resolved every migrated Skill Icons line; it still reports two unrelated
+ScreenshotStudio phrases in Fieldwork Companions as unknown, so it is not recorded as an all-green
+repository check. ScreenshotMode and InspectTabs have no dedicated check script. Game evidence
+obtained before this migration remains historical evidence for the behavior, not proof that the
+newly staged shared assemblies resolve in every Skill Icons pass. The replacement maps remain
+subject to their queued runtime passes and media review.
+
 ## Post-tested publication review — 2026-09-22
 
 `prepublished` is not currently eligible: the workflow remains at `done` while the newly added

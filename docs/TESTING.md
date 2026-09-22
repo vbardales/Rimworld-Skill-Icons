@@ -45,7 +45,7 @@ The log lives at:
 ship the same paths, so Oracle was mounted and the contest was real - and `15` passing means this
 mod won it. A green there is therefore worth reading, which it would not have been without `16`.
 
-    scripts/Run-PickleWsl.ps1 -Mod SkillIcons                                    # sans-facultatifs
+    scripts/Run-PickleWsl.ps1 -Mod SkillIcons -DepMap wsl-deps.sans-facultatifs.map # sans-facultatifs
     scripts/Run-PickleWsl.ps1 -Mod SkillIcons -DepMap wsl-deps.avec-oracle.map \
         -Filter '15-texture-ownership.feature,16-texture-contest.feature'        # avec-oracle
 
@@ -53,8 +53,10 @@ The pass name is written into the report, so a green is attributable to a mod se
 "a run".
 
 **`sans-facultatifs`** mounts Core, the DLCs, Harmony, RimLogging, Pickle, the hard dependencies
-(Vanilla Skills Expanded and Alpha Skills) and this mod. It proves the mod stands on its own, and
-it is the only pass whose screenshots are usable.
+(Vanilla Skills Expanded and Alpha Skills), this mod, and only the development-time InspectTabs
+and TextureOwner vocabularies from PickleTools. It adds no optional gameplay mod. It proves the
+mod stands on its own; the explicit map is required now that reusable steps no longer live in the
+suite's own DLL.
 
 **`avec-oracle`** adds Oracle's Skill Icon Retextures, and it is not a formality. Oracle's set and
 this one write to the **same texture paths**, so whichever loads last wins - which is the entire
@@ -86,8 +88,9 @@ No optional of this mod is incompatible with another, so two passes cover it - n
 fan-out is needed.
 
 **`11-publication-shots.feature` belongs to the studio pass only**. Run it with
-`wsl-deps.studio.map`, which stages PickleTools' ScreenshotStudio and ClearScreen companions and
-loads `nelim-zen-meadow-studio`; functional scenarios keep their existing fixtures and maps.
+`wsl-deps.studio.map`, which stages PickleTools' ScreenshotStudio, ClearScreen, InspectTabs and
+ScreenshotMode companions and loads `nelim-zen-meadow-studio`; functional scenarios keep their
+existing fixtures and maps.
 Any third-party skill or work interface may redraw what it photographs - Bio Tab+ draws its own
 character card and never reaches this mod's transpiler; a third-party Work tab replacement shows
 none of these icons - so a capture taken with those loaded would advertise someone else's

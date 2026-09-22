@@ -1,0 +1,3 @@
+# Shared test vocabulary only: no optional gameplay mod is staged in this pass.
+nelim.pickletools.inspecttabs  path:PickleTools/InspectTabs/Mod
+nelim.pickletools.textureowner path:PickleTools/TextureOwner/Mod

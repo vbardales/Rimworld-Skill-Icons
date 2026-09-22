@@ -13,8 +13,9 @@
 # because there is no contest at all - a green that means nothing, which is exactly the shape of
 # false result this suite keeps turning up. This scenario makes the pass prove it is what it says
 # it is before 15's claim is worth reading.
+@requires:nelim.pickletools.textureowner
 Feature: the texture contest in the avec-oracle pass is a real one
 
   Scenario: another icon set is actually loaded and claiming the same paths
-    Then the texture "Passions/PassionMajor" is contested by at least 2 mods
-    And the texture "UI/Icons/PassionMinor" is contested by at least 2 mods
+    Then Nelim's Pickle Tools: the texture "Passions/PassionMajor" is shipped by at least 2 running mods
+    And Nelim's Pickle Tools: the texture "UI/Icons/PassionMinor" is shipped by at least 2 running mods

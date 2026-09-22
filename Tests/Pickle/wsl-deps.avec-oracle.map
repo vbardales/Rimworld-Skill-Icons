@@ -16,3 +16,4 @@
 # It is not in her active mod list, so the folder is staged from the Workshop directory rather
 # than from what she runs. It is on disk, which is what the staging needs.
 oracle.skills.retexture 3214465250
+nelim.pickletools.textureowner path:PickleTools/TextureOwner/Mod
