@@ -1,0 +1,4 @@
+# Presentation-only companions. The publication feature loads PickleTools' tested zen fixture;
+# the normal functional passes keep their own dependency maps and test-colony preconditions.
+nelim.pickletools.screenshotstudio path:PickleTools/ScreenshotStudio/Mod
+nelim.pickletools.clearscreen       path:PickleTools/ClearScreen/Mod
