@@ -1,0 +1,11 @@
+# RIMMSQOL, and the shared steps that drive it. The pass named avec-rimmsqol plays 17-rimmsqol-shortcut.feature
+# and nothing else: it is tagged @wip, so a plain run skips it, and this pass includes it by name.
+#
+# Not something this mod wrote. The steps are PickleTools/RimmsqolSteps, and the demonstration this feature is
+# adapted from is FlavorTextExtendedFR's 12-rimmsqol-shortcut.feature. What this mod owes RIMMSQOL is that its
+# shortcut is one RIMMSQOL can list and reveal - MOD_SETTINGS.md - and that is all this pass asserts.
+#
+# The folder PickleTools has to be cloned beside the mods under exactly that name: the path below is relative
+# to the collection's root, and the folder's own About.xml packageId must equal the one written here.
+MalteSchulze.RIMMSqol            1084452457
+nelim.pickletools.rimmsqol       path:PickleTools/RimmsqolSteps/Mod
