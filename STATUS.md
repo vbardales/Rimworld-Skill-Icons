@@ -21,6 +21,9 @@ tested_on:    2026-09-21, headless, by launch name. Green: scenario 10 in both l
               Earlier, 2026-09-20: the whole suite once, 16 of 17, summary kept in
               docs/runs/2026-09-20-2319-summary.md. NOT run as one whole since the suite grew to
               25 scenarios in 16 features, and a plain whole run is red by design (see remaining).
+              Publication-only studio pass: 2026-09-22, 2/2 passed against PickleTools'
+              `nelim-zen-meadow-studio`; both captures reviewed. The first green attempt was
+              rejected because screenshot mode hid the Bio InspectTab, then corrected and rerun.
 workshop:     3805383957, created 2026-09-21 00:07, switched to public the same night. Page
               checked as an anonymous visitor: title "Skill Icons", 1.6, 1.897 MB, the Preview
               and the work tab screenshot in place, and the description rendering its four

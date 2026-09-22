@@ -85,7 +85,9 @@ them, and the plain pass should be read with those three scenarios set aside.
 No optional of this mod is incompatible with another, so two passes cover it - no combination
 fan-out is needed.
 
-**`11-publication-shots.feature` belongs to the minimal pass only**, and says so in its own header.
+**`11-publication-shots.feature` belongs to the studio pass only**. Run it with
+`wsl-deps.studio.map`, which stages PickleTools' ScreenshotStudio and ClearScreen companions and
+loads `nelim-zen-meadow-studio`; functional scenarios keep their existing fixtures and maps.
 Any third-party skill or work interface may redraw what it photographs - Bio Tab+ draws its own
 character card and never reaches this mod's transpiler; a third-party Work tab replacement shows
 none of these icons - so a capture taken with those loaded would advertise someone else's

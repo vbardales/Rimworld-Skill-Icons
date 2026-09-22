@@ -22,11 +22,12 @@ than the prettiest.
 
 `Screenshots/README.md` says how each one was cropped and from which capture.
 
-**Do not use captures from a headless run.** The publication scenarios pass green and their images
-still show nothing usable: on 2026-09-20 the Bio tab one held no Bio tab at all, and the settings
-one had an empty gallery and a French interface. Green proves the journey ran, not that the image
-is right. Every image here comes from a run on the Windows game, and every one was opened and
-looked at.
+The settings and Bio images were regenerated headlessly on 2026-09-22 against PickleTools' tested
+zen studio fixture, then opened and reviewed individually. The first green attempt was rejected:
+screenshot mode hid the Bio `InspectTab` while leaving only the pawn card. The corrected pass
+(`0922-1623`) kept that interface where it is the subject and passed 2/2. Both selected crops are
+under 2 MB and contain the intended window/tab over the zen background. Green proves the journey
+ran; the recorded visual review is what makes these two images publishable.
 
 ## Dependencies and DLCs
 
