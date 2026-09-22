@@ -45,7 +45,7 @@ Feature: RIMMSQOL reveals and hides the SkillIcons shortcut
     When I take a screenshot "rimmsqol, edit page of the skillicons shortcut, revealed"
     And I close all dialogs
     And the main bar's button "SkillIcons_Settings" is activated
-    Then SkillIcons sees a "Dialog_ModSettings" window open for mod "SkillIcons"
+    Then SkillIcons sees a "Dialog_ModSettings" window open for mod "Skill Icons"
     When I take a screenshot "skillicons settings, opened by the shortcut RIMMSQOL revealed"
     And I close all dialogs
 
@@ -65,6 +65,6 @@ Feature: RIMMSQOL reveals and hides the SkillIcons shortcut
     When RIMMSQOL reveals the main button "SkillIcons_Settings"
     Then the main bar draws the button "SkillIcons_Settings"
     When the main bar's button "SkillIcons_Settings" is activated
-    Then SkillIcons sees a "Dialog_ModSettings" window open for mod "SkillIcons"
+    Then SkillIcons sees a "Dialog_ModSettings" window open for mod "Skill Icons"
     When I take a screenshot "skillicons settings, opened from RIMMSQOL at 150 percent scale"
     And I close all dialogs

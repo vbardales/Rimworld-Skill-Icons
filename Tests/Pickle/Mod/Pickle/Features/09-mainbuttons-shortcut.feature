@@ -20,7 +20,7 @@ Feature: the hidden MainButtons shortcut opens this mod's own settings
     Then def "SkillIcons_Settings" of type "MainButtonDef" exists
     And SkillIcons MainButtonDef "SkillIcons_Settings" is hidden on a clean configuration
     When SkillIcons activates the MainButtonDef "SkillIcons_Settings"
-    Then SkillIcons sees a "Dialog_ModSettings" window open for mod "SkillIcons"
+    Then SkillIcons sees a "Dialog_ModSettings" window open for mod "Skill Icons"
     When I take a screenshot "settings opened by the MainButtons shortcut"
     And I close all dialogs
 
@@ -35,7 +35,7 @@ Feature: the hidden MainButtons shortcut opens this mod's own settings
   Scenario: a change made through the shortcut is there through Mod options
     Given SkillIcons settings are at their documented defaults
     When SkillIcons activates the MainButtonDef "SkillIcons_Settings"
-    Then SkillIcons sees a "Dialog_ModSettings" window open for mod "SkillIcons"
+    Then SkillIcons sees a "Dialog_ModSettings" window open for mod "Skill Icons"
     When SkillIcons work tab mode is set to "grey"
     And SkillIcons work tab icon size is set to 170 percent
     And I close all dialogs

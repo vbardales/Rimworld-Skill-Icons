@@ -25,8 +25,8 @@ Feature: the Alpha Skills and Vanilla Skills Expanded def fixes survived loading
   Scenario: the two blindness tiers keep this set's own distinct icons
     Then def "AS_BlindPassion_Sublime" field "iconPath" is "Passions/AS_BlindPassionSublime"
     And def "AS_BlindPassion_Sublime_Active" field "iconPath" is "Passions/AS_BlindPassionSublime_Active"
-    And def "AS_BlindPassion_Sublime" was patched by mod "SkillIcons"
+    And def "AS_BlindPassion_Sublime" was patched by mod "Skill Icons"
 
   Scenario: apathy has a work tab icon instead of an empty cell
     Then def "VSE_Apathy" field "workBoxIconPath" is "Passions/PassionApathy"
-    And def "VSE_Apathy" was patched by mod "SkillIcons"
+    And def "VSE_Apathy" was patched by mod "Skill Icons"
