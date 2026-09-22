@@ -13,11 +13,10 @@
 #
 # Two techniques, both passed on by the Work Studio session on 2026-09-20.
 #
-# ONE: the interface is hidden. RimWorld's own screenshot mode draws only the windows that ask to
-# be drawn, so the step raises that flag on the open windows, skips Pickle's own runner panel, and
-# turns the mode on. What is left is the mod's window over the map - no tab bar, no colonist bar,
-# no alerts, no dev tools, no runner. Every earlier publication image in Screenshots/ had to be
-# cropped out of a 1920x1080 frame full of other mods' interface; these do not.
+# ONE: the interface is hidden for the settings window. RimWorld's own screenshot mode draws only
+# windows that ask to be drawn, so the step leaves the mod's settings over the map and removes the
+# HUD and Pickle runner. The Bio tab is an InspectTab rather than a Window and disappears in that
+# mode, so its scenario deliberately keeps the normal interface: the visible tab is the subject.
 #
 # TWO: the scene is staged. A publication shot that borrows whatever the save happens to hold
 # photographs someone else's content - Work Studio's editor shot caught a defName from an
@@ -51,9 +50,7 @@ Feature: shots for the Workshop page
     And SkillIcons sets "Miel" skill "Medicine" passion to "Major"
     And SkillIcons sets "Miel" skill "Intellectual" passion to "Minor"
     When SkillIcons opens the Bio tab for "Miel"
-    And SkillIcons hides the interface around the windows on screen
     And I take a screenshot "publication - bio tab"
-    And SkillIcons brings the interface back
 
   Scenario: the settings page, uncluttered
     When I open the SkillIcons settings dialog
