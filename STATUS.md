@@ -38,11 +38,12 @@ remaining:
       13 refuses to pass when 12 ran in the same process, both by design. They are run by name.
       Moving them to a companion suite a plain launch does not select is proposed, not done.
 session:      local_314cf7e0-0763-4b3b-b4b7-03e564331dc5
-updated:      2026-09-22, preparing version 1.0.2 after the tested gate: refreshed the changelog
-              and Steam notes, synchronized the distributed ATTRIBUTION.md with the repository
-              copy, and rebuilt the distributed DLL (0 warnings/errors; static suite 25/25).
-              The Steam item still needs its content upload, corrected live description, images
-              and change notes; stage remains tested until those publication actions are verified.
+updated:      2026-09-22, GitHub tag v1.0.2 and release Skill Icons 1.0.2 published against
+              feb54a6 after the tested gate. Changelog and Steam notes are ready, the distributed
+              ATTRIBUTION.md matches the repository copy, and the distributed DLL rebuilt with
+              0 warnings/errors and 25/25 static tests. The Steam item still needs its content
+              upload, corrected live description, images and change notes; stage remains tested
+              until those publication actions are verified.
 updated:      2026-09-22, `done -> tested` completed through the shared WSL queue. The corrected
               RIMMSQOL pass, genuine two-process restart chain and all four replacement Work Tab
               matrices passed; all 40 review captures were opened and accepted. The Work-tab
@@ -227,6 +228,11 @@ state with release notes matching `CHANGELOG.md`. The existing public Workshop i
 been tested or uploaded. Before any later Workshop update: commit a clean tree, create a new
 version tag/release with matching notes, and add
 the next Steam change note. No Steam or GitHub release was changed by this review.
+
+**Update after that review:** version `v1.0.2` is tagged and [released on
+GitHub](https://github.com/vbardales/Rimworld-Skill-Icons/releases/tag/v1.0.2) at commit
+`feb54a6`. Its release notes match the new changelog section. The Steam 1.0.2 upload and live
+page edit have not happened, so the Workshop still represents an earlier published state.
 
 ## Detachment — 2026-09-17
 

@@ -154,7 +154,7 @@ Written at upload time, in the Change Notes tab, and easy to forget because noth
 until the form is already open. Unlike the description, these DO go out again on every update -
 they are the one field of the page that can be corrected freely. BBCode works.
 
-### 1.0.2 — ready to post with the next Workshop update
+### 1.0.2 — GitHub release published; ready to post with the next Workshop update
 
 ```
 [h3]1.0.2 — Skill Icons[/h3]
