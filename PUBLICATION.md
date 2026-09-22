@@ -70,7 +70,7 @@ does not render.
 
 One register per recipient. The same text three times shows.
 
-### Vanilla Skills Expanded — https://steamcommunity.com/sharedfiles/filedetails/?id=3400246558
+### Vanilla Skills Expanded — posted 2026-09-21
 
 The workshop. Brush and palette: thanking the people who stretched the canvas.
 
@@ -79,14 +79,14 @@ Hello! 🎨 I just released a passion icon set built on top of VSE, and I wanted
 
 PassionDef is the whole reason it exists — without it there are two passions to draw instead of eighty-five, and no iconPath to override. You handed me a canvas and I spent weeks filling it. 🖌️
 
-One tiny thing, if it is useful to you: VSE_Apathy has no workBoxIconPath, so an apathetic skill's cell in the work tab stays empty while every other passion shows something. I patch it on my side in <success>Always</success>, so it quietly steps aside the day you add the field. No rush at all!
+One tiny thing, if it is useful to you: VSE_Apathy has no workBoxIconPath, so an apathetic skill's cell in the work tab stays empty while every other passion shows something. I patch it on my side with [code]<success>Always</success>[/code], so it quietly steps aside the day you add the field. No rush at all!
 
 Thank you for the framework. 🙏
 
 https://steamcommunity.com/sharedfiles/filedetails/?id=3805383957
 ```
 
-### Alpha Skills — https://steamcommunity.com/sharedfiles/filedetails/?id=3448953006
+### Alpha Skills — posted 2026-09-21
 
 The bestiary. Playful, naming his strangest passions and borrowing their emoji. The only one of
 the three that carries something useful to its recipient: the four def mistakes, named.
@@ -94,12 +94,14 @@ the three that carries something useful to its recipient: the four def mistakes,
 ```
 Hello! 👋 I just released a passion icon set, and honestly your twenty-six circumstantial passions are why it got so big — drunken, frozen, blind, pain-driven... an absolute joy to draw. 🍷❄️
 
-While reading your defs closely (many, many times! 👀) I bumped into four little things you may want upstream. Each is patched on my side in <success>Always</success>, so it steps aside on its own the day you fix it:
+While reading your defs closely (many, many times! 👀) I bumped into four little things you may want upstream. Each is patched on my side with [code]<success>Always</success>[/code], so it steps aside on its own the day you fix it:
 
-▸ AS_NudistPassion_Active — its description is nomadic's, copy-pasted. It talks about caravans!
-▸ AS_PainDrivenPassion_Active — keeps the dormant label, so both states look identical in the tooltip.
-▸ AS_FrozenPassion — no workBoxIconPath, so its work tab cell falls back to something else.
-▸ AS_BlindPassion_Sublime and _Elevated share one iconPath, though sublime gives 1x/2x and elevated 0.5x/1.5x.
+[list]
+[*]AS_NudistPassion_Active — its description is nomadic's, copy-pasted. It talks about caravans!
+[*]AS_PainDrivenPassion_Active — keeps the dormant label, so both states look identical in the tooltip.
+[*]AS_FrozenPassion — no workBoxIconPath, so its work tab cell falls back to something else.
+[*]AS_BlindPassion_Sublime and _Elevated share one iconPath, though sublime gives 1x/2x and elevated 0.5x/1.5x.
+[/list]
 
 Thank you for the passions! 🎉
 
@@ -120,7 +122,7 @@ And no worries at all about blind staying shared — makes sense as your own cal
 Thanks for looking into it so quickly! 🙏
 ```
 
-### Oracle's Skill Icon Retextures — https://steamcommunity.com/sharedfiles/filedetails/?id=3214465250
+### Oracle's Skill Icon Retextures — posted 2026-09-21
 
 The lineage. The ♥ belongs here and nowhere else: it is their motif, the one the whole set takes
 up. Admiration first, the debt second, the technical part reduced to one passing sentence.

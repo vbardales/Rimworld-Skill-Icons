@@ -44,7 +44,14 @@ remaining:
       captures. Better, Compact, Enhanced and Krypt each still need their own complete pass and
       media review; metadata references are not treated as compatibility evidence.
 session:      local_314cf7e0-0763-4b3b-b4b7-03e564331dc5
-updated:      2026-09-22, Pickle suite follow-up at `a871915`: manual-only RIMMSQOL, interface-scale
+updated:      2026-09-22, publication copy corrected against the current `PUBLISHING.md`: Codex
+              is named in AI-GENERATED; repeated AI credits were removed from THANKS; every cited
+              Workshop mod is linked; Pickle, RimLogging and PickleTools are credited as
+              development-only tools, with PickleTools linked to item 3806142401. PUBLICATION.md
+              now marks the three original comments as posted and stores their Steam BBCode;
+              the Alpha Skills reply remains drafted and unposted. The live Workshop description
+              still needs this revised About.xml text pasted by hand. Earlier: Pickle suite
+              follow-up at `a871915`: manual-only RIMMSQOL, interface-scale
               and existing-save claims were replaced with asserted Pickle scenarios or `@review`
               captures. Feature 17 stages `RimmsqolSteps` and `InterfaceScale` from PickleTools;
               the restart reader loads `test-colony` before resetting the settings. Shared-step
