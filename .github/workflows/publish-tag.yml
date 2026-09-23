@@ -33,11 +33,17 @@ jobs:
     env:
       REF: ${{ inputs.ref }}
       VERSION: ${{ inputs.version }}
+      MODE: ${{ inputs.mode }}
     steps:
       - name: Validate the inputs
         run: |
           [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "version must look like 1.2.3, got '$VERSION'" >&2; exit 1; }
           [[ "$REF" =~ ^[A-Za-z0-9._/-]+$ ]] || { echo "ref contains characters that are not allowed: '$REF'" >&2; exit 1; }
+          # The approval gate comes before this job starts, so a branch or tag name could move
+          # while the run waits for approval. Publishing takes the exact commit the dry-run printed.
+          if [[ "$MODE" == publish && ! "$REF" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "publish needs a full 40-character commit SHA as ref (the dry-run summary prints it), got '$REF'" >&2; exit 1
+          fi
 
       - name: Check out the workflow scripts and change notes
         uses: actions/checkout@v4
@@ -61,8 +67,12 @@ jobs:
           if existing="$(git rev-parse -q --verify "refs/tags/v$VERSION^{commit}")" && [[ "$existing" != "$sha" ]]; then
             echo "tag v$VERSION already exists on $existing, not on $sha" >&2; exit 1
           fi
+          if [[ "$REF" =~ ^[0-9a-f]{40}$ && "$sha" != "$REF" ]]; then
+            echo "checked out $sha but ref asked for $REF" >&2; exit 1
+          fi
           echo "sha=$sha" >> "$GITHUB_OUTPUT"
           echo "Publishing $sha as version $VERSION"
+          echo "Commit $sha, version $VERSION, mode $MODE. To publish exactly this commit, dispatch with ref=$sha." >> "$GITHUB_STEP_SUMMARY"
 
       - name: Check the release notes exist
         run: bash .github/scripts/changelog-section.sh release/CHANGELOG.md "$VERSION" | head -5
