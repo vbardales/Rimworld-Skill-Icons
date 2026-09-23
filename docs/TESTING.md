@@ -105,6 +105,28 @@ character card and never reaches this mod's transpiler; a third-party Work tab r
 none of these icons - so a capture taken with those loaded would advertise someone else's
 interface on this mod's store page.
 
+## Which proofs to keep
+
+Pickle reports pile up and the disk is finite, so only what still proves something is kept.
+
+- **On disk, ignored by git:** `Tests/Pickle/Evidence/<run>/`, written by the launcher's
+  `-EvidenceDir`. Keep the latest report per scenario for the revision now in the repository. Keep
+  an older one only when it is the sole proof of a check the latest run did not repeat. Delete a
+  report as soon as a newer one replaces it; a report about a superseded build proves nothing
+  about the current one.
+- **In git:** one text summary per run in `docs/runs/`, never a folder of reports or captures.
+  `STATUS.md` points at that summary, never at a file that may be deleted.
+- **What this mod keeps today:**
+  - `docs/runs/2026-09-23-44fde64-summary.md` - features 01 to 10, 14 and 15 on the shipped build,
+    18 of 18 (report on disk in `Tests/Pickle/Evidence/0923-44fde64-sans-facultatifs/`).
+  - The passes the latest run does not repeat, each the only proof of its check: the Oracle map
+    (feature 16), RIMMSQOL (17), the studio captures (11), the two-process restart (12 then 13),
+    the French pass of features 09 and 10, and the four replacement Work Tab matrices.
+- **Rerun rule:** a change to the mod's code invalidates these passes and they are run again. A
+  change that only moves or documents the code (the `Source/` relocation, CI files) does not; say
+  so in `STATUS.md` instead of rerunning.
+- **`.dds` files** are RimWorld's per-machine texture cache next to the PNGs, ignored by git.
+
 ## The other half, which does not need a colony
 
 `_tools/Run-Tests.ps1` runs twenty-five tests without starting the game:
