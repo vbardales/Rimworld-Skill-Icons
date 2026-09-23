@@ -1,0 +1,66 @@
+name: publish tag to Steam (approval gated)
+"on":
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing git tag whose Mod/ directory is uploaded
+        required: true
+        default: v1.0.2
+      mode:
+        description: Dry-run stages and checks only. Publish needs steam-production approval.
+        required: true
+        default: dry-run
+        type: choice
+        options: [dry-run, publish]
+concurrency:
+  group: steam-publish
+  cancel-in-progress: false
+permissions:
+  contents: read
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.mode == 'publish' && 'steam-production' || 'release-dry-run' }}
+    env:
+      WORKSHOP_ID: '3805383957'
+      EXPECTED_PACKAGE_ID: nelim.skillicons
+      TAG: ${{ inputs.tag }}
+    steps:
+      - name: Validate the tag name
+        run: |
+          [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "tag must look like v1.2.3, got '$TAG'" >&2; exit 1; }
+
+      - name: Check out the workflow scripts and change notes
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Check out the tag to publish
+        uses: actions/checkout@v4
+        with:
+          ref: refs/tags/${{ inputs.tag }}
+          path: release
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+
+      - name: Install the Steam upload library
+        run: npm install --no-save --ignore-scripts --no-audit --no-fund semantic-release-steam@2.1.3
+
+      - name: Steam login
+        if: inputs.mode == 'publish'
+        uses: RimWorks/mod-ci/.github/actions/steam-login@v1.10
+        with:
+          steam-username: ${{ secrets.STEAM_USERNAME }}
+          steam-config-vdf-b64: ${{ secrets.STEAM_CONFIG_VDF_B64 }}
+
+      - name: Stage, check and ${{ inputs.mode == 'publish' && 'upload' || 'dry-run' }}
+        env:
+          TAG_DIR: ${{ github.workspace }}/release
+          DRY_RUN: ${{ inputs.mode == 'publish' && 'false' || 'true' }}
+          STEAM_USERNAME: ${{ secrets.STEAM_USERNAME }}
+        run: |
+          export CHANGENOTE_FILE=".github/changenotes/${TAG#v}.bbcode"
+          node .github/scripts/steam-publish.mjs
