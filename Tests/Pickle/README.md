@@ -72,7 +72,7 @@ The output goes to `Mod/Pickle/Assemblies/`. It binds to `Mod/1.6/Assemblies/Ski
 build the mod first if it is stale:
 
 ```powershell
-dotnet build _tools/animation-source/Source/SkillIcons/SkillIcons.csproj -c Release
+dotnet build Source/SkillIcons.csproj -c Release
 ```
 
 Feature files need no build either way.
