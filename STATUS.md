@@ -54,29 +54,31 @@ updated:      2026-09-23, source project relocated from
               No source code changed, only its location and the paths that point at it. This does
               not itself run `bootstrap-release.sh --apply` or touch Steam; it only removes the
               layout reason that repository's `--check` used to skip this one.
-updated:      2026-09-23, checked against AUDIT.md's new done -> tested conditions (ee59fa61).
+updated_2:    2026-09-23, checked against AUDIT.md's new done -> tested conditions (ee59fa61).
               No `@wip` remains in any feature (grep of Tests/Pickle/Mod/Pickle/Features; 17 is a
               normal @requires feature). Every `@requires` scenario has its named pass, and the
               same-day pass on the current build (44fde64, headless WSL, sans-facultatifs map:
-              features 01-10, 14, 15) is 18/18 with 0 skipped, which covers the InspectTabs (03,
+              features 01-10, 14, 15; report kept in
+              `Tests/Pickle/Evidence/0923-44fde64-sans-facultatifs/`) is 18/18 with 0 skipped,
+              which covers the InspectTabs (03,
               07) and TextureOwner (15) conditions. The Oracle (16), RIMMSQOL (17), studio (11),
               restart (12/13) and four Work Tab matrix passes are those of 2026-09-22, made on the
               DLL built before the Source/ relocation (same code, rebuilt bytes); they are not
               rerun on 44fde64. No manual test remains: RIMMSQOL, restart, animation and the
               French shortcut description are automated and green.
-updated:      2026-09-23, GitHub tag v1.0.2 and release "Skill Icons 1.0.2" deleted (both remote
+updated_3:    2026-09-23, GitHub tag v1.0.2 and release "Skill Icons 1.0.2" deleted (both remote
               and local tag). The Steam 1.0.2 content upload never happened, so the tag/release
               claimed a publication state that was never reached on the Workshop. The commit it
               pointed to (`feb54a6`) is untouched and still on `main`; only the tag and the GitHub
               release object were removed. `v1.0.2` is free to be reused once the Steam upload for
               that content is actually verified.
-updated:      2026-09-22, GitHub tag v1.0.2 and release Skill Icons 1.0.2 published against
+updated_4:    2026-09-22, GitHub tag v1.0.2 and release Skill Icons 1.0.2 published against
               feb54a6 after the tested gate. Changelog and Steam notes are ready, the distributed
               ATTRIBUTION.md matches the repository copy, and the distributed DLL rebuilt with
               0 warnings/errors and 25/25 static tests. The Steam item still needs its content
               upload, corrected live description, images and change notes; stage remains tested
               until those publication actions are verified.
-updated:      2026-09-22, `done -> tested` completed through the shared WSL queue. The corrected
+updated_5:    2026-09-22, `done -> tested` completed through the shared WSL queue. The corrected
               RIMMSQOL pass, genuine two-process restart chain and all four replacement Work Tab
               matrices passed; all 40 review captures were opened and accepted. The Work-tab
               assertion now follows the live Work MainButtonDef's window, so replacement classes
@@ -119,7 +121,7 @@ updated:      2026-09-22, `done -> tested` completed through the shared WSL queu
               The reply thanking Sarg was posted on 2026-09-22 (see PUBLICATION.md). The live Steam
               description still needs the same wording pasted by hand - SetItemDescription only
               sends it once, at item creation. Earlier:
-updated:      2026-09-21, scenario 10 fixed by launching per language instead of switching mid-run; the
+updated_6:    2026-09-21, scenario 10 fixed by launching per language instead of switching mid-run; the
               restart, the shortcut agreement and the animations automated and green; the first
               avec-oracle pass green; suite at 25 scenarios in 16 features. Earlier: 2026-09-20, the
               suite finally ran end to end, headless: 16 of 17, the six failures

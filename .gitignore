@@ -27,3 +27,8 @@ Source/**/bin/
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# RimWorld converts every PNG to a .dds next to it the first time the game loads the mod. They are
+# a per-machine cache, regenerated on demand. The Steam remark at the top of this file applies:
+# ignoring them here does not keep them out of a folder uploaded straight from disk.
+*.dds
