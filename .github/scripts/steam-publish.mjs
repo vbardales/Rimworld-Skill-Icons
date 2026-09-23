@@ -1,5 +1,6 @@
 import { readFile, readdir, stat } from 'node:fs/promises';
 import { join } from 'node:path';
+import { relocatingExec } from './relocate-vdf.mjs';
 
 const APP_ID = '294100';
 
@@ -66,6 +67,7 @@ await uploadWorkshopItem({
   appId: APP_ID,
   publishedFileId: workshopId,
   changenote,
+  execFileAsync: relocatingExec(),
   verbose: true,
   logger: console,
 });

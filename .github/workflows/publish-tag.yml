@@ -86,7 +86,7 @@ jobs:
 
       - name: Steam login
         if: inputs.mode == 'publish'
-        uses: RimWorks/mod-ci/.github/actions/steam-login@v1.10
+        uses: RimWorks/mod-ci/.github/actions/steam-login@931aff082d97c7746323da89c840e370f7001915 # v1.10, pinned: it receives the Steam session
         with:
           steam-username: ${{ secrets.STEAM_USERNAME }}
           steam-config-vdf-b64: ${{ secrets.STEAM_CONFIG_VDF_B64 }}
