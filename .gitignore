@@ -32,3 +32,8 @@ desktop.ini
 # a per-machine cache, regenerated on demand. The Steam remark at the top of this file applies:
 # ignoring them here does not keep them out of a folder uploaded straight from disk.
 *.dds
+
+# Pickle's -EvidenceDir target. Proof kept on disk for the session that reads it, not something the
+# repository carries: screenshots and Player.log make it grow without bound (PickleTools saw 10 GB
+# in a day). What is worth keeping goes to docs/runs/ as a short text summary.
+Tests/Pickle/Evidence/

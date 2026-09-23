@@ -58,8 +58,8 @@ updated_2:    2026-09-23, checked against AUDIT.md's new done -> tested conditio
               No `@wip` remains in any feature (grep of Tests/Pickle/Mod/Pickle/Features; 17 is a
               normal @requires feature). Every `@requires` scenario has its named pass, and the
               same-day pass on the current build (44fde64, headless WSL, sans-facultatifs map:
-              features 01-10, 14, 15; report kept in
-              `Tests/Pickle/Evidence/0923-44fde64-sans-facultatifs/`) is 18/18 with 0 skipped,
+              features 01-10, 14, 15; summary kept in
+              `docs/runs/2026-09-23-44fde64-summary.md`; full report on disk, ignored) is 18/18 with 0 skipped,
               which covers the InspectTabs (03,
               07) and TextureOwner (15) conditions. The Oracle (16), RIMMSQOL (17), studio (11),
               restart (12/13) and four Work Tab matrix passes are those of 2026-09-22, made on the
