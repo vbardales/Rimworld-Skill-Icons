@@ -1,11 +1,15 @@
-name: publish tag to Steam (approval gated)
+name: publish to Steam, then tag (approval gated)
 "on":
   workflow_dispatch:
     inputs:
-      tag:
-        description: Existing git tag whose Mod/ directory is uploaded
+      ref:
+        description: Branch, tag or commit whose Mod/ directory is uploaded. It is resolved to one commit at the start.
         required: true
-        default: v1.0.2
+        default: main
+      version:
+        description: Version being published, without the v. The tag v<version> is created after a successful upload.
+        required: true
+        default: 1.0.2
       mode:
         description: Dry-run stages and checks only. Publish needs steam-production approval.
         required: true
@@ -17,30 +21,51 @@ concurrency:
   cancel-in-progress: false
 permissions:
   contents: read
+env:
+  WORKSHOP_ID: '3805383957'
+  EXPECTED_PACKAGE_ID: nelim.skillicons
 jobs:
   publish:
     runs-on: ubuntu-latest
     environment: ${{ inputs.mode == 'publish' && 'steam-production' || 'release-dry-run' }}
+    outputs:
+      sha: ${{ steps.resolve.outputs.sha }}
     env:
-      WORKSHOP_ID: '3805383957'
-      EXPECTED_PACKAGE_ID: nelim.skillicons
-      TAG: ${{ inputs.tag }}
+      REF: ${{ inputs.ref }}
+      VERSION: ${{ inputs.version }}
     steps:
-      - name: Validate the tag name
+      - name: Validate the inputs
         run: |
-          [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "tag must look like v1.2.3, got '$TAG'" >&2; exit 1; }
+          [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "version must look like 1.2.3, got '$VERSION'" >&2; exit 1; }
+          [[ "$REF" =~ ^[A-Za-z0-9._/-]+$ ]] || { echo "ref contains characters that are not allowed: '$REF'" >&2; exit 1; }
 
       - name: Check out the workflow scripts and change notes
         uses: actions/checkout@v4
         with:
           persist-credentials: false
 
-      - name: Check out the tag to publish
+      - name: Check out the commit to publish
         uses: actions/checkout@v4
         with:
-          ref: refs/tags/${{ inputs.tag }}
+          ref: ${{ inputs.ref }}
           path: release
+          fetch-depth: 0
           persist-credentials: false
+
+      - name: Pin the commit and check it is on main
+        id: resolve
+        working-directory: release
+        run: |
+          sha="$(git rev-parse HEAD)"
+          git merge-base --is-ancestor "$sha" origin/main || { echo "$sha is not on main" >&2; exit 1; }
+          if existing="$(git rev-parse -q --verify "refs/tags/v$VERSION^{commit}")" && [[ "$existing" != "$sha" ]]; then
+            echo "tag v$VERSION already exists on $existing, not on $sha" >&2; exit 1
+          fi
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+          echo "Publishing $sha as version $VERSION"
+
+      - name: Check the release notes exist
+        run: bash .github/scripts/changelog-section.sh release/CHANGELOG.md "$VERSION" | head -5
 
       - uses: actions/setup-node@v4
         with:
@@ -62,5 +87,33 @@ jobs:
           DRY_RUN: ${{ inputs.mode == 'publish' && 'false' || 'true' }}
           STEAM_USERNAME: ${{ secrets.STEAM_USERNAME }}
         run: |
-          export CHANGENOTE_FILE=".github/changenotes/${TAG#v}.bbcode"
+          export CHANGENOTE_FILE=".github/changenotes/$VERSION.bbcode"
           node .github/scripts/steam-publish.mjs
+
+  tag-and-release:
+    needs: publish
+    if: inputs.mode == 'publish'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      VERSION: ${{ inputs.version }}
+      SHA: ${{ needs.publish.outputs.sha }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Check out the published commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.publish.outputs.sha }}
+          path: release
+          persist-credentials: false
+
+      - name: Create the tag and the GitHub release
+        run: |
+          bash .github/scripts/changelog-section.sh release/CHANGELOG.md "$VERSION" > "$RUNNER_TEMP/notes.md"
+          gh release create "v$VERSION" --repo "$GITHUB_REPOSITORY" --target "$SHA" \
+            --title "Skill Icons $VERSION" --notes-file "$RUNNER_TEMP/notes.md"
