@@ -38,6 +38,28 @@ remaining:
       13 refuses to pass when 12 ran in the same process, both by design. They are run by name.
       Moving them to a companion suite a plain launch does not select is proposed, not done.
 session:      local_314cf7e0-0763-4b3b-b4b7-03e564331dc5
+updated:      2026-09-23, source project relocated from
+              `_tools/animation-source/Source/SkillIcons/` to `Source/` (all four `.cs` files and
+              `SkillIcons.csproj` now sit directly under `Source/`, matching the
+              `Source/*.csproj` layout `Rimworld-Release-Admin/scripts/bootstrap-release.sh`
+              requires). `Source/Directory.Build.props` moved with it; its relative
+              `BaseIntermediateOutputPath`/`BaseOutputPath` and the csproj's `OutputPath` were
+              recalculated for the new depth, not left as a stale copy-paste. Updated every other
+              reference to the old path: `_tools/Run-Tests.ps1` (two `Join-Path` calls),
+              `Tests/Pickle/Source/Driver.cs` (a doc comment) and `.gitignore`. Verified, not
+              assumed: `dotnet build Source/SkillIcons.csproj -c Release` gives 0 warnings/0
+              errors and the DLL still lands at `Mod/1.6/Assemblies/SkillIcons.dll`;
+              `_tools/Run-Tests.ps1` stays 25/25; a dry run of `bootstrap-release.sh`'s own
+              `find "$target/Source" -maxdepth 1 -name '*.csproj'` now returns exactly one match.
+              No source code changed, only its location and the paths that point at it. This does
+              not itself run `bootstrap-release.sh --apply` or touch Steam; it only removes the
+              layout reason that repository's `--check` used to skip this one.
+updated:      2026-09-23, GitHub tag v1.0.2 and release "Skill Icons 1.0.2" deleted (both remote
+              and local tag). The Steam 1.0.2 content upload never happened, so the tag/release
+              claimed a publication state that was never reached on the Workshop. The commit it
+              pointed to (`feb54a6`) is untouched and still on `main`; only the tag and the GitHub
+              release object were removed. `v1.0.2` is free to be reused once the Steam upload for
+              that content is actually verified.
 updated:      2026-09-22, GitHub tag v1.0.2 and release Skill Icons 1.0.2 published against
               feb54a6 after the tested gate. Changelog and Steam notes are ready, the distributed
               ATTRIBUTION.md matches the repository copy, and the distributed DLL rebuilt with
@@ -233,6 +255,14 @@ the next Steam change note. No Steam or GitHub release was changed by this revie
 GitHub](https://github.com/vbardales/Rimworld-Skill-Icons/releases/tag/v1.0.2) at commit
 `feb54a6`. Its release notes match the new changelog section. The Steam 1.0.2 upload and live
 page edit have not happened, so the Workshop still represents an earlier published state.
+
+**Correction, 2026-09-23:** the `v1.0.2` tag and its GitHub release were deleted, both remote and
+local. The Steam upload never happened, so a public GitHub release claiming "1.0.2" misrepresented
+the actual publication state described above. Commit `feb54a6` is unaffected and remains on
+`main`; only the tag and release object are gone. The 1.0.2 change notes in `PUBLICATION.md` and
+the `CHANGELOG.md` entry are left as written — they describe real, verified changes — and `v1.0.2`
+will be retagged and re-released once the Steam Workshop content upload for it is actually done
+and verified, per the preflight in `docs/OPERATIONS.md` of the release-admin repository.
 
 ## Detachment — 2026-09-17
 

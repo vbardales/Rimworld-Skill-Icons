@@ -296,7 +296,7 @@ It 'English and French Keyed files declare the same non-empty key set' {
     }
 }
 It 'every "SkillIcons.X".Translate() call site in the source has a matching Keyed entry' {
-    $csFiles = Get-ChildItem (Join-Path $ModRoot '_tools\animation-source\Source\SkillIcons') -Filter '*.cs'
+    $csFiles = Get-ChildItem (Join-Path $ModRoot 'Source') -Filter '*.cs'
     $used = @{}
     foreach ($f in $csFiles) {
         $text = Get-Content $f.FullName -Raw -Encoding UTF8
@@ -339,7 +339,7 @@ It 'SkillIcons_Settings.label/.description resolve: English from the Def, French
 # safe to trigger below and this one is not. So both checks here read the Specs dictionary
 # LITERAL straight out of PassionIconAnimations.cs, not the compiled field - a source-level
 # check, not a DLL-level one, and said so rather than silently claiming the stronger kind.
-$animSourceFile = Join-Path $ModRoot '_tools\animation-source\Source\SkillIcons\PassionIconAnimations.cs'
+$animSourceFile = Join-Path $ModRoot 'Source\PassionIconAnimations.cs'
 $genJs = Join-Path $ModRoot '_tools\gen.js'
 
 function Get-CsSpecsFromSource([string]$path) {

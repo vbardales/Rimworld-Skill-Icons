@@ -5,11 +5,11 @@
 # construction.
 
 # Build intermediates.
-# _tools/animation-source/Source/Directory.Build.props sends them to .build/, outside Mod/: they
+# Source/Directory.Build.props sends them to .build/, outside Mod/: they
 # must never end up inside it, since Mod/ goes to the Workshop as it stands.
 .build/
-_tools/animation-source/Source/**/obj/
-_tools/animation-source/Source/**/bin/
+Source/**/obj/
+Source/**/bin/
 
 # Claude Code session worktrees and local settings. Until this folder became a repository of its
 # own the rule lived in the monorepo's .gitignore, a file this repository does not carry.

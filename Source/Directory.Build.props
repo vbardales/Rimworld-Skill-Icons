@@ -6,8 +6,8 @@
       everyone else's. The _tools folder itself stays in the repository; whether it ships to the
       Workshop is decided by the junction, which targets Mod/ alone.
     -->
-    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)..\..\..\.build\obj\SkillIcons-tools\</BaseIntermediateOutputPath>
-    <BaseOutputPath>$(MSBuildThisFileDirectory)..\..\..\.build\bin\SkillIcons-tools\</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)..\.build\obj\SkillIcons-tools\</BaseIntermediateOutputPath>
+    <BaseOutputPath>$(MSBuildThisFileDirectory)..\.build\bin\SkillIcons-tools\</BaseOutputPath>
   </PropertyGroup>
 
 </Project>

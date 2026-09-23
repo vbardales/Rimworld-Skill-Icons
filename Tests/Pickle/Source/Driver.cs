@@ -13,7 +13,7 @@ namespace SkillIcons.PickleSteps
 
         /// <summary>
         /// SkillIconsMod.Settings is declared <c>internal</c> in SkillIcons.dll (see
-        /// _tools/animation-source/Source/SkillIcons/SkillIconsMod.cs), so a companion assembly
+        /// Source/SkillIconsMod.cs), so a companion assembly
         /// reaches it once by reflection. SkillIconsSettings itself, and every field on it, is
         /// public - once the object is in hand it is used like any other typed reference, no
         /// further reflection needed. Always re-read, never cached: SettingsSandbox.ResetToDefaults
