@@ -54,6 +54,16 @@ updated:      2026-09-23, source project relocated from
               No source code changed, only its location and the paths that point at it. This does
               not itself run `bootstrap-release.sh --apply` or touch Steam; it only removes the
               layout reason that repository's `--check` used to skip this one.
+updated:      2026-09-23, checked against AUDIT.md's new done -> tested conditions (ee59fa61).
+              No `@wip` remains in any feature (grep of Tests/Pickle/Mod/Pickle/Features; 17 is a
+              normal @requires feature). Every `@requires` scenario has its named pass, and the
+              same-day pass on the current build (44fde64, headless WSL, sans-facultatifs map:
+              features 01-10, 14, 15) is 18/18 with 0 skipped, which covers the InspectTabs (03,
+              07) and TextureOwner (15) conditions. The Oracle (16), RIMMSQOL (17), studio (11),
+              restart (12/13) and four Work Tab matrix passes are those of 2026-09-22, made on the
+              DLL built before the Source/ relocation (same code, rebuilt bytes); they are not
+              rerun on 44fde64. No manual test remains: RIMMSQOL, restart, animation and the
+              French shortcut description are automated and green.
 updated:      2026-09-23, GitHub tag v1.0.2 and release "Skill Icons 1.0.2" deleted (both remote
               and local tag). The Steam 1.0.2 content upload never happened, so the tag/release
               claimed a publication state that was never reached on the Workshop. The commit it
