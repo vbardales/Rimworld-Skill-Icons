@@ -4,6 +4,7 @@ import { join } from 'node:path';
 import { aboutName, tagsFor } from './about.mjs';
 import { changenoteFor, fencedBlockUnder } from './changenote.mjs';
 import { checkMod, loadConfig } from './config.mjs';
+import { formatGallery, listGallery } from './gallery.mjs';
 import { LIMITS, checkBytes } from './limits.mjs';
 import { digest, checkPreview } from './preview.mjs';
 import { formatDiff, isIdentical, lineDiff } from './line-diff.mjs';
@@ -65,6 +66,10 @@ console.log(`target: Workshop item ${config.workshopId} (app ${APP_ID}); visibil
 console.log(`publish template: ${config.templateStamp ?? 'unknown'}`);
 console.log(`options: update_preview=${updatePreview} update_description=${updateDescription} update_title=${updateTitle} update_tags=${updateTags}`);
 console.log(`change note (from PUBLICATION.md, section ${version}):\n${changenote}`);
+if (config.galleryDir) {
+  // Not an option: SteamCMD cannot send gallery images, so this only lists what is to be uploaded by hand.
+  console.log(await listGallery(join(commitDir, config.galleryDir)).then((files) => formatGallery(files, config.galleryDir), () => `gallery: folder ${config.galleryDir} not found in this commit`));
+}
 
 // What the public page serves now. Reading it needs no login; when it fails the dry-run says so
 // and the comparison is skipped, the update itself is not affected.

@@ -1,5 +1,5 @@
 {
-  "templateStamp": "261e5b0c90b3",
+  "templateStamp": "eba6b3fdf670",
   "workshopId": "3805383957",
   "packageId": "nelim.skillicons",
   "releaseTitle": "Skill Icons {version}",
@@ -7,5 +7,6 @@
     "1.6/Assemblies/SkillIcons.dll"
   ],
   "forbidPaths": [],
-  "previewFile": "About/Preview.png"
+  "previewFile": "About/Preview.png",
+  "galleryDir": "Screenshots"
 }

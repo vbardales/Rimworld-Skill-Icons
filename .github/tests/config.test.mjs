@@ -8,7 +8,12 @@ import { checkMod, parseConfig } from '../scripts/config.mjs';
 const valid = { workshopId: '123', packageId: 'nelim.test', releaseTitle: 'Test {version}' };
 
 test('accepts a minimal configuration and fills the defaults', () => {
-  assert.deepEqual(parseConfig(JSON.stringify(valid)), { ...valid, templateStamp: null, requirePaths: [], forbidPaths: [], previewFile: 'About/Preview.png', description: null });
+  assert.deepEqual(parseConfig(JSON.stringify(valid)), { ...valid, templateStamp: null, requirePaths: [], forbidPaths: [], previewFile: 'About/Preview.png', galleryDir: null, description: null });
+});
+
+test('keeps the gallery folder, and rejects one that would leave the repository', () => {
+  assert.equal(parseConfig(JSON.stringify({ ...valid, galleryDir: 'Art/Screenshots' })).galleryDir, 'Art/Screenshots');
+  for (const galleryDir of ['../x', '/abs', '', 3, ['a']]) assert.throws(() => parseConfig(JSON.stringify({ ...valid, galleryDir })), /galleryDir/, JSON.stringify(galleryDir));
 });
 
 test('keeps required and forbidden paths, the preview file and the description source', () => {

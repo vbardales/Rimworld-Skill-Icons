@@ -20,6 +20,8 @@ export function parseConfig(text) {
   if (!isPathList(requirePaths) || !isPathList(forbidPaths)) throw new Error(`${CONFIG_PATH}: requirePaths and forbidPaths must be lists of paths relative to Mod/`);
   const previewFile = raw.previewFile ?? 'About/Preview.png';
   if (!isPathList([previewFile])) throw new Error(`${CONFIG_PATH}: previewFile must be a path relative to Mod/`);
+  const galleryDir = raw.galleryDir ?? null;
+  if (galleryDir !== null && (typeof galleryDir !== 'string' || !isPathList([galleryDir]))) throw new Error(`${CONFIG_PATH}: galleryDir must be a folder path relative to the repository`);
   const description = raw.description ?? null;
   if (description !== null) {
     if (typeof description.file !== 'string' || !isPathList([description.file])) throw new Error(`${CONFIG_PATH}: description.file must be a path relative to the repository`);
@@ -27,7 +29,7 @@ export function parseConfig(text) {
       try { new RegExp(description.heading); } catch { throw new Error(`${CONFIG_PATH}: description.heading is not a valid regular expression`); }
     }
   }
-  return { templateStamp: typeof raw.templateStamp === 'string' ? raw.templateStamp : null, workshopId: raw.workshopId, packageId: raw.packageId, releaseTitle: raw.releaseTitle, requirePaths, forbidPaths, previewFile, description };
+  return { templateStamp: typeof raw.templateStamp === 'string' ? raw.templateStamp : null, workshopId: raw.workshopId, packageId: raw.packageId, releaseTitle: raw.releaseTitle, requirePaths, forbidPaths, previewFile, galleryDir, description };
 }
 
 export async function loadConfig(commitDir) {
