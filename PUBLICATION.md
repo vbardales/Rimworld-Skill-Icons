@@ -187,7 +187,7 @@ Written at upload time, in the Change Notes tab, and easy to forget because noth
 until the form is already open. Unlike the description, these DO go out again on every update -
 they are the one field of the page that can be corrected freely. BBCode works.
 
-### 1.0.2 — tag and GitHub release pending the Steam upload; post with the Workshop update
+### 1.0.2 — posted 2026-09-24 by the CI (v1.0.2, run 35963526970)
 
 ```
 [h3]1.0.2 — Skill Icons[/h3]
@@ -227,3 +227,15 @@ A unified passion icon set for Vanilla Skills Expanded and Alpha Skills. 85 text
 [/list]
 Each fix goes quietly inert if it is repaired upstream.
 ```
+
+## The Steam description
+
+The description is sent only when an item is created; afterwards it is edited by hand on the page
+(see "What the upload cannot take back"). Its source is `Mod/README.template.md`, in Markdown, kept
+out of the upload by `Mod/.steamignore`. Steam wants BBCode, and `About.xml`'s `<description>` is
+not BBCode where it matters: its section titles are plain capitals, not `[h2]`. To get the
+BBCode, render the template with the converter the CI uses (`@steamdown/core`, `parse` then
+`render`): `##` becomes `[h2]`, `**` becomes `[b]`, links become `[url=]`, lists become `[list]`.
+Paste the result into the page's description field. Keep the section order AUDIT.md requires:
+IF I GO QUIET, AI-GENERATED, THANKS, the ATTRIBUTION.md line, then the GitHub link. Steam allows 8000
+characters; the current one is about 4500.
