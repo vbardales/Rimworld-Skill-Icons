@@ -3,6 +3,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { changenoteFor } from './changenote.mjs';
 import { relocatingExec } from './relocate-vdf.mjs';
+import { formatSummary, topLevelSummary } from './stage-summary.mjs';
 
 const APP_ID = '294100';
 
@@ -58,6 +59,8 @@ if (typeof uploadWorkshopItem !== 'function' || typeof createWorkshopVdf !== 'fu
 const stagePath = await stageModContent({ modPath });
 const { files, bytes } = await totalSize(stagePath);
 console.log(`staged ${files} files, ${(bytes / 1e6).toFixed(2)} MB, from ${modPath}`);
+console.log(`content by top-level entry:
+${formatSummary(await topLevelSummary(stagePath))}`);
 console.log(`target: Workshop item ${workshopId} (app ${APP_ID}); page title, preview image and visibility are left untouched`);
 console.log(`change note (from PUBLICATION.md, section ${version}):\n${changenote}`);
 
