@@ -1,0 +1,15 @@
+# lychee configuration for a mod repository: relative links only.
+#
+# Why offline: links to Steam or GitHub pages fail for reasons that have nothing to do with the
+# mod (rate limits, a slow night), and one network failure would turn the CI red. What breaks
+# silently when a folder or file is renamed is the relative link, so that is all this checks.
+#
+# Used by RimWorks/mod-ci `links.yml` (the `args` input), e.g.:
+#   args: --config lychee.toml --no-progress README.md docs/
+#
+# Not tested here: lychee is not installed on the development machine. Run it once locally or in
+# a throwaway branch before turning it into a required check.
+
+offline = true            # check local files only; no network request is made
+include_fragments = "anchor-only"  # also check that #anchors point at a heading that exists
+no_progress = true

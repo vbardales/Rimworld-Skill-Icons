@@ -1,0 +1,14 @@
+name: links
+"on":
+  push:
+    paths: ['**.md', 'lychee.toml', '.github/workflows/links.yml']
+  pull_request:
+    paths: ['**.md', 'lychee.toml', '.github/workflows/links.yml']
+permissions:
+  contents: read
+jobs:
+  links:
+    # Pinned to the commit behind v1.10: the tag moves on every release.
+    uses: RimWorks/mod-ci/.github/workflows/links.yml@931aff082d97c7746323da89c840e370f7001915 # v1.10
+    with:
+      args: --config lychee.toml --no-progress README.md docs/
