@@ -11,5 +11,5 @@
 # a throwaway branch before turning it into a required check.
 
 offline = true            # check local files only; no network request is made
-include_fragments = true  # also check that #anchors point at a heading that exists
+include_fragments = "anchor-only"  # also check that #anchors point at a heading that exists
 no_progress = true
