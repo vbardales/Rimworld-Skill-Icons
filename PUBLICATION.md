@@ -5,6 +5,34 @@ upload of 2026-09-21, and for whoever updates this mod next.
 
 Workshop item: **3805383957**.
 
+## Publishing by CI
+
+Skill Icons is uploaded by the manual workflow `.github/workflows/publish-tag.yml`, not by the in-game
+button. The full procedure (dry-run rules, credentials, approval) is in `docs/OPERATIONS.md` of
+`vbardales/Rimworld-Release-Admin`; read it first. What this repository provides to the workflow:
+
+- **The change note**: the fenced block under `### <version>` further down in this file. It is the
+  only copy, so edit it here. The workflow reads it from the commit being published.
+- **The GitHub release notes**: the `## [<version>]` section of `CHANGELOG.md`, copied as is. Date
+  that section before publishing; it says "unreleased" until then.
+- **Identity checks**: `Mod/About/PublishedFileId.txt` must hold `3805383957` and `About.xml` the
+  package ID `nelim.skillicons`, or the run stops.
+- **Nothing else is sent**: the Workshop title, preview image, visibility and description are left
+  as they are on the page, and the screenshots below stay a manual step.
+
+Steps, each on the exact commit (full 40-character SHA of `main` once every doc change is in):
+
+```
+gh workflow run publish-tag.yml --repo vbardales/Rimworld-Skill-Icons -f ref=<SHA> -f version=1.0.2 -f mode=dry-run
+gh workflow run publish-tag.yml --repo vbardales/Rimworld-Skill-Icons -f ref=<SHA> -f version=1.0.2 -f mode=publish
+```
+
+Read the dry-run log, record its run ID and the SHA in `STATUS.md`, then Virginie runs the second
+command and approves the `steam-production` environment. No session runs or approves a `publish`.
+The workflow creates tag `v<version>` and the GitHub release itself after a successful upload: do
+not create them by hand. If only that last job fails, use "Re-run failed jobs", never "Re-run all
+jobs". Afterwards check the public page and record the evidence in `STATUS.md`.
+
 ## Screenshots, in this order
 
 Steam shows the first one large under the Preview, so the most demonstrative goes there rather
