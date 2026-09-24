@@ -26,12 +26,27 @@ button. The full procedure (dry-run rules, credentials, approval) is in `docs/OP
   `.github/publish.config.json`: regenerate it, do not edit the scripts. No description source is
   configured yet (the description is Markdown in `Mod/README.template.md`, Steam wants BBCode), so
   `update_description` stays unusable here until that is decided.
+- **The gallery listing**: `galleryDir` in `.github/publish.config.json` is `Screenshots`, so the dry-run
+  and the publish log list the files of that folder with their sizes, as a reminder of the manual gallery
+  upload. It sends nothing (SteamCMD has one image field, `previewfile`), and it lists by file name: the
+  upload order is the table in "Screenshots, in this order" below.
+
+To see whether the workflow is behind the shared template, and to regenerate it, always with the same
+arguments (a `--replace` without `--gallery-dir` silently drops `galleryDir`):
+
+```bash
+bash /c/Users/nelim/Documents/rimworld/Rimworld-Release-Admin/scripts/generate-publish-workflow.sh "$PWD" --check
+bash /c/Users/nelim/Documents/rimworld/Rimworld-Release-Admin/scripts/generate-publish-workflow.sh "$PWD" --workshop-id 3805383957 --package-id nelim.skillicons --release-title "Skill Icons {version}" --require 1.6/Assemblies/SkillIcons.dll --gallery-dir Screenshots --replace
+```
+
+Generate from a clean checkout, then run `node --test '.github/tests/*.test.mjs'` and commit `.github/`.
+The stamp of the template in use is in `.github/publish.config.json` (`eba6b3fdf670` on 2026-09-24).
 
 Steps, each on the exact commit (full 40-character SHA of `main` once every doc change is in):
 
 ```
 gh workflow run publish-tag.yml --repo vbardales/Rimworld-Skill-Icons -f ref=<SHA> -f version=1.0.2 -f mode=dry-run
-scripts/dispatch-publish.sh vbardales/Rimworld-Skill-Icons publish-tag.yml <SHA> 1.0.2
+bash /c/Users/nelim/Documents/rimworld/Rimworld-Release-Admin/scripts/dispatch-publish.sh vbardales/Rimworld-Skill-Icons publish-tag.yml <SHA> 1.0.2
 ```
 
 The second command is `scripts/dispatch-publish.sh` of `vbardales/Rimworld-Release-Admin`, not a
