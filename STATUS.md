@@ -165,6 +165,32 @@ updated_8:   2026-09-21, scenario 10 fixed by launching per language instead of 
 
 # Skill Icons — status
 
+## Note from the CI/CD session — 2026-09-24 (read before the next publish)
+
+Left for the next Skill Icons session; no stage change, the mod stays `published`. The publish workflow was
+regenerated from the shared template while this repository had no open session:
+
+- **What changed**: `.github/` now comes from `Rimworld-Release-Admin/scripts/generate-publish-workflow.sh`
+  (template stamp `eba6b3fdf670`, Rimworld-Release-Admin `31fe605`), pushed to `main` as `f977242` then `ecf47d4`,
+  and its docs as `ae234f5`. CI is green on all three. The workflow, its scripts and its 48 tests are the same as
+  every other mod; the values of this mod are in `.github/publish.config.json`.
+- **New for a publish**: four opt-in inputs, off by default (`update_preview`, `update_title`, `update_tags`,
+  `update_description`); the dry-run prints what each would change next to the public page, and a publish needs the
+  same options as its dry-run (`dispatch-publish.sh` refuses otherwise). Visibility is never sent.
+- **The gallery**: `galleryDir` is `Screenshots`. The dry-run and the publish log list its files (by name, with sizes) as a
+  reminder of the manual upload; nothing is sent, because SteamCMD has a single image field (`previewfile`) and no
+  library of the chain sends the gallery. The upload order remains the table in `PUBLICATION.md`.
+- **Regenerating**: the exact command, with `--gallery-dir Screenshots`, is in `PUBLICATION.md` (“Publishing by CI”).
+  A `--replace` without `--gallery-dir` drops `galleryDir`.
+- **Checked read-only on the public page, 2026-09-24 (local dry-run of 1.0.2)**: the preview image, the title `Skill Icons`
+  and the tags `Mod`, `1.6` are identical to what the repository would send. Not tested: `update_description`, which has no
+  source configured (the description is Markdown in `Mod/README.template.md`, Steam wants BBCode: decide manual or a
+  converted source before turning it on).
+- **No GitHub dry-run of the regenerated workflow yet**: the workflow refuses a version whose tag exists on another commit
+  (`v1.0.2` does), so the first real dry-run is that of the next version, with its `## [x.y.z]` and `### x.y.z` sections.
+- Your local checkout is behind `origin/main` by these commits: `git pull` first.
+
+
 ## Workflow audit — 2026-09-17
 
 Audited revision: monorepo HEAD `9a52ea1b5d306fa2dcadcb4305d2aa6fb43c62ac`; no local
