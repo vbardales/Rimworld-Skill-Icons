@@ -24,11 +24,16 @@ Steps, each on the exact commit (full 40-character SHA of `main` once every doc 
 
 ```
 gh workflow run publish-tag.yml --repo vbardales/Rimworld-Skill-Icons -f ref=<SHA> -f version=1.0.2 -f mode=dry-run
-gh workflow run publish-tag.yml --repo vbardales/Rimworld-Skill-Icons -f ref=<SHA> -f version=1.0.2 -f mode=publish
+scripts/dispatch-publish.sh vbardales/Rimworld-Skill-Icons publish-tag.yml <SHA> 1.0.2
 ```
 
-Read the dry-run log, record its run ID and the SHA in `STATUS.md`, then Virginie runs the second
-command and approves the `steam-production` environment. No session runs or approves a `publish`.
+The second command is `scripts/dispatch-publish.sh` of `vbardales/Rimworld-Release-Admin`, not a
+`gh workflow run`: it refuses without a green dry-run of that exact SHA and version, launches the
+publish run and prints the link of the run that waits for the approval.
+
+Read the dry-run log and record its run ID and the SHA in `STATUS.md`. Virginie or a session then
+launches the publish with the script; only Virginie approves the `steam-production` environment on
+the printed link. No session approves a `publish`.
 The workflow creates tag `v<version>` and the GitHub release itself after a successful upload: do
 not create them by hand. If only that last job fails, use "Re-run failed jobs", never "Re-run all
 jobs". Afterwards check the public page and record the evidence in `STATUS.md`.
