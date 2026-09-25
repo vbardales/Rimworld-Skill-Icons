@@ -183,9 +183,9 @@ regenerated from the shared template while this repository had no open session:
 - **Regenerating**: the exact command, with `--gallery-dir Screenshots`, is in `PUBLICATION.md` (“Publishing by CI”).
   A `--replace` without `--gallery-dir` drops `galleryDir`.
 - **Checked read-only on the public page, 2026-09-24 (local dry-run of 1.0.2)**: the preview image, the title `Skill Icons`
-  and the tags `Mod`, `1.6` are identical to what the repository would send. Not tested: `update_description`, which has no
-  source configured (the description is Markdown in `Mod/README.template.md`, Steam wants BBCode: decide manual or a
-  converted source before turning it on).
+  and the tags `Mod`, `1.6` are identical to what the repository would send. `update_description` is now configured
+  (2026-09-25): source `Mod/README.template.md` converted to BBCode by the CI, template stamp `683151266dd1`; its local dry-run
+  against the public page says the page already has exactly this description (4479 bytes), nothing would change.
 - **No GitHub dry-run of the regenerated workflow yet**: the workflow refuses a version whose tag exists on another commit
   (`v1.0.2` does), so the first real dry-run is that of the next version, with its `## [x.y.z]` and `### x.y.z` sections.
 - Your local checkout is behind `origin/main` by these commits: `git pull` first.
