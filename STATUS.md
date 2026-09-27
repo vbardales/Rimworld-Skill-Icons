@@ -165,6 +165,20 @@ updated_8:   2026-09-21, scenario 10 fixed by launching per language instead of 
 
 # Skill Icons — status
 
+## Correction to the note below — 2026-09-27
+
+The note just under this one ("Note from the CI/CD session — 2026-09-24") says "No GitHub
+dry-run of the regenerated workflow yet" and gives a `git pull` instruction for a local checkout
+that no longer applies. Both are now obsolete: later the same day, the regenerated workflow did
+run on GitHub — dry-run 35963418464, then publish 35963526970, both green — and the 1.0.2
+Workshop update went out for real (see `updated:` in the front matter above, which is the correct,
+current record). Read the note below for the template/config history it explains; do not act on
+its "nothing has run yet" framing.
+
+Also cleaned up today: the stale `ci/steam-publish-tag` branch (pre-restructuring history,
+diverged from `main`, not an ancestor of it) was deleted from the remote. It was leftover, not
+unmerged work.
+
 ## Note from the CI/CD session — 2026-09-24 (read before the next publish)
 
 Left for the next Skill Icons session; no stage change, the mod stays `published`. The publish workflow was
