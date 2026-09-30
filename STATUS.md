@@ -46,7 +46,8 @@ remaining:
 session:      local_314cf7e0-0763-4b3b-b4b7-03e564331dc5
 updated:      2026-09-27, 1.0.3 prepared: two French string fixes (em dash removed from
               `SkillIcons.WorkTabMixedDesc`; `SkillIcons.ShowNoneDesc` reworded gender-neutral,
-              "colon" -> "personne de la colonie"). No C# change, no DLL rebuild needed.
+              "un colon" -> "un.e colon"; "colon" already epicene, only the article changes).
+              No C# change, no DLL rebuild needed.
               `CHANGELOG.md` [1.0.3] and `PUBLICATION.md`'s 1.0.3 change note written. `stage`
               moved to `prepublished`; feature 10 rerun still pending (see `remaining`).
 updated_1:    2026-09-24, `prepublished -> published`: the 1.0.2 Workshop update went out through the

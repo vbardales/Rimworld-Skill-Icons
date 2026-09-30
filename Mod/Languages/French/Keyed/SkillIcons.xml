@@ -7,7 +7,7 @@
   <SkillIcons.Speed>Vitesse d'animation : {0}×</SkillIcons.Speed>
 
   <SkillIcons.ShowNone>Afficher une icône pour « aucune passion »</SkillIcons.ShowNone>
-  <SkillIcons.ShowNoneDesc>Le jeu de base ne dessine rien du tout lorsqu'une personne de la colonie n'a aucune passion pour une compétence. Activez cette option pour y mettre un contour de cœur estompé.\n\nDésactivée par défaut : c'est ce vide qui permet de repérer d'un coup d'œil les compétences qui comptent.</SkillIcons.ShowNoneDesc>
+  <SkillIcons.ShowNoneDesc>Le jeu de base ne dessine rien du tout lorsqu'un.e colon n'a aucune passion pour une compétence. Activez cette option pour y mettre un contour de cœur estompé.\n\nDésactivée par défaut : c'est ce vide qui permet de repérer d'un coup d'œil les compétences qui comptent.</SkillIcons.ShowNoneDesc>
 
   <SkillIcons.WorkTab>Onglet Travail</SkillIcons.WorkTab>
   <SkillIcons.WorkTabColour>En couleur</SkillIcons.WorkTabColour>

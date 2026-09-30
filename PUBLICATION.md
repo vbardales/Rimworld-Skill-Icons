@@ -218,7 +218,7 @@ they are the one field of the page that can be corrected freely. BBCode works.
 [h3]1.0.3 — Skill Icons[/h3]
 
 [list]
-[*]Fixed two French strings: an em dash in the work tab's mixed-mode description, and gendered "colon" replaced with gender-neutral "personne de la colonie" in the "no passion" icon description.
+[*]Fixed two French strings: an em dash in the work tab's mixed-mode description, and a masculine-only article ("un colon") made epicene ("un.e colon") in the "no passion" icon description.
 [/list]
 
 The package ID and saved settings are unchanged.
