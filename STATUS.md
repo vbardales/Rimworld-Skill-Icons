@@ -1,7 +1,7 @@
 ---
 localization: complete
 translation_en: complete
-translation_fr: complete
+translation_fr: unchecked
 settings_audit: complete
 mod:          Skill Icons
 packageId:    nelim.skillicons
@@ -43,14 +43,31 @@ remaining:
       `stage` is `prepublished` rather than dropped to `tested`. Rerun feature 10 before publish,
       or accept the risk explicitly - two wording fixes with no raw-key risk (both keys already
       existed and are unchanged in structure).
+  - unverified: "French review by Virginie" (TRANSLATIONS.md, 2026-09-30). `translation_fr` reset
+      to `unchecked` project-wide by that rule; not a defect found in this mod. `FRENCH_REVIEW.md`
+      generated at mod root by `_tools/gen-french-review.js` (reads shipped XML, not hand-written)
+      for her to read. `translation_fr` stays `unchecked` until she reviews and a dated line is
+      recorded under `Translation audit` below - a session cannot record this itself.
 session:      local_314cf7e0-0763-4b3b-b4b7-03e564331dc5
-updated:      2026-09-27, 1.0.3 prepared: two French string fixes (em dash removed from
+updated:      2026-09-30, TRANSLATIONS.md's French agreement/review rules (2026-09-30) applied.
+              `translation_fr` reset `complete` -> `unchecked`, project-wide rule, not a defect
+              found here. Audit: only two French files ship
+              (`Languages/French/Keyed/SkillIcons.xml`, `.../DefInjected/MainButtonDef/MainButtons.xml`),
+              15 Keyed + 2 DefInjected strings, none uses a `{PAWN_gender ? ...}` switch - no text
+              agrees with a specific pawn's gender. One text names a pawn generically ("un.e colon
+              n'a aucune passion", `SkillIcons.ShowNoneDesc`): flagged `?` in `FRENCH_REVIEW.md`,
+              since "un.e" is this project's inclusive-article convention (Virginie, confirming
+              "colon" as epicene) applied to a generic statement, not the engine's 3-segment
+              switch. `FRENCH_REVIEW.md` regenerated (script `_tools/gen-french-review.js`) at
+              revision `0a4be43`. `stage` unchanged; `translation_fr` blocks nothing already
+              `published`/`prepublished`, per TRANSLATIONS.md's "preserve historical stages".
+updated_1:    2026-09-27, 1.0.3 prepared: two French string fixes (em dash removed from
               `SkillIcons.WorkTabMixedDesc`; `SkillIcons.ShowNoneDesc` reworded gender-neutral,
               "un colon" -> "un.e colon"; "colon" already epicene, only the article changes).
               No C# change, no DLL rebuild needed.
               `CHANGELOG.md` [1.0.3] and `PUBLICATION.md`'s 1.0.3 change note written. `stage`
               moved to `prepublished`; feature 10 rerun still pending (see `remaining`).
-updated_1:    2026-09-24, `prepublished -> published`: the 1.0.2 Workshop update went out through the
+updated_2:    2026-09-24, `prepublished -> published`: the 1.0.2 Workshop update went out through the
               CI, launched and approved by Virginie. Commit published: 0b601d8d72ccf7ed4d9e3f65ecca38cec457d8da
               (docs and CI files only since 1ec403f; Mod/ and Source/ unchanged, still the 44fde64 build).
               Dry-run 35963418464 (green, same SHA), publish run 35963526970 (green: upload and
@@ -60,7 +77,7 @@ updated_1:    2026-09-24, `prepublished -> published`: the 1.0.2 Workshop update
               Not verified by me: the page screenshots (the change note says they were updated) and the
               description, which is edited by hand on the page: the BBCode version now comes from
               Mod/README.template.md (rendered with @steamdown/core), see PUBLICATION.md.
-updated_2:   2026-09-24, `tested -> prepublished` for the 1.0.2 Workshop update. Repository pushed and
+updated_3:   2026-09-24, `tested -> prepublished` for the 1.0.2 Workshop update. Repository pushed and
               clean; Mod/ and Source/ identical to 44fde64 (the tested build), whose DLL was committed
               after the last source change (f86cfc1); CHANGELOG [1.0.2] dated 2026-09-24. Dry-run of
               the publish workflow on the exact commit 1ec403fecc6b1314a494664ef89f602f36efe267:
@@ -72,7 +89,7 @@ updated_2:   2026-09-24, `tested -> prepublished` for the 1.0.2 Workshop update.
               successful upload; none is created by hand. Still manual, not done by the CI: the page's
               screenshots (order in PUBLICATION.md) - the change note says they were updated. Not
               `published` until the public page shows the new update time and notes.
-updated_3:   2026-09-23, source project relocated from
+updated_4:   2026-09-23, source project relocated from
               `_tools/animation-source/Source/SkillIcons/` to `Source/` (all four `.cs` files and
               `SkillIcons.csproj` now sit directly under `Source/`, matching the
               `Source/*.csproj` layout `Rimworld-Release-Admin/scripts/bootstrap-release.sh`
@@ -88,7 +105,7 @@ updated_3:   2026-09-23, source project relocated from
               No source code changed, only its location and the paths that point at it. This does
               not itself run `bootstrap-release.sh --apply` or touch Steam; it only removes the
               layout reason that repository's `--check` used to skip this one.
-updated_4:   2026-09-23, checked against AUDIT.md's new done -> tested conditions (ee59fa61).
+updated_5:   2026-09-23, checked against AUDIT.md's new done -> tested conditions (ee59fa61).
               No `@wip` remains in any feature (grep of Tests/Pickle/Mod/Pickle/Features; 17 is a
               normal @requires feature). Every `@requires` scenario has its named pass, and the
               same-day pass on the current build (44fde64, headless WSL, sans-facultatifs map:
@@ -100,19 +117,19 @@ updated_4:   2026-09-23, checked against AUDIT.md's new done -> tested condition
               DLL built before the Source/ relocation (same code, rebuilt bytes); they are not
               rerun on 44fde64. No manual test remains: RIMMSQOL, restart, animation and the
               French shortcut description are automated and green.
-updated_5:   2026-09-23, GitHub tag v1.0.2 and release "Skill Icons 1.0.2" deleted (both remote
+updated_6:   2026-09-23, GitHub tag v1.0.2 and release "Skill Icons 1.0.2" deleted (both remote
               and local tag). The Steam 1.0.2 content upload never happened, so the tag/release
               claimed a publication state that was never reached on the Workshop. The commit it
               pointed to (`feb54a6`) is untouched and still on `main`; only the tag and the GitHub
               release object were removed. `v1.0.2` is free to be reused once the Steam upload for
               that content is actually verified.
-updated_6:   2026-09-22, GitHub tag v1.0.2 and release Skill Icons 1.0.2 published against
+updated_7:   2026-09-22, GitHub tag v1.0.2 and release Skill Icons 1.0.2 published against
               feb54a6 after the tested gate. Changelog and Steam notes are ready, the distributed
               ATTRIBUTION.md matches the repository copy, and the distributed DLL rebuilt with
               0 warnings/errors and 25/25 static tests. The Steam item still needs its content
               upload, corrected live description, images and change notes; stage remains tested
               until those publication actions are verified.
-updated_7:   2026-09-22, `done -> tested` completed through the shared WSL queue. The corrected
+updated_8:   2026-09-22, `done -> tested` completed through the shared WSL queue. The corrected
               RIMMSQOL pass, genuine two-process restart chain and all four replacement Work Tab
               matrices passed; all 40 review captures were opened and accepted. The Work-tab
               assertion now follows the live Work MainButtonDef's window, so replacement classes
@@ -155,7 +172,7 @@ updated_7:   2026-09-22, `done -> tested` completed through the shared WSL queue
               The reply thanking Sarg was posted on 2026-09-22 (see PUBLICATION.md). The live Steam
               description still needs the same wording pasted by hand - SetItemDescription only
               sends it once, at item creation. Earlier:
-updated_8:   2026-09-21, scenario 10 fixed by launching per language instead of switching mid-run; the
+updated_9:   2026-09-21, scenario 10 fixed by launching per language instead of switching mid-run; the
               restart, the shortcut agreement and the animations automated and green; the first
               avec-oracle pass green; suite at 25 scenarios in 16 features. Earlier: 2026-09-20, the
               suite finally ran end to end, headless: 16 of 17, the six failures
@@ -176,6 +193,25 @@ updated_8:   2026-09-21, scenario 10 fixed by launching per language instead of 
 ---
 
 # Skill Icons — status
+
+## Translation audit — 2026-09-30
+
+Where the French lives, for Virginie's review (TRANSLATIONS.md, "Systematic French review by
+Virginie"): `Mod/Languages/French/Keyed/SkillIcons.xml` (15 strings) and
+`Mod/Languages/French/DefInjected/MainButtonDef/MainButtons.xml` (2 strings, the hidden shortcut's
+label/description). No grammar files, no `{PAWN_gender ? ...}` switch anywhere in this mod - no
+French text agrees with a specific pawn's gender.
+
+Full text, both languages, side by side: `FRENCH_REVIEW.md` at the mod root, regenerated from the
+shipped XML by `_tools/gen-french-review.js`, current revision `0a4be43`.
+
+One text flagged `?`: `SkillIcons.ShowNoneDesc` says "un.e colon" - the project's inclusive-article
+convention for "colon" (already epicene: `un colon`/`une colon`, TRANSLATIONS.md) applied to a
+generic statement about any pawn, not the engine's 3-segment neutral switch (there is no specific
+pawn to switch on here). Flagged for her call on whether the inclusive article reads right in this
+sentence, not because a defect is suspected.
+
+No review recorded yet. `translation_fr: unchecked` until it is.
 
 ## Correction to the note below — 2026-09-27
 
