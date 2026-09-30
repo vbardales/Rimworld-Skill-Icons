@@ -3,6 +3,13 @@
 Format inspired by [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This file serves the repository and the writing of Steam patch notes; RimWorld does not display it in game.
 
+## [1.0.3] — unreleased
+
+### Fixed
+
+- The French `SkillIcons.WorkTabMixedDesc` string used an em dash; replaced with a comma, matching the rest of the mod's French strings.
+- The French `SkillIcons.ShowNoneDesc` string said "colon" (male by default); changed to "personne de la colonie", gender-neutral.
+
 ## [1.0.2] — 2026-09-24
 
 ### Changed

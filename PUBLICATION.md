@@ -212,6 +212,18 @@ Written at upload time, in the Change Notes tab, and easy to forget because noth
 until the form is already open. Unlike the description, these DO go out again on every update -
 they are the one field of the page that can be corrected freely. BBCode works.
 
+### 1.0.3 — ready to post with the next Workshop update
+
+```
+[h3]1.0.3 — Skill Icons[/h3]
+
+[list]
+[*]Fixed two French strings: an em dash in the work tab's mixed-mode description, and gendered "colon" replaced with gender-neutral "personne de la colonie" in the "no passion" icon description.
+[/list]
+
+The package ID and saved settings are unchanged.
+```
+
 ### 1.0.2 — posted 2026-09-24 by the CI (v1.0.2, run 35963526970)
 
 ```

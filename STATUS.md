@@ -8,7 +8,7 @@ packageId:    nelim.skillicons
 repo:         Rimworld-Skill-Icons
 visibility:   public
 detached:     yes
-stage:        published
+stage:        prepublished
 licence:      original
 licence_at:   original work, MIT; Oracle's Skill Icon Retextures credited for the visual language only, no texture reused (verified against ATTRIBUTION.md and the generator)
 dependencies: declared
@@ -37,8 +37,19 @@ remaining:
   - known, not a defect: a plain run of the whole suite is red. 16 fails without Oracle staged and
       13 refuses to pass when 12 ran in the same process, both by design. They are run by name.
       Moving them to a companion suite a plain launch does not select is proposed, not done.
+  - unverified: feature 10 (English and French) not rerun on the 1.0.3 string fixes. The Pickle
+      queue was deep (48+ tickets) at the time of the change; a change to existing string content,
+      not a new/removed key, does not invalidate the whole `tested` gate (AUDIT.md line 249), so
+      `stage` is `prepublished` rather than dropped to `tested`. Rerun feature 10 before publish,
+      or accept the risk explicitly - two wording fixes with no raw-key risk (both keys already
+      existed and are unchanged in structure).
 session:      local_314cf7e0-0763-4b3b-b4b7-03e564331dc5
-updated:      2026-09-24, `prepublished -> published`: the 1.0.2 Workshop update went out through the
+updated:      2026-09-27, 1.0.3 prepared: two French string fixes (em dash removed from
+              `SkillIcons.WorkTabMixedDesc`; `SkillIcons.ShowNoneDesc` reworded gender-neutral,
+              "colon" -> "personne de la colonie"). No C# change, no DLL rebuild needed.
+              `CHANGELOG.md` [1.0.3] and `PUBLICATION.md`'s 1.0.3 change note written. `stage`
+              moved to `prepublished`; feature 10 rerun still pending (see `remaining`).
+updated_1:    2026-09-24, `prepublished -> published`: the 1.0.2 Workshop update went out through the
               CI, launched and approved by Virginie. Commit published: 0b601d8d72ccf7ed4d9e3f65ecca38cec457d8da
               (docs and CI files only since 1ec403f; Mod/ and Source/ unchanged, still the 44fde64 build).
               Dry-run 35963418464 (green, same SHA), publish run 35963526970 (green: upload and
