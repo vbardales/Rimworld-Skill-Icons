@@ -9,8 +9,12 @@ repo:         Rimworld-Skill-Icons
 visibility:   public
 detached:     yes
 stage:        prepublished
+workflow_stage: prepublished
 licence:      original
 licence_at:   original work, MIT; Oracle's Skill Icon Retextures credited for the visual language only, no texture reused (verified against ATTRIBUTION.md and the generator)
+upstream_mod_remotes:
+  - https://github.com/Vanilla-Expanded/VanillaSkillsExpanded
+  - N/A (Alpha Skills and Oracle's Skill Icon Retextures: no git repository found, 2026-10-08)
 dependencies: declared
 showcase:     complete
 tested_on:    2026-09-22, headless WSL, by named pass. Green: scenario 10 in both language passes; the
@@ -212,6 +216,23 @@ pawn to switch on here). Flagged for her call on whether the inclusive article r
 sentence, not because a defect is suspected.
 
 No review recorded yet. `translation_fr: unchecked` until it is.
+
+## Audit — 2026-10-08
+
+Audited at `24b964d`, replayed on `95196b0` with local changes from other sessions left untouched (CI scripts, `Mod/About/Preview.png`,
+`Art/Gallery/`, staged `TRADUCTION.md` and French Keyed). **`prepublished` → `prepublished`**, no change (set by the 1.0.3 session on `main`; the 1.0.3 gallery gate was not re-examined here).
+
+- Item 3805383957 exists, `About/PublishedFileId.txt` committed; CHANGELOG runs 1.0.0–1.0.2 (the item was created
+  in game at 1.0.0, so there is no `0.1.0` entry to add).
+- `done → tested` conditions, checked against the files: no `@wip` in `Tests/Pickle/Mod/Pickle/Features`; every
+  `@requires` scenario has its named pass (record in `tested_on` and `updated_4`); no manual test left. Out-of-game
+  harness replayed today: 25 of 25 pass. No Pickle run made (none asked, none needed).
+- Fixed: `workflow_stage` and `upstream_mod_remotes` added (Vanilla Skills Expanded repository found; Alpha Skills
+  and Oracle's set have none). The PR to upstream is in `BACKLOG.md`, not sent (public: Virginie decides).
+- Evidence: the two PNGs in `docs/runs/` removed from git and ignored; no `.dds` is tracked (ignored already, the
+  local ones are the game's cache); `Tests/Pickle/Evidence/` holds one run, 26 KB, kept. Rules in `docs/TESTING.md`.
+- Not touched: `translation_fr: unchecked` (set by the French-agreement review, `TRADUCTION.md` pending).
+- Reading record: `docs/PROTOCOLS-READ.md`.
 
 ## Correction to the note below — 2026-09-27
 

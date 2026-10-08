@@ -122,6 +122,9 @@ Pickle reports pile up and the disk is finite, so only what still proves somethi
   - The passes the latest run does not repeat, each the only proof of its check: the Oracle map
     (feature 16), RIMMSQOL (17), the studio captures (11), the two-process restart (12 then 13),
     the French pass of features 09 and 10, and the four replacement Work Tab matrices.
+- **Images:** no PNG or GIF from a test run is versioned (`docs/runs/*.png` and `*.gif` are ignored; the two shortcut-bar PNGs were removed from git 2026-10-08). A capture worth citing is described in the run summary. `Screenshots/` is the Workshop gallery, not test evidence.
+- **On disk today (2026-10-08):** only `Tests/Pickle/Evidence/0923-44fde64-sans-facultatifs/` (no screenshots, 26 KB). The 2026-09-22 passes (Oracle, RIMMSQOL, studio, restart, French, Work Tab matrices) left no report on disk: their proof is the record in `STATUS.md` and `docs/runs/`. No archive of this mod in `pickle-reports-archive/`.
+- **To keep after every run:** `junit.xml`, `summary.json`, `summary.md`, `exit.txt`; drop `Player.log`, `messages.ndjson` and screenshots once a newer run replaces them.
 - **Rerun rule:** a change to the mod's code invalidates these passes and they are run again. A
   change that only moves or documents the code (the `Source/` relocation, CI files) does not; say
   so in `STATUS.md` instead of rerunning.

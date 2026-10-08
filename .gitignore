@@ -37,3 +37,8 @@ desktop.ini
 # repository carries: screenshots and Player.log make it grow without bound (PickleTools saw 10 GB
 # in a day). What is worth keeping goes to docs/runs/ as a short text summary.
 Tests/Pickle/Evidence/
+
+# Images from test runs. docs/runs/ holds text summaries only; a capture that proves something is
+# described in words there, and the file itself stays on disk under Tests/Pickle/Evidence/.
+docs/runs/*.png
+docs/runs/*.gif
