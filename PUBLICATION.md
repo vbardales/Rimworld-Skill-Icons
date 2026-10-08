@@ -104,7 +104,7 @@ Every capture is opened and read before it is accepted; a green run does not acc
 |---|---|---|
 | Harmony | `brrainz.harmony` | Yes — the mod patches by transpiler |
 | Vanilla Skills Expanded | `vanillaexpanded.skills` | Yes — the C# does `using VSE.Passions`; without `PassionDef` the assembly does not load |
-| Alpha Skills | `sarg.alphaskills` | No, technically. No `.cs` file references it and the DLL carries no reference. Without it the mod draws the VSE passions and 26 of its 85 textures go unused. Declared hard because the set is designed for both. |
+| Alpha Skills | `sarg.alphaskills` | No. No `.cs` file references it and the DLL carries no reference. Since 2026-10-08 it is only in `loadAfter` (owner decision, PUBLISHING.md: an unreferenced mod is `loadAfter`, not `modDependencies`). Without it the mod draws the VSE passions and 26 of its 85 textures go unused; its patches are `<success>Always</success>` and go inert. |
 
 `loadAfter` also carries `oracle.skills.retexture`, for the texture-path collision, without making
 it a dependency.

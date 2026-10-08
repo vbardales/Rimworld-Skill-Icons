@@ -11,6 +11,7 @@
 # pulling in the companion assembly for no reason.
 Feature: SkillIcons loads after its dependencies and declares its settings shortcut
 
+  @requires:sarg.alphaskills
   Scenario: the mod loads after Harmony, Vanilla Skills Expanded and Alpha Skills
     Then mod "nelim.skillicons" is loaded
     And mod "nelim.skillicons" loads after "brrainz.harmony"

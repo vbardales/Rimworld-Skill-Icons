@@ -17,6 +17,7 @@
 # AS_BlindPassion_Elevated and AS_NudistPassion are not. If that table changes, these four defNames
 # are the first thing to re-check - a count that drifts falls a passion back to its static icon
 # with no error, which is the failure the table's own comment warns about.
+@requires:sarg.alphaskills
 Feature: the animated passions actually animate
 
   Background:

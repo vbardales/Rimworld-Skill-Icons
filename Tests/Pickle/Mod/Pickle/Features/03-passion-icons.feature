@@ -21,7 +21,7 @@
 # active window is the live window attached to the Work MainButtonDef before capturing it. That is
 # `MainTabWindow_Work` in vanilla and the replacement's own class in a compatibility pass; an
 # unrelated window still fails loudly. The report's named pass distinguishes the captures.
-@review @requires:nelim.pickletools.inspecttabs
+@review @requires:nelim.pickletools.inspecttabs @requires:sarg.alphaskills
 Feature: passion icons in the Bio tab and the Work tab
 
   Background:

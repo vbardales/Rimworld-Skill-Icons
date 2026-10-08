@@ -59,11 +59,6 @@ What is reused and how it differs is detailed in ATTRIBUTION.md. This mod is MIT
       <displayName>Vanilla Skills Expanded</displayName>
       <steamWorkshopUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=3400246558</steamWorkshopUrl>
     </li>
-    <li>
-      <packageId>sarg.alphaskills</packageId>
-      <displayName>Alpha Skills</displayName>
-      <steamWorkshopUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=3448953006</steamWorkshopUrl>
-    </li>
   </modDependencies>
   <loadAfter>
     <li>brrainz.harmony</li>

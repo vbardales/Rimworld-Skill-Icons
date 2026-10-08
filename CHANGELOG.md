@@ -10,6 +10,11 @@ This file serves the repository and the writing of Steam patch notes; RimWorld d
 - The French `SkillIcons.WorkTabMixedDesc` string used an em dash; replaced with a comma, matching the rest of the mod's French strings.
 - The French `SkillIcons.ShowNoneDesc` string used the masculine-only article ("un colon"); changed to the epicene form "un.e colon" - "colon" itself is already epicene (un colon / une colon), only the article carries gender.
 
+### Changed
+
+- Alpha Skills is now an optional mod (`loadAfter`) instead of a required dependency: nothing in the code references it, so players without it are no longer forced to download it. With it installed nothing changes.
+- Two small robustness fixes in the code: the gallery in the settings page keeps a minimum height in a short window, and a misleading comment about the Work tab patch was corrected.
+
 ## [1.0.2] — 2026-09-24
 
 ### Changed

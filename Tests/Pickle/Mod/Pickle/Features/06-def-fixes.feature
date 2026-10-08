@@ -22,6 +22,7 @@
 @review
 Feature: the Alpha Skills and Vanilla Skills Expanded def fixes survived loading
 
+  @requires:sarg.alphaskills
   Scenario: the two blindness tiers keep this set's own distinct icons
     Then def "AS_BlindPassion_Sublime" field "iconPath" is "Passions/AS_BlindPassionSublime"
     And def "AS_BlindPassion_Sublime_Active" field "iconPath" is "Passions/AS_BlindPassionSublime_Active"

@@ -1,0 +1,6 @@
+# Alpha Skills is an optional mod of this one since 2026-10-08 (loadAfter, no longer a hard dependency: no code references it).
+# This pass stages it so the scenarios tagged @requires:sarg.alphaskills (01 load order, 03 passion icons, 06 def fixes, 14 animation)
+# run against the mod they describe. The pass without optionals (wsl-deps.sans-facultatifs.map) plays the rest and proves the mod stands without it.
+sarg.alphaskills 3448953006
+nelim.pickletools.inspecttabs  path:PickleTools/InspectTabs/Mod
+nelim.pickletools.textureowner path:PickleTools/TextureOwner/Mod

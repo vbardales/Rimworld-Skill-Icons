@@ -488,3 +488,10 @@ other passion in this set; apathy shows a Work tab icon instead of an empty cell
 (the out-of-game harness proves the patch XML changes these fields against the real installed
 defs; this proves the values are what the player actually sees in the tooltip, post-loading and
 post-translation).
+
+## Alpha Skills became optional (2026-10-08)
+
+Alpha Skills left `modDependencies` for `loadAfter` only. Scenarios that need its defs carry `@requires:sarg.alphaskills`
+(01 load order, 03 passion icons, 06 def fixes, 14 animation); they play in `wsl-deps.avec-alphaskills.map`. The pass
+without optionals plays the others and proves the mod loads without it. Both passes are to be run on the final revision;
+neither has run since the change.
