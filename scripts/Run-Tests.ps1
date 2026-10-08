@@ -4,7 +4,7 @@
   real, no RimWorld process involved.
 
 .DESCRIPTION
-  Follows this repository's established convention (see CrystalBall/_tools/Run-Tests.ps1):
+  Follows this repository's established convention (see CrystalBall/scripts/Run-Tests.ps1):
   the suite writes with Write-Output and never Write-Host, a test body returns problem strings
   (empty = pass), and a skip is loud - counted and printed, never a silent pass.
 
@@ -340,7 +340,7 @@ It 'SkillIcons_Settings.label/.description resolve: English from the Def, French
 # LITERAL straight out of PassionIconAnimations.cs, not the compiled field - a source-level
 # check, not a DLL-level one, and said so rather than silently claiming the stronger kind.
 $animSourceFile = Join-Path $ModRoot 'Source\PassionIconAnimations.cs'
-$genJs = Join-Path $ModRoot '_tools\gen.js'
+$genJs = Join-Path $ModRoot 'scripts\gen.js'
 
 function Get-CsSpecsFromSource([string]$path) {
     $text = Get-Content $path -Raw -Encoding UTF8

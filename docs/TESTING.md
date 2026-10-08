@@ -38,14 +38,14 @@ The log lives at:
 
 ## How many passes, and which
 
-**Eight acceptance tickets, plus the separate publication studio pass.** A mod whose TESTING.md
+**Eight acceptance tickets, plus the separate gallery (sanctuary) pass.** A mod whose TESTING.md
 does not name its required mod sets and process boundaries has been tried, not tested. The
 acceptance set is minimal/no optional, Oracle, RIMMSQOL, the two-process restart chain, and one
 three-feature ticket for each of Better, Compact, Enhanced and Krypt Work Tab.
 
 **Completed 2026-09-22:** RIMMSQOL 4/4; restart writer 1/1 then reader 1/1; Better, Compact,
 Enhanced and Krypt each 3/3. All required reports were complete with no skips, and every review
-capture was opened: four for RIMMSQOL and nine for each replacement Work Tab. The studio pass also
+capture was opened: four for RIMMSQOL and nine for each replacement Work Tab. The gallery pass also
 passed 2/2 and its two final publication images were reviewed separately.
 
 **Measured 2026-09-21, and the first time this pass has run:** `15` and `16` with Oracle staged, 2 scenarios,
@@ -70,7 +70,7 @@ suite's own DLL.
 this one write to the **same texture paths**, so whichever loads last wins - which is the entire
 reason `About.xml` names it in `<loadAfter>`. In the minimal pass the icon scenarios prove this
 mod's textures load; in this one they prove the `loadAfter` actually wins. **Nothing else covers
-that.** `_tools/Run-Tests.ps1` reads this mod's own files and cannot see a second mod overwriting
+that.** `scripts/Run-Tests.ps1` reads this mod's own files and cannot see a second mod overwriting
 a path at load, so if the ordering silently broke, every scenario in this suite would stay green
 while every player who has Oracle installed saw Oracle's icons instead of these.
 
@@ -96,9 +96,9 @@ No optional of this mod is incompatible with another. The four Work-tab passes a
 compatibility matrix because each replacement owns a different visible Work interface; they are
 not a combinatorial fan-out.
 
-**`11-publication-shots.feature` belongs to the studio pass only**. Run it with
-`wsl-deps.studio.map`, which stages PickleTools' ScreenshotStudio, ClearScreen, InspectTabs and
-ScreenshotMode companions and loads `nelim-zen-meadow-studio`; functional scenarios keep their
+**`11-gallery-sanctuary.feature` belongs to the `sanctuary` pass only** (2026-10-08, replaces the zen-studio `11-publication-shots.feature`). Run it with
+`wsl-deps.sanctuary.map`, which stages PickleTools' ScreenshotStudio, CameraZoom, StageDecor, ClearScreen, InspectTabs, ScreenshotMode and ColonistRace companions and loads the Sanctuary of Nelim (`Nelims-tribe`);
+functional scenarios keep their
 existing fixtures and maps.
 Any third-party skill or work interface may redraw what it photographs - Bio Tab+ draws its own
 character card and never reaches this mod's transpiler; a third-party Work tab replacement shows
@@ -120,9 +120,9 @@ Pickle reports pile up and the disk is finite, so only what still proves somethi
   - `docs/runs/2026-09-23-44fde64-summary.md` - features 01 to 10, 14 and 15 on the shipped build,
     18 of 18 (report on disk in `Tests/Pickle/Evidence/0923-44fde64-sans-facultatifs/`).
   - The passes the latest run does not repeat, each the only proof of its check: the Oracle map
-    (feature 16), RIMMSQOL (17), the studio captures (11), the two-process restart (12 then 13),
+    (feature 16), RIMMSQOL (17), the gallery captures (11, to be replayed in the sanctuary pass), the two-process restart (12 then 13),
     the French pass of features 09 and 10, and the four replacement Work Tab matrices.
-- **Images:** no PNG or GIF from a test run is versioned (`docs/runs/*.png` and `*.gif` are ignored; the two shortcut-bar PNGs were removed from git 2026-10-08). A capture worth citing is described in the run summary. `Screenshots/` is the Workshop gallery, not test evidence.
+- **Images:** no PNG or GIF from a test run is versioned (`docs/runs/*.png` and `*.gif` are ignored; the two shortcut-bar PNGs were removed from git 2026-10-08). A capture worth citing is described in the run summary. `Art/Gallery/` is the Workshop gallery, not test evidence.
 - **On disk today (2026-10-08):** only `Tests/Pickle/Evidence/0923-44fde64-sans-facultatifs/` (no screenshots, 26 KB). The 2026-09-22 passes (Oracle, RIMMSQOL, studio, restart, French, Work Tab matrices) left no report on disk: their proof is the record in `STATUS.md` and `docs/runs/`. No archive of this mod in `pickle-reports-archive/`.
 - **To keep after every run:** `junit.xml`, `summary.json`, `summary.md`, `exit.txt`; drop `Player.log`, `messages.ndjson` and screenshots once a newer run replaces them.
 - **Rerun rule:** a change to the mod's code invalidates these passes and they are run again. A
@@ -132,10 +132,10 @@ Pickle reports pile up and the disk is finite, so only what still proves somethi
 
 ## The other half, which does not need a colony
 
-`_tools/Run-Tests.ps1` runs twenty-five tests without starting the game:
+`scripts/Run-Tests.ps1` runs twenty-five tests without starting the game:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File _tools\Run-Tests.ps1
+powershell -ExecutionPolicy Bypass -File scripts\Run-Tests.ps1
 ```
 
 It asks a different question from the one this file asks: whether the settings clamps, the
@@ -241,7 +241,7 @@ conditions for the Work tab: not met. Passed.
 custom step set is exactly what is drawn - Shooting cleared and iconless, Mining a hollow heart
 (Minor), Cooking and Plants filled red hearts (Major, and the granted `VSE_Natural`), Melee a
 distinct pink spiral. Heart set, not vanilla flame/star, varying with state. Passed. Cropped to
-`Screenshots/04-bio-tab-skills.png`.
+`Art/Gallery/7-bio-tab-skills.png`.
 Third-party skill/work UI observed in the meantime, 2026-09-18, recorded here as extra evidence
 rather than a verdict on this scenario:
 

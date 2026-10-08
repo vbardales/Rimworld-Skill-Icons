@@ -21,7 +21,7 @@ update of Vanilla Skills Expanded or Alpha Skills.
 
 **What already exists.** The gallery itself (`DrawGallery` in `SkillIconsMod.cs`), which enumerates
 `DefDatabase<PassionDef>` and already resolves both variants per passion. The generator writes 41
-parametric drawings to `_tools/svg/Passions/`, so the pool a player could choose from is already
+parametric drawings to `scripts/svg/Passions/`, so the pool a player could choose from is already
 larger than any one passion set uses: a VSE install shows a subset, and an Alpha Skills install a
 different one, but every drawing ships.
 

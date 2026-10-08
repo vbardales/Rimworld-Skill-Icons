@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Regenerates FRENCH_REVIEW.md from the shipped Keyed and DefInjected XML, per TRANSLATIONS.md
-// "Review file". Run from the mod root: node _tools/gen-french-review.js
+// "Review file". Run from the mod root: node scripts/gen-french-review.js
 
 const fs = require('fs');
 const path = require('path');

@@ -9,7 +9,7 @@ namespace SkillIcons.PickleSteps
     /// Everything docs/TESTING.md Scenarios 2, 3, 4 and 7 need that Pickle's own generic
     /// vocabulary does not already cover: opening the real Dialog_ModSettings the primary Options
     /// entry itself opens, and writing SkillIconsSettings' fields directly - the same fields
-    /// _tools/Run-Tests.ps1 already proves the clamps and defaults for out of game.
+    /// scripts/Run-Tests.ps1 already proves the clamps and defaults for out of game.
     /// </summary>
     [PickleSteps]
     public class SettingsSteps

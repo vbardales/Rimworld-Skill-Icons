@@ -11,7 +11,7 @@
 # fix at all: the two blindness tiers still share one icon upstream, which Sarg confirmed is his
 # intentional design, and this mod keeps its own divergence anyway, for its own reason.
 #
-# _tools/Run-Tests.ps1 already replays both patch files out of game. This is not the same check:
+# scripts/Run-Tests.ps1 already replays both patch files out of game. This is not the same check:
 # that one proves the XML transforms def nodes read off disk, this one proves the transformed
 # values survived a real load, with every other installed mod also patching, in the order the
 # player's own mod list produced.

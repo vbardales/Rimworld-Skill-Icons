@@ -16,9 +16,9 @@
 const fs = require('fs');
 
 const base = 'C:/Users/nelim/Documents/rimworld/SkillIcons';
-const SVG = `${base}/_tools/svg`;
+const SVG = `${base}/scripts/svg`;
 
-// Order = increasing hue, measured on the PNGs by _tools/audit-teintes.ps1.
+// Order = increasing hue, measured on the PNGs by scripts/audit-teintes.ps1.
 // The ranks are kept as comments so a review is possible without rerunning
 // the audit.
 const GRILLE = [

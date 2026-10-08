@@ -1,7 +1,7 @@
 # Steam does not read .gitignore at all. SteamUGC.SetItemContent takes the junction's target
 # directory as it stands on disk, with no filtering, so anything sitting in the published folder
 # is published. That is what Mod/ is for: the junction from RimWorld/Mods points there, and
-# everything else in this repository - Art/, _tools/, this file - stays out of reach by
+# everything else in this repository - Art/, scripts/, this file - stays out of reach by
 # construction.
 
 # Build intermediates.
@@ -42,3 +42,6 @@ Tests/Pickle/Evidence/
 # described in words there, and the file itself stays on disk under Tests/Pickle/Evidence/.
 docs/runs/*.png
 docs/runs/*.gif
+
+# Preview renderer QA output (PUBLISHING.md, "Jeu minimal de sources et sorties de Preview").
+Art/.render/

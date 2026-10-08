@@ -3,7 +3,7 @@
   <PropertyGroup>
     <!--
       Tooling project, not mod content: its intermediates go outside the published folder like
-      everyone else's. The _tools folder itself stays in the repository; whether it ships to the
+      everyone else's. The scripts folder itself stays in the repository; whether it ships to the
       Workshop is decided by the junction, which targets Mod/ alone.
     -->
     <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)..\.build\obj\SkillIcons-tools\</BaseIntermediateOutputPath>

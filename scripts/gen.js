@@ -955,7 +955,7 @@ I.AS_TraumaticPassion = c =>
 //   GREY    = two greys                (Work tab variants)
 
 const base = 'C:/Users/nelim/Documents/rimworld/SkillIcons';
-const dirs = { svg: `${base}/_tools/svg/Passions`, sil: `${base}/_tools/sil` };
+const dirs = { svg: `${base}/scripts/svg/Passions`, sil: `${base}/scripts/sil` };
 Object.values(dirs).forEach(d => fs.mkdirSync(d, { recursive: true }));
 
 const ACTIVE = k => P[k];
@@ -1029,7 +1029,7 @@ emit('AS_BlindPassionSublime_Active', 'AS_BlindPassionSublime', teinte('AS_Blind
 // And the same under RimWorld's own paths: that is where VSE looks for the
 // grid icon of "interested" and "burning". Without this, the Work tab
 // mixes our hearts with the base game's flames.
-const dirUI = `${base}/_tools/svg/UI`;
+const dirUI = `${base}/scripts/svg/UI`;
 fs.mkdirSync(dirUI, { recursive: true });
 for (const [nom, dessin, res] of [
   ['PassionMajor', 'PassionMajor', ACTIVE], ['PassionMajorGray', 'PassionMajor', GREY],
@@ -1121,7 +1121,7 @@ const transform = (mode, i, n) => {
   }
 };
 
-const frameDir = `${base}/_tools/svg/Frames`;
+const frameDir = `${base}/scripts/svg/Frames`;
 fs.mkdirSync(frameDir, { recursive: true });
 let nb = 0;
 for (const [cle, n, mode] of SPECS) {

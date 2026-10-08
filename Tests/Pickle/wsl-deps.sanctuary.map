@@ -1,0 +1,11 @@
+# Gallery captures of Skill Icons on the Sanctuary of Nelim (SanctuaryBacklot, save Nelims-tribe): the Backlot's tools as they are, plus the inspect tab and screenshot mode companions.
+# Presentation only: the functional passes keep their own maps and test-colony preconditions. Skill Icons itself, Harmony and Vanilla Skills Expanded are staged by the launcher.
+nelim.pickletools.screenshotstudio path:PickleTools/ScreenshotStudio/Mod
+nelim.pickletools.camerazoom path:PickleTools/CameraZoom/Mod
+nelim.pickletools.stagedecor path:PickleTools/StageDecor/Mod
+nelim.pickletools.clearscreen path:PickleTools/ClearScreen/Mod
+nelim.pickletools.inspecttabs path:PickleTools/InspectTabs/Mod
+nelim.pickletools.screenshotmode path:PickleTools/ScreenshotMode/Mod
+nelim.pickletools.colonistrace path:PickleTools/ColonistRace/Mod
+# The bundle is committed under PickleTools/Mod: this shell replaces it, so the tools above are the only copy of their steps (see StandaloneBase).
+nelim.pickletools   path:PickleTools/Tests/Pickle/StandaloneBase/Mod

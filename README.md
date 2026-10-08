@@ -108,7 +108,7 @@ last wins — and this one is meant to.
 
 ## Credits
 
-Every texture in this mod is drawn from scratch by `_tools/gen.js`; none is
+Every texture in this mod is drawn from scratch by `scripts/gen.js`; none is
 Oracle's. But the visual language — a heart carrying one small mark that says
 which passion it is — is theirs, from Skill Icon Retextures, and this set follows
 it deliberately. Thanks to them.
@@ -154,19 +154,19 @@ purple at all five rungs, `Psychic` stays lavender.
 
 **2. Every icon must be recognisable as a plain black silhouette.**
 Colour is a second, redundant channel. The generator writes a silhouette copy of
-each icon to `_tools/silpng/`; that is the test, and it is meant to be looked at.
+each icon to `scripts/silpng/`; that is the test, and it is meant to be looked at.
 Its corollary: work-tab `*Grey` variants use **two** greys (`#939393` for the
 main shape, `#6B6B6B` for the accessory). Flattening to a single grey destroys
 the crown, the padlock and the snowflake.
 
 ## Layout
 
-Everything RimWorld distributes lives under `Mod/`; `_tools/` and `Art/` sit
+Everything RimWorld distributes lives under `Mod/`; `scripts/` and `Art/` sit
 beside it, outside. That split is not tidiness. Publishing goes through
 `SteamUGC.SetItemContent(<mod folder>)`, which takes the folder **as it is**,
 with no filtering and no exclusion list: whatever the Steam junction points at
 gets uploaded. With everything at the root, that meant 4.1 MB going to the
-Workshop, 2.2 of them being `_tools/` — the generator sources, which are exactly
+Workshop, 2.2 of them being `scripts/` — the generator sources, which are exactly
 what should never ship. Pointing the junction at `Mod/` instead sends 1.8 MB.
 
 The junction must therefore target `SkillIcons/Mod`, never `SkillIcons`. To
@@ -176,7 +176,7 @@ repository at the other end.
 
 ## Testing
 
-`powershell -ExecutionPolicy Bypass -File _tools/Run-Tests.ps1` runs 25 tests without starting
+`powershell -ExecutionPolicy Bypass -File scripts/Run-Tests.ps1` runs 25 tests without starting
 the game: settings defaults and clamping, the MainButtons shortcut's wiring (read from its IL,
 since it cannot be called outside the game), every Harmony patch target resolved against the
 real installed Assembly-CSharp/VSE.dll, the animation frame table checked against `gen.js` and the
@@ -188,7 +188,7 @@ need a running game; several are now confirmed (see that file for current status
 
 ## Development
 
-`bash _tools/build.sh` regenerates everything: `_tools/gen.js`'s 41 parametric
+`bash scripts/build.sh` regenerates everything: `scripts/gen.js`'s 41 parametric
 passion drawings become the 85 static textures, the 920 animation frames and
 the 85 silhouettes. Animation frame counts and modes in `gen.js` mirror the `Specs`
 table in `PassionIconAnimations.cs` exactly — a count that drifts makes the DLL
@@ -201,7 +201,7 @@ exactly like a broken patch. The mod therefore logs
 `[SkillIcons] assembly dated <date>` on load: compare it against the DLL's
 timestamp before diagnosing anything.
 
-**Packaging.** What ships to the Workshop is not this folder: `_tools/`, the
+**Packaging.** What ships to the Workshop is not this folder: `scripts/`, the
 `.pdb`, and the C# project files are dropped, which takes it from 5.4 MB to 3.2.
 That is done by `Build-Release.ps1`, which lives one level up in the author's mod
 monorepo rather than here, since it serves every mod in it. Its interesting half
@@ -218,7 +218,7 @@ reason the mascot reads at the 32 px RimWorld actually draws it at. `build.sh`
 used to rasterise an earlier four-hearts icon over this file, and would have
 replaced the mascot on the next full pass; it no longer writes to `About/`.
 
-`_tools/preview.js` composes `Mod/About/Preview.png` from the
+`scripts/preview.js` composes `Mod/About/Preview.png` from the
 SVGs `gen.js` just wrote, so the store images can never advertise a palette the
 mod no longer ships — which is exactly what the previous hand-drawn preview did.
 The grid is **sorted by hue**, 0° to 360°, because that layout demonstrates
@@ -226,13 +226,13 @@ design rule 1 instead of merely asserting it. Each icon's element ids are
 prefixed per slot: every file restarts at `id="m1"`, and two same-named masks in
 one document clip each other's shapes.
 
-`_tools/audit-teintes.ps1` measures the dominant hue of every colour icon from
+`scripts/audit-teintes.ps1` measures the dominant hue of every colour icon from
 the rendered PNG, weighted by alpha and saturation. It checks design rule 1 on
 what actually ships rather than on what `gen.js` intends — the two diverged once,
 when a palette change was written but the full render pass was never re-run, and
 the old red-hearted set stayed on disk.
 
-`_tools/animation-source/Tools/Build-*.ps1` are superseded and their source paths
+`scripts/animation-source/Tools/Build-*.ps1` are superseded and their source paths
 (`oracle-identity-svg`, `oracle-circumstantial-svg`, `oracle-remaining-svg`) no
 longer exist.
 
@@ -245,6 +245,6 @@ the DLL/disk cross-check is what catches that.
 
 MIT — see [LICENSE](LICENSE).
 
-Every texture is drawn from scratch by `_tools/gen.js`; no asset comes from
+Every texture is drawn from scratch by `scripts/gen.js`; no asset comes from
 another mod. See **Credits** above for what this set owes Oracle, which is the
 visual language and not the artwork.

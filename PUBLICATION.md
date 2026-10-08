@@ -28,17 +28,17 @@ button. The full procedure (dry-run rules, credentials, approval) is in `docs/OP
   it to BBCode with the library semantic-release uses for a README, and the dry-run prints the converted text, its
   size and SHA-256 and the diff against the page. Checked on 2026-09-25 against the public page: identical, nothing
   would change.
-- **The gallery listing**: `galleryDir` in `.github/publish.config.json` is `Screenshots`, so the dry-run
+- **The gallery listing**: `galleryDir` in `.github/publish.config.json` is `Art/Gallery`, so the dry-run
   and the publish log list the files of that folder with their sizes, as a reminder of the manual gallery
   upload. It sends nothing (SteamCMD has one image field, `previewfile`), and it lists by file name: the
-  upload order is the table in "Screenshots, in this order" below.
+  upload order is the table in "Gallery, in this order" below.
 
 To see whether the workflow is behind the shared template, and to regenerate it, always with the same
 arguments (a `--replace` without `--gallery-dir` or `--description-markdown` silently drops `galleryDir` or the description source):
 
 ```bash
 bash /c/Users/nelim/Documents/rimworld/Rimworld-Release-Admin/scripts/generate-publish-workflow.sh "$PWD" --check
-bash /c/Users/nelim/Documents/rimworld/Rimworld-Release-Admin/scripts/generate-publish-workflow.sh "$PWD" --workshop-id 3805383957 --package-id nelim.skillicons --release-title "Skill Icons {version}" --require 1.6/Assemblies/SkillIcons.dll --gallery-dir Screenshots --description-markdown Mod/README.template.md --replace
+bash /c/Users/nelim/Documents/rimworld/Rimworld-Release-Admin/scripts/generate-publish-workflow.sh "$PWD" --workshop-id 3805383957 --package-id nelim.skillicons --release-title "Skill Icons {version}" --require 1.6/Assemblies/SkillIcons.dll --gallery-dir Art/Gallery --description-markdown Mod/README.template.md --replace
 ```
 
 Generate from a clean checkout, then run `node --test '.github/tests/*.test.mjs'` and commit `.github/`.
@@ -62,29 +62,38 @@ The workflow creates tag `v<version>` and the GitHub release itself after a succ
 not create them by hand. If only that last job fails, use "Re-run failed jobs", never "Re-run all
 jobs". Afterwards check the public page and record the evidence in `STATUS.md`.
 
-## Screenshots, in this order
+## Gallery, in this order
 
 Steam shows the first one large under the Preview, so the most demonstrative goes there rather
-than the prettiest.
+than the prettiest. The upload folder is `Art/Gallery/` and holds only the images to upload,
+numbered `0-`, `1-`, `2-`… in page order (PUBLISHING.md, "Images"): `0-preview.png` is a byte
+copy of `Mod/About/Preview.png`, written by `scripts/Render-Preview.cjs` from `Art/Preview.config.json`.
+Each image under 2 MB, the folder under 8 MB. A candidate is `<index>-candidate-<name>.png`; the
+index is the final one and may repeat an approved image's (the candidate is meant to replace it).
+Accepted: drop `candidate`. Refused: delete. Approved images stay until an accepted candidate replaces them.
 
 | Order | File | What it shows |
 |---|---|---|
-| 1 | `Screenshots/02-work-tab-modes.png` | The three work tab modes, stacked and labelled. The strongest single image: it shows what the mod does and why it has settings, at once. |
-| 2 | `Screenshots/07-passions-animated.gif` | Sixteen passions animating, 6s, looping. The one thing a still cannot carry. |
-| 3 | `Screenshots/01-settings-page.png` | The whole settings window on a clean configuration, live gallery at the bottom. |
-| 4 | `Screenshots/06-worktab-icons-large.png` | Work tab cells at maximum size and opacity. |
-| 5 | `Screenshots/05-worktab-icons-small.png` | The same at minimum — 4 and 5 are the before/after of the two sliders. |
-| 6 | `Screenshots/03-no-passion-icon.png` | The "no passion" icon off then on, side by side. |
-| 7 | `Screenshots/04-bio-tab-skills.png` | The skill list. The weakest: fixture colonists, low levels. Last, or not at all. |
+| 0 | `Art/Gallery/0-preview.png` | The Preview, regenerated 2026-10-08 from the new `Art/ModIcon-source.png`. |
+| 1 | `Art/Gallery/1-work-tab-modes.png` | The three work tab modes, stacked and labelled. The strongest single image: it shows what the mod does and why it has settings, at once. |
+| 2 | `Art/Gallery/2-passions-animated.gif` | Sixteen passions animating, 6s, looping. The one thing a still cannot carry. |
+| 3 | `Art/Gallery/3-settings-page.png` | The whole settings window on a clean configuration, live gallery at the bottom. |
+| 4 | `Art/Gallery/4-worktab-icons-large.png` | Work tab cells at maximum size and opacity. |
+| 5 | `Art/Gallery/5-worktab-icons-small.png` | The same at minimum — 4 and 5 are the before/after of the two sliders. |
+| 6 | `Art/Gallery/6-no-passion-icon.png` | The "no passion" icon off then on, side by side. |
+| 7 | `Art/Gallery/7-bio-tab-skills.png` | The skill list. The weakest. Last, or not at all. |
 
-`Screenshots/README.md` says how each one was cropped and from which capture.
+`docs/gallery.md` says how each was cropped and from which capture.
 
-The settings and Bio images were regenerated headlessly on 2026-09-22 against PickleTools' tested
-zen studio fixture, then opened and reviewed individually. The first green attempt was rejected:
-screenshot mode hid the Bio `InspectTab` while leaving only the pawn card. The corrected pass
-(`0922-1623`) kept that interface where it is the subject and passed 2/2. Both selected crops are
-under 2 MB and contain the intended window/tab over the zen background. Green proves the journey
-ran; the recorded visual review is what makes these two images publishable.
+**Candidates in progress (2026-10-08).** The 2026-09-22 settings and Bio images were taken over the
+zen studio, which the owner replaced for galleries by the Sanctuary of Nelim (SanctuaryBacklot).
+`Tests/Pickle/Mod/Pickle/Features/11-gallery-sanctuary.feature` stages one small story (Nelim reads
+her skills in the salon, opens the work tab, then the settings) and writes
+`7-candidate-bio-tab-salon`, `1-candidate-work-tab-{colour,grey,mixed}` and
+`3-candidate-settings-page`. Places chosen from the descriptions in `PickleTools/docs/SANCTUAIRE-LIEUX.md`
+(`sofa-corner`, `window-backdrop-for-width`, `window-backdrop-for-height`); the empty photographs
+that doc cites are not on this machine, so the choice is confirmed by the captures themselves.
+Every capture is opened and read before it is accepted; a green run does not accept it.
 
 ## Dependencies and DLCs
 

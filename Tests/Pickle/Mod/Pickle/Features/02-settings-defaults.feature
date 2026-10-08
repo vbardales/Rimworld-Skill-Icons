@@ -1,6 +1,6 @@
 # docs/TESTING.md Scenario 2. Nothing is asserted about the drawn layout itself: the report
 # carries one screenshot of the settings window on a clean configuration, and a person compares it
-# against the documented defaults - the same dictionary _tools/Run-Tests.ps1's own "a fresh
+# against the documented defaults - the same dictionary scripts/Run-Tests.ps1's own "a fresh
 # SkillIconsSettings matches the documented defaults" test checks against the compiled DLL
 # out of game. This scenario proves the same values reach the real window; it does not prove the
 # field defaults themselves are right (Run-Tests.ps1 already does that).

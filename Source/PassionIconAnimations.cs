@@ -32,7 +32,7 @@ public static class PassionIconAnimations
         // The key is the defName; the first field is the texture name, which
         // can differ (two degrees of "blind" share the same sequence).
         //
-        // This table MUST stay identical to SPECS in _tools/gen.js. A count
+        // This table MUST stay identical to SPECS in scripts/gen.js. A count
         // that drifts falls the passion back to its static icon, with no
         // error or message - the hardest failure to spot here.
 

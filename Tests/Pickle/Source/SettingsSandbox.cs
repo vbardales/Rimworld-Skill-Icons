@@ -154,7 +154,7 @@ namespace SkillIcons.PickleSteps
         }
 
         /// <summary>
-        /// The documented defaults - the same dictionary _tools/Run-Tests.ps1's own "a fresh
+        /// The documented defaults - the same dictionary scripts/Run-Tests.ps1's own "a fresh
         /// SkillIconsSettings matches the documented defaults" test checks against the compiled
         /// DLL. A brand new instance already carries them via its field initializers.
         ///
