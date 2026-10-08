@@ -263,10 +263,10 @@ public static class WorkTabPassionAnimationPatch
         var ourDraw = AccessTools.Method(typeof(PassionIconAnimations),
             nameof(PassionIconAnimations.DrawWorkBoxPassion));
 
-        // We do NOT pin down one exact GUI.DrawTexture overload: the game and
+        // We do NOT pin down one exact GUI.DrawTexture overload by its full signature: the game and
         // VSE have both changed it from one version to the next, and a
         // signature that no longer matches makes the hijack fail silently.
-        // We therefore accept any overload whose first two parameters are
+        // We therefore accept any two-parameter overload whose parameters are
         // (Rect, Texture) - the only icon draw call possible here.
         static bool EstDessinTexture(CodeInstruction ci)
         {

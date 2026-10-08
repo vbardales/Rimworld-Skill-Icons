@@ -132,7 +132,9 @@ public sealed class SkillIconsMod : Mod
         GUI.color = Color.white;
 
         var top = galleryLabel.yMax + 4f;
-        DrawGallery(new Rect(inRect.x, top, inRect.width, inRect.yMax - top));
+        // A short window (high UI scale, a long hint) must not hand the scroll view a
+        // negative height: the gallery would vanish with no scrollbar to reach it.
+        DrawGallery(new Rect(inRect.x, top, inRect.width, Mathf.Max(RowHeight * 2f, inRect.yMax - top)));
     }
 
     private void DrawGallery(Rect rect)
