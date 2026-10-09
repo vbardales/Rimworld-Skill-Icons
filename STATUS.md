@@ -10,7 +10,7 @@ visibility:   public
 detached:     yes
 stage:        tested
 workflow_stage: tested
-code_review_sha: cba867f354933701d360faba31e8f8db46678ed8  # was `code_review`: <sha> (2026-10-08, /code-review low on Source/, from the first commit; 2 low findings, both fixed in f8aa607913d0598a985b581bfc78a9e6b8b98fdc: gallery rect height floored, EstDessinTexture comment corrected; DLL rebuilt)
+code_review_sha: c91d66b550ac52de6dd1f5bb0ff54a1c87318485  # 2026-10-09, /code-review low on cba867f..HEAD (Source/, Mod/): 0 findings
 licence:      original
 licence_at:   original work, MIT; Oracle's Skill Icon Retextures credited for the visual language only, no texture reused (verified against ATTRIBUTION.md and the generator)
 upstream_mod_remotes:
@@ -42,18 +42,10 @@ remaining:
   - known, not a defect: a plain run of the whole suite is red. 16 fails without Oracle staged and
       13 refuses to pass when 12 ran in the same process, both by design. They are run by name.
       Moving them to a companion suite a plain launch does not select is proposed, not done.
-  - unverified: feature 10 (English and French) not rerun on the 1.0.3 string fixes. The Pickle
-      queue was deep (48+ tickets) at the time of the change; a change to existing string content,
-      not a new/removed key, does not invalidate the whole `tested` gate (AUDIT.md line 249), so
-      `stage` is `prepublished` rather than dropped to `tested`. Rerun feature 10 before publish,
-      or accept the risk explicitly - two wording fixes with no raw-key risk (both keys already
-      existed and are unchanged in structure).
-  - unverified: "French review by Virginie" (TRANSLATIONS.md, 2026-09-30). `translation_fr` reset
-      to `unchecked` project-wide by that rule; not a defect found in this mod. `FRENCH_REVIEW.md`
-      generated at mod root by `_tools/gen-french-review.js` (reads shipped XML, not hand-written)
-      for her to read. `translation_fr` stays `unchecked` until she reviews and a dated line is
-      recorded under `Translation audit` below - a session cannot record this itself.
-session:      local_314cf7e0-0763-4b3b-b4b7-03e564331dc5
+  - unverified: Pickle non-regression replay of feature 10 (English and French) on the reworded strings (1.0.3 and the
+      2026-10-09 wording pass). A text-only edit after validation: the replay is played after the deploy, per language, in small
+      tickets (AUDIT.md, "Une modification de texte apres validation"), not before it. Its verdict goes to `STATUS.md` and `docs/runs/`.
+session:      local_44ffc092-9e34-441b-936d-02d01889828c
 updated:      2026-10-09 (strings reworded on the owner's review proposal, un.e colon removed, FRENCH_REVIEW.md regenerated, feature 10 still to rerun); previously 2026-09-30, TRANSLATIONS.md's French agreement/review rules (2026-09-30) applied.
               `translation_fr` reset `complete` -> `unchecked`, project-wide rule, not a defect
               found here. Audit: only two French files ship
