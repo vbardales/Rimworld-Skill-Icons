@@ -10,7 +10,7 @@ visibility:   public
 detached:     yes
 stage:        tested
 workflow_stage: tested
-code_review:  cba867f354933701d360faba31e8f8db46678ed8 (2026-10-08, /code-review low on Source/, from the first commit; 2 low findings, both fixed in f8aa607913d0598a985b581bfc78a9e6b8b98fdc: gallery rect height floored, EstDessinTexture comment corrected; DLL rebuilt)
+code_review_sha: cba867f354933701d360faba31e8f8db46678ed8  # was `code_review`: <sha> (2026-10-08, /code-review low on Source/, from the first commit; 2 low findings, both fixed in f8aa607913d0598a985b581bfc78a9e6b8b98fdc: gallery rect height floored, EstDessinTexture comment corrected; DLL rebuilt)
 licence:      original
 licence_at:   original work, MIT; Oracle's Skill Icon Retextures credited for the visual language only, no texture reused (verified against ATTRIBUTION.md and the generator)
 upstream_mod_remotes:

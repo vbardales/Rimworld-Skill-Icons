@@ -54,7 +54,7 @@ namespace SkillIcons.PickleSteps
 
         /// <summary>
         /// Assigns a real, installed PassionDef (by defName, e.g. "VSE_Natural" or
-        /// "AS_NudistPassion") to a skill: sets a vanilla passion level so VSE's own drawing code
+        /// "AS_NudistPassion") to a skill: stores the def as VSE does (its index in the passion byte) so VSE's own drawing code
         /// treats the skill as passionate at all (without that, nothing this mod patches runs for
         /// this skill regardless of which def exists), then grants the def's own Hediff if it
         /// declares one. See the file header for what this does and does not prove about the
@@ -69,7 +69,8 @@ namespace SkillIcons.PickleSteps
             ctx.Require(def != null, $"no PassionDef is named '{passionDefName}'; installed: " +
                 string.Join(", ", DefDatabase<PassionDef>.AllDefsListForReading.Select(d => d.defName)));
 
-            skill.passion = def.learnRateFactor > 1f || def.isTriggered ? Passion.Major : Passion.Minor;
+            // VSE stores the PassionDef as an index in the vanilla passion byte (PassionManager.Passions[index]).
+            skill.passion = (Passion)(byte)def.index;
 
             if (def.hediffToAdd != null)
             {

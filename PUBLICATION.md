@@ -70,6 +70,9 @@ numbered `0-`, `1-`, `2-`… in page order (PUBLISHING.md, "Images"): `0-preview
 copy of `Mod/About/Preview.png`, written by `scripts/Render-Preview.cjs` from `Art/Preview.config.json`.
 Each image under 2 MB, the folder under 8 MB. A candidate is `<index>-candidate-<name>.png`; the
 index is the final one and may repeat an approved image's (the candidate is meant to replace it).
+Work tab and settings shots are cropped after the run (work tab: the window, 1210x250; settings: 1040 px around the dialog, full height).
+Only images the session itself has opened and validated become candidates: a capture the session would refuse
+stays in the Pickle evidence folder and never reaches `Art/Gallery/`; the owner then judges candidates, not raw run output.
 Accepted: drop `candidate`. Refused: delete. Approved images stay until an accepted candidate replaces them.
 
 | Order | File | What it shows |
