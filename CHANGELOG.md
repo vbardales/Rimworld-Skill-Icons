@@ -7,8 +7,9 @@ This file serves the repository and the writing of Steam patch notes; RimWorld d
 
 ### Fixed
 
+- Wording pass on `SkillIcons.AnimatedDesc`, `WorkTabGreyDesc` and `WorkTabMixedDesc` (English) and `WorkTabMixedDesc` (French): clearer, more consistent terms.
 - The French `SkillIcons.WorkTabMixedDesc` string used an em dash; replaced with a comma, matching the rest of the mod's French strings.
-- The French `SkillIcons.ShowNoneDesc` string used the masculine-only article ("un colon"); changed to the epicene form "un.e colon" - "colon" itself is already epicene (un colon / une colon), only the article carries gender.
+- The French `SkillIcons.ShowNoneDesc` string used the masculine-only article ("un colon"); reworded without a gendered subject ("lorsqu'aucune passion n'est associée à une compétence").
 
 ### Changed
 

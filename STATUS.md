@@ -54,7 +54,7 @@ remaining:
       for her to read. `translation_fr` stays `unchecked` until she reviews and a dated line is
       recorded under `Translation audit` below - a session cannot record this itself.
 session:      local_314cf7e0-0763-4b3b-b4b7-03e564331dc5
-updated:      2026-09-30, TRANSLATIONS.md's French agreement/review rules (2026-09-30) applied.
+updated:      2026-10-09 (strings reworded on the owner's review proposal, un.e colon removed, FRENCH_REVIEW.md regenerated, feature 10 still to rerun); previously 2026-09-30, TRANSLATIONS.md's French agreement/review rules (2026-09-30) applied.
               `translation_fr` reset `complete` -> `unchecked`, project-wide rule, not a defect
               found here. Audit: only two French files ship
               (`Languages/French/Keyed/SkillIcons.xml`, `.../DefInjected/MainButtonDef/MainButtons.xml`),

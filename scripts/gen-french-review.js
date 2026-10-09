@@ -60,7 +60,7 @@ out += '## `Languages/English|French/Keyed/SkillIcons.xml`\n\n';
 out += '| Key or path | Original | English | French |\n|---|---|---|---|\n';
 for (const [key, value] of en) {
   const frText = fr.get(key) ?? '';
-  const uncertain = key === 'SkillIcons.ShowNoneDesc' ? ' | `?` "un.e colon" is a project-wide epicene/inclusive-article convention (TRANSLATIONS.md, 2026-09-30), no {PAWN_gender switch} used since the sentence is generic, not bound to one pawn.' : '';
+  const uncertain = '';
   out += `| \`${key}\` | ${esc(value)} | ${esc(value)} | ${esc(frText)}${uncertain} |\n`;
 }
 

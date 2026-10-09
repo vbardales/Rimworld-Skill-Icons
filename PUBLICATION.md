@@ -227,7 +227,7 @@ they are the one field of the page that can be corrected freely. BBCode works.
 [h3]1.0.3 — Skill Icons[/h3]
 
 [list]
-[*]Fixed two French strings: an em dash in the work tab's mixed-mode description, and a masculine-only article ("un colon") made epicene ("un.e colon") in the "no passion" icon description.
+[*]Fixed two French strings: an em dash in the work tab's mixed-mode description, and a masculine-only article ("un colon") removed by rewording the "no passion" icon description without a gendered subject. A few English strings were also reworded for clarity.
 [/list]
 
 The package ID and saved settings are unchanged.
