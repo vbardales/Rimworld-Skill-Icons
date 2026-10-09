@@ -49,6 +49,7 @@ Feature: Skill Icons' windows, as pictures for the gallery
     And SkillIcons grants "Nelim" skill "Crafting" the passion def "AS_ForbiddenPassion"
     And SkillIcons sets "Nelim" skill "Artistic" passion to "Major"
     And SkillIcons grants "Nelim" skill "Social" the passion def "AS_NightPassion_Active"
+    And Nelim's Pickle Tools: "Nelim" stands at (186, 121) facing South
     And Nelim's Sanctuary: I am at the sanctuary "sofa-corner"
     When I select "Nelim"
     And Nelim's Pickle Tools: I open the "Character" inspect tab
