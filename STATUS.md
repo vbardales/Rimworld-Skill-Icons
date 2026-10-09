@@ -1,7 +1,7 @@
 ---
 localization: complete
 translation_en: complete
-translation_fr: unchecked
+translation_fr: complete
 settings_audit: complete
 mod:          Skill Icons
 packageId:    nelim.skillicons
@@ -216,7 +216,7 @@ generic statement about any pawn, not the engine's 3-segment neutral switch (the
 pawn to switch on here). Flagged for her call on whether the inclusive article reads right in this
 sentence, not because a defect is suspected.
 
-No review recorded yet. `translation_fr: unchecked` until it is.
+French review recorded 2026-10-09: validated by the owner (Virginie) on `FRENCH_REVIEW.md` at revision `a8932bb`. `translation_fr: complete`.
 
 ## Gallery and art pass — 2026-10-08
 
