@@ -16,7 +16,7 @@
 #   Rejected: `hearth-hall` (big, the two thrumbos stand in it), `water-garden` and `left-bank` (pretty, but windows hide them and
 #   a pond behind a form says nothing), `exhibition-zone` (an orange carpet that competes with the passion colours).
 #
-# Passions are staged, not borrowed: Nelim gets eight different passions across hues and across the live/dormant divide, and the
+# Passions are staged, not borrowed (Alpha Skills is staged for the Bio tab: Nelim is incapable of Violent and Intellectual, so only the other nine skills show a passion): Nelim gets eight different passions across hues and across the live/dormant divide, and the
 # extra colonists get their own mix so the work tab grid is not one pawn tall. Names are the Sanctuary's own.
 #
 # Images go to Art/Gallery as `<index>-candidate-<name>.png`, under 2 MB each (8 MB the folder); an accepted one drops the word
@@ -39,15 +39,16 @@ Feature: Skill Icons' windows, as pictures for the gallery
     And Nelim's Pickle Tools: the resource readout is hidden
     And Nelim's Pickle Tools: the alerts are hidden
 
+  @requires:sarg.alphaskills
   Scenario: the Bio tab in the salon, with a passion set worth looking at
-    Given SkillIcons sets "Nelim" skill "Shooting" passion to "Major"
-    And SkillIcons sets "Nelim" skill "Melee" passion to "Minor"
-    And SkillIcons sets "Nelim" skill "Construction" passion to "Major"
-    And SkillIcons sets "Nelim" skill "Mining" passion to "Minor"
-    And SkillIcons sets "Nelim" skill "Cooking" passion to "Major"
+    Given SkillIcons grants "Nelim" skill "Construction" the passion def "VSE_Critical"
+    And SkillIcons grants "Nelim" skill "Mining" the passion def "AS_FrozenPassion"
+    And SkillIcons grants "Nelim" skill "Cooking" the passion def "AS_DrunkenPassion_Active"
     And SkillIcons grants "Nelim" skill "Plants" the passion def "VSE_Natural"
-    And SkillIcons sets "Nelim" skill "Medicine" passion to "Major"
-    And SkillIcons sets "Nelim" skill "Intellectual" passion to "Minor"
+    And SkillIcons grants "Nelim" skill "Animals" the passion def "AS_LikeMindedPassion"
+    And SkillIcons grants "Nelim" skill "Crafting" the passion def "AS_ForbiddenPassion"
+    And SkillIcons sets "Nelim" skill "Artistic" passion to "Major"
+    And SkillIcons grants "Nelim" skill "Social" the passion def "AS_NightPassion_Active"
     And Nelim's Sanctuary: I am at the sanctuary "sofa-corner"
     When I select "Nelim"
     And Nelim's Pickle Tools: I open the "Character" inspect tab
