@@ -67,6 +67,7 @@ updated:      2026-10-09 (strings reworded on the owner's review proposal, un.e 
               revision `0a4be43`. `stage` unchanged; `translation_fr` blocks nothing already
               `published`/`prepublished`, per TRANSLATIONS.md's "preserve historical stages".
 history:     updated_1 to updated_9 and the dated sections before 2026-10-08 are folded into docs/runs/status-history-2026-09-to-10.md (2026-10-09)
+protocols_read_sha: 1b783b5de3092d3d09f23d2daceaa46108871de3
 ---
 
 # Skill Icons — status
