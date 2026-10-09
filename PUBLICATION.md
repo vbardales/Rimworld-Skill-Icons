@@ -84,19 +84,14 @@ Accepted: drop `candidate`. Refused: delete. Approved images stay until an accep
 | 4 | `Art/Gallery/4-worktab-icons-large.png` | Work tab cells at maximum size and opacity. |
 | 5 | `Art/Gallery/5-worktab-icons-small.png` | The same at minimum — 4 and 5 are the before/after of the two sliders. |
 | 6 | `Art/Gallery/6-no-passion-icon.png` | The "no passion" icon off then on, side by side. |
-| 7 | `Art/Gallery/7-bio-tab-skills.png` | The skill list. The weakest. Last, or not at all. |
+| 7 | `Art/Gallery/7-bio-tab-skills.png` | Nelim in the salon of the Sanctuary, her Character tab open: the skill list with eight different passion icons, bodies and facial animation of the Sanctuary's minimum list. |
 
 `docs/gallery.md` says how each was cropped and from which capture.
 
-**Candidates in progress (2026-10-08).** The 2026-09-22 settings and Bio images were taken over the
-zen studio, which the owner replaced for galleries by the Sanctuary of Nelim (SanctuaryBacklot).
-`Tests/Pickle/Mod/Pickle/Features/11-gallery-sanctuary.feature` stages one small story (Nelim reads
-her skills in the salon, opens the work tab, then the settings) and writes
-`7-candidate-bio-tab-salon`, `1-candidate-work-tab-{colour,grey,mixed}` and
-`3-candidate-settings-page`. Places chosen from the descriptions in `PickleTools/docs/SANCTUAIRE-LIEUX.md`
-(`sofa-corner`, `window-backdrop-for-width`, `window-backdrop-for-height`); the empty photographs
-that doc cites are not on this machine, so the choice is confirmed by the captures themselves.
-Every capture is opened and read before it is accepted; a green run does not accept it.
+**Sanctuary gallery pass (2026-10-09).** Images 1, 3 and 7 were retaken on the Sanctuary of Nelim (SanctuaryBacklot) by
+`Tests/Pickle/Mod/Pickle/Features/11-gallery-sanctuary.feature` (pass `wsl-deps.sanctuary.map`, the Sanctuary's full minimum mod list and its seeds in
+`Tests/Pickle/config/sanctuary/`). The owner accepted 1 (work tab modes, cropped to the window and stacked), 3 (settings page, cropped around the dialog) and 7
+(Nelim in the salon, `sofa-corner`). No candidate is left in `Art/Gallery/`. Known, not corrected by hand: Nelim's name label stays under her in 7.
 
 ## Dependencies and DLCs
 

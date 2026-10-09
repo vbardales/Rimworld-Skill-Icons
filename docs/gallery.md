@@ -55,3 +55,9 @@ Renamed 2026-10-08 from `Screenshots/NN-name` to `Art/Gallery/<index>-name` (PUB
  ScreenshotsThe twenty-four sequences left out are not worse; their periods are 1.6s, 2.4s,
  Screenshots5.33s or 6.67s, which do not divide six. Widening the set means a longer loop: the
  Screenshotsnext clean length is twelve seconds, at twice the frames and twice the weight.
+
+## Retaken 2026-10-09 on the Sanctuary of Nelim
+
+`1-work-tab-modes.png`, `3-settings-page.png` and `7-bio-tab-skills.png` replace the zen-studio versions above (the table rows for these three are history).
+Source: `Tests/Pickle/Evidence/1009-gallery-sanctuary` (1 and 3) and `1009-gallery-bio-3` (7), feature `11-gallery-sanctuary.feature`, pass `wsl-deps.sanctuary.map`.
+1: the Work window cropped to 1210x250 from each of the three mode captures, stacked with a label above each. 3: 1040 px wide around the dialog, full height. 7: uncropped capture.
