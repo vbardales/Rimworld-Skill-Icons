@@ -3,7 +3,7 @@
 Format inspired by [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This file serves the repository and the writing of Steam patch notes; RimWorld does not display it in game.
 
-## [1.0.3] — unreleased
+## [1.0.3] — 2026-10-09
 
 ### Fixed
 
@@ -13,6 +13,7 @@ This file serves the repository and the writing of Steam patch notes; RimWorld d
 
 ### Changed
 
+- New mod icon and Preview, and a retaken Workshop gallery (work tab modes, settings page and skill list, photographed on the Sanctuary of Nelim).
 - Alpha Skills is now an optional mod (`loadAfter`) instead of a required dependency: nothing in the code references it, so players without it are no longer forced to download it. With it installed nothing changes.
 - Two small robustness fixes in the code: the gallery in the settings page keeps a minimum height in a short window, and a misleading comment about the Work tab patch was corrected.
 

@@ -219,13 +219,15 @@ Written at upload time, in the Change Notes tab, and easy to forget because noth
 until the form is already open. Unlike the description, these DO go out again on every update -
 they are the one field of the page that can be corrected freely. BBCode works.
 
-### 1.0.3 — ready to post with the next Workshop update
+### 1.0.3 — ready to post with the next Workshop update (CI dry-run 2026-10-09)
 
 ```
 [h3]1.0.3 — Skill Icons[/h3]
 
 [list]
 [*]Fixed two French strings: an em dash in the work tab's mixed-mode description, and a masculine-only article ("un colon") removed by rewording the "no passion" icon description without a gendered subject. A few English strings were also reworded for clarity.
+[*]Alpha Skills is now optional: nothing in the mod needs it, so you are no longer forced to download it. With it installed nothing changes.
+[*]New mod icon and Preview, and a retaken gallery.
 [/list]
 
 The package ID and saved settings are unchanged.
