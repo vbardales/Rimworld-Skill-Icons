@@ -61,7 +61,7 @@ updated:      2026-10-09 (strings reworded on the owner's review proposal, un.e 
               n'a aucune passion", `SkillIcons.ShowNoneDesc`): flagged `?` in `FRENCH_REVIEW.md`,
               since "un.e" is this project's inclusive-article convention (Virginie, confirming
               "colon" as epicene) applied to a generic statement, not the engine's 3-segment
-              switch. `FRENCH_REVIEW.md` regenerated (script `_tools/gen-french-review.js`) at
+              switch. `FRENCH_REVIEW.md` regenerated (now by `scripts/Make-FrenchReview.ps1`) at
               revision `0a4be43`. `stage` unchanged; `translation_fr` blocks nothing already
               `published`/`prepublished`, per TRANSLATIONS.md's "preserve historical stages".
 history:     updated_1 to updated_9 and the dated sections before 2026-10-08 are folded into docs/runs/status-history-2026-09-to-10.md (2026-10-09)
@@ -90,7 +90,7 @@ label/description). No grammar files, no `{PAWN_gender ? ...}` switch anywhere i
 French text agrees with a specific pawn's gender.
 
 Full text, both languages, side by side: `FRENCH_REVIEW.md` at the mod root, regenerated from the
-shipped XML by `_tools/gen-french-review.js`, current revision `0a4be43`.
+shipped XML by `scripts/Make-FrenchReview.ps1`, current revision `a8932bb`.
 
 One text flagged `?`: `SkillIcons.ShowNoneDesc` says "un.e colon" - the project's inclusive-article
 convention for "colon" (already epicene: `un colon`/`une colon`, TRANSLATIONS.md) applied to a
