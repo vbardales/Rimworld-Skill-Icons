@@ -8,7 +8,7 @@ packageId:    nelim.skillicons
 repo:         Rimworld-Skill-Icons
 visibility:   public
 detached:     yes
-workflow_stage: shootGallery[1.0.3]
+workflow_stage: mountPreview[1.0.3]
 code_review_sha: c91d66b550ac52de6dd1f5bb0ff54a1c87318485  # 2026-10-09, /code-review low on cba867f..HEAD (Source/, Mod/): 0 findings
 licence:      original
 licence_at:   original work, MIT; Oracle's Skill Icon Retextures credited for the visual language only, no texture reused (verified against ATTRIBUTION.md and the generator)
@@ -38,6 +38,9 @@ workshop:     3805383957, created 2026-09-21 00:07, switched to public the same 
               chain. PUBLICATION.md
               holds what the page needs. The three thank-you comments have been posted.
 remaining:
+  - unverified, blocks mountPreview -> writeDocs (10.f): the GitHub social preview is the old Preview (64321 bytes). The owner uploads `Mod/About/Preview.png` in the repository settings, then the session records `social_preview_sha256` (426a85787537d510e0f89c988937695632e26ea7c544420693c052d06b22bc8c if the file is unchanged).
+  - defect, owner decides (11.c): `Mod/About/About.xml` description differs from the plain text of `Mod/README.template.md`; fixing it touches `Mod/` and reopens code review and playTests.
+  - unverified (11.j, 11.b): `publication_changelog_review_sha` absent; GitHub link label and target not recorded.
   - known limit, not a defect (investigated 2026-10-10, docs/TESTING.md "Enhanced Work Tab"): under Enhanced Work Tab the Work tab modes, size and opacity have no visible effect, the replacement draws its own cell and passion marker. The 2026-09-22 "visibly distinct" record is superseded for Enhanced.
   - known, not a defect: a plain run of the whole suite is red. 16 fails without Oracle staged and
       13 refuses to pass when 12 ran in the same process, both by design. They are run by name.
@@ -57,6 +60,7 @@ updated:      2026-10-10 (playTests closed on 0332ec3, shootGallery next); 2026-
               `published`/`prepublished`, per TRANSLATIONS.md's "preserve historical stages".
 history:     updated_1 to updated_9 and the dated sections before 2026-10-08 are folded into docs/runs/status-history-2026-09-to-10.md (2026-10-09)
 dry_run:     2026-10-09, run 37987136317 (green, read in the log), SHA 4d44951c18cdf303987d0bf5670b1c0f71be06d4, version 1.0.3, options update_preview=true update_description=true (a publish needs the same options). Log: `Publishing 4d44951... as version 1.0.3`; version above v1.0.2; no build project, tracked Mod/ ships as is; change note from PUBLICATION.md 1.0.3 (first line `[h3]1.0.3 - Skill Icons[/h3]`); preview to send 190006 bytes (the page serves 64321 bytes, it would be replaced); description 4479 bytes from Mod/README.template.md, `the page already has this description: nothing would change`; gallery 8 files in Art/Gallery listed for the manual upload; `DRY RUN: nothing was sent to Steam`. No About.xml sync line in the log: this mod does not generate About.xml from the description. Publish: Virginie approves `steam-production`.
+echo_review_sha: 88a212cf0076f7e5dcad75e2e714ff6adcae87ef
 protocols_read_sha: b4a73cf0998fa5914b1d5e52b0817a8fe77abab3
 ---
 
@@ -71,6 +75,25 @@ Audited at `ed6593b`, tree clean. **`tested` (= `shootGallery`) -> `playTests[1.
 - Not blocking: feature 10 post-deploy replay on the reworded strings (text-only edit, runs after deploy).
 - Closed later the same day: 11 Pickle tickets on `0332ec3` all read (docs/runs/2026-10-10-0332ec3-summary.md), captures opened, `settings_audit: passed` (English and French replayed), `code_review_sha` still valid (no `Source/` or `Mod/` commit since). `playTests` -> `shootGallery[1.0.3]`.
 - Reserve, optional: `AUDIT.md` 7.a names `TEST_SCENARIOS.md`; this mod keeps its scenarios in `docs/TESTING.md` (the linter raises no error).
+
+## Audit 2026-10-10, second pass (shootGallery to writeDocs)
+
+Audited at `ed6593b` plus the STATUS commits of the day (no `Source/`, `Mod/` or `Art/` change). **`shootGallery[1.0.3]` -> `mountPreview[1.0.3]`.**
+
+- **9 shootGallery, held.** `Art/Gallery/` holds 0 to 7, contiguous, no candidate, 2.96 MB (each image under 2 MB); `0-preview.png` is byte-identical to `Mod/About/Preview.png`; order justified in `PUBLICATION.md`; all eight images opened (the GIF through frame 10 of 120), accepted by the owner on 2026-10-09 for 1, 3 and 7.
+- **10 mountPreview, one blocker.** `Preview.png` is 896 x 504, 190006 bytes; palette and config present; echo decided 2026-10-10, keep: the line-art hearts carry the same language as the gallery (a heart with one small mark per passion), recognisable at 268 px, no mismatch with the accepted captures (`echo_review_sha`); contrast measured on the rendered PNG: title and copy lines about 15:1, badge digits (`#151219` on `#B162D0`) about 4.9:1. **10.f not met: the GitHub social preview is the old image** (og:image `repository-images.githubusercontent.com/1355970754/...`: 64321 bytes, sha256 `5a39f9c1...`, the Preview now in the repository is 190006 bytes, sha256 `426a8578...`). The upload is a Settings page action of the owner; `social_preview_sha256` is therefore not written.
+- **Seen further down the chain, not blocking this state.** (11.c) `Mod/About/About.xml` `<description>` differs from the plain text of `Mod/README.template.md` (`node .github/scripts/sync-about-description.mjs` exits 1: plain-text section titles and link rendering). Correcting it touches `Mod/`, which reopens `code_review_sha` and `playTests` (AUDIT.md 8.m), so it is left to the owner's call. (11.j) `publication_changelog_review_sha` is absent. (11.b) the label, position and target of the GitHub link are not recorded here.
+
+| Order | File | Why this place |
+|---|---|---|
+| 0 | `0-preview.png` | The Preview, byte copy. |
+| 1 | `1-work-tab-modes.png` | Three work tab modes stacked: shows what the mod does and why it has settings. |
+| 2 | `2-passions-animated.gif` | Sixteen passions animating: what a still cannot carry. |
+| 3 | `3-settings-page.png` | The settings window with the live gallery. |
+| 4 | `4-worktab-icons-large.png` | Work tab at maximum size and opacity. |
+| 5 | `5-worktab-icons-small.png` | Same at minimum (4 and 5 are the before and after of the sliders). |
+| 6 | `6-no-passion-icon.png` | "No passion" icon off then on. |
+| 7 | `7-bio-tab-skills.png` | Nelim's skill list in the Sanctuary, eight different passion icons. |
 
 ## Translation audit — 2026-09-30
 
