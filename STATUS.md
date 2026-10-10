@@ -18,7 +18,7 @@ upstream_mod_remotes:
   - N/A (Alpha Skills and Oracle's Skill Icon Retextures: no git repository found, 2026-10-08)
 dependencies: declared
 showcase:     complete
-tested_on:    2026-10-10, headless WSL, sha 0332ec3 (1.0.3 code), 11 tickets, summary in docs/runs/2026-10-10-0332ec3-summary.md. Green: sans-facultatifs (14 passed, the 2 reds are the by-design 13 and 16), avec-alphaskills 7 of 7, Oracle 15 and 16, RIMMSQOL 4 of 4, restart 12 then 13, Krypt, Better, Compact and Enhanced Work Tab (2 passed, 1 skipped each: the Bio tab scenario needs Alpha Skills), French 02, 09 and 10, French persistence 08. Earlier: 2026-09-22, headless WSL, by named pass. Green: scenario 10 in both language passes; the
+tested_on:    2026-10-10, headless WSL, sha 0332ec3 (1.0.3 code), 13 tickets (the two feature 01 tickets 7a12 and 697a, 2026-10-10 23:42: avec-alphaskills 2 of 2, sans-facultatifs 1 passed and 1 skipped as expected without Alpha Skills), summary in docs/runs/2026-10-10-0332ec3-summary.md. Green: sans-facultatifs (14 passed, the 2 reds are the by-design 13 and 16), avec-alphaskills 7 of 7, Oracle 15 and 16, RIMMSQOL 4 of 4, restart 12 then 13, Krypt, Better, Compact and Enhanced Work Tab (2 passed, 1 skipped each: the Bio tab scenario needs Alpha Skills), French 02, 09 and 10, French persistence 08. Earlier: 2026-09-22, headless WSL, by named pass. Green: scenario 10 in both language passes; the
               real restart (12 then 13 as two launches in one ticket); the MainButtons shortcut,
               including that a value written through it reads back through Options and that the
               def goes hidden -> drawn -> hidden; the animations (an animated passion draws a
@@ -62,7 +62,7 @@ history:     updated_1 to updated_9 and the dated sections before 2026-10-08 are
 dry_run:     2026-10-09, run 37987136317 (green, read in the log), SHA 4d44951c18cdf303987d0bf5670b1c0f71be06d4, version 1.0.3, options update_preview=true update_description=true (a publish needs the same options). Log: `Publishing 4d44951... as version 1.0.3`; version above v1.0.2; no build project, tracked Mod/ ships as is; change note from PUBLICATION.md 1.0.3 (first line `[h3]1.0.3 - Skill Icons[/h3]`); preview to send 190006 bytes (the page serves 64321 bytes, it would be replaced); description 4479 bytes from Mod/README.template.md, `the page already has this description: nothing would change`; gallery 8 files in Art/Gallery listed for the manual upload; `DRY RUN: nothing was sent to Steam`. No About.xml sync line in the log: this mod does not generate About.xml from the description. Publish: Virginie approves `steam-production`.
 echo_review_sha: 88a212cf0076f7e5dcad75e2e714ff6adcae87ef
 social_preview_sha256: 426a85787537d510e0f89c988937695632e26ea7c544420693c052d06b22bc8c  # uploaded 2026-10-10 by the session through the repository settings, og:image downloaded and compared (190006 bytes)
-protocols_read_sha: b4a73cf0998fa5914b1d5e52b0817a8fe77abab3
+protocols_read_sha: a5c7cf48b349ae00e7d28fd643e852dc860dfaf2
 ---
 
 # Skill Icons — status
