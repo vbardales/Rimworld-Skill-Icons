@@ -9,7 +9,7 @@ repo:         Rimworld-Skill-Icons
 visibility:   public
 detached:     yes
 workflow_stage: writeDocs[1.0.3]
-code_review_sha: c91d66b550ac52de6dd1f5bb0ff54a1c87318485  # 2026-10-09, /code-review low on cba867f..HEAD (Source/, Mod/): 0 findings
+code_review_sha: 56a2cca1b9decf16207613f2a7195c44cca6ed37  # 2026-10-10, /code-review low on c91d66b..HEAD (Source/, Mod/): 1 finding (dead .steamignore entry), fixed in this commit
 licence:      original
 licence_at:   original work, MIT; Oracle's Skill Icon Retextures credited for the visual language only, no texture reused (verified against ATTRIBUTION.md and the generator)
 upstream_mod_remotes:
