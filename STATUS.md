@@ -8,7 +8,7 @@ packageId:    nelim.skillicons
 repo:         Rimworld-Skill-Icons
 visibility:   public
 detached:     yes
-workflow_stage: publish[1.0.3]
+workflow_stage: followUp[1.0.3]
 code_review_sha: 56a2cca1b9decf16207613f2a7195c44cca6ed37  # 2026-10-10, /code-review low on c91d66b..HEAD (Source/, Mod/): 1 finding (dead .steamignore entry), fixed in this commit
 publication_changelog_review_sha: c0310e40c0708bf5d1ec81900784ed719eb98fa7  # 2026-10-10, owner (Virginie) in the chat: validated after the three wording changes
 licence:      original
@@ -59,7 +59,7 @@ updated:      2026-10-10 (playTests closed on 0332ec3, shootGallery next); 2026-
               revision `0a4be43`. `stage` unchanged; `translation_fr` blocks nothing already
               `published`/`prepublished`, per TRANSLATIONS.md's "preserve historical stages".
 history:     updated_1 to updated_9 and the dated sections before 2026-10-08 are folded into docs/runs/status-history-2026-09-to-10.md (2026-10-09)
-dry_run:     2026-10-11, run 38092173750 (green, read in the log), SHA 85278dd4bed146ddeaacbe7bd69a633a0f047792, version 1.0.3, options update_preview=true update_description=true (a publish needs the same options). Log: `Publishing 85278dd... as version 1.0.3`; no build project, tracked Mod/ ships as is (1024 files, 2.03 MB); change note from PUBLICATION.md 1.0.3 (first line `[h3]1.0.3 - Skill Icons[/h3]`); preview to send 190006 bytes sha256 426a8578... (the page serves 64321 bytes, it would be replaced); description 4504 bytes from PUBLICATION.md `## Steam description` converted to BBCode. CHANGELOG dated `## [1.0.3] - 2026-10-11` in that commit. Rollback target: tag v1.0.2 (0b601d8).
+dry_run:     2026-10-11, run 38092173750 (green, read in the log), SHA 85278dd4bed146ddeaacbe7bd69a633a0f047792, version 1.0.3, options update_preview=true update_description=true (a publish needs the same options). Log: `Publishing 85278dd... as version 1.0.3`; no build project, tracked Mod/ ships as is (1024 files, 2.03 MB); change note from PUBLICATION.md 1.0.3 (first line `[h3]1.0.3 - Skill Icons[/h3]`); preview to send 190006 bytes sha256 426a8578... (the page serves 64321 bytes, it would be replaced); description 4504 bytes from PUBLICATION.md `## Steam description` converted to BBCode. CHANGELOG dated `## [1.0.3] - 2026-10-11` in that commit. Rollback target: tag v1.0.2 (0b601d8). PUBLISHED 2026-10-11 (22:43 UTC 2026-10-10): publish run 38092317984 approved by the owner, green, read in the log (new content ManifestID 3335308165184046039 and new preview uploaded to item 3805383957); tag v1.0.3 on 85278dd and GitHub release created by the CI; Workshop page read as an anonymous visitor: new preview image, description with the GitHub link and "If I go quiet", change note "1.0.3 - Skill Icons" present. PublishedFileId unchanged. Gallery is the owner's by hand. Subscription test of the item left to the owner.
 echo_review_sha: 88a212cf0076f7e5dcad75e2e714ff6adcae87ef
 social_preview_sha256: 426a85787537d510e0f89c988937695632e26ea7c544420693c052d06b22bc8c  # uploaded 2026-10-10 by the session through the repository settings, og:image downloaded and compared (190006 bytes)
 protocols_read_sha: a5c7cf48b349ae00e7d28fd643e852dc860dfaf2
