@@ -2,13 +2,13 @@
 localization: complete
 translation_en: complete
 translation_fr: complete
-settings_audit: complete
+settings_audit: passed
 mod:          Skill Icons
 packageId:    nelim.skillicons
 repo:         Rimworld-Skill-Icons
 visibility:   public
 detached:     yes
-workflow_stage: playTests[1.0.3]
+workflow_stage: shootGallery[1.0.3]
 code_review_sha: c91d66b550ac52de6dd1f5bb0ff54a1c87318485  # 2026-10-09, /code-review low on cba867f..HEAD (Source/, Mod/): 0 findings
 licence:      original
 licence_at:   original work, MIT; Oracle's Skill Icon Retextures credited for the visual language only, no texture reused (verified against ATTRIBUTION.md and the generator)
@@ -17,7 +17,7 @@ upstream_mod_remotes:
   - N/A (Alpha Skills and Oracle's Skill Icon Retextures: no git repository found, 2026-10-08)
 dependencies: declared
 showcase:     complete
-tested_on:    2026-09-22, headless WSL, by named pass. Green: scenario 10 in both language passes; the
+tested_on:    2026-10-10, headless WSL, sha 0332ec3 (1.0.3 code), 11 tickets, summary in docs/runs/2026-10-10-0332ec3-summary.md. Green: sans-facultatifs (14 passed, the 2 reds are the by-design 13 and 16), avec-alphaskills 7 of 7, Oracle 15 and 16, RIMMSQOL 4 of 4, restart 12 then 13, Krypt, Better, Compact and Enhanced Work Tab (2 passed, 1 skipped each: the Bio tab scenario needs Alpha Skills), French 02, 09 and 10, French persistence 08. Earlier: 2026-09-22, headless WSL, by named pass. Green: scenario 10 in both language passes; the
               real restart (12 then 13 as two launches in one ticket); the MainButtons shortcut,
               including that a value written through it reads back through Options and that the
               def goes hidden -> drawn -> hidden; the animations (an animated passion draws a
@@ -38,21 +38,12 @@ workshop:     3805383957, created 2026-09-21 00:07, switched to public the same 
               chain. PUBLICATION.md
               holds what the page needs. The three thank-you comments have been posted.
 remaining:
-  - unverified (blocks playTests -> shootGallery, 8.a/8.c): no Pickle pass has run on the 1.0.3 code. Code changed after the last
-      green runs (2026-09-22/23, sha 44fde64): Alpha Skills moved to `loadAfter` (fbf4ada, scenarios 01/03/06/14 retagged
-      `@requires:sarg.alphaskills`), gallery height floor + comment fix with DLL rebuild (f8aa607), strings reworded (a8932bb).
-      TESTING.md rerun rule: a code change invalidates the passes. Needed, in small tickets on the final sha: `sans-facultatifs`
-      (all scenarios), `avec-alphaskills` (01, 03, 06, 14), then the regression passes together at the end (Oracle 15+16,
-      RIMMSQOL 17, restart 12 then 13, four Work Tab matrices, French 09 and 10, settings in FR and EN).
   - known limit, not a defect (investigated 2026-10-10, docs/TESTING.md "Enhanced Work Tab"): under Enhanced Work Tab the Work tab modes, size and opacity have no visible effect, the replacement draws its own cell and passion marker. The 2026-09-22 "visibly distinct" record is superseded for Enhanced.
   - known, not a defect: a plain run of the whole suite is red. 16 fails without Oracle staged and
       13 refuses to pass when 12 ran in the same process, both by design. They are run by name.
       Moving them to a companion suite a plain launch does not select is proposed, not done.
-  - unverified: Pickle non-regression replay of feature 10 (English and French) on the reworded strings (1.0.3 and the
-      2026-10-09 wording pass). A text-only edit after validation: the replay is played after the deploy, per language, in small
-      tickets (AUDIT.md, "Une modification de texte apres validation"), not before it. Its verdict goes to `STATUS.md` and `docs/runs/`.
 session:      local_44ffc092-9e34-441b-936d-02d01889828c
-updated:      2026-10-09 (strings reworded on the owner's review proposal, un.e colon removed, FRENCH_REVIEW.md regenerated, feature 10 still to rerun); previously 2026-09-30, TRANSLATIONS.md's French agreement/review rules (2026-09-30) applied.
+updated:      2026-10-10 (playTests closed on 0332ec3, shootGallery next); 2026-10-09 (strings reworded on the owner's review proposal, un.e colon removed, FRENCH_REVIEW.md regenerated, feature 10 still to rerun); previously 2026-09-30, TRANSLATIONS.md's French agreement/review rules (2026-09-30) applied.
               `translation_fr` reset `complete` -> `unchecked`, project-wide rule, not a defect
               found here. Audit: only two French files ship
               (`Languages/French/Keyed/SkillIcons.xml`, `.../DefInjected/MainButtonDef/MainButtons.xml`),
@@ -66,7 +57,7 @@ updated:      2026-10-09 (strings reworded on the owner's review proposal, un.e 
               `published`/`prepublished`, per TRANSLATIONS.md's "preserve historical stages".
 history:     updated_1 to updated_9 and the dated sections before 2026-10-08 are folded into docs/runs/status-history-2026-09-to-10.md (2026-10-09)
 dry_run:     2026-10-09, run 37987136317 (green, read in the log), SHA 4d44951c18cdf303987d0bf5670b1c0f71be06d4, version 1.0.3, options update_preview=true update_description=true (a publish needs the same options). Log: `Publishing 4d44951... as version 1.0.3`; version above v1.0.2; no build project, tracked Mod/ ships as is; change note from PUBLICATION.md 1.0.3 (first line `[h3]1.0.3 - Skill Icons[/h3]`); preview to send 190006 bytes (the page serves 64321 bytes, it would be replaced); description 4479 bytes from Mod/README.template.md, `the page already has this description: nothing would change`; gallery 8 files in Art/Gallery listed for the manual upload; `DRY RUN: nothing was sent to Steam`. No About.xml sync line in the log: this mod does not generate About.xml from the description. Publish: Virginie approves `steam-production`.
-protocols_read_sha: 973768851d9eb1967a275d98fbf1c660d4fdce88
+protocols_read_sha: b4a73cf0998fa5914b1d5e52b0817a8fe77abab3
 ---
 
 # Skill Icons — status
@@ -78,7 +69,7 @@ Audited at `ed6593b`, tree clean. **`tested` (= `shootGallery`) -> `playTests[1.
 - 1 to 7: held. Standalone repo, `main`, public; `Art/ModIcon-source.png` (2026-10-08) older than `ModIcon.png` (26 KB) and both `.ico`; `Mod/1.6/Assemblies` DLL committed with its Source change (f8aa607); CHANGELOG 1.0.3 dated; `About.xml` declares Harmony and VSE as hard dependencies, `loadAfter` for Alpha Skills and Oracle (nothing in `Source/` references Alpha Skills); `settings_audit: complete`, `translation_en/fr: complete` (French validated 2026-10-09 on `a8932bb`, `FRENCH_REVIEW.md` regenerated since); `Check-DefInjected.ps1`: 2 keys, 0 errors; out-of-game harness `Run-Tests.ps1` replayed today: 25 of 25 pass; 17 Pickle features, no `@wip`.
 - 8 fails (8.a, 8.c, 8.f): TESTING.md's own rerun rule says a code change invalidates the passes, and TESTING.md records that neither the `sans-facultatifs` nor the `avec-alphaskills` pass "has run since the change". The only report on disk is `0923-44fde64-sans-facultatifs`. The 2026-09-22 passes (Oracle, RIMMSQOL, restart, French, Work Tab matrices) predate that code and are not repeated. This is an unverified in-game pass of the current build, not a defect found.
 - Not blocking: feature 10 post-deploy replay on the reworded strings (text-only edit, runs after deploy).
-- Next transition needs: the Pickle tickets listed in `remaining` (first one) on the final sha, captures `@review` opened, then `Check-Status.ps1` clean and `Mark-ProtocolsRead.ps1`. No Pickle ticket submitted by this audit.
+- Closed later the same day: 11 Pickle tickets on `0332ec3` all read (docs/runs/2026-10-10-0332ec3-summary.md), captures opened, `settings_audit: passed` (English and French replayed), `code_review_sha` still valid (no `Source/` or `Mod/` commit since). `playTests` -> `shootGallery[1.0.3]`.
 - Reserve, optional: `AUDIT.md` 7.a names `TEST_SCENARIOS.md`; this mod keeps its scenarios in `docs/TESTING.md` (the linter raises no error).
 
 ## Translation audit — 2026-09-30
