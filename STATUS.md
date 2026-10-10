@@ -8,7 +8,7 @@ packageId:    nelim.skillicons
 repo:         Rimworld-Skill-Icons
 visibility:   public
 detached:     yes
-workflow_stage: prepareRelease[1.0.3]
+workflow_stage: publish[1.0.3]
 code_review_sha: 56a2cca1b9decf16207613f2a7195c44cca6ed37  # 2026-10-10, /code-review low on c91d66b..HEAD (Source/, Mod/): 1 finding (dead .steamignore entry), fixed in this commit
 publication_changelog_review_sha: c0310e40c0708bf5d1ec81900784ed719eb98fa7  # 2026-10-10, owner (Virginie) in the chat: validated after the three wording changes
 licence:      original
