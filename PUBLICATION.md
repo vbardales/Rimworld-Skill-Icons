@@ -225,7 +225,7 @@ they are the one field of the page that can be corrected freely. BBCode works.
 [h3]1.0.3 — Skill Icons[/h3]
 
 [list]
-[*]Fixed two French strings: an em dash in the work tab's mixed-mode description, and a masculine-only article ("un colon") removed by rewording the "no passion" icon description without a gendered subject. A few English strings were also reworded for clarity.
+[*]Improved French and English wording in the settings descriptions, including gender-neutral French for the 'no passion' option.
 [*]Alpha Skills is now optional: nothing in the mod needs it, so you are no longer forced to download it. With it installed nothing changes.
 [*]New mod icon and Preview, and a retaken gallery.
 [/list]
@@ -294,7 +294,7 @@ Forty of them animate, and each gesture says something about the passion rather 
 
 ## The work tab
 
-The work tab is where the grid is hardest to read, so it gets its own controls: passion icons drawn in colour, greyed, or - the default - in colour while the bonus is actually running and grey while it sleeps. Size and opacity are separate sliders, because size helps you see the passion while opacity gives the priority digit back to the text.
+The work tab is where the grid is hardest to read, so it gets its own controls: passion icons drawn in colour, greyed, or - the default - in colour while the bonus is actually running and grey while it sleeps. Size and opacity are separate sliders. Size makes the passion icon easier to see; opacity keeps the work-priority number readable.
 
 ## Options
 
@@ -309,7 +309,7 @@ A hidden MainButtons shortcut is also supplied for [RIMMSQOL](https://steamcommu
 
 ## Def fixes
 
-It also repairs a couple of remaining def mistakes.
+It also supplies a missing work tab icon and makes one deliberate visual change.
 
 In [Alpha Skills](https://steamcommunity.com/sharedfiles/filedetails/?id=3448953006): the two degrees of "blind" get separate icons here despite sharing one upstream (Sarg's own intentional design - kept as this set's own choice, since every other passion carries its own hue). Three earlier fixes for a copy-pasted "nudist (active)" description, a mislabelled "pain-driven (active)" and a missing "frozen" work tab icon are no longer needed: Sarg fixed all three upstream within a day of being asked.
 
