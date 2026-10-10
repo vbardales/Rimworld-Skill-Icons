@@ -5,9 +5,9 @@
 # construction.
 
 # Build intermediates.
-# Source/Directory.Build.props sends them to .build/, outside Mod/: they
+# Source/Directory.Build.props sends them to build/, outside Mod/: they
 # must never end up inside it, since Mod/ goes to the Workshop as it stands.
-.build/
+build/
 Source/**/obj/
 Source/**/bin/
 

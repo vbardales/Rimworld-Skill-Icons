@@ -38,7 +38,7 @@ workshop:     3805383957, created 2026-09-21 00:07, switched to public the same 
               chain. PUBLICATION.md
               holds what the page needs. The three thank-you comments have been posted.
 remaining:
-  - 11.c done 2026-10-10 (commit c2810a2): the Steam description moved to the `## Steam description` block of `PUBLICATION.md` (text unchanged), `Mod/README.template.md` removed, `.github/publish.config.json` points at the block, `About.xml` description regenerated. Consequence to settle: `Mod/` changed after `code_review_sha`, so AUDIT.md 8.m and 12.a reopen the review and `playTests` (a description-only change: a small Pickle ticket on feature 01 and a low code review would close it, the owner decides). The next dry-run must print a description identical in text to the page.
+  - 11.c done 2026-10-10 (commit c2810a2): the Steam description moved to the `## Steam description` block of `PUBLICATION.md` (text unchanged), `Mod/README.template.md` removed, `.github/publish.config.json` points at the block, `About.xml` description regenerated. Consequence to settle: `Mod/` (About.xml) and `Source/Directory.Build.props` (intermediates moved to `build/`, no compiled code) changed after `code_review_sha`, so AUDIT.md 8.m and 12.a reopen the review and `playTests` (a description-only change: a small Pickle ticket on feature 01 and a low code review would close it, the owner decides). The next dry-run must print a description identical in text to the page.
   - unverified (11.j, 11.b): `publication_changelog_review_sha` absent; GitHub link label and target not recorded.
   - known limit, not a defect (investigated 2026-10-10, docs/TESTING.md "Enhanced Work Tab"): under Enhanced Work Tab the Work tab modes, size and opacity have no visible effect, the replacement draws its own cell and passion marker. The 2026-09-22 "visibly distinct" record is superseded for Enhanced.
   - known, not a defect: a plain run of the whole suite is red. 16 fails without Oracle staged and
@@ -133,7 +133,7 @@ gallery gate of AUDIT.md section 11 is open again (`Art/Gallery/` holds no accep
 - PUBLICATION.md checked against PUBLISHING.md: gallery section rewritten; one divergence left for the owner, not changed
   (published item): Alpha Skills is a hard `modDependencies` entry although no code references it (PUBLISHING: that is
   `loadAfter`).
-- `_tools/` became `scripts/`; stale `_tools/ModIcon-source.png` removed. `.build/`, `.claude/`, `.github/` stay (build
+- `_tools/` became `scripts/`; stale `_tools/ModIcon-source.png` removed. `build/` (formerly `.build/`), `.claude/`, `.github/` stay (build
   output, local settings, CI).
 
 ## Audit — 2026-10-08
