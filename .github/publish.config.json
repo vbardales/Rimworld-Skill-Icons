@@ -10,7 +10,8 @@
   "previewFile": "About/Preview.png",
   "galleryDir": "Art/Gallery",
   "description": {
-    "file": "Mod/README.template.md",
-    "format": "markdown"
+    "file": "PUBLICATION.md",
+    "format": "markdown",
+    "heading": "^## Steam description$"
   }
 }
