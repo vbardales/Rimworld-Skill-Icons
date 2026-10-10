@@ -47,8 +47,8 @@ The stamp of the template in use is in `.github/publish.config.json` (`eba6b3fdf
 Steps, each on the exact commit (full 40-character SHA of `main` once every doc change is in):
 
 ```
-gh workflow run publish-tag.yml --repo vbardales/Rimworld-Skill-Icons -f ref=<SHA> -f version=1.0.2 -f mode=dry-run
-bash /c/Users/nelim/Documents/rimworld/Rimworld-Release-Admin/scripts/dispatch-publish.sh vbardales/Rimworld-Skill-Icons publish-tag.yml <SHA> 1.0.2
+gh workflow run publish-tag.yml --repo vbardales/Rimworld-Skill-Icons -f ref=<SHA> -f version=1.0.3 -f mode=dry-run
+bash /c/Users/nelim/Documents/rimworld/Rimworld-Release-Admin/scripts/dispatch-publish.sh vbardales/Rimworld-Skill-Icons publish-tag.yml <SHA> 1.0.3
 ```
 
 The second command is `scripts/dispatch-publish.sh` of `vbardales/Rimworld-Release-Admin`, not a
