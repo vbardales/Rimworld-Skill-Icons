@@ -8,8 +8,9 @@ packageId:    nelim.skillicons
 repo:         Rimworld-Skill-Icons
 visibility:   public
 detached:     yes
-workflow_stage: writeDocs[1.0.3]
+workflow_stage: prepareRelease[1.0.3]
 code_review_sha: 56a2cca1b9decf16207613f2a7195c44cca6ed37  # 2026-10-10, /code-review low on c91d66b..HEAD (Source/, Mod/): 1 finding (dead .steamignore entry), fixed in this commit
+publication_changelog_review_sha: c0310e40c0708bf5d1ec81900784ed719eb98fa7  # 2026-10-10, owner (Virginie) in the chat: validated after the three wording changes
 licence:      original
 licence_at:   original work, MIT; Oracle's Skill Icon Retextures credited for the visual language only, no texture reused (verified against ATTRIBUTION.md and the generator)
 upstream_mod_remotes:
@@ -39,7 +40,7 @@ workshop:     3805383957, created 2026-09-21 00:07, switched to public the same 
               holds what the page needs. The three thank-you comments have been posted.
 remaining:
   - 11.c done 2026-10-10 (commit c2810a2): the Steam description moved to the `## Steam description` block of `PUBLICATION.md` (text unchanged), `Mod/README.template.md` removed, `.github/publish.config.json` points at the block, `About.xml` description regenerated. Consequence to settle: `Mod/` (About.xml) and `Source/Directory.Build.props` (intermediates moved to `build/`, no compiled code) changed after `code_review_sha`, so AUDIT.md 8.m and 12.a reopen the review and `playTests` (a description-only change: a small Pickle ticket on feature 01 and a low code review would close it, the owner decides). The next dry-run must print a description identical in text to the page.
-  - unverified (11.j, 11.b): `publication_changelog_review_sha` absent; GitHub link label and target not recorded.
+  - 11.b recorded 2026-10-10: the description ends with `[Source code on GitHub](https://github.com/vbardales/Rimworld-Skill-Icons)`, last line, same target as `<url>` of About.xml and the remote; the page answers 200; order body, IF I GO QUIET, AI-GENERATED, THANKS, ATTRIBUTION.md line, GitHub link; the eight Workshop links of the description answer 200.
   - known limit, not a defect (investigated 2026-10-10, docs/TESTING.md "Enhanced Work Tab"): under Enhanced Work Tab the Work tab modes, size and opacity have no visible effect, the replacement draws its own cell and passion marker. The 2026-09-22 "visibly distinct" record is superseded for Enhanced.
   - known, not a defect: a plain run of the whole suite is red. 16 fails without Oracle staged and
       13 refuses to pass when 12 ran in the same process, both by design. They are run by name.
