@@ -65,12 +65,12 @@ updated:      2026-10-09 (strings reworded on the owner's review proposal, un.e 
               `published`/`prepublished`, per TRANSLATIONS.md's "preserve historical stages".
 history:     updated_1 to updated_9 and the dated sections before 2026-10-08 are folded into docs/runs/status-history-2026-09-to-10.md (2026-10-09)
 dry_run:     2026-10-09, run 37987136317 (green, read in the log), SHA 4d44951c18cdf303987d0bf5670b1c0f71be06d4, version 1.0.3, options update_preview=true update_description=true (a publish needs the same options). Log: `Publishing 4d44951... as version 1.0.3`; version above v1.0.2; no build project, tracked Mod/ ships as is; change note from PUBLICATION.md 1.0.3 (first line `[h3]1.0.3 - Skill Icons[/h3]`); preview to send 190006 bytes (the page serves 64321 bytes, it would be replaced); description 4479 bytes from Mod/README.template.md, `the page already has this description: nothing would change`; gallery 8 files in Art/Gallery listed for the manual upload; `DRY RUN: nothing was sent to Steam`. No About.xml sync line in the log: this mod does not generate About.xml from the description. Publish: Virginie approves `steam-production`.
-protocols_read_sha: 095e02a9112f7c8cadbc791427af9bd498b59a0d
+protocols_read_sha: 973768851d9eb1967a275d98fbf1c660d4fdce88
 ---
 
 # Skill Icons — status
 
-## Audit — 2026-10-10 (up to the old `tested`)
+## Audit 2026-10-10 (up to the old `tested`)
 
 Audited at `ed6593b`, tree clean. **`tested` (= `shootGallery`) -> `playTests[1.0.3]`.** Scope: transitions 1 to 8 only; gallery, Preview, docs and release states (9 and later) were not re-audited here.
 
