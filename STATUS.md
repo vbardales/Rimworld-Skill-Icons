@@ -44,6 +44,7 @@ remaining:
       TESTING.md rerun rule: a code change invalidates the passes. Needed, in small tickets on the final sha: `sans-facultatifs`
       (all scenarios), `avec-alphaskills` (01, 03, 06, 14), then the regression passes together at the end (Oracle 15+16,
       RIMMSQOL 17, restart 12 then 13, four Work Tab matrices, French 09 and 10, settings in FR and EN).
+  - known limit, not a defect (investigated 2026-10-10, docs/TESTING.md "Enhanced Work Tab"): under Enhanced Work Tab the Work tab modes, size and opacity have no visible effect, the replacement draws its own cell and passion marker. The 2026-09-22 "visibly distinct" record is superseded for Enhanced.
   - known, not a defect: a plain run of the whole suite is red. 16 fails without Oracle staged and
       13 refuses to pass when 12 ran in the same process, both by design. They are run by name.
       Moving them to a companion suite a plain launch does not select is proposed, not done.

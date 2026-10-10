@@ -495,3 +495,7 @@ Alpha Skills left `modDependencies` for `loadAfter` only. Scenarios that need it
 (01 load order, 03 passion icons, 06 def fixes, 14 animation); they play in `wsl-deps.avec-alphaskills.map`. The pass
 without optionals plays the others and proves the mod loads without it. Both passes are to be run on the final revision;
 neither has run since the change.
+
+## Enhanced Work Tab: the three modes are identical by design (investigated 2026-10-10)
+
+The 2026-10-10 captures of the Enhanced Work Tab matrix (`colour`, `grey`, `mixed`, and the size and opacity sliders) are pixel-identical to each other (frame difference 0), while the Better Work Tab ones differ (maximum difference 42). Cause, read in the decompiled `EnhancedWorkTab.dll` (Workshop 3715873875): `EnhancedWorkBoxDrawer.DrawWorkBox` calls vanilla `DrawWorkBoxBackground` through a delegate and then draws its own cell, its priority digit and its own passion marker (`DrawPassionMarker`: vanilla `WidgetsWork.PassionWorkboxMajorIcon` / `PassionWorkboxMinorIcon` at 40 % alpha). Nothing of this mod's icon survives in that cell, so the Work tab settings have no visible effect under Enhanced Work Tab. The mod cannot hook in without patching the internals of another mod. This is a known limit, not a defect: the matrix for Enhanced only proves that the mod loads and the replacement tab opens. The "visibly distinct" wording of the 2026-09-22 record does not hold for Enhanced and is superseded by this section.
