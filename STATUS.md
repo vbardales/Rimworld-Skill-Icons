@@ -46,7 +46,7 @@ remaining:
       13 refuses to pass when 12 ran in the same process, both by design. They are run by name.
       Moving them to a companion suite a plain launch does not select is proposed, not done.
 session:      local_44ffc092-9e34-441b-936d-02d01889828c
-updated:      2026-10-10 (playTests closed on 0332ec3, shootGallery next); 2026-10-09 (strings reworded on the owner's review proposal, un.e colon removed, FRENCH_REVIEW.md regenerated, feature 10 still to rerun); previously 2026-09-30, TRANSLATIONS.md's French agreement/review rules (2026-09-30) applied.
+updated:      2026-10-11 (1.0.3 published, run 38092317984, followUp: non-regression in progress); 2026-10-10 (playTests closed on 0332ec3); 2026-10-09 (strings reworded on the owner's review proposal, un.e colon removed, FRENCH_REVIEW.md regenerated, feature 10 still to rerun); previously 2026-09-30, TRANSLATIONS.md's French agreement/review rules (2026-09-30) applied.
               `translation_fr` reset `complete` -> `unchecked`, project-wide rule, not a defect
               found here. Audit: only two French files ship
               (`Languages/French/Keyed/SkillIcons.xml`, `.../DefInjected/MainButtonDef/MainButtons.xml`),
