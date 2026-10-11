@@ -2,7 +2,6 @@
 
 The version read is recorded in `STATUS.md` (`protocols_read_sha`, by `scripts/Mark-ProtocolsRead.ps1`). This file only says what was read and what was not, so a later session re-reads only what is missing.
 
-Read in full 2026-10-09 (protocols HEAD re-marked 2026-10-09 after AUDIT.md was condensed: same rules, fewer words): `AUDIT.md`, `PUBLISHING.md`, `PICKLE.md`, `TRANSLATIONS.md`, `MOD_SETTINGS.md`, `GALLERY.md`, `PUBLISHING-CI.md`, `TOOLING-PITFALLS.md`; also `PickleTools/docs/GALERIE.md` and `Rimworld-Ticket-Dispatcher/docs/SUBMIT.md`.
+Read in full 2026-10-09: `AUDIT.md`, `PUBLISHING.md`, `PICKLE.md`, `TRANSLATIONS.md`, `MOD_SETTINGS.md`, `GALLERY.md`, `PUBLISHING-CI.md`, `TOOLING-PITFALLS.md`. Re-read 2026-10-11 as diffs since `a5c7cf48`: `AGENTS.md` (local scripts, no watcher on tickets, commit by path), `AUDIT.md`, `CICD.md`, `GALLERY.md`, `PICKLE.md`, `STYLE_RIMWORLD.md`, `USE_THIS_INSTEAD.md`, `scripts/Tests/README.md`; `scripts.md` and `steps.md` (inventories) not read.
 
-Not read, with the reason: `STYLE_RIMWORLD.md` (icon and Preview already checked; re-read only if they are questioned), `ANIMALS.md` and `GALLERY-PROPS.md` (no animal), `WORKSHOP_COMMENTS.md` (comments already posted), `SETTINGS_STEAM_DECK.md`, `EXTERNAL_TOOLS.md`, `BACKLOG.md`, `PROMPT_*.md`.
-`Rimworld-Release-Admin/docs/OPERATIONS.md`: read it before touching a workflow, a tag or a secret (none touched).
+Not read: `ANIMALS.md`, `GALLERY-PROPS.md` (no animal), `WORKSHOP_COMMENTS.md` (comments posted), `SETTINGS_STEAM_DECK.md`, `EXTERNAL_TOOLS.md`, `PROMPT_*.md`. `Rimworld-Release-Admin/docs/OPERATIONS.md`: read before touching a workflow, a tag or a secret.
