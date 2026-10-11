@@ -21,20 +21,7 @@ The log lives at:
 
 ## Status
 
-| | State |
-|---|---|
-| Loads without error (Scenario 0) | **observed, 2026-09-17** - see below |
-| The out-of-game harness | **25 of 25 pass**, 2026-09-19 |
-| Scenario 1 (icons in three places) | **passed** on the Work tab and pawn creation screen, Bio tab confirmed 2026-09-19 |
-| Scenario 2 (settings defaults) | **passed**, 2026-09-19 |
-| Scenario 3 (three work tab modes) | **passed**, 2026-09-20, after the defect it exposed was fixed |
-| Scenario 4 (size/opacity sliders) | **passed**, 2026-09-19 |
-| Scenario 5 (the "no passion" icon) | **passed**, 2026-09-20 |
-| Scenario 9 / Feature 17 (the MainButtons shortcut) | Mod-owned path **passed**, 2026-09-20; dedicated RIMMSQOL pass **4/4 passed**, 2026-09-22, with all four captures reviewed including 150% scale |
-| Scenario 11 (the def fixes) | **passed**, 2026-09-20, asserted against the loaded DefDatabase. Down to two, as of 2026-09-22: Sarg Bjornson fixed three of the original four Alpha Skills findings upstream, see below |
-| Scenario 8 (persistence) | in-process round trip **passed**; the strengthened real restart **passed**, 2026-09-22, writer 1/1 then existing-save reader 1/1 in distinct processes under one ticket |
-| Scenario 10 (English and French) | **passed in both passes**, 2026-09-21, once it stopped switching language mid-run |
-| Scenarios 6, 7 | removed with the feature they tested, 2026-09-19 |
+On the current revision (code 0332ec3, shipped as 1.0.3 on 85278dd; no `Source/` change since): the out-of-game harness passes 25 of 25, and every Pickle scenario has been green on a named pass (details per ticket in `docs/runs/2026-10-10-0332ec3-summary.md`, non-regression after publication in `docs/runs/2026-10-11-85278dd-nonregression.md`). The only reds of a whole-suite run are the by-design 13 and 16 (see "Known consequence" below). Earlier status lines, one per scenario with their dates: `docs/runs/testing-history-2026-09-to-10.md`.
 
 ## How many passes, and which
 
@@ -43,15 +30,7 @@ does not name its required mod sets and process boundaries has been tried, not t
 acceptance set is minimal/no optional, Oracle, RIMMSQOL, the two-process restart chain, and one
 three-feature ticket for each of Better, Compact, Enhanced and Krypt Work Tab.
 
-**Completed 2026-09-22:** RIMMSQOL 4/4; restart writer 1/1 then reader 1/1; Better, Compact,
-Enhanced and Krypt each 3/3. All required reports were complete with no skips, and every review
-capture was opened: four for RIMMSQOL and nine for each replacement Work Tab. The gallery pass also
-passed 2/2 and its two final publication images were reviewed separately.
-
-**Measured 2026-09-21, and the first time this pass has run:** `15` and `16` with Oracle staged, 2 scenarios,
-2 passed, `exitReason: passed`. `16` passing is the evidence that matters - it asserts two mods really
-ship the same paths, so Oracle was mounted and the contest was real - and `15` passing means this
-mod won it. A green there is therefore worth reading, which it would not have been without `16`.
+The acceptance set is run by named pass (below); the measured results are in `docs/runs/`. `Oracle` pass: `15` passing means this mod wins the contest, and `16` passing proves Oracle was really staged, so a green there is worth reading.
 
     scripts/Run-PickleWsl.ps1 -Mod SkillIcons -DepMap wsl-deps.sans-facultatifs.map # sans-facultatifs
     scripts/Run-PickleWsl.ps1 -Mod SkillIcons -DepMap wsl-deps.avec-oracle.map \
@@ -116,14 +95,8 @@ Pickle reports pile up and the disk is finite, so only what still proves somethi
   about the current one.
 - **In git:** one text summary per run in `docs/runs/`, never a folder of reports or captures.
   `STATUS.md` points at that summary, never at a file that may be deleted.
-- **What this mod keeps today:**
-  - `docs/runs/2026-09-23-44fde64-summary.md` - features 01 to 10, 14 and 15 on the shipped build,
-    18 of 18 (report on disk in `Tests/Pickle/Evidence/0923-44fde64-sans-facultatifs/`).
-  - The passes the latest run does not repeat, each the only proof of its check: the Oracle map
-    (feature 16), RIMMSQOL (17), the gallery captures (11, to be replayed in the sanctuary pass), the two-process restart (12 then 13),
-    the French pass of features 09 and 10, and the four replacement Work Tab matrices.
+- **What this mod keeps (2026-10-11):** the run summaries in `docs/runs/` (`2026-09-20-2319`, `2026-09-23-44fde64`, `2026-10-10-0332ec3`, `2026-10-11-85278dd-nonregression`, `2026-09-21-restart`, `2026-09-21-shortcut`), and on disk under `Tests/Pickle/Evidence/` the latest report of the passes the next run does not repeat (RIMMSQOL, Oracle, the two-process restart, the Sanctuary gallery, the 1011 non-regression pair); the 1010 Work Tab matrices, French and feature 01 reports were pruned 2026-10-11 once their summary was in `docs/runs/`.
 - **Images:** no PNG or GIF from a test run is versioned (`docs/runs/*.png` and `*.gif` are ignored; the two shortcut-bar PNGs were removed from git 2026-10-08). A capture worth citing is described in the run summary. `Art/Gallery/` is the Workshop gallery, not test evidence.
-- **On disk today (2026-10-08):** only `Tests/Pickle/Evidence/0923-44fde64-sans-facultatifs/` (no screenshots, 26 KB). The 2026-09-22 passes (Oracle, RIMMSQOL, studio, restart, French, Work Tab matrices) left no report on disk: their proof is the record in `STATUS.md` and `docs/runs/`. No archive of this mod in `pickle-reports-archive/`.
 - **To keep after every run:** `junit.xml`, `summary.json`, `summary.md`, `exit.txt`; drop `Player.log`, `messages.ndjson` and screenshots once a newer run replaces them.
 - **Rerun rule:** a change to the mod's code invalidates these passes and they are run again. A
   change that only moves or documents the code (the `Source/` relocation, CI files) does not; say
