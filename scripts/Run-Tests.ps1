@@ -40,29 +40,16 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-$script:ran     = 0
-$script:failed  = 0
-$script:skipped = 0
-
-function It([string]$name, [scriptblock]$body) {
-    $script:ran++
-    $problems = @()
-    try   { $problems = @(& $body | Where-Object { $_ }) }
-    catch { $problems = @("threw: $($_.Exception.Message)") }
-
-    if ($problems.Count -eq 0) {
-        Write-Output "  ok    $name"
-    } else {
-        $script:failed++
-        Write-Output "  FAIL  $name"
-        foreach ($p in $problems) { Write-Output "          $p" }
-    }
-}
+# Harness shared with every mod (protocols repository): It/Note/Complete-Tests, and the assembly resolver
+# that stops the Unity-assembly stack overflow. The tests below are this mod's own content.
+. (Join-Path $PSScriptRoot '..\..\scripts\lib\TestRunner.ps1')
+. (Join-Path $PSScriptRoot '..\..\scripts\lib\GameReflection.ps1')
 
 function ItSkip([string]$name, [string]$why) {
-    $script:skipped++
-    Write-Output "  skip  $name"
-    Write-Output "          $why"
+    $script:TRN++
+    $script:TRSkip++
+    Write-Host ("  {0,2}. SKIP  {1}" -f $script:TRN, $name) -ForegroundColor DarkGray
+    Note $why
 }
 
 # ---------------------------------------------------------------- assembly loading
@@ -78,36 +65,15 @@ Copy-Item $modDll $scratchDll
 
 $vseDll = Join-Path $VseRoot '1.6\Assemblies\VSE.dll'
 
-$probeDirs = @($Managed, (Split-Path -Parent $vseDll), (Split-Path -Parent $HarmonyDll), $scratch) | Where-Object { $_ } | Select-Object -Unique
-$script:probed = @{}
-$script:asmResolver = [System.ResolveEventHandler]{
-    param($sender, $e)
-    if ($null -eq $script:probed) { return $null }
-    $short = $e.Name.Split(',')[0]
-    if ($script:probed.ContainsKey($short)) { return $null }
-    $script:probed[$short] = $true
-    foreach ($d in $probeDirs) {
-        $p = Join-Path $d "$short.dll"
-        if (Test-Path $p) { return [System.Reflection.Assembly]::LoadFrom($p) }
-    }
-    return $null
-}
-[System.AppDomain]::CurrentDomain.add_AssemblyResolve($script:asmResolver)
+Initialize-GameReflection -Managed $Managed -ExtraDirs @((Split-Path -Parent $vseDll), (Split-Path -Parent $HarmonyDll), $scratch)
 
 $csAsm  = [System.Reflection.Assembly]::LoadFrom((Join-Path $Managed 'Assembly-CSharp.dll'))
 $vseAsm = [System.Reflection.Assembly]::LoadFrom($vseDll)
 if (Test-Path $HarmonyDll) { [System.Reflection.Assembly]::LoadFrom($HarmonyDll) | Out-Null }
 $mod    = [System.Reflection.Assembly]::LoadFrom($scratchDll)
 
-function Get-AssemblyTypes([System.Reflection.Assembly]$a) {
-    try     { return $a.GetTypes() }
-    catch [System.Reflection.ReflectionTypeLoadException] { return $_.Exception.Types | Where-Object { $_ } }
-    catch   { return $_.Exception.InnerException.Types | Where-Object { $_ } }
-}
-
-$modTypes = Get-AssemblyTypes $mod
-$byName = @{}
-foreach ($t in $modTypes) { $byName[$t.FullName] = $t }
+$modTypes = Get-AssemblyTypes $scratchDll
+$byName = New-TypeIndex $modTypes
 
 Write-Output "SkillIcons out-of-game test suite"
 Write-Output "Managed: $Managed"
@@ -119,8 +85,8 @@ It 'the mod assembly loads and declares its own types' {
     if ($modTypes.Count -lt 5) { "only $($modTypes.Count) types loaded from the mod assembly" }
 }
 It 'Assembly-CSharp and VSE.dll resolved enough types to work with' {
-    $n1 = (Get-AssemblyTypes $csAsm).Count
-    $n2 = (Get-AssemblyTypes $vseAsm).Count
+    $n1 = (Get-AssemblyTypes (Join-Path $Managed 'Assembly-CSharp.dll')).Count
+    $n2 = (Get-AssemblyTypes $vseDll).Count
     if ($n1 -lt 1000) { "Assembly-CSharp: only $n1 types" }
     if ($n2 -lt 5)     { "VSE.dll: only $n2 types" }
 }
@@ -604,13 +570,6 @@ It 'every patch-referenced texture exists on disk' {
 }
 
 # ---------------------------------------------------------------- summary
-Write-Output ''
-if ($script:failed -eq 0) {
-    Write-Output "$($script:ran) tests, $($script:skipped) skipped, all passing."
-} else {
-    Write-Output "$($script:ran) tests, $($script:failed) failing, $($script:skipped) skipped."
-}
-
-[System.AppDomain]::CurrentDomain.remove_AssemblyResolve($script:asmResolver)
+Remove-GameReflection
 Remove-Item -Recurse -Force $scratch -ErrorAction SilentlyContinue
-exit ([int]($script:failed -gt 0))
+Complete-Tests

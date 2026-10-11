@@ -113,38 +113,9 @@ const enveloppe = (cartouche) => [
   `<rect width="${W}" height="${H}" fill="#2A2A2A"/>`,
 ].concat(cartouche, corps, ['</svg>']).join('');
 
-// Two outputs. The source stays BARE: that is the one the repository's
-// overlay process engraves, and a title already present there would
-// duplicate it. The shipped showcase carries the title, so it is complete
-// even if the engraving pass is not rerun.
-const titre = [
-  `<text x="34" y="62" font-family=${F} font-size="36" font-weight="700"`
-    + ` letter-spacing="1" fill="#D2D2D2">SKILL ICONS</text>`,
-  texte(36, 92, 'One passion icon set, forty of them animated.', 16, '#8C8C8C'),
-  texte(36, 116, 'Vanilla Skills Expanded + Alpha Skills', 15, '#7A7A7A'),
-];
-fs.writeFileSync(`${SVG}/Preview.svg`, enveloppe(titre));
+// The grid is the text-free background: the shared scripts/Render-Preview.cjs (Art/Preview.config.json)
+// engraves the title and writes Mod/About/Preview.png from the PNG Chrome makes of it.
 fs.writeFileSync(`${SVG}/PreviewSource.svg`, enveloppe([]));
 console.log(`Preview 896x504: ${GRILLE.length} passions, ${ECHELLES.length} scales, `
   + `reserved zone ${RESERVE_X}x${RESERVE_Y}`);
 
-// ModIcon: the old file was a winking emoji unrelated to the mod, most
-// likely copied from elsewhere. Four well-separated hues in a 2x2 grid: at
-// the size RimWorld displays it, it is the hue contrast that carries it,
-// not the detail of the shapes.
-slot = 0;
-const QUAD = ['AS_SanguinePassion', 'AS_CompetitivePassion',
-              'AS_FrozenPassion', 'AS_ObsessivePassion'];
-// 128 x 128: the repository's standard. RimWorld only shows the icon at
-// 32 px in the mod list, but 128 leaves margin for dense screens without
-// adding weight.
-// The size is DECLARED here, not only passed to Chrome: a window larger
-// than the drawing captures the whole viewport, which had produced a
-// 1254 x 1254 icon weighing 1.4 MB, twenty-three times the banner.
-const icone = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"'
-  + ' width="128" height="128">'];
-QUAD.forEach((n, i) =>
-  icone.push(poser('Passions', n, (i % 2) * 32 + 1, Math.floor(i / 2) * 32 + 1, 30)));
-icone.push('</svg>');
-fs.writeFileSync(`${SVG}/ModIcon.svg`, icone.join(''));
-console.log('ModIcon.svg written: 4 hues in 2x2');

@@ -218,9 +218,11 @@ reason the mascot reads at the 32 px RimWorld actually draws it at. `build.sh`
 used to rasterise an earlier four-hearts icon over this file, and would have
 replaced the mascot on the next full pass; it no longer writes to `About/`.
 
-`scripts/preview.js` composes `Mod/About/Preview.png` from the
-SVGs `gen.js` just wrote, so the store images can never advertise a palette the
-mod no longer ships — which is exactly what the previous hand-drawn preview did.
+`scripts/preview.js` draws the text-free background of `Mod/About/Preview.png`
+(`Art/Preview-source.png`) from the SVGs `gen.js` just wrote, so the store images can never
+advertise a palette the mod no longer ships — which is exactly what the previous hand-drawn
+preview did. The shared `scripts/Render-Preview.cjs` of the protocols repository engraves the
+title on it (`Art/Preview.config.json`) and writes `Mod/About/Preview.png`.
 The grid is **sorted by hue**, 0° to 360°, because that layout demonstrates
 design rule 1 instead of merely asserting it. Each icon's element ids are
 prefixed per slot: every file restarts at `id="m1"`, and two same-named masks in
