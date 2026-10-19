@@ -12,7 +12,7 @@
   <SkillIcons.WorkTab>Onglet Travail</SkillIcons.WorkTab>
   <SkillIcons.WorkTabColour>En couleur</SkillIcons.WorkTabColour>
   <SkillIcons.WorkTabColourDesc>Toujours dessiner l'icône en couleur, quel que soit l'état de la passion.</SkillIcons.WorkTabColourDesc>
-  <SkillIcons.WorkTabGrey>Grisée</SkillIcons.WorkTabGrey>
+  <SkillIcons.WorkTabGrey>En gris</SkillIcons.WorkTabGrey>
   <SkillIcons.WorkTabGreyDesc>Toujours dessiner la variante de l'onglet Travail à deux tons de gris. C'est le comportement de Vanilla Skills Expanded.</SkillIcons.WorkTabGreyDesc>
   <SkillIcons.WorkTabMixed>Mixte, selon l'état d'activation</SkillIcons.WorkTabMixed>
   <SkillIcons.WorkTabMixedDesc>En couleur lorsque le bonus d'apprentissage est actif : soit la passion est actuellement déclenchée, soit son bonus est permanent. En gris lorsqu'il est inactif.\n\nCe mode réemploie ce que le jeu d'icônes dit déjà : le gris acier indique que le bonus dort. La grille montre alors quels bonus sont réellement actifs.</SkillIcons.WorkTabMixedDesc>
