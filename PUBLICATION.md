@@ -133,7 +133,7 @@ Posted 2026-09-21 on Vanilla Skills Expanded, Alpha Skills and Oracle's Skill Ic
 
 - The description is sent when the item is created, and afterwards only when `update_description` is on for
   that dispatch (source: the `## Steam description` block below, converted by the CI). Read the converted text in the dry-run
-  before approving: it replaces the page's.
+  before approving: it replaces the page description.
 - `About/PublishedFileId.txt` is written into the mod folder by the upload and reaches the
   repository through the junction. Commit it at once: lost, the next upload creates a second item.
 - Steam creates every item private and RimWorld never calls `SteamUGC.SetItemVisibility`. Going
@@ -155,7 +155,7 @@ The single source of the page description (AUDIT.md 11.a, PUBLISHING.md "Source 
 no code fence inside it, the `[Source code on GitHub]` link as its last line. The CI converts it to BBCode for Steam and to plain text for
 `About.xml` (`<description>`, written by `node .github/scripts/sync-about-description.mjs --write` and checked by every dry-run). It goes out only when
 `update_description` is on (`dispatch-publish.sh ... --description`, in the dry-run and in the publish): read the converted text in the dry-run before
-approving, it replaces the page's. Keep the order AUDIT.md requires: body, IF I GO QUIET, AI-GENERATED, THANKS, the ATTRIBUTION.md line, the GitHub link.
+approving, it replaces the page description. Keep the order AUDIT.md requires: body, IF I GO QUIET, AI-GENERATED, THANKS, the ATTRIBUTION.md line, the GitHub link.
 Steam allows 8000 bytes; the current text is about 4500. Moved here from `Mod/README.template.md` (removed) with the text unchanged.
 
 ```markdown
