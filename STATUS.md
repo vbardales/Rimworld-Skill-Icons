@@ -26,7 +26,7 @@ workshop:     3805383957, created 2026-09-21 00:07, switched to public the same 
               chain. PUBLICATION.md
               holds what the page needs. The three thank-you comments have been posted.
 remaining:
-  - tickets filed 2026-10-19 (tree frozen on 4093e8a until RUN_DONE): 1.7 diagnostic 20261019-113358-827-dc7e (sans-facultatifs, net472 DLL, English, Inbox/1-7-sans-facultatifs), 1.6 restart 12 then 13 20261019-115640-881-8cfa (Inbox/1019-restart). On green 1.7: tested_1_7 yes, then <li>1.7</li>, CHANGELOG 1.1.0, Preview badge in one commit.
+  - results 2026-10-19 (tree frozen on 4093e8a): 1.6 restart 12 then 13 (20261019-115640-881-8cfa) green, summaries kept in Tests/Pickle/Evidence/1019-restart (replaces 1010-restart, deleted). 1.7 diagnostic (20261019-113358-827-dc7e, sans-facultatifs, net472 DLL) failed: exit=99 launcher threw, no report, folder deleted; cause not read, ticket must be refiled. On green 1.7: tested_1_7 yes, then <li>1.7</li>, CHANGELOG 1.1.0, Preview badge in one commit.
   - known limit, not a defect (docs/TESTING.md "Enhanced Work Tab"): under Enhanced Work Tab the Work tab modes, size and opacity have no visible effect, the replacement draws its own cell and passion marker.
   - known, not a defect: a plain run of the whole suite is red. 16 fails without Oracle staged and 13 refuses to pass when 12 ran in the same process, both by design; they are run by name.
   - declarations 2026-10-11: scripts to Audit (rows in scripts/LOCAL_SCRIPTS.md); Pickle steps to NPT (no format, Elsewhere/SkillIcons.md exists, steps stay local); `.github` regenerated to template stamp 7a8f3a601751 (CICD.md: CI-owned, not declared), publication items sent to CI/CD for information.
