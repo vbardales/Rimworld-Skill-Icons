@@ -13,7 +13,7 @@
 # not honour it; Pickle's own watch-steps.feature tags the Scenario. Rather than bet on that
 # twice, the wait is gone entirely: the screenshot step is the deliverable and nothing it needs
 # depends on the simulation advancing.
-@review
+@review @timeout:30
 Feature: the settings page on a clean configuration
 
   Background:

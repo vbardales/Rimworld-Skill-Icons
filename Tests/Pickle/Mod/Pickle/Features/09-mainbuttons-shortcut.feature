@@ -9,7 +9,7 @@
 # `17-rimmsqol-shortcut.feature` covers RIMMSQOL's own list, reveal, hide and settings-file
 # lifecycle with PickleTools/RimmsqolSteps in its dedicated optional pass. This minimal-pass
 # feature therefore covers only the mod-owned shortcut contract.
-@review
+@review @timeout:30
 Feature: the hidden MainButtons shortcut opens this mod's own settings
 
   Background:

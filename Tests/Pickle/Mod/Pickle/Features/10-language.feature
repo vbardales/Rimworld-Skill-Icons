@@ -27,7 +27,7 @@
 # 09-mainbuttons-shortcut.feature instead: a launch that chooses its language switches nothing, so
 # the def is injected at startup and readable. It was listed here as unreachable until 2026-09-21,
 # which was true of a mid-run switch and not of a launch that starts in the language.
-@review
+@review @timeout:30
 Feature: the settings page in the language the game runs in
 
   Background:

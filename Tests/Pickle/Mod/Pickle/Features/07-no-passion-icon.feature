@@ -5,7 +5,7 @@
 # The pawn is arranged so that comparison is possible at all: Shooting carries no passion, which
 # is where the faint icon appears, and Cooking carries a Major one right below it, which is what
 # it must not compete with. Without both in one frame there is nothing to judge against.
-@review @requires:nelim.pickletools.inspecttabs
+@review @timeout:30 @requires:nelim.pickletools.inspecttabs
 Feature: the "no passion" icon is off by default and stays discreet when enabled
 
   Background:
